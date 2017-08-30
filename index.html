@@ -1,13 +1,13 @@
 <!DOCTYPE html>
 <html>
   <head>
-    <title>Ohjelmoinnin MOOC 2017 | Johdanto</title>
+    <title>Introduction to Artificial Intelligence 2017 | Introduction</title>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
     <link href="https://fonts.googleapis.com/css?family=Roboto" rel="stylesheet">
 
-    <link href="stylesheets/styles-cbde3c5b.css" rel="stylesheet" />
+    <link href="stylesheets/styles-5628e745.css" rel="stylesheet" />
 
     <link rel="stylesheet" href="//cdnjs.cloudflare.com/ajax/libs/highlight.js/9.7.0/styles/xcode.min.css">
 
@@ -42,10 +42,10 @@
 
   <ul class="nav navbar-nav hidden-md-down">
       <li class="nav-item active">
-        <a href="./" class="nav-link" onclick="ga('send', 'event', 'navigation_topic_link', 'click', '#&lt;Middleman::Sitemap::Resource path=index.html&gt;')">Johdanto</a>
+        <a href="./" class="nav-link" onclick="ga('send', 'event', 'navigation_topic_link', 'click', '#&lt;Middleman::Sitemap::Resource path=index.html&gt;')">Introduction</a>
       </li>
       <li class="nav-item ">
-        <a href="part1/" class="nav-link" onclick="ga('send', 'event', 'navigation_topic_link', 'click', '#&lt;Middleman::Sitemap::Resource path=part1.html&gt;')">Osa 1</a>
+        <a href="part1/" class="nav-link" onclick="ga('send', 'event', 'navigation_topic_link', 'click', '#&lt;Middleman::Sitemap::Resource path=part1.html&gt;')">Part 1</a>
       </li>
   </ul>
 
@@ -59,17 +59,17 @@
       </div>
     </div>
 
-    <a href="https://riot.im/app/#/room/#mooc.fi:matrix.org" target="_blank" rel="noopener" class="btn btn-secondary">
+    <a href="https://riot.im/app/#/room/#_ircnet_#iai:irc.snt.utwente.nl" target="_blank" rel="noopener" class="btn btn-secondary">
       <span class="hidden-md-down">Chat</span>
       <i class="fa fa-commenting-o hidden-lg-up"></i>
     </a>
 
     <button class="btn btn-secondary" id="table-of-contents-toggle">
-      <span class="hidden-md-down">Sisällysluettelo</span>
+      <span class="hidden-md-down">Table of contents</span>
       <i class="fa fa-ellipsis-h hidden-lg-up"></i>
     </button>
 
-    <button class="btn btn-primary" id="tmc-login-toggle">Kirjaudu sisään</button>
+    <button class="btn btn-primary" id="tmc-login-toggle">Log in</button>
   </div>
 </nav>
 
@@ -665,24 +665,24 @@ sudo apt-get install openjfx
       <div class="footer-wrapper">
         <footer class="footer">
   <div>
-    Tämä materiaali on lisensoitu Creative Commons BY-NC-SA-lisenssillä
-    <a href="https://github.com/materiaalit/ohjelmointi-s17" class="footer__github-link" target="_blank" rel="noopener">
-      <i class="fa fa-github"></i>
-    </a>
+    This material is licensed under a <a rel="license" href="https://creativecommons.org/licenses/by-nc-sa/4.0/">Creative Commons BY-NC-SA 4.0 License</a>.
+
   </div>
   <div class="improvement">
     <a href="https://github.com/materiaalit/intro-to-ai-17/issues/new"  target="_blank" rel="noopener">
   <button class='btn btn-primary'>
-    <i class="fa fa-exclamation-triangle" aria-hidden="true"></i> Ilmoita virhe
+    <i class="fa fa-exclamation-triangle" aria-hidden="true"></i> Report an error
   </button>
 </a>
 <a href="https://github.com/materiaalit/intro-to-ai-17/edit/master/source/index.html.erb" target="_blank" rel="noopener">
   <button class='btn btn-primary'>
     <i class="fa fa-pencil" aria-hidden="true"></i>
- Muokkaa sivua
+ Edit this page
   </button>
 </a>
-
+     <a href="https://github.com/materiaalit/intro-to-ai-17" class="footer__github-link" target="_blank" rel="noopener">
+      <i class="fa fa-github"></i>
+    </a>
   </div>
 </footer>
 
@@ -695,71 +695,43 @@ sudo apt-get install openjfx
       <form id="tmc-login-form">
         <div class="modal-header">
           <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
-          <h4 class="modal-title">Kirjaudu TMC-käyttäjällesi</h4>
+          <h4 class="modal-title">Log in with your Test My Code Account</h4>
         </div>
         <div class="modal-body">
           <div class="alert alert-info">
-            Puuttuuko sinulta TMC-käyttäjätunnus? <a href="https://tmc.mooc.fi/user/new" class="alert-link" target="_blank" rel="noopener">Rekisteröidy</a>
+            Don't have an account yet? <a href="https://tmc.mooc.fi/user/new" class="alert-link" target="_blank" rel="noopener">Create one!</a>
           </div>
 
           <div class="alert alert-danger" id="tmc-login-error" style="display: none;"></div>
 
           <div class="form-group">
-            <label>Käyttäjätunnus</label>
-            <input type="text" id="tmc-login-username" class="form-control" placeholder="Käyttäjätunnus"/>
+            <label>Username</label>
+            <input type="text" id="tmc-login-username" class="form-control" placeholder="Username"/>
           </div>
 
           <div class="form-group">
-            <label>Salasana</label>
-            <input type="password" id="tmc-login-password" class="form-control" placeholder="Salasana"/>
+            <label>Password</label>
+            <input type="password" id="tmc-login-password" class="form-control" placeholder="Password"/>
           </div>
 
           <div class="form-group">
-            <label>Kurssi</label>
+            <label>Course</label>
 
             <div class="form-check">
               <label class="form-check-label">
-                <input type="radio" class="form-check-input" name="tmcLoginCourse" value="hy-ohpe-ja-ohja-kesa2017">
-                hy-ohpe-ja-ohja-kesa2017 (Ohjelmoinnin perusteet ja jatkokurssi, kesä 2017)
-              </label>
-            </div>
-
-            <div class="form-check">
-              <label class="form-check-label">
-                <input type="radio" class="form-check-input" name="tmcLoginCourse" value="ohja-k2017">
-                ohja-k2017 (Ohjelmoinnin jatkokurssi, Helsingin yliopisto)
-              </label>
-            </div>
-
-            <div class="form-check">
-              <label class="form-check-label">
-                <input type="radio" class="form-check-input" name="tmcLoginCourse" value="k2017-ohpe">
-                k2017-ohpe (Ohjelmoinnin perusteet, Helsingin yliopisto)
-              </label>
-            </div>
-
-            <div class="form-check">
-              <label class="form-check-label">
-                <input type="radio" class="form-check-input" name="tmcLoginCourse" value="2017-ohjelmointi">
-                2017-ohjelmointi (Ohjelmoinnin MOOC)
-              </label>
-            </div>
-
-            <div class="form-check">
-              <label class="form-check-label">
-                <input type="radio" class="form-check-input" name="tmcLoginCourse" value="2017-ohjelmointi-nodl">
-                2017-ohjelmointi-nodl (Aikatauluttamaton Ohjelmoinnin MOOC)
+                <input type="radio" class="form-check-input" name="tmcLoginCourse" value="intro-to-ai-17" checked>
+                 Introduction to Artificial Intelligence 2017 (intro-to-ai-17)
               </label>
             </div>
 
             <small class="form-text text-muted">
-              Kurssin valinnalla on pieniä vaikutuksia materiaalin tiettyihin osiin.
+              Course selection may affect the contents of the material.
             </small>
           </div>
         </div>
         <div class="modal-footer">
-          <a class="btn btn-secondary" data-dismiss="modal">Sulje</a>
-          <button type="submit" class="btn btn-primary">Kirjaudu sisään</button>
+          <a class="btn btn-secondary" data-dismiss="modal">Close</a>
+          <button type="submit" class="btn btn-primary">Log in</button>
         </div>
       </form>
     </div>
@@ -772,7 +744,7 @@ sudo apt-get install openjfx
 
 <div class="table-of-contents" id="table-of-contents">
   <h1 class="table-of-contents__heading">
-    Sisällysluettelo
+    Table of Contents
   </h1>
 
   <div class="table-of-contents__content">
@@ -804,7 +776,7 @@ sudo apt-get install openjfx
       window.SD_SHOW_SURVEY = ['part6', 'part7'].indexOf(window.location.pathname.replace(/\//g,'')) >= 0;
     </script>
 
-    <script src="javascripts/scripts-1600c17d.js"></script>
+    <script src="javascripts/scripts-1c2b07d3.js"></script>
 
     <script src="https://use.fontawesome.com/ed2f73836b.js"></script>
 
