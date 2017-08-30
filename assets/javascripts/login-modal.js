@@ -21,7 +21,7 @@ class LoginModal {
 
     if(client.getUser()) {
       this.afterLogin();
-    } else if(window.location.pathname !== '/' && window.location.pathname !== '/intro-to-ai-s17/') {
+    } else if(window.location.pathname !== '/' && window.location.pathname !== '/intro-to-ai-17/') {
       this.loginModalNode.modal('show');
     }
 
