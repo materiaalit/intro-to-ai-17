@@ -1,0 +1,1301 @@
+---
+  title: Osa 13
+  exercise_page: true
+  quiz_page: true
+  published: false
+---
+
+<% if false %>
+<% partial 'partials/hint', locals: { name: 'Viides konekoe' } do %>
+
+  <p>
+    Muistathan tehdä viidennen konekokeen 26.4. klo 23:59 mennessä.
+  </p>
+
+<% end %>
+<% end %>
+
+<% partial 'partials/hint', locals: { name: 'Kolmannentoista osion tavoitteet' } do %>
+
+  <p>
+    Kolmannessatoista osassa tutustutaan tiedon visualisoinnissa käytettäviin kaavioihin. Tämän lisäksi harjoitellaan useampia näkymiä sisältävien graafisten käyttöliittymien luomista. Tämän osan jälkeen osaat luoda ainakin kaksi erilaista kaaviota (viivakaavio, pylväskaavio), sekä tehdä käyttöliittymiä, jotka sisältävät useamman näkymän (esimerkiksi kirjautumisnäkymä, tiedon listaukseen käytettävä näkymä, tiedon muokkaukseen käytettävä näkymä).
+  </p>
+
+<% end %>
+
+
+<% partial 'partials/material_heading' do %>
+  Tiedon visualisointi
+<% end %>
+
+<p>
+  Sananlasku "a picture is worth a thousand words" eli "yksi kuva kertoo enemmän kuin tuhat sanaa" kuvaa hyvin tiedon visualisoinnin tavoitetta. Tiedon visualisoinnilla pyritään tilanteeseen, missä tieto esitetään tiiviissä mutta ymmärrettävässä muodossa. Tiedosta voi korostaa tärkeitä asioita ja siitä voi tehdä yhteenvetoja, jotka näytetään käyttäjälle. Aikasarjatieto on usein myös paljon ymmärrettävämpää kuvana kuin raakaa dataa sisältävänä tekstinä.
+</p>
+
+<p>
+  Alla olevassa kuvassa on kuva sovelluksesta, joka mahdollistaa pyöräilijätilastojen tarkastelun. Käytetyt tilastot on noudettu osoitteessa <a href="https://www.avoindata.fi/data/fi/dataset/helsingin-pyorailijamaarat" target="_blank" rel="noopener">https://www.avoindata.fi/data/fi/dataset/helsingin-pyorailijamaarat</a> olevasta Helsingin kaupunkisuunnitteluviraston tietoaineistosta (CC-BY).
+</p>
+
+<img src="/img/material/visualisointi-pyorat.png" />
+
+<p>
+  &nbsp;
+</p>
+
+<p>
+  Kun vertaa kuvan näyttämää tilastoa tiedoston muotoon -- alla muutama rivi esimerkiksi -- edun huomaa hyvin. Alkuperäisessä datassa arvot on esitetty tuntikohtaisina, kun taas visualisaatiota varten datasta on luotu kuukausikohtaiset yhteenvedot. Alkuperäinen data sisältää myös kaikki tarkasteltavat paikat, kun taas visualisaatiossa käyttäjä voi valita tietyn pisteen.
+</p>
+
+<pre>
+Päivämäärä;Huopalahti (asema);Kaisaniemi;Kulosaaren silta et.;...
+ke 1 tammi 2014 00:00;;1;;;;;;2;5;3;;11;;;7;8
+ke 1 tammi 2014 01:00;;3;;;;;;6;5;1;;8;;;5;4
+ke 1 tammi 2014 02:00;;3;;;;;;1;1;1;;14;;;2;11
+ke 1 tammi 2014 03:00;;2;;;;;;0;2;0;;7;;;5;3
+...
+</pre>
+
+<p>
+  Tutustutaan tässä muutamaan tiedon visualisointiin käytettävään kaavioon sekä erääseen liikkuvan tiedon visualisointitapaan.
+</p>
+
+<% partial 'partials/material_sub_heading' do %>
+  Kaaviot
+<% end %>
+
+<p>
+  Java tarjoaa paljon valmiita luokkia kaavioiden piirtämiseen. Osoitteessa <a href="https://docs.oracle.com/javafx/2/api/javafx/scene/chart/package-summary.html" target="_blank" rel="noopener">https://docs.oracle.com/javafx/2/api/javafx/scene/chart/package-summary.html</a> on linkkejä JavaFx:n erilaisiin kaaviotyyppeihin. Kaaviotyypit sisältävät muunmuassa aluekaavion, pylväskaavion, viivakaavion sekä piirakkakaavion.
+</p>
+
+<p>
+  Tutustutaan tässä viivakaavion sekä pylväskaavion käyttöön. Kannattaa myös tutustua osoitteessa <a href="http://docs.oracle.com/javafx/2/charts/jfxpub-charts.htm" target="_blank" rel="noopener">http://docs.oracle.com/javafx/2/charts/jfxpub-charts.htm</a> olevaan Oraclen oppaaseen aiheesta.
+</p>
+
+<% partial 'partials/material_sub_sub_heading' do %>
+  Viivakaavio
+<% end %>
+
+<p>
+  Viivakaaviota käytetään esimerkiksi ajan yli tapahtuvan muutoksen kuvaamiseen. Tieto kuvataan kaksiulotteisessa koordinaatistossa sijaitsevien pisteiden läpi piirretyllä viivalla, missä x-koordinaatti kuvaa ajanhetkeä ja y-koordinaatti muuttujan arvoa kullakin ajanhetkellä. Viivakaavio voi sisältää myös useampia muuttujia.
+</p>
+
+<p>
+  Viivakaaviota voi käyttää esimerkiksi Tilastokeskuksen tarjoaman puolueiden äänimääriä ja suhteellista kannatusta kunnallisvaaleissa vuosina 1968-2008 kuvaavan tiedon visualisointiin. Alkuperäinen data löytyy osoitteesta <a href="http://tilastokeskus.fi/til/kvaa/2008/kvaa_2008_2010-07-30_tau_002.html" target="_blank" rel="noopener">http://tilastokeskus.fi/til/kvaa/2008/kvaa_2008_2010-07-30_tau_002.html</a>. Datasta on poimittu visualisointia varten muutama piste -- keskitymme tässä suhteelliseen kannatukseen. Käytössä oleva data on seuraavanlainen -- datan erottelussa on käytetty sarkainmerkkiä ('\t').
+</p>
+
+<pre>
+Puolue	1968	1972	1976	1980	1984	1988	1992	1996	2000	2004	2008
+KOK	16.1	18.1	20.9	22.9	23.0	22.9	19.1	21.6	20.8	21.8	23.4
+SDP	23.9	27.1	24.8	25.5	24.7	25.2	27.1	24.5	23.0	24.1	21.2
+KESK	18.9	18.0	18.4	18.7	20.2	21.1	19.2	21.8	23.8	22.8	20.1
+VIHR	-	-	-	-	2.8	2.3	6.9	6.3	7.7	7.4	8.9
+VAS	16.9	17.5	18.5	16.6	13.1	12.6	11.7	10.4	9.9	9.6	8.8
+PS	7.3	5.0	2.1	3.0	5.3	3.6	2.4	0.9	0.7	0.9	5.4
+RKP	5.6	5.2	4.7	4.7	5.1	5.3	5.0	5.4	5.1	5.2	4.7
+</pre>
+
+<p>
+  Viivakaavion käyttö vaatii koordinaatiston akseleiden määrittelyn, koordinaatistoja käyttävän viivakaavion luomisen, sekä tiedon lisäämisen viivakaavioon. Ensimmäinen hahmotelma sovelluksesta on seuraava. Sovellus yrittää visualisoida RKP:n kannatusta vuosina 1968-2008.
+</p>
+
+<% partial 'partials/code_highlight' do %>
+@Override
+public void start(Stage ikkuna) {
+    NumberAxis xAkseli = new NumberAxis();
+    NumberAxis yAkseli = new NumberAxis();
+    xAkseli.setLabel("Vuosi");
+
+    yAkseli.setLabel("Suhteellinen kannatus (%)");
+
+    LineChart&lt;Number, Number&gt; viivakaavio = new LineChart&lt;&gt;(xAkseli, yAkseli);
+    viivakaavio.setTitle("Suhteellinen kannatus vuosina 1968-2008");
+
+    XYChart.Series rkpData = new XYChart.Series();
+    rkpData.setName("RKP");
+    rkpData.getData().add(new XYChart.Data(1968, 5.6));
+    rkpData.getData().add(new XYChart.Data(1972, 5.2));
+    rkpData.getData().add(new XYChart.Data(1976, 4.7));
+    rkpData.getData().add(new XYChart.Data(1980, 4.7));
+    rkpData.getData().add(new XYChart.Data(1984, 5.1));
+    rkpData.getData().add(new XYChart.Data(1988, 5.3));
+    rkpData.getData().add(new XYChart.Data(1992, 5.0));
+    rkpData.getData().add(new XYChart.Data(1996, 5.4));
+    rkpData.getData().add(new XYChart.Data(2000, 5.1));
+    rkpData.getData().add(new XYChart.Data(2004, 5.2));
+    rkpData.getData().add(new XYChart.Data(2008, 4.7));
+
+    viivakaavio.getData().add(rkpData);
+
+    Scene nakyma = new Scene(viivakaavio, 640, 480);
+    ikkuna.setScene(nakyma);
+    ikkuna.show();
+}
+<% end %>
+
+<p>
+  Kun käynnistämme sovelluksen, huomaamme muutamia ongelmia (kokeile sovellusta ja katso miltä data näyttää). Koordinaatiston akseleiden luomiseen käytetty luokka <a href="https://docs.oracle.com/javase/8/javafx/api/javafx/scene/chart/NumberAxis.html" target="_blank" rel="noopener">NumberAxis</a> tarjoaa onneksemme myös toisenlaisen konstruktorin. NumberAxin-luokan konstruktorille voi määritellä myös ala- ja yläraja sekä välien määrän näytettyjen numeroiden välillä. Määritellään alarajaksi 1968, ylärajaksi 2008, ja välien määräksi 4.
+</p>
+
+
+<% partial 'partials/code_highlight' do %>
+@Override
+public void start(Stage ikkuna) {
+    <strong>NumberAxis xAkseli = new NumberAxis(1968, 2008, 4);</strong>
+    // .. muu ohjelmakoodi pysyy samana
+<% end %>
+
+<p>
+  Toisen puolueen kannatuksen lisääminen onnistuu ohjelmaan vastaavasti. Alla olevassa esimerkissä kaavioon on lisätty Vihreät, joilla on ollut toimintaa vuodesta 1984 lähtien.
+</p>
+
+<% partial 'partials/code_highlight' do %>
+@Override
+public void start(Stage ikkuna) {
+    NumberAxis xAkseli = new NumberAxis(1968, 2008, 4);
+    NumberAxis yAkseli = new NumberAxis();
+    xAkseli.setLabel("Vuosi");
+
+    yAkseli.setLabel("Suhteellinen kannatus (%)");
+
+    LineChart&lt;Number, Number&gt; viivakaavio = new LineChart&lt;&gt;(xAkseli, yAkseli);
+    viivakaavio.setTitle("Suhteellinen kannatus vuosina 1968-2008");
+
+    XYChart.Series rkpData = new XYChart.Series();
+    rkpData.setName("RKP");
+    rkpData.getData().add(new XYChart.Data(1968, 5.6));
+    rkpData.getData().add(new XYChart.Data(1972, 5.2));
+    rkpData.getData().add(new XYChart.Data(1976, 4.7));
+    rkpData.getData().add(new XYChart.Data(1980, 4.7));
+    rkpData.getData().add(new XYChart.Data(1984, 5.1));
+    rkpData.getData().add(new XYChart.Data(1988, 5.3));
+    rkpData.getData().add(new XYChart.Data(1992, 5.0));
+    rkpData.getData().add(new XYChart.Data(1996, 5.4));
+    rkpData.getData().add(new XYChart.Data(2000, 5.1));
+    rkpData.getData().add(new XYChart.Data(2004, 5.2));
+    rkpData.getData().add(new XYChart.Data(2008, 4.7));
+
+    XYChart.Series vihreatData = new XYChart.Series();
+    vihreatData.setName("VIHR");
+    vihreatData.getData().add(new XYChart.Data(1984, 2.8));
+    vihreatData.getData().add(new XYChart.Data(1988, 2.3));
+    vihreatData.getData().add(new XYChart.Data(1992, 6.9));
+    vihreatData.getData().add(new XYChart.Data(1996, 6.3));
+    vihreatData.getData().add(new XYChart.Data(2000, 7.7));
+    vihreatData.getData().add(new XYChart.Data(2004, 7.4));
+    vihreatData.getData().add(new XYChart.Data(2008, 8.9));
+
+    viivakaavio.getData().add(rkpData);
+    viivakaavio.getData().add(vihreatData);
+    Scene nakyma = new Scene(viivakaavio, 640, 480);
+    ikkuna.setScene(nakyma);
+    ikkuna.show();
+}
+<% end %>
+
+<p>
+  Ohjelma näyttää käynnistyessään seuraavalta.
+</p>
+
+<img src="/img/material/kaavio-kannatus-rkp-ja-vihr.png"/>
+
+<p>&nbsp;</p>
+
+
+<p>
+  Edellä jokainen kaavion piste lisättiin ohjelmakoodiin manuaalisesti -- olemme ohjelmoijia, joten tämä tuntuu hieman hölmöltä. Ratkaisu on tiedon lukeminen sopivaan tietorakenteeseen, jota seuraa tietorakenteen läpikäynti ja tiedon lisääminen kaavioon. Sopiva tietorakenne on esimerkiksi puolueiden nimiä avaimena käyttävä hajautustaulu, jonka arvona on hajautustaulu -- tämä hajautustaulu sisältää numeropareja, jotka kuvaavat vuotta ja kannatusta. Nyt datan lisääminen kaavioon on suoraviivaisempaa.
+</p>
+
+<% partial 'partials/code_highlight' do %>
+// akselit ja viivakaavio luotu aiemmin
+
+// data luettu aiemmin -- datan sisältää seuraava olio
+Map&lt;String, Map&lt;Integer, Double&gt;&gt; arvot = // luotu muualla
+
+// käydään puolueet läpi ja lisätään ne kaavioon
+arvot.keySet().stream().forEach(puolue -&gt; {
+    XYChart.Series data = new XYChart.Series();
+    data.setName(puolue);
+
+    arvot.get(puolue).entrySet().stream().forEach(pari -&gt; {
+        data.getData().add(new XYChart.Data(pari.getKey(), pari.getValue()));
+    });
+
+    viivakaavio.getData().add(data);
+});
+<% end %>
+
+
+
+<% partial 'partials/exercise', locals: { name: 'Shanghai' } do %>
+
+  <p>
+    Yliopistoja vertaillaan vuosittain. Eräs kansainvälisesti tunnistettu arvioijataho on Shanghai Ranking Consultancy, joka julkaisee vuosittain listan kansainvälisesti tunnistetuista yliopistoista. Lista sisältää myös yliopiston sijan maailmanlaajuisessa vertailussa. Helsingin yliopiston sijoitus on vuosina 2007-2016 ollut seuraava:
+  </p>
+
+  <pre>
+2007 73
+2008 68
+2009 72
+2010 72
+2011 74
+2012 73
+2013 76
+2014 73
+2015 67
+2016 56</pre>
+
+  <p>
+    Luo tehtäväpohjassa olevaan luokkaan ShanghaiSovellus ohjelma, joka näyttää Helsingin yliopiston sijoituksen kehityksen viivakaaviona. Huom! Älä käytä sovelluksessa mitään asettelua, eli anna viivakaavio-olio suoraan Scene-oliolle konstruktorin parametrina. Huomaa myös, että Scenelle tulee tällöin antaa näytettävän alueen leveys ja korkeus.
+  </p>
+
+  <p>
+    Sovelluksen tuottama tulos näyttää esimerkiksi seuraavanlaiselta:
+  </p>
+
+  <img src="/img/material/kaavio-shanghai.png" />
+
+  <p>&nbsp;</p>
+
+  <p>
+    Huom! Kuten edellisessä osassa, sekä tässä että tulevissa tehtävässä testit käynnistävät sovelluksen. Käytössä olevissa testeissä on <a href="https://github.com/TestFX/TestFX/issues/245" target="_blank" rel="noopener">huomattu ongelmia</a> Windows-käyttöjärjestelmissä silloin, kun käyttöjärjestelmä skaalaa ruutua (tapahtuu isoilla resoluutioilla). Vaikkei testit toimisi paikallisesti oikein, voit palauttaa tehtävän kuitenkin TMC:lle, joka antaa testeistä tarkoitetun palautteen.
+  </p>
+
+<% end %>
+
+
+<% partial 'partials/exercise', locals: { name: 'Puolueet' } do %>
+
+  <p>
+    Luo tehtäväpohjassa olevaan luokkaan PuolueetSovellus ohjelma, joka näyttää puolueiden suhteellisen kannatuksen vuosina 1968-2008. Käytössä on edellisissä esimerkeissä käytetty data, joka löytyy tiedostosta "puoluedata.tsv".
+  </p>
+
+  <p>
+    Suhteellinen kannatus tulee näyttää puoluekohtaisesti siten, että jokaista puoluetta kuvaa viivakaaviossa erillinen viiva. Aseta aina viivan luomiseen käytettävän XYChart.Series-olion nimeksi (metodi setName) datasta löytyvä puolueen nimi.
+  </p>
+
+  <p>
+    Kun viivakaavion käyttämää x-akselia luo, kannattaa huomioida myös se, että ensimmäinen tilaston sisältämä tieto on vuodelta 1968.
+  </p>
+
+  <p>
+    Sarkainmerkillä erotellun merkkijonon saa pilkottua osiin seuraavasti:
+  </p>
+
+  <% partial 'partials/code_highlight' do %>
+String merkkijono = "KOK	16.1	18.1	20.9";
+String[] palat = merkkijono.split("\t");
+System.out.println(palat[0]);
+System.out.println(palat[1]);
+System.out.println(palat[2]);
+System.out.println(palat[3]);
+  <% end %>
+
+  <% partial 'partials/sample_output' do %>
+KOK
+16.1
+18.1
+20.9
+  <% end %>
+
+  <p>
+    Merkkijonomuodossa olevan desimaaliluvun muuntaminen desimaaliluvuksi onnistuu luokan Double metodilla parseDouble. Esim. <code>Double.parseDouble("16.1");</code>
+  </p>
+
+  <p>
+    Sovelluksen tuottaman visualisaation tulee näyttää kutakuinkin seuraavanlaiselta:
+  </p>
+
+  <img src="/img/material/kaavio-suhteellinen-kannatus.png" />
+
+  <p>&nbsp;</p>
+
+<% end %>
+
+
+<% partial 'partials/material_sub_sub_heading' do %>
+  Pylväskaaviot
+<% end %>
+
+<p>
+  Pylväskaavioita käytetään kategorisen datan visualisointiin. Tieto kuvataan pylväinä, missä jokainen pylväs kuvaa tiettyä kategoriaa, ja pylvään korkeus (tai pituus) kategoriaan liittyvää arvoa. Pylväskaavioilla kuvattavasta datasta esimerkkejä ovat esimerkiksi maiden asukasluvut tai kauppojen tai tuotteiden markkinaosuudet.
+</p>
+
+<p>
+  Tarkastellaan pylväskaavion käyttöä pohjoismaiden asukaslukujen visualisointiin. Käytetty data on Wikipedian pohjoismaita kuvaavasta artikkelista osoitteesta <a href="https://fi.wikipedia.org/wiki/Pohjoismaat" target="_blank" rel="noopener">https://fi.wikipedia.org/wiki/Pohjoismaat</a> (noudettu 10.4.2017, asukasluvut ovat vuoden 2015 arvioita).
+</p>
+
+<pre>
+Islanti, 329100
+Norja, 5165800
+Ruotsi, 9801616
+Suomi, 5483533
+Tanska, 5678348
+</pre>
+
+<p>
+  Pylväskaavio luodaan JavaFx:n luokan <a href="https://docs.oracle.com/javase/8/javafx/api/javafx/scene/chart/BarChart.html" target="_blank" rel="noopener">BarChart</a> avulla. Kuten viivakaavion käyttö, myös pylväskaavion käyttö vaatii käytettävien koordinaatistojen määrittelyn sekä tiedon lisäämisen kaavioon. Toisin kuin viivakaavioesimerkissä, tässä käytämme x-akselin määrittelyssä kategorista kategorista <a href="https://docs.oracle.com/javase/8/javafx/api/javafx/scene/chart/CategoryAxis.html" target="_blank" rel="noopener">CategoryAxis</a>-luokkaa. Kun käytössä on CategoryAxis-luokka, kaavion akselin arvojen tyyppi on String, mikä tulee näkyä myös kaavioon lisättävässä datassa.
+</p>
+
+<% partial 'partials/code_highlight' do %>
+@Override
+public void start(Stage ikkuna) {
+    CategoryAxis xAkseli = new CategoryAxis();
+    NumberAxis yAkseli = new NumberAxis();
+    BarChart&lt;String, Number&gt; pylvaskaavio = new BarChart&lt;&gt;(xAkseli, yAkseli);
+
+    pylvaskaavio.setTitle("Pohjoismaiden asukasluvut");
+    pylvaskaavio.setLegendVisible(false);
+
+    XYChart.Series asukasluvut = new XYChart.Series();
+    asukasluvut.getData().add(new XYChart.Data("Ruotsi", 9801616));
+    asukasluvut.getData().add(new XYChart.Data("Tanska", 5678348));
+    asukasluvut.getData().add(new XYChart.Data("Suomi", 5483533));
+    asukasluvut.getData().add(new XYChart.Data("Norja", 5165800));
+    asukasluvut.getData().add(new XYChart.Data("Islanti", 329100));
+
+    pylvaskaavio.getData().add(asukasluvut);
+    Scene nakyma = new Scene(pylvaskaavio, 640, 480);
+    ikkuna.setScene(nakyma);
+    ikkuna.show();
+}
+<% end %>
+
+<p>
+  Edellinen lähdekoodi tuottaa seuraavanlaisen kaavion.
+</p>
+
+<img src="/img/material/kaavio-pohjoismaiden-asukasluvut.png" />
+
+<p>&nbsp;</p>
+
+<p>
+  Kuten huomaat, kun x-akseli on määritelty luokan CategoryAxis avulla, kaavio noudattaa sitä järjestystä, missä kategoriat annetaan sovellukselle. Edellisessä esimerkissä maat on järjestetty asukaslukumäärien mukaan. Kokeile muokata sovellusta siten, että pohjoismaat on järjestetty maan nimen mukaan kaaviossa. Ymmärrät mahdollisesti sovelluksen käynnistettyäsi miksei kyseistä visualisaatiota näytetä tällaisessa järjestyksessä lähes missään...
+</p>
+
+
+<% partial 'partials/exercise', locals: { name: 'Epäreilua mainontaa' } do %>
+
+  <p>
+    Sanonnan "Vale, emävale, tilasto" mukaan mikään ei valehtele kuin tilasto. Sanonta ei ehkäpä ole täysin väärässä, sillä tilastoja luodaan silloin tällöin tahallisesti epäselviksi.
+  </p>
+
+  <p>
+    Tehtäväpohjassa oleva sovellus käynnistää erään kuvitteellisen yrityksen mainonnassa käytetyn visualisaation. Visualisaatio kuvaa mobiiliyhteyden nopeutta, ja näyttää merkittävän eron kilpailijoihin verrattuna.
+  </p>
+
+  <img src="/img/material/kuvaaja-liittyman-nopeus.png" />
+
+  <p>
+    &nbsp;
+  </p>
+
+  <p>
+    Vertailu ei kuitenkaan ole kovin reilu ja se antaa väärän kuvan todellisesta tilanteesta. Muunna ohjelmaa siten, että vertailu on reilumpi.
+  </p>
+
+  <p>
+    Tässä tehtävässä ei ole automaattisia testejä, joten voit määritellä reilun vertailun hieman vapaammin.
+  </p>
+
+<% end %>
+
+
+<% partial 'partials/exercise', locals: { name: 'Pyöräilijätilastot' } do %>
+
+  <p>
+    Tehtäväpohjassa tulee mukana valmis sovellus, jota on käytetty pyöräilijätilastojen näyttöön viivakaaviona. Muokkaa sovellusta siten, että sovellus käyttää viivakaavion sijaan  pylväskaaviota. Kaikki viitteet viivakaavioon tulee poistaa muokkauksen yhteydessä.
+  </p>
+
+
+<% end %>
+
+
+<% partial 'partials/material_sub_heading' do %>
+  Jatkuvasti muuttuvan tiedon visualisointi
+<% end %>
+
+<p>
+  Ohjelmistoja käytetään myös jatkuvasti muuttuvan tiedon visualisaatioon. Esimerkiksi osakekurssien seurantaan käytetyt ohjelmistot hakevat jatkuvasti uusinta tietoa osakekursseista ja näyttävät tietoa käyttäjälle. Vastaavasti sääohjelmistot hakevat mittausasemien tietoja, ja näyttävät viimeisimmän tiedon käyttäjälle. Samalla tavoin toimivat myös palvelinohjelmistojen seurantaan kehitetyt ohjelmistot, jotka tietyin aikavälein tarkastavat vastaako palvelinohjelmisto pyyntöihin.
+</p>
+
+<p>
+  Aiemmin käyttämäämme <a href="https://docs.oracle.com/javase/8/javafx/api/javafx/animation/AnimationTimer.html" target="_blank" rel="noopener">AnimationTimer</a>-luokkaa voidaan hyödyntää myös jatkuvasti muuttuvan tiedon visualisoinnissa. AnimationTimer-luokan avulla voidaan luoda sovellus, joka hakee tai luo uutta tietoa ajoittain sovellukseen.
+</p>
+
+<p>
+  Alla olevassa esimerkissä havainnollistetaan <a href="https://fi.wikipedia.org/wiki/Suurten_lukujen_laki" target="_blank" rel="noopener">suurten lukujen lakia</a>. Suurten lukujen laki on todennäköisyyslaskentaan liittyvä ilmiö, joka kertoo, erttä satunnaismuuttujan keskiarvo lähestyy satunnaismuuttujan odotusarvoa kun toistojen määrä kasvaa. Käytännössä esimerkiksi kuusisivuisen nopan heittojen keskiarvo lähestyy heittojen lukumäärän kasvaessa lukua 3.5. Vastaavasti kolikkoa heitettäessä kruunien ja klaavojen suhde lähestyy "fifti-fifti"-jakoa kun kolikonheittojen määrä kasvaa.
+</p>
+
+
+  <% partial 'partials/code_highlight' do %>
+@Override
+public void start(Stage ikkuna) {
+    // Luokkaa Random käytetään nopan heittojen arpomiseen
+    Random arpoja = new Random();
+
+    NumberAxis xAkseli = new NumberAxis();
+    // y-akseli kuvaa nopanheittojen keskiarvoa. Keskiarvo on aina välillä [1-6]
+    NumberAxis yAkseli = new NumberAxis(1, 6, 1);
+
+    LineChart&lt;Number, Number&gt; viivakaavio = new LineChart&lt;&gt;(xAkseli, yAkseli);
+    // kaaviosta poistetaan mm. pisteisiin liittyvät ympyrät
+    viivakaavio.setLegendVisible(false);
+    viivakaavio.setAnimated(false);
+    viivakaavio.setCreateSymbols(false);
+
+    // luodaan dataa kuvaava muuttuja ja lisätään se kaavioon
+    XYChart.Series keskiarvo = new XYChart.Series();
+    viivakaavio.getData().add(keskiarvo);
+
+    new AnimationTimer() {
+        private long edellinen;
+        private long summa;
+        private long lukuja;
+
+        @Override
+        public void handle(long nykyhetki) {
+            if (nykyhetki - edellinen &lt; 100_000_000L) {
+                return;
+            }
+
+            edellinen = nykyhetki;
+
+            // heitetään noppaa
+            int luku = arpoja.nextInt(6) + 1;
+
+            // kasvatetaan summaa ja lukujen määrää
+            summa += luku;
+            lukuja++;
+
+            // lisätään dataan uusi piste
+            keskiarvo.getData().add(new XYChart.Data(lukuja, 1.0 * summa / lukuja));
+        }
+    }.start();
+
+    Scene nakyma = new Scene(viivakaavio, 400, 300);
+    ikkuna.setScene(nakyma);
+    ikkuna.show();
+}
+<% end %>
+
+<p>
+  Alla olevassa kuvassa on esimerkki sovelluksen toiminnassa. Kuvassa noppaa on heitetty lähes 100 kertaa.
+</p>
+
+<img src="/img/material/kaavio-suurten-lukujen-laki.png"/>
+
+<p>
+  &nbsp;
+</p>
+
+<p>
+  Tarkkasilmäiset lukijat saattoivat huomata, että sovelluksen lähdekoodissa kaaviota ei piirretty uudestaan datan lisäämisen yhteydessä. Mitä ihmettä?
+</p>
+
+<p>
+  Kaaviot kuten LineChart ja BarChart käyttävät sisäisen tiedon säilömiseen <a href="https://docs.oracle.com/javase/8/javafx/api/javafx/collections/ObservableList.html" target="_blank" rel="noopener">ObservableList</a>-rajapinnan toteuttavaa tietorakennetta. ObservableList-rajapinnan toteuttavat kokoelmat tarjoavat mahdollisuuden kokoelmissa tapahtuvien muutosten kuunteluun. Kun listalle lisätään uusi tietue, esimerkiksi uusi keskiarvoa kuvaava piste, kertoo lista muutoksesta kaikille listan muutoksia kuunteleville olioille. Kaavioiden kuten LineChart ja BarChart sisäinen toteutus on tehty siten, että ne kuuntelevat muutoksia niiden näyttämään tietoon. Jos tieto muuttuu, päivittyy kaavio automaattisesti.
+</p>
+
+<p>
+  Joissain tilanteissa jatkuvasti muuttuvasta datasta halutaan näkyville esimerkiksi vain viimeiset 100 havaintoa. Tämä onnistuisi edellisessä esimerkissä asettamalla x-akselia kuvaavan NumberAxis-olion arvojen arvailu pois päältä (metodi setAutoRanging(false)) sekä lisäämällä seuraavan tarkistuksen AnimationTimer-luokan handle-metodin loppuun.
+</p>
+
+<% partial 'partials/code_highlight' do %>
+if (keskiarvo.getData().size() &gt; 100) {
+    keskiarvo.getData().remove(0);
+    xAkseli.setLowerBound(xAkseli.getLowerBound() + 1);
+    xAkseli.setUpperBound(xAkseli.getUpperBound() + 1);
+}
+<% end %>
+
+<p>
+  Nyt sovellus näyttää käyttäjälle aina vain viimeiset 100 arvoa.
+</p>
+
+<% partial 'partials/hint', locals: { name: 'Avointa dataa tarjoavat rajapinnat' } do %>
+
+  <p>
+    Verkko on täynnä ilmaisia rajapintoja, eli tässä tapauksessa verkko-osoitteita, joista käyttäjä voi käydä hakemassa tietoa. Osoitteessa <a href="https://www.programmableweb.com/" target="_blank" rel="noopener">https://www.programmableweb.com/</a> oleva palvelu tarjoaa palvelun avointen rajapintojen hakemiseen.
+  </p>
+
+  <p>
+    Ohjelmoija voisi halutessaan vaikkapa visualisoida maanjäristyksiä. Osoitteessa <a href="http://www.seismi.org/api/eqs/" target="_blank" rel="noopener">http://www.seismi.org/api/eqs/</a> tarjotaan kerran tunnissa päivittyvä listaus maailmalla viimeksi tapahtuneista maanjäristyksistä (data on kuvattu <a href="https://en.wikipedia.org/wiki/JSON" target="_blank" rel="noopener">JSON</a>-muodossa). Vastaavasti ohjelmoija voisi tehdä <a href="http://dev.hsl.fi/" target="_blank" rel="noopener">Helsingin seudun liikenteen</a> tarjoamista rajapinnoista sopivan palvelun.
+  </p>
+
+<% end %>
+
+
+<% partial 'partials/material_heading' do %>
+  Useampi näkymä sovelluksessa
+<% end %>
+
+<p>
+  Tähän mennessä toteuttamamme graafiset käyttöliittymät ovat sisältäneet aina yhden näkymän. Tutustutaan seuraavaksi useampia näkymiä sisältäviin käyttöliittymiin.
+</p>
+
+<p>
+  Yleisesti ottaen näkymät luodaan Scene-olion avulla, joiden välillä siirtyminen tapahtuu sovellukseen kytkettyjen tapahtumien avulla. Alla olevassa esimerkissä on luotu kaksi erillistä Scene-oliota, joista kummallakin on oma sisältö sekä sisältöön liittyvä tapahtuma. Alla Scene-olioihin ei ole erikseen liitetty käyttöliittymän asetteluun käytettyä komponenttia (esim. BorderPane), vaan kummassakin Scene-oliossa on täsmälleen yksi käyttöliittymäkomponentti.
+</p>
+
+<% partial 'partials/code_highlight' do %>
+package sovellus;
+
+import javafx.application.Application;
+import javafx.scene.Scene;
+import javafx.scene.control.Button;
+import javafx.stage.Stage;
+
+public class EdesTakaisinSovellus extends Application {
+
+    @Override
+    public void start(Stage ikkuna) {
+
+        Button edes = new Button("Edes ..");
+        Button takaisin = new Button(".. takaisin.");
+
+        Scene eka = new Scene(edes);
+        Scene toka = new Scene(takaisin);
+
+        edes.setOnAction((event) -&gt; {
+            ikkuna.setScene(toka);
+        });
+
+        takaisin.setOnAction((event) -&gt; {
+            ikkuna.setScene(eka);
+        });
+
+        ikkuna.setScene(eka);
+        ikkuna.show();
+    }
+
+    public static void main(String[] args) {
+        launch(EdesTakaisinSovellus.class);
+    }
+}
+<% end %>
+
+<p>
+  Edellä olevan sovelluksen käynnistäminen luo käyttöliittymän, jossa siirtyminen näkymästä toiseen onnistuu nappia painamalla.
+</p>
+
+
+<% partial 'partials/exercise', locals: { name: 'Useampi Näkymä' } do %>
+
+  <p>
+    Luo tehtäväpohjassa olevaan luokkaan UseampiNakyma sovellus, joka sisältää kolme erillistä näkymää. Näkymät ovat seuraavat:
+  </p>
+
+  <ul>
+    <li>Ensimmäinen näkymä on aseteltu BorderPane-luokan avulla. Ylälaidassa on teksti "Eka näkymä!". Keskellä on nappi, jossa on teksti "Tokaan näkymään!", ja jota painamalla siirrytään toiseen näkymään.</li>
+    <li>Toinen näkymä on aseteltu VBox-luokan avulla. Asettelussa tulee ensin nappi, jossa on teksti "Kolmanteen näkymään!", ja jota painamalla siirrytään kolmanteen näkymään. Nappia seuraa teksti "Toka näkymä!".</li>
+    <li>Kolmas näkymä on aseteltu GridPane-luokan avulla. Asettelussa tulee koordinaatteihin (0,0) teksti "Kolmas näkymä!". Koordinaatteihin (1,1) tulee nappi, jossa on teksti "Ekaan näkymään!", ja jota painamalla siirrytään ensimmäiseen näkymään.</li>
+  </ul>
+
+  <p>
+    Sovelluksen tulee käynnistyessään näyttää ensimmäinen näkymä.
+  </p>
+
+<% end %>
+
+
+<% partial 'partials/material_sub_heading' do %>
+  Oma asettelu jokaista näkymää varten
+<% end %>
+
+<p>
+  Tutustutaan seuraavaksi kaksi erillistä näkymää sisältävään esimerkkiin. Ensimmäisessä näkymässä käyttäjää pyydetään syöttämään salasana. Jos käyttäjä kirjoittaa väärän salasanan, väärästä salasanasta ilmoitetaan. Jos käyttäjä kirjoittaa oikean salasanan, ohjelma vaihtaa seuraavaan näkymään. Ohjelman toiminta on seuraavanlainen.
+</p>
+
+<img src="/img/material/gui-salasana.gif" />
+
+<p>
+  &nbsp;
+</p>
+
+<p>
+  Näkymien välillä vaihtaminen tapahtuu kuten edellisessä esimerkissä. Konkreettinen vaihtotapahtuma on määritelty kirjautumisnappiin. Nappia painettaessa ohjelma tarkastaa salasanakenttään kirjoitetun salasanan -- tässä toivotaan, että käyttäjä kirjoittaa "salasana". Jos salasana on oikein, ikkunan näyttämä näkymä vaihdetaan. Esimerkissämme näkymä sisältää vain tekstin "Tervetuloa, tästä se alkaa!".
+</p>
+
+<% partial 'partials/code_highlight' do %>
+package sovellus;
+
+import javafx.application.Application;
+import javafx.geometry.Insets;
+import javafx.geometry.Pos;
+import javafx.scene.Scene;
+import javafx.scene.control.Button;
+import javafx.scene.control.Label;
+import javafx.scene.control.PasswordField;
+import javafx.scene.layout.GridPane;
+import javafx.scene.layout.StackPane;
+import javafx.stage.Stage;
+
+public class SalattuSovellus extends Application {
+
+    @Override
+    public void start(Stage ikkuna) throws Exception {
+
+        // 1. Luodaan salasanan kysymiseen käytetty näkymä
+
+        // 1.1 luodaan käytettävät komponentit
+        Label ohjeteksti = new Label("Kirjoita salasana ja paina kirjaudu");
+        PasswordField salasanakentta = new PasswordField();
+        Button aloitusnappi = new Button("Kirjaudu");
+        Label virheteksti = new Label("");
+
+        // 1.2 luodaan asettelu ja lisätään komponentit siihen
+        GridPane asettelu = new GridPane();
+
+        asettelu.add(ohjeteksti, 0, 0);
+        asettelu.add(salasanakentta, 0, 1);
+        asettelu.add(aloitusnappi, 0, 2);
+        asettelu.add(virheteksti, 0, 3);
+
+        // 1.3 tyylitellään asettelua
+        asettelu.setPrefSize(300, 180);
+        asettelu.setAlignment(Pos.CENTER);
+        asettelu.setVgap(10);
+        asettelu.setHgap(10);
+        asettelu.setPadding(new Insets(20, 20, 20, 20));
+
+        // 1.4 luodaan itse näkymä ja asetetaan asettelu siihen
+        Scene salasanaNakyma = new Scene(asettelu);
+
+
+        // 2. Luodaan tervetuloa-tekstin näyttämiseen käytetty näkymä
+        Label tervetuloaTeksti = new Label("Tervetuloa, tästä se alkaa!");
+
+        StackPane tervetuloaAsettelu = new StackPane();
+        tervetuloaAsettelu.setPrefSize(300, 180);
+        tervetuloaAsettelu.getChildren().add(tervetuloaTeksti);
+        tervetuloaAsettelu.setAlignment(Pos.CENTER);
+
+        Scene tervetuloaNakyma = new Scene(tervetuloaAsettelu);
+
+
+        // 3. Lisätään salasanaruudun nappiin tapahtumankäsittelijä
+        //    näkymää vaihdetaan jos salasana on oikein
+        aloitusnappi.setOnAction((event) -&gt; {
+            if (!salasanakentta.getText().trim().equals("salasana")) {
+                virheteksti.setText("Tuntematon salasana!");
+                return;
+            }
+
+            ikkuna.setScene(tervetuloaNakyma);
+        });
+
+        ikkuna.setScene(salasanaNakyma);
+        ikkuna.show();
+    }
+
+    public static void main(String[] args) {
+        launch(SalattuSovellus.class);
+    }
+}
+<% end %>
+
+<p>
+  Esimerkissä on hyödynnetty sekä GridPanen että StackPanen asettelussa niiden tarjoamia setPrefSize ja setAlignment-metodeja. Metodilla setPrefSize annetaan asettelulle toivottu koko, ja metodilla setAlignment kerrotaan miten asettelun sisältö tulee ryhmittää. Parametrilla Pos.CENTER toivotaan asettelua näkymän keskelle.
+</p>
+
+
+<% partial 'partials/exercise', locals: { name: 'Tervehtijä' } do %>
+
+  <p>
+    Luo tehtäväpohjassa olevaan luokkaan TervehtijaSovellus sovellus, jossa on kaksi näkymää. Ensimmäisessä näkymässä on tekstikenttä, jolla kysytään käyttäjän nimeä. Toisessa näkymässä käyttäjälle näytetään tervehdysteksti. Tervehdystekstin tulee olla muotoa "Tervetuloa nimi!", missä nimen paikalle tulee käyttäjän kirjoittama nimi.
+  </p>
+
+  <p>
+    Esimerkki sovelluksen toiminnasta:
+  </p>
+
+  <img src="/img/material/gui-tervehtija.gif" alt="Tekstikenttään syötetään nimi, jonka jälkeen nappia painetaan. Näkymä vaihtuu toiseksi, jossa lukee 'Tervetuloa nimi!'"/>
+
+  <p>
+    &nbsp;
+  </p>
+
+<% end %>
+
+
+<% partial 'partials/material_sub_heading' do %>
+  Sama pääasettelu näkymillä
+<% end %>
+
+<p>
+  Riippuen sovelluksen käyttötarpeesta, joskus sovellukselle halutaan pysyvä näkymä, jonka osia vaihdetaan tarvittaessa. Jonkinlaisen valikon tarjoavat ohjelmat toimivat tyypillisesti tällä tavalla.
+</p>
+
+<p>
+  Alla olevassa esimerkissä on luotu sovellus, joka sisältää päävalikon sekä vaihtuvasisältöisen alueen. Vaihtuvasisältöisen alueen sisältö vaihtuu päävalikon nappeja painamalla.
+</p>
+
+<% partial 'partials/code_highlight' do %>
+package sovellus;
+
+import javafx.application.Application;
+import javafx.geometry.Insets;
+import javafx.geometry.Pos;
+import javafx.scene.Scene;
+import javafx.scene.control.Button;
+import javafx.scene.control.Label;
+import javafx.scene.layout.BorderPane;
+import javafx.scene.layout.HBox;
+import javafx.scene.layout.StackPane;
+import javafx.stage.Stage;
+
+public class EsimerkkiSovellus extends Application {
+
+    @Override
+    public void start(Stage ikkuna) throws Exception {
+
+        // 1. Luodaan päätason asettelu
+        BorderPane asettelu = new BorderPane();
+
+        // 1.1. Luodaan päätason asettelun valikko
+        HBox valikko = new HBox();
+        valikko.setPadding(new Insets(20, 20, 20, 20));
+        valikko.setSpacing(10);
+
+        // 1.2. Luodaan valikon napit
+        Button eka = new Button("Eka");
+        Button toka = new Button("Toka");
+
+        // 1.3. Lisätään napit valikkoon
+        valikko.getChildren().addAll(eka, toka);
+
+        asettelu.setTop(valikko);
+
+
+        // 2. Luodaan alinäkymät ja kytketään ne valikon nappeihin
+        // 2.1. Luodaan alinäkymät -- tässä asettelut
+        StackPane ekaAsettelu = luoNakyma("Eka näkymä!");
+        StackPane tokaAsettelu = luoNakyma("Toka näkymä!");
+
+        // 2.2. Liitetään alinäkymät nappeihin. Napin painaminen vaihtaa alinäkymää.
+        eka.setOnAction((event) -> asettelu.setCenter(ekaAsettelu));
+        toka.setOnAction((event) -> asettelu.setCenter(tokaAsettelu));
+
+        // 2.3. Näytetään aluksi ekaAsettelu
+        asettelu.setCenter(ekaAsettelu);
+
+
+        // 3. Luodaan päänäkymä ja asetetaan päätason asettelu siihen
+        Scene nakyma = new Scene(asettelu);
+
+
+        // 4. Näytetään sovellus
+        ikkuna.setScene(nakyma);
+        ikkuna.show();
+    }
+
+    private StackPane luoNakyma(String teksti) {
+
+        StackPane asettelu = new StackPane();
+        asettelu.setPrefSize(300, 180);
+        asettelu.getChildren().add(new Label(teksti));
+        asettelu.setAlignment(Pos.CENTER);
+
+        return asettelu;
+    }
+
+    public static void main(String[] args) {
+        launch(EsimerkkiSovellus.class);
+    }
+}
+<% end %>
+
+<p>
+  Sovellus toimii seuraavalla tavalla:
+</p>
+
+<img src="/img/material/gui-nakyman-vaihto.gif" alt="Sovellus, joka sisältää valikon. Valikossa olevia nappeja painamalla voidaan vaihtaa sovelluksessa näkyvää sisältöä."/>
+
+<p>
+  &nbsp;
+</p>
+
+
+<% partial 'partials/exercise', locals: { name: 'Vitsi' } do %>
+
+  <p>
+    Luo tehtäväpohjassa olevaan luokkaan VitsiSovellus sovellus, jota käytetään yhden vitsin selittämiseen. Sovellus tarjoaa kolme nappia sisältävän valikon sekä näitä nappeja painamalla näytettävät sisällöt. Ensimmäinen nappi (teksti "Vitsi") näyttää vitsiin liittyvän kysymyksen, toinen nappi (teksti "Vastaus") näyttää vitsin kysymykseen liittyvän vastauksen, ja kolmas nappi (teksti "Selitys") näyttää vitsin selityksen.
+  </p>
+
+  <p>
+    Oletuksena (kun sovellus käynnistyy) sovelluksen tulee näyttää vitsiin liittyvä kysymys. Käytä kysymyksenä merkkijonoa "What do you call a bear with no teeth?" ja vastauksena merkkijonoa "A gummy bear.". Saat päättää selityksen vapaasti.
+  </p>
+
+<% end %>
+
+
+<% partial 'partials/material_sub_heading' do %>
+  Hieman suurempi sovellus: Sanaston harjoittelua
+<% end %>
+
+<p>
+  Hahmotellaan vieraiden sanojen harjoitteluun tarkoitettua sovellusta. Sovellus tarjoaa käyttäjälle kaksi toimintoa: sanojen ja niiden käännösten syöttämisen sekä harjoittelun. Luodaan sovellusta varten neljä erillistä luokkaa: ensimmäinen luokka tarjoaa sovelluksen ydinlogiikkatoiminnallisuuden eli sanakirjan ylläpidon, toinen ja kolmas luokka sisältävät syöttönäkymän ja harjoittelunäkymän, ja neljäs luokka sovelluksen päävalikon sekä sovelluksen käynnistämiseen tarvittavan toiminnallisuuden.
+</p>
+
+
+<% partial 'partials/material_sub_sub_heading' do %>
+  Sanakirja
+<% end %>
+
+<p>
+  Sanakirja toteutetaan hajautustaulun ja listan avulla. Hajautustaulu sisältää sanat ja niiden käännökset, ja listaa käytetään satunnaisesti kysyttävän sanan arpomiseen. Luokalla on metodit käännösten lisäämiseen, käännöksen hakemiseen sekä käännettävän sanan arpomiseen.
+</p>
+
+<% partial 'partials/code_highlight' do %>
+package sovellus;
+
+import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
+import java.util.Random;
+
+public class Sanakirja {
+
+    private List&lt;String&gt; sanat;
+    private Map&lt;String, String&gt; kaannokset;
+
+    public Sanakirja() {
+	this.sanat = new ArrayList&lt;&gt;();
+	this.kaannokset = new HashMap&lt;&gt;();
+
+	lisaa("sana", "word");
+    }
+
+    public String hae(String sana) {
+	return this.kaannokset.get(sana);
+    }
+
+    public void lisaa(String sana, String kaannos) {
+	if (!this.kaannokset.containsKey(sana)) {
+	    this.sanat.add(sana);
+	}
+
+	this.kaannokset.put(sana, kaannos);
+    }
+
+    public String arvoSana() {
+	Random satunnainen = new Random();
+	return this.sanat.get(satunnainen.nextInt(this.sanat.size()));
+    }
+}
+<% end %>
+
+<p>
+  Sanakirjan voisi toteuttaa myös niin, että sanan arpominen loisi aina uduen listan kaannokset-hajautustaulun avaimista. Tällöin sanat-listalle ei olisi erillistä tarvetta. Tämä vaikuttaisi kuitenkin sovelluksen tehokkuuteen (tai, olisi ainakin vaikuttanut ennen vuosituhannen vaihdetta -- nykyään koneet ovat jo hieman nopeampia..).
+</p>
+
+<% partial 'partials/material_sub_sub_heading' do %>
+  Sanojen syöttäminen
+<% end %>
+
+<p>
+  Luodaan seuraavaksi sanojen syöttämiseen tarvittava toiminnallisuus. Sanojen syöttämistä varten tarvitsemme viitteen sanakirja-olioon sekä tekstikentät sanalle ja käännökselle. GridPane-asettelu sopii hyvin kenttien asetteluun. Luodaan luokka Syottonakyma, joka tarjoaa metodin getNakyma, joka luo sanojen syöttämiseen tarvittavan näkymän. Metodi palauttaa viitteen <a href="https://docs.oracle.com/javase/8/javafx/api/javafx/scene/Parent.html" target="_blank" rel="noopener">Parent</a>-tyyppiseen olioon. Parent on muunmuassa asetteluun käytettävien luokkien yläluokka, joten mitä tahansa asetteluun käytettävää luokkaa voidaan esittää Parent-oliona.
+</p>
+
+<p>
+  Luokka määrittelee myös käyttöliittymään liittyvän napinpainallustoiminnallisuuden. Kun käyttäjä painaa nappia, sanapari lisätään sanakirjaan. Samalla myös tekstikentät tyhjennetään seuraavan sanan syöttämistä varten.
+</p>
+
+
+<% partial 'partials/code_highlight' do %>
+package sovellus;
+
+import javafx.geometry.Insets;
+import javafx.geometry.Pos;
+import javafx.scene.Parent;
+import javafx.scene.control.Button;
+import javafx.scene.control.Label;
+import javafx.scene.control.TextField;
+import javafx.scene.layout.GridPane;
+
+public class Syottonakyma {
+
+    private Sanakirja sanakirja;
+
+    public Syottonakyma(Sanakirja sanakirja) {
+	this.sanakirja = sanakirja;
+    }
+
+    public Parent getNakyma() {
+	GridPane asettelu = new GridPane();
+
+	Label sanaohje = new Label("Sana");
+	TextField sanakentta = new TextField();
+        Label kaannosohje = new Label("Käännös");
+	TextField kaannoskentta = new TextField();
+
+        asettelu.setAlignment(Pos.CENTER);
+	asettelu.setVgap(10);
+	asettelu.setHgap(10);
+	asettelu.setPadding(new Insets(10, 10, 10, 10));
+
+	Button lisaanappi = new Button("Lisää sanapari");
+
+	asettelu.add(sanaohje, 0, 0);
+	asettelu.add(sanakentta, 0, 1);
+	asettelu.add(kaannosohje, 0, 2);
+	asettelu.add(kaannoskentta, 0, 3);
+	asettelu.add(lisaanappi, 0, 4);
+
+	lisaanappi.setOnMouseClicked((event) -&gt; {
+	    String sana = sanakentta.getText();
+	    String kaannos = kaannoskentta.getText();
+
+	    sanakirja.lisaa(sana, kaannos);
+
+	    sanakentta.clear();
+	    kaannoskentta.clear();
+	});
+
+        return asettelu;
+    }
+}
+<% end %>
+
+<% partial 'partials/material_sub_sub_heading' do %>
+  Sanaharjoittelu
+<% end %>
+
+<p>
+  Luodaan tämän jälkeen harjoitteluun tarvittava toiminnallisuus. Harjoittelua varten tarvitsemme myös viitteen sanakirja-olioon, jotta voimme hakea harjoiteltavia sanoja sekä tarkastaa käyttäjän syöttämien käännösten oikeellisuuden. Sanakirjan lisäksi tarvitsemme tekstin, jonka avulla kysytään sanaa, sekä tekstikentän, johon käyttäjä voi syöttää käännöksen. Myös tässä GridPane sopii hyvin kenttien asetteluun.
+</p>
+
+<p>
+  Kullakin hetkellä harjoiteltava sana on luokalla oliomuuttujana. Oliomuuttujaa voi käsitellä ja muuttaa myös tapahtumankäsittelijän yhteyteen määrittelyssä metodissa.
+</p>
+
+<% partial 'partials/code_highlight' do %>
+package sovellus;
+
+import javafx.geometry.Insets;
+import javafx.geometry.Pos;
+import javafx.scene.Parent;
+import javafx.scene.control.Button;
+import javafx.scene.control.Label;
+import javafx.scene.control.TextField;
+import javafx.scene.layout.GridPane;
+
+public class Harjoittelunakyma {
+
+    private Sanakirja sanakirja;
+    private String sana;
+
+    public Harjoittelunakyma(Sanakirja sanakirja) {
+	this.sanakirja = sanakirja;
+	this.sana = sanakirja.arvoSana();
+    }
+
+    public Parent getNakyma() {
+	GridPane asettelu = new GridPane();
+
+	Label sanaohje = new Label("Käännä sana '" + this.sana + "'");
+	TextField kaannoskentta = new TextField();
+
+	asettelu.setAlignment(Pos.CENTER);
+	asettelu.setVgap(10);
+	asettelu.setHgap(10);
+	asettelu.setPadding(new Insets(10, 10, 10, 10));
+
+	Button lisaanappi = new Button("Tarkista");
+
+	Label palaute = new Label("");
+
+	asettelu.add(sanaohje, 0, 0);
+	asettelu.add(kaannoskentta, 0, 1);
+	asettelu.add(lisaanappi, 0, 2);
+	asettelu.add(palaute, 0, 3);
+
+	lisaanappi.setOnMouseClicked((event) -> {
+	    String kaannos = kaannoskentta.getText();
+	    if (sanakirja.hae(sana).equals(kaannos)) {
+   	        palaute.setText("Oikein!");
+	    } else {
+	        palaute.setText("Väärin! Sanan '" + sana + "' käännös on '" + sanakirja.hae(sana) + "'.");
+	        return;
+	    }
+
+	    this.sana = this.sanakirja.arvoSana();
+	    sanaohje.setText("Käännä sana '" + this.sana + "'");
+	    kaannoskentta.clear();
+	});
+
+	return asettelu;
+    }
+}
+<% end %>
+
+<% partial 'partials/material_sub_sub_heading' do %>
+  Harjoittelusovellus
+<% end %>
+
+<p>
+  Harjoittelusovellus sekä nitoo edellä toteutetut luokat yhteen että tarjoaa sovelluksen valikon. Harjoittelusovelluksen rakenne on seuraava.
+</p>
+
+<% partial 'partials/code_highlight' do %>
+package sovellus;
+
+import javafx.application.Application;
+import javafx.geometry.Insets;
+import javafx.scene.Scene;
+import javafx.scene.control.Button;
+import javafx.scene.layout.BorderPane;
+import javafx.scene.layout.HBox;
+import javafx.stage.Stage;
+
+public class HarjoitteluSovellus extends Application {
+
+    @Override
+    public void start(Stage ikkuna) throws Exception {
+	// 1. Luodaan sovelluksen käyttämä sanakirja
+	Sanakirja sanakirja = new Sanakirja();
+
+	// 2. Luodaan näkymät ("alinäkymät")
+	Harjoittelunakyma harjoittelunakyma = new Harjoittelunakyma(sanakirja);
+	Syottonakyma syottonakyma = new Syottonakyma(sanakirja);
+
+	// 3. Luodaan päätason asettelu
+	BorderPane asettelu = new BorderPane();
+
+	// 3.1. Luodaan päätason asettelun valikko
+	HBox valikko = new HBox();
+	valikko.setPadding(new Insets(20, 20, 20, 20));
+	valikko.setSpacing(10);
+
+	// 3.2. Luodaan valikon napit
+	Button lisaanappi = new Button("Lisää sanoja");
+	Button harjoittelenappi = new Button("Harjoittele");
+
+	// 3.3. Lisätään napit valikkoon
+	valikko.getChildren().addAll(lisaanappi, harjoittelenappi);
+	asettelu.setTop(valikko);
+
+	// 4. Liitetään alinäkymät nappeihin. Napin painaminen vaihtaa alinäkymää.
+	lisaanappi.setOnAction((event) -&gt; asettelu.setCenter(syottonakyma.getNakyma()));
+	harjoittelenappi.setOnAction((event) -&gt; asettelu.setCenter(harjoittelunakyma.getNakyma()));
+
+	// 5. Näytetään ensin syöttönäkymä
+	asettelu.setCenter(syottonakyma.getNakyma());
+
+	// 6. Luodaan päänäkymä ja asetetaan päätason asettelu siihen
+	Scene nakyma = new Scene(asettelu, 400, 300);
+
+	// 7. Näytetään sovellus
+	ikkuna.setScene(nakyma);
+	ikkuna.show();
+    }
+
+    public static void main(String[] args) {
+	launch(HarjoitteluSovellus.class);
+    }
+}
+<% end %>
+
+
+
+<% partial 'partials/exercise', locals: { name: 'Sanojen harjoittelua' } do %>
+
+  <p>
+    Tässä tehtävässä laadit edellä olevaa materiaalia noudattaen sanojen harjoitteluun tarkoitetun sovelluksen. Sovelluksen tulee käynnistyä kun luokan SanaharjoitteluSovellus main-metodi suoritetaan.
+  </p>
+
+  <p>
+    Luo edellistä esimerkkiä noudattaen sanojen harjoitteluun tarkoitettu sovellus. Sanojen harjoitteluun tarkoitetun sovelluksen tulee tarjota kaksi näkymää. Ensimmäisessä näkymässä käyttäjä voi syöttää alkuperäisiä sanoja ja niiden käännöksiä. Toisessa näkymässä käyttäjältä kysytään sanojen käännöksiä. Harjoiteltavat sanat tulee aina arpoa kaikista syötetyistä sanoista.
+  </p>
+
+  <p>
+    Käyttöliittymästä tarkemmin. Sanojen syöttämisnäkymän näyttävän napin tekstin tulee olla "Lisää sanoja". Sanojen harjoittelunäkymän näyttävän napin tekstin tulee olla "Harjoittele". Sanoja syötettäessä ensimmäisen tekstikentän tulee olla sana alkuperäiskielellä, ja toisen tekstikentän tulee olla sana käännettynä. Syöttämiseen käytetyn napin tekstin tulee olla "Lisää sanapari". Harjoittelutilassa käyttäjältä kysytään aina sanoja alkuperäiskielellä ja hänen tulee kirjoittaa sanojen käännöksiä. Vastauksen tarkistamiseen käytetyn napin tekstin tulee olla "Tarkista". Jos vastaus on oikein, käyttöliittymässä näytetään teksti "Oikein!". Jos taas vastaus on väärin, käyttöliittymässä näytetään teksti "Väärin!" sekä tieto oikeasta vastausksesta.
+  </p>
+
+  <img src="/img/material/gui-sanaharjoittelu.gif" />
+
+  <p>
+    &nbsp;
+  </p>
+
+  <p>
+    Sovelluksessa ei ole automaattisia testejä -- palauta tehtävä kun sovellus toimii oikein.
+  </p>
+
+<% end %>
+
+
+<% partial 'partials/exercise', locals: { name: 'Matopeli' } do %>
+
+  <p>
+    Tässä tehtävässä luodaan klassisen matopelin rakenteet, eli mato, omena sekä niitä hallinnoiva matopeli. Pelin graafinen käyttöliittymä on sovelluksessa toteutettu valmiina -- graafisesta käyttöliittymästä voi ottaa inspiraatiota omiin projekteihin. Kun olet toteuttanut tehtävän askeleet, poista kommentit luokasta MatopeliSovellus ja kokeile pelaamista.
+  </p>
+
+  <h2>Pala ja Omena</h2>
+
+  <p>
+    Luo pakkaukseen <code>matopeli.domain</code> luokka <code>Pala</code>. Luokalla <code>Pala</code> on konstruktori <code>public Pala(int x, int y)</code>, joka saa palan sijainnin parametrina. Lisäksi luokalla <code>Pala</code> on seuraavat metodit.
+  </p>
+
+  <ul>
+    <li><code>public int getX()</code> palauttaa Palan konstruktorissa saadun x-koordinaatin.</li>
+    <li><code>public int getY()</code> palauttaa Palan konstruktorissa saadun y-koordinaatin.</li>
+    <li><code>public boolean osuu(Pala pala)</code> palauttaa true jos oliolla on sama x- ja y-koordinaatti kuin parametrina saadulla Pala-luokan ilmentymällä.</li>
+    <li><code>public String toString()</code> palauttaa palan sijainnin muodossa <code>(x,y)</code>. Esim. <code>(5,2)</code> kun x-koordinaatin arvo on 5 ja y-koordinaatin arvo on 2.</li>
+  </ul>
+
+  <p>
+    Toteuta pakkaukseen <code>matopeli.domain</code> myös luokka <code>Omena</code>. Peri luokalla Omena luokka <code>Pala</code>.
+  </p>
+
+
+  <h2>Mato</h2>
+
+  <p>
+    Toteuta pakkaukseen <code>matopeli.domain</code> luokka <code>Mato</code>. Luokalla <code>Mato</code> on konstruktori <code>public Mato(int alkuX, int alkuY, Suunta alkusuunta)</code>, joka luo uuden madon. Madon suunta on parametrina annettu <code>alkusuunta</code>. Mato koostuu listasta <code>Pala</code>-luokan ilmentymiä.
+  </p>
+
+  <p>
+    Luokka <code>Suunta</code> löytyy valmiina pakkauksesta <code>Matopeli.domain</code>.
+  </p>
+
+  <p>
+    Mato luodaan yhden palan pituisena, mutta madon "aikuispituus" on kolme. Madon tulee kasvaa yhdellä aina kun se liikkuu. Kun madon pituus on kolme, se kasvaa isommaksi vain syödessään.
+  </p>
+
+  <p>
+    Toteuta madolle seuraavat metodit
+  </p>
+
+  <ul>
+    <li><code>public Suunta getSuunta()</code> palauttaa madon suunnan.</li>
+    <li><code>public void setSuunta(Suunta suunta)</code> asettaa madolle uuden suunnan. Mato liikkuu uuteen suuntaan kun metodia <code>liiku</code> kutsutaan seuraavan kerran.</li>
+    <li><code>public int getPituus()</code> palauttaa madon pituuden. Madon pituuden tulee olla sama kuin <code>getPalat()</code>-metodikutsun palauttaman listan alkioiden määrä.</li>
+    <li><code>public List&lt;Pala&gt; getPalat()</code> palauttaa listan pala-olioita, joista mato koostuu. Palat ovat listalla järjestyksessä, siten että pää sijaitsee listan lopussa.</li>
+    <li><code>public void liiku()</code> liikuttaa matoa yhden palan verran eteenpäin.</li>
+    <li><code>public void kasva()</code> kasvattaa madon kokoa yhdellä. Madon kasvaminen tapahtuu seuraavan <code>liiku</code>-metodikutsun yhteydessä. Sitä seuraaviin liiku-kutsuihin kasvaminen ei enää vaikuta. Jos madon pituus on 1 tai 2 kun metodia kutsutaan, ei kutsulla saa olla mitään vaikutusta matoon.</li>
+    <li><code>public boolean osuu(Pala pala)</code> tarkistaa osuuko mato parametrina annettuun palaan. Jos mato osuu palaan, eli joku madon pala osuu metodille parametrina annettuun palaan, tulee metodin palauttaa arvo <code>true</code>. Muuten metodi palauttaa arvon <code>false</code>.</li>
+    <li><code>public boolean osuuItseensa()</code> tarkistaa osuuko mato itseensä. Jos mato osuu itseensä, eli joku sen pala osuu johonkin toiseen sen palaan, metodi palauttaa arvon <code>true</code>. Muuten metodi palauttaa arvon <code>false</code>.</li>
+  </ul>
+
+  <p>
+    Metodien <code>public void kasva()</code> ja <code>public void liiku()</code> toiminnallisuus tulee toteuttaa siten, että mato kasvaa vasta seuraavalla liikkumiskerralla.
+  </p>
+
+  <p>
+    Liikkuminen kannattaa toteuttaa siten, että madolle luodaan liikkuessa aina uusi pala. Uuden palan sijainti riippuu madon kulkusuunnasta: vasemmalle mennessä uuden palan sijainti on edellisen pääpalan sijainnista yksi vasemmalle, eli sen x-koordinaatti on yhtä pienempi. Jos uuden palan sijainti on edellisen pääpalan alapuolella, eli madon suunta on alas, tulee uuden palan y-koordinaatin olla yhtä isompi kuin pääpalan y-koordinaatti (käytämme siis piirtämisestä tuttua koordinaattijärjestelmää, jossa y-akseli on kääntynyt).
+  </p>
+
+  <p>
+    Liikkuessa uusi pala lisätään listan loppuun, ja poistetaan listan alussa oleva alkio. Uudesta palasta siis tulee madon "uusi pää" ja  jokaisen palan koordinaatteja ei tarvitse päivittää erikseen. Toteuta kasvaminen siten, että listan alussa olevaa palaa, eli "madon häntää" ei poisteta jos metodia <code>kasva</code> on juuri kutsuttu.
+  </p>
+
+  <p>
+    Huom! Kasvata matoa aina sen liikkuessa jos sen pituus on pienempi kuin 3.
+  </p>
+
+<% partial 'partials/code_highlight' do %>
+Mato mato = new Mato(5, 5, Suunta.OIKEA);
+System.out.println(mato.getPalat());
+mato.liiku();
+System.out.println(mato.getPalat());
+mato.liiku();
+System.out.println(mato.getPalat());
+mato.liiku();
+System.out.println(mato.getPalat());
+
+mato.kasva();
+System.out.println(mato.getPalat());
+mato.liiku();
+System.out.println(mato.getPalat());
+
+mato.setSuunta(Suunta.VASEN);
+System.out.println(mato.osuuItseensa());
+mato.liiku();
+System.out.println(mato.osuuItseensa());
+<% end %>
+
+<% partial 'partials/sample_output' do %>
+[(5,5)]
+[(5,5), (6,5)]
+[(5,5), (6,5), (7,5)]
+[(6,5), (7,5), (8,5)]
+[(6,5), (7,5), (8,5)]
+[(6,5), (7,5), (8,5), (9,5)]
+false
+true
+<% end %>
+
+
+  <h2>Matopeli, osa 1</h2>
+
+  <p>
+    Matopeli tietää sekä madosta että omenasta. Se tarjoaa mahdollisuuden madon liikuttamiseen, hallinnoi mahdollista omenan syömistä, sekä arpoo uusia omenoita. Matopeli osaa myös kertoa jos peli on loppu, eli mato on törmännyt reunaan tai itseensä.
+  </p>
+
+  <p>
+    Luo pakkaukseen <code>matopeli.domain</code> luokka <code>Matopeli</code>.
+  </p>
+
+  <p>
+    Matopelillä on tieto pelin leveydestä ja korkeudesta sekä tieto siitä jatkuuko peli yhä. Lisäksi matopeli sisältää viitteen mato-olioon ja omenaan.
+  </p>
+
+  <p>
+    Lisää luokalle Matopeli kaksiparametrinen konstruktori. Konstruktorin ensimmäisenä parametrina annetaan pelin leveys, toisena parametrina pelin korkeus. Leveys ja korkeus kerrotaan ruutujen lukumääränä.
+  </p>
+
+  <p>
+    Täydennä konstruktorin toiminnallisuutta siten, että konstruktorissa luodaan myös peliin liittyvä <code>Mato</code>. Luo mato siten, että sijainti riippuu Matopeli-luokan konstruktorissa saaduista parametreista. Madon x-koordinaatin tulee olla <code>leveys / 2</code>, y-koordinaatin <code>korkeus / 2</code> ja suunnan <code>Suunta.ALAS</code>.
+  </p>
+
+  <p>
+    Lisää matopeliin lisäksi seuraavat metodit
+  </p>
+
+  <ul>
+    <li><code>public Mato getMato()</code> palauttaa matopelin madon.</li>
+    <li><code>public void setMato(Mato mato)</code> asettaa matopeliin metodin parametrina olevan madon. Jos metodia <code>getMato</code> kutsutaan madon asetuksen jälkeen, tulee metodin <code>getMato</code> palauttaa viite <em>samaan</em> matoon.</li>
+  </ul>
+
+
+  <h2>Matopeli, osa 2</h2>
+
+
+  <p>
+    Lisää matopelin konstruktoriin omenan luominen.  Konstruktorissa luotavan omenan sijainnin tulee olla satunnainen, kuitenkin niin että omenan x-koordinaatti on aina välillä <code>[0, leveys[</code>, ja y-koordinaatti välillä <code>[0, korkeus[</code>. Tässä luokasta Random on hyötyä.
+  </p>
+
+  <p>
+    Lisää matopelille myös seuraavat metodit:
+  </p>
+
+  <ul>
+    <li><code>public Omena getOmena</code> palauttaa matopelin omenan.</li>
+    <li><code>public void setOmena(Omena omena)</code> asettaa matopeliin metodin parametrina olevan omenan. Jos metodia <code>getOmena</code> kutsutaan omenan asetuksen jälkeen, tulee metodin <code>getOmena</code> palauttaa viite <em>samaan</em> omenaan.</li>
+    <li><code>public boolean loppu()</code> kertoo onko matopeli päättynyt. Matopeli päättyy jos mato törmää itseensä tai seinään. </li>
+  </ul>
+
+  <p>
+    Lisää tämän jälkeen luokalle Matopeli metodi <code>public void paivita()</code>. Muokkaa metodin <code>paivita</code>-toiminnallisuutta siten, että metodissa toteutetaan seuraavat askeleet annetussa järjestyksessä.
+  </p>
+
+  <ol>
+    <li>Liikuta matoa</li>
+    <li>Jos mato osuu omenaan, syö omena ja kutsu madon kasva-metodia. Arvo peliin uusi omena. Omena tulee arpoa niin, että se ei ole madon päällä (tai ulkona pelialueelta).</li>
+    <li>Jos mato törmää itseensä tai seinään, matopelin tulee tietää siitä, että sen suoritus on loppunut (metodin loppu() tulee seuraavalla kerralla palauttaa arvo true).</li>
+  </ol>
+
+  <p>
+    <em>
+      Kokeile nyt poistaa luokasta MatopeliSovellus kommentit ja pelaa matopeliä. Löydät pelistä todennäköisesti vieläkin korjattavaa ja paranneltavaa. Esimerkiksi ennätyslista tai jonkinlainen pistelasku olisi hieno...
+    </em>
+  </p>
+
+<% end %>
+
+
+<%= partial 'partials/quiz', locals: { id: '58eb6c11324ab600048a45dc' } %>
+
+

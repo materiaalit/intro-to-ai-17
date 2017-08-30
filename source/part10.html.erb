@@ -1,0 +1,2318 @@
+---
+  title: Osa 10
+  exercise_page: true
+  quiz_page: true
+  published: false
+---
+
+<% if false %>
+<% partial 'partials/hint', locals: { name: 'Neljäs konekoe' } do %>
+
+  <p>
+    Jos teet kurssia Ohjelmoinnin jatkokurssi tai aikataulutettua Ohjelmoinnin MOOCia, tässä kohtaa tulee tehdä Ohjelmoinnin perusteiden ja jatkokurssin jatkumon neljäs konekoe. Neljännen konekokeen tekemiseen on kokeen aloitushetkestä 180 minuuttia. Neljäs konekoe on Ohjelmoinnin jatkokurssin ensimmäinen konekoe, ja se vastaa kymmentä kurssipistettä Ohjelmoinnin jatkokurssista.
+  </p>
+
+  <p>
+    Konekokeessa on kaksi tehtävää ja ne tulee tehdä TMC:ssä tehtävien mukana tuleviin tehtäväpohjiin "Konekoe04_01.Tehtava" ja "Konekoe04_02.Tehtava". Tehtävänannot saat osoitteessa <a href="https://myexams.herokuapp.com" target="_blank" rel="noopener">https://myexams.herokuapp.com</a> olevasta sovelluksesta. Edellämainitussa osoitteessa sekä tämän materiaalin johdanto-osiossa on myös lisätietoja kokeen suorittamiseen liittyen.
+  </p>
+
+  <p>
+    Osoitteessa <a href="https://myexams.herokuapp.com" target="_blank" rel="noopener">https://myexams.herokuapp.com</a> olevaan sovellukseen kirjaudutaan TMC-tunnuksilla (samat tunnukset kuin mitä käytät TMC:hen kirjautumiseen). Kun olet kirjautunut sovellukseen, valitse ylävalikosta "Kokeeni". Näet tämän jälkeen listauksen, missä näkyy tehtävänä olevat kokeet. Kun valitset kokeen, saat siihen liittyvät tiedot näkyville ja voit aloittaa halutessasi kokeen tekemisen.
+  </p>
+
+  <p>
+    Huom! Älä kuitenkaan aloita kokeen tekemistä ennen kuin olet kerrannut tähänastista materiaalia ja olet varma, että sinulla on aikaa tehdä koe. Konekoe käsittelee materiaalin osia 8 ja 9. Konekokeessa oletetaan, että materiaalin osat 1-7 ovat myös muistissa. <strong>Konekoe tulee olla tehtynä ohjelmoinnin jatkokurssilla keskiviikkoon 5.4. klo 23:59 mennessä. Aikataulutetussa Ohjelmoinnin MOOCissa konekoe tulee tehdä keskiviikkoon 12.4. klo 23:59 mennessä.</strong>
+  </p>
+
+<% end %>
+<% end %>
+
+
+<% partial 'partials/hint', locals: { name: 'Kymmenennen osion tavoitteet' } do %>
+
+  <p>
+    Kymmenennessä osassa käsitellään tiedon ryhmittelyä hajautustaulun avulla, jolloin yhteen hajautustaulun avaimeen voi liittyä useampia arvoja. Tämän lisäksi tutustutaan olioiden monimuotoisuuteen sekä perintään.
+  </p>
+
+  <p>
+    Tämän osan jälkeen osaat ryhmitellä tietoa hajautustaulun avulla, sekä tiedät mistä perinnässä on kyse. Ymmärrät Javan perintähierarkian ja osaat luoda luokkia, jotka perivät toisen luokan muuttujia ja metodeja. Tiedät myös miten näkyvyysmääreet vaikuttavat perittäviin muuttujiin ja metodeihin. Tunnet lisäksi abstraktin luokan käsitteen, ja olet harjoitellut refaktorointia, eli ohjelma rakenteen muuttamista ilman ohjelman toiminnallisuuden muuttamista.
+  </p>
+
+<% end %>
+
+
+
+<% partial 'partials/material_heading' do %>
+  Ryhmittely hajautustaulun avulla
+<% end %>
+
+
+<p>
+  Hajautustaulu sisältää korkeintaan yhden arvon yhtä avainta kohti. Seuraavassa esimerkissä tallennamme henkilöiden puhelinnumeroita hajautustauluun.
+</p>
+
+<% partial 'partials/code_highlight' do %>
+Map&lt;String, String&gt; puhelinnumerot = new HashMap&lt;&gt;();
+puhelinnumerot.put("Pekka", "040-12348765");
+
+System.out.println("Pekan numero: " + puhelinnumerot.get("Pekka"));
+
+puhelinnumerot.put("Pekka", "09-111333");
+
+System.out.println("Pekan numero: " + puhelinnumerot.get("Pekka"));
+<% end %>
+
+<% partial 'partials/sample_output' do %>
+Pekan numero: 040-12348765
+Pekan numero: 09-111333
+<% end %>
+
+
+<% partial 'partials/material_sub_heading' do %>
+  Useampi arvo yhdelle avaimelle
+<% end %>
+
+<p>
+  Entä jos haluaisimme liittää yhteen avaimeen useita arvoja, eli esimerkiksi useampia puhelinnumeroita yhdelle henkilölle?
+</p>
+
+<p>
+  Koska hajautustaulun avaimet ja arvot voivat olla mitä tahansa muuttujia, listojen käyttäminen hajautustaulun arvona onnistuu. Useamman arvon lisääminen yhdelle arvolle onnistuu liittämällä avaimeen lista. Muutetaan puhelinnumeroiden talletustapaa seuraavasti:
+</p>
+
+<% partial 'partials/code_highlight' do %>
+  Map&lt;String, List&lt;String&gt;&gt; puhelinnumerot = new HashMap&lt;&gt;();
+<% end %>
+
+<p>
+  Nyt hajautustaulussa on jokaiseen avaimeen liitettynä lista. Vaikka new-komento luo hajautustaulun, ei hajautustaulu sisällä alussa yhtäkään listaa. Ne on luotava tarvittaessa erikseen.
+</p>
+
+<% partial 'partials/code_highlight' do %>
+Map&lt;String, List&lt;String&gt;&gt; puhelinnumerot = new HashMap&lt;&gt;();
+
+// liitetään Pekka-nimeen ensin tyhjä ArrayList
+puhelinnumerot.put("Pekka", new ArrayList&lt;&gt;());
+
+// ja lisätään Pekkaa vastaavalle listalle puhelinnumero
+puhelinnumerot.get("Pekka").add("040-12348765");
+// ja lisätään toinenkin puhelinnumero
+puhelinnumerot.get("Pekka").add("09-111333");
+
+System.out.println("Pekan numerot: " + puhelinnumerot.get("Pekka"));
+<% end %>
+
+<% partial 'partials/sample_output' do %>
+  Pekan numero: [040-12348765, 09-111333]
+<% end %>
+
+<p>
+  Määrittelimme muuttujan puhelinnumero tyypiksi <code>Map&lt;String, List&lt;String&gt;&gt;</code>. Tämä tarkoittaa hajautustaulua, joka käyttää avaimena merkkijonoa ja arvona merkkijonoja sisältävää listaa. Hajautustauluun lisättävät arvot ovat siis <code>List&lt;String&gt;</code>-rajapinnan toteuttavia konkreettisia olioita, eli esimerkiksi ArrayListejä.
+</p>
+
+<% partial 'partials/code_highlight' do %>
+// liitetään Pekka-nimeen ensin tyhjä ArrayList
+puhelinnumerot.put("Pekka", new  ArrayList&lt;&gt;());
+
+// ...
+<% end %>
+
+<% partial 'partials/material_sub_heading' do %>
+  Joukoista
+<% end %>
+
+<p>
+  Rajapinta <code><a href="https://docs.oracle.com/javase/8/docs/api/java/util/Set.html" target="_blank" rel="noopener">Set</a></code> kuvaa joukon toiminnallisuutta. Toisin kuin listalla, joukossa kutakin alkioita on korkeintaan yksi kappale, eli yhtään samanlaista oliota ei ole kahdesti. Olioiden samankaltaisuuden tarkistaminen toteutetaan <code>equals</code> ja <code>hashCode</code> -metodeja käyttämällä.
+</p>
+
+<p>
+  Yksi rajapinnan <code>Set</code> toteuttava luokka on <code><a href="https://docs.oracle.com/javase/8/docs/api/java/util/HashSet.html" target="_blank" rel="noopener">HashSet</a></code>. Toteutetaan sen avulla luokka <code>Tehtavakirjanpito</code>, joka tarjoaa mahdollisuuden tehtävien kirjanpitoon ja tehtyjen tehtävien tulostamiseen. Oletetaan että tehtävät ovat aina kokonaislukuja.
+</p>
+
+<% partial 'partials/code_highlight' do %>
+public class Tehtavakirjanpito {
+    private Set&lt;Integer&gt; tehdytTehtavat;
+
+    public Tehtavakirjanpito() {
+        this.tehdytTehtavat = new HashSet&lt;&gt;();
+    }
+
+    public void lisaa(int tehtava) {
+        this.tehdytTehtavat.add(tehtava);
+    }
+
+    public void tulosta() {
+        this.tehdytTehtavat.stream().forEach(t -&gt; System.out.println(t));
+    }
+}
+<% end %>
+
+<% partial 'partials/code_highlight' do %>
+Tehtavakirjanpito kirjanpito = new Tehtavakirjanpito();
+kirjanpito.lisaa(1);
+kirjanpito.lisaa(1);
+kirjanpito.lisaa(2);
+kirjanpito.lisaa(3);
+
+kirjanpito.tulosta();
+<% end %>
+
+<% partial 'partials/sample_output' do %>
+1
+2
+3
+<% end %>
+
+<p>
+  Yllä oleva ratkaisu toimii tilanteessa, jossa emme tarvitse tietoa eri käyttäjien tekemistä tehtävistä. Muutetaan sovelluksen toiminnallisuutta siten, että tehtävät tallennetaan <em>käyttäjäkohtaisesti</em> hajautustaulua hyödyntäen. Käyttäjät tunnistetaan käyttäjän yksilöivällä merkkijonolla (esimerkiksi opiskelijanumero), ja jokaiselle käyttäjälle on oma joukko tehdyistä tehtävistä.
+</p>
+
+<% partial 'partials/code_highlight' do %>
+public class Tehtavakirjanpito {
+    private Map&lt;String, Set&lt;Integer&gt;&gt; tehdytTehtavat;
+
+    public Tehtavakirjanpito() {
+	this.tehdytTehtavat = new HashMap&lt;&gt;();
+    }
+
+    public void lisaa(String kayttaja, int tehtava) {
+	// uudelle käyttäjälle on lisättävä HashMapiin tyhjä tehtäväjoukko jos sitä
+	// ei ole jo lisätty
+	this.tehdytTehtavat.putIfAbsent(kayttaja, new HashSet&lt;&gt;());
+
+	// haetaan ensin käyttäjän tehtävät sisältävä joukko ja tehdään siihen lisäys
+	Set&lt;Integer&gt; tehdyt = this.tehdytTehtavat.get(kayttaja);
+	tehdyt.add(tehtava);
+
+	// edellinen olisi onnitunut myös ilman apumuuttujaa seuraavasti
+	// this.tehdytTehtavat.get(kayttaja).add(tehtava);
+    }
+
+    public void tulosta() {
+	this.tehdytTehtavat.keySet().stream(kayttaja -&gt; {
+	    System.out.println(kayttaja + ": " + this.tehdytTehtavat.get(kayttaja));
+	});
+    }
+}
+<% end %>
+
+<% partial 'partials/code_highlight' do %>
+Tehtavakirjanpito kirjanpito = new Tehtavakirjanpito();
+kirjanpito.lisaa("Ada", 3);
+kirjanpito.lisaa("Ada", 4);
+kirjanpito.lisaa("Ada", 3);
+kirjanpito.lisaa("Ada", 3);
+
+kirjanpito.lisaa("Pekka", 4);
+kirjanpito.lisaa("Pekka", 4);
+
+kirjanpito.lisaa("Matti", 1);
+kirjanpito.lisaa("Matti", 2);
+
+kirjanpito.tulosta();
+<% end %>
+
+<% partial 'partials/sample_output' do %>
+Matti: [1, 2]
+Pekka: [4]
+Ada: [3, 4]
+<% end %>
+
+
+<p>
+  Huomaamme että käyttäjien nimet eivät tulostu järjestyksessä. Tämä selittyy sillä että <code>HashMap</code>-tyyppisessä hajautustaulussa alkioiden tallennus tapahtuu <code>hashCode</code>-metodin palauttaman hajautusarvon perusteella. HashMap-hajautustaulu ei ota kantaa alkioiden järjestykseen.
+</p>
+
+
+<% partial 'partials/exercise', locals: { name: 'Usean käännöksen sanakirja' } do %>
+
+  <p>
+    Tehtävänäsi on toteuttaa pakkaukseen <code>sanakirja</code> luokka <code>OmaUseanKaannoksenSanakirja</code>, johon voidaan lisätä yksi tai useampi käännös jokaiselle sanalle. Luokan tulee toteuttaa tehtäväpohjassa annettu rajapinta <code>UseanKaannoksenSanakirja</code>, joka määrittelee seuraavat metodit:
+  </p>
+
+  <ul>
+    <li><code>public void lisaa(String sana, String kaannos)</code> lisää käännöksen sanalle säilyttäen vanhat käännökset</li>
+    <li><code>public Set&lt;String&gt; kaanna(String sana)</code> palauttaa <code>Set</code>-rajapinnan toteuttavan olion, jossa on kaikki käännökset sanalle. Jos sanalle ei ole yhtäkään käännöstä, metodin tulee palauttaa Set-olio, jossa ei ole yhtäkään alkiota</li>
+    <li><code>public void poista(String sana)</code> poistaa sanan ja sen kaikki käännökset sanakirjasta.</li>
+  </ul>
+
+  <p>
+    Käännökset kannattanee lisätä <code>Map&lt;String, Set&lt;String&gt;&gt;</code>-tyyppiseen oliomuuttujaan.
+  </p>
+
+  <p>Rajapinta UseanKaannoksenSanakirja:</p>
+
+  <% partial 'partials/code_highlight' do %>
+package sanakirja;
+
+import java.util.Set;
+
+public interface UseanKaannoksenSanakirja {
+    void lisaa(String sana, String kaannos);
+    Set&lt;String&gt; kaanna(String sana);
+    void poista(String sana);
+}
+  <% end %>
+
+  <p>
+    Esimerkki:
+  </p>
+
+  <% partial 'partials/code_highlight' do %>
+UseanKaannoksenSanakirja sanakirja = new OmaUseanKaannoksenSanakirja();
+sanakirja.lisaa("kuusi", "six");
+sanakirja.lisaa("kuusi", "spruce");
+
+sanakirja.lisaa("pii", "silicon");
+sanakirja.lisaa("pii", "pi");
+
+System.out.println(sanakirja.kaanna("kuusi"));
+sanakirja.poista("pii");
+System.out.println(sanakirja.kaanna("pii"));
+  <% end %>
+
+  <% partial 'partials/sample_output' do %>
+[six, spruce]
+[]
+  <% end %>
+
+<% end %>
+
+
+<% partial 'partials/exercise', locals: { name: 'Duplikaattien poistaja' } do %>
+
+  <p>
+    Tehtävänäsi on toteuttaa pakkaukseen <code>tyokalut</code> luokka <code>OmaDuplikaattienPoistaja</code>, joka tallettaa annetut merkkijonot siten, että annetuista merkkijonoista poistetaan samanlaiset merkkijonot (eli duplikaatit). Lisäksi luokka pitää kirjaa duplikaattien määrästä. Luokan tulee toteuttaa tehtäväpohjassa annettu rajapinta <code>DuplikaattienPoistaja</code>, jossa on seuraavat toiminnot:
+  </p>
+
+  <ul>
+    <li><code>public void lisaa(String merkkijono)</code></li> tallettaa merkkijonon, jos se ei ole duplikaatti<br/>
+    <li><code>public int getHavaittujenDuplikaattienMaara()</code></li> palauttaa tähän mennessä havaittujen duplikaattien määrän<br/>
+    <li><code>public Set&lt;String&gt; getUniikitMerkkijonot()</code></li> palauttaa <code>Set&lt;String&gt;</code>-rajapinnan toteuttavan olion, jossa on kaikki uniikit lisätyt merkkijonot (ei siis duplikaatteja!). Jos merkkijonoja ei ole, palautetaan tyhjä joukko-olio.<br/>
+    <li><code>public void tyhjenna()</code></li> poistaa talletetut merkkijonot ja nollaa havaittujen duplikaattien määrän<br/>
+  </ul>
+
+  <p>
+    Rajapinta:
+  </p>
+
+  <% partial 'partials/code_highlight' do %>
+package tyokalut;
+
+import java.util.Set;
+
+public interface DuplikaattienPoistaja {
+    void lisaa(String merkkijono);
+    int getHavaittujenDuplikaattienMaara();
+    Set&lt;String&gt; getUniikitMerkkijonot();
+    void tyhjenna();
+}
+  <% end %>
+
+  <p>
+    Käyttöesimerkki:
+  </p>
+
+  <% partial 'partials/code_highlight' do %>
+public static void main(String[] args) {
+    DuplikaattienPoistaja poistaja = new OmaDuplikaattienPoistaja();
+    poistaja.lisaa("eka");
+    poistaja.lisaa("toka");
+    poistaja.lisaa("eka");
+
+    System.out.println("Duplikaattien määrä nyt: " +
+    poistaja.getHavaittujenDuplikaattienMaara());
+
+    poistaja.lisaa("vika");
+    poistaja.lisaa("vika");
+    poistaja.lisaa("uusi");
+
+    System.out.println("Duplikaattien määrä nyt: " +
+    poistaja.getHavaittujenDuplikaattienMaara());
+
+    System.out.println("Uniikit merkkijonot: " +
+    poistaja.getUniikitMerkkijonot());
+
+    poistaja.tyhjenna();
+
+    System.out.println("Duplikaattien määrä nyt: " +
+    poistaja.getHavaittujenDuplikaattienMaara());
+
+    System.out.println("Uniikit merkkijonot: " +
+    poistaja.getUniikitMerkkijonot());
+}
+  <% end %>
+
+  <p>
+    Yllä oleva ohjelma tulostaisi esimerkiksi seuraavaa: (merkkijonojen järjestys saa vaihdella, sillä ei ole merkitystä)
+  </p>
+
+  <% partial 'partials/sample_output' do %>
+Duplikaattien määrä nyt: 1
+Duplikaattien määrä nyt: 2
+Uniikit merkkijonot: [eka, toka, vika, uusi]
+Duplikaattien määrä nyt: 0
+Uniikit merkkijonot: []
+  <% end %>
+
+<% end %>
+
+
+<% partial 'partials/material_sub_heading' do %>
+  Sama olio useammassa tietorakenteessa
+<% end %>
+
+<p>
+  Oliot ovat viittaustyyppisiä, eli muuttuja ei tallenna olioa itseään vaan viitteen. Tämä tarkoittaa myös sitä, että jos olio lisätään esimerkiksi listaan, listalle lisätään viite olioon. Mikään ei estä lisäämästä saman olion viitettä useampaan paikkaan.
+</p>
+
+<p>
+  Tarkastellaan esimerkkinä kirjastoa joka tallettaa kirjat hajautustauluihin sekä kirjailijan että kirjan isbn-numeron perusteella. Tämän lisäksi kirjasto pitää kirjaa lainassa olevista sekä hyllyssä olevista kirjoista erillisillä listoilla.</p>
+
+<% partial 'partials/code_highlight' do %>
+public class Kirja {
+    private String ISBN;
+    private String kirjailija;
+    private String nimi;
+    private int vuosi;
+    // ...
+}
+<% end %>
+
+<% partial 'partials/code_highlight' do %>
+public class Kirjasto {
+    private Map&lt;String, Kirja&gt; kirjaIsbnNumeronPerusteella;
+    private Map&lt;String, List&lt;Kirja&gt;&gt; kirjatKirjailijanPerusteella;
+    private List&lt;Kirja&gt; lainassaOlevatKirjat;
+    private List&lt;Kirja&gt; hyllyssaOlevatKirjat;
+
+    public Kirjasto() {
+	this.kirjaIsbnNumeronPerusteella = new HashMap&lt;&gt;();
+	this.kirjatKirjailijanPerusteella = new HashMap&lt;&gt;();
+	this.lainassaOlevatKirjat = new ArrayList&lt;&gt;();
+	this.hyllyssaOlevatKirjat = new ArrayList&lt;&gt;();
+    }
+
+    public void lisaaKirjaKokoelmaan(Kirja uusiKirja) {
+	this.kirjaIsbnNumeronPerusteella.put(uusiKirja.getIsbn(), uusiKirja);
+
+	this.kirjatKirjailijanPerusteella.putIfAbsent(uusiKirja.getKirjailija(), new ArrayList&lt;&gt;());
+	this.kirjatKirjailijanPerusteella.get(uusikirja.getKirjailija()).add(uusiKirja);
+
+	this.hyllyssaOlevatKirjat.add(uusiKirja);
+    }
+
+    public Kirja haeKirjaIsbnNumeronPerusteella(String isbn){
+	return kirjaIsbnNumeronPerusteella.get(isbn);
+    }
+
+    // ...
+}
+<% end %>
+
+<p>
+  Jos olio on yhtäaikaa useassa kokoelmassa (listalla, joukossa tai map-rakenteessa), on kiinnitettävä erityistä huomiota, että kokoelmien tila on konsistentti. Jos esimerkiksi kirja päätetään poistaa, on se poistettava kaikista paikoista, missä kirjaan on viite.
+</p>
+
+<% partial 'partials/exercise', locals: { name: 'Numerotiedustelu' } do %>
+
+  <p>
+    <strong>Huom: jotta testit toimisivat, ohjelmasi saa luoda vain yhden syötteen lukemiseen tarkoitetun Scanner-olion.</strong>
+  </p>
+
+  <p>
+    Tehdään sovellus jonka avulla on mahdollista hallinnoida ihmisten puhelinnumeroita ja osoitteita.
+  </p>
+
+  <p>
+    Tehtävän voi suorittaa 1-5 pisteen laajuisena. Yhden pisteen laajuuteen on toteutettava seuraavat toiminnot:
+  </p>
+
+  <ul>
+    <li>1 puhelinnumeron lisäys henkilölle</li>
+    <li>2 henkilön puhelinnumeroiden haku</li>
+  </ul>
+
+  <p>
+    kahteen pisteeseen vaaditaan edellisten lisäksi
+  </p>
+
+  <ul>
+    <li>3 numeroa vastaavan henkilön nimen haku</li>
+  </ul>
+
+  <p>
+    kolmeen pisteeseen vaaditaan edellisten lisäksi
+  </p>
+
+  <ul>
+    <li>4 osoitteen lisäys henkilölle</li>
+    <li>5 henkilön tietojen (osoite ja puhelinnumero) haku</li>
+  </ul>
+
+  <p>
+    neljään pisteeseen vaaditaan toiminto
+  </p>
+
+  <ul>
+    <li>6 henkilön tietojen poisto</li>
+  </ul>
+
+  <p>
+    ja täysiin pisteeseen vaaditaan vielä
+  </p>
+
+  <ul>
+    <li>7 hakusanalla filtteröity listaus (nimen mukaan aakkostettuna), hakusana voi esiintyä henkilön nimessä tai osoitteessa</li>
+  </ul>
+
+  <p>
+    Esimerkki ohjelman toiminnasta:
+  </p>
+
+  <% partial 'partials/sample_output' do %>
+numerotiedustelu
+käytettävissä olevat komennot:
+1 lisää numero
+2 hae numerot
+3 hae puhelinnumeroa vastaava henkilö
+4 lisää osoite
+5 hae henkilön tiedot
+6 poista henkilön tiedot
+7 filtteröity listaus
+x lopeta
+
+komento: <font color="red">1</font>
+kenelle: <font color="red">pekka</font>
+numero: <font color="red">040-123456</font>
+
+komento: <font color="red">2</font>
+kenen: <font color="red">jukka</font>
+  ei löytynyt
+
+komento: <font color="red">2</font>
+kenen: <font color="red">pekka</font>
+  <font color="red">040-123456</font>
+
+komento: <font color="red">1</font>
+kenelle: <font color="red">pekka</font>
+numero: <font color="red">09-222333</font>
+
+komento: <font color="red">2</font>
+kenen: <font color="red">pekka</font>
+  040-123456
+  09-222333
+
+komento: <font color="red">3</font>
+numero: <font color="red">02-444123</font>
+  ei löytynyt
+
+komento: <font color="red">3</font>
+numero: <font color="red">09-222333</font>
+  pekka
+
+komento: <font color="red">5</font>
+kenen: <font color="red">pekka</font>
+  osoite ei tiedossa
+  puhelinnumerot:
+    040-123456
+    09-222333
+
+komento: <font color="red">4</font>
+kenelle: <font color="red">pekka</font>
+katu: <font color="red">ida ekmanintie</font>
+kaupunki: <font color="red">helsinki</font>
+
+komento: <font color="red">5</font>
+kenen: <font color="red">pekka</font>
+  osoite: ida ekmanintie helsinki
+  puhelinnumerot:
+    040-123456
+    09-222333
+
+komento: <font color="red">4</font>
+kenelle: <font color="red">jukka</font>
+katu: <font color="red">korsontie</font>
+kaupunki: <font color="red">vantaa</font>
+
+komento: <font color="red">5</font>
+kenen: <font color="red">jukka</font>
+  osoite: korsontie vantaa
+  ei puhelinta
+
+komento: <font color="red">7</font>
+hakusana (jos tyhjä, listataan kaikki): <font color="red">kk</font>
+
+  jukka
+    osoite: korsontie vantaa
+    ei puhelinta
+
+  pekka
+    osoite: ida ekmanintie helsinki
+    puhelinnumerot:
+      040-123456
+      09-222333
+
+komento: <font color="red">7</font>
+hakusana (jos tyhjä, listataan kaikki): <font color="red">vantaa</font>
+
+  jukka
+    osoite: korsontie vantaa
+    ei puhelinta
+
+komento: <font color="red">7</font>
+hakusana (jos tyhjä, listataan kaikki): <font color="red">seppo</font>
+  ei löytynyt
+
+komento: <font color="red">6</font>
+kenet: <font color="red">jukka</font>
+
+komento: <font color="red">5</font>
+kenen: <font color="red">jukka</font>
+  ei löytynyt
+
+komento: <font color="red">x</font>
+  <% end %>
+
+  <p>
+    Huomioita:
+  </p>
+
+  <ul>
+    <li>Testien kannalta on oleellista että <em>käyttöliittymä</em> toimii kuten yllä olevassa esimerkissä. Sovellus voi itse päättää kuinka epäkelvot syötteet käsitellään. Testit sisältävät vaan kelvollisia syötteitä.</li>
+    <li><em><strong>Ohjelman tulee käynnistyä kun tehtäväpohjassa oleva main-metodi suoritetaan, tehtävässä saa luoda vain yhden Scanner-olion.</strong></em></li>
+    <li>Älä käytä luokkein nimissä skandeja, ne saattavat aiheuttaa ongelmia testeihin!</li>
+    <li>Yksinkertaisuuden vuoksi oletetaan että nimi on yksittäinen merkkijono, eli jos halutaan sukunimen mukaan järjestetyn tulostus viimeiseen toimintoon, nimi on annettava muodossa <em>mikkola pekka</em>.</li>
+    <li>Henkilöllä voi olla useita puhelinnumeroja sekä osoite. Henkilöllä ei kuitenkaan ole välttämättä yhtään puhelinnumeroa tai osoite ei ole tiedossa.</li>
+    <li>Jos henkilö poistetaan, ei mikään haku saa enää palauttaa henkilön tietoja.</li>
+  </ul>
+
+<% end %>
+
+
+
+<% partial 'partials/material_heading' do %>
+  Olioiden monimuotoisuus
+<% end %>
+
+<p>
+  Olemme aiemmissa osissa törmänneet tilanteisiin, joissa viittaustyyppisillä muuttujilla on oman tyyppinsä lisäksi muita tyyppejä. Esimerkiksi <em>kaikki</em> oliot ovat tyyppiä <code>Object</code>, eli mikä tahansa olio voidaan oman tyyppinsä lisäksi esittää <code>Object</code>-tyyppisenä muuttujana.
+</p>
+
+<% partial 'partials/code_highlight' do %>
+String merkkijono = "merkkijono";
+Object merkkijonoString = "toinen merkkijono";
+<% end %>
+
+<% partial 'partials/code_highlight' do %>
+String merkkijono = "merkkijono";
+Object merkkijonoString = merkkijono;
+<% end %>
+
+<p>
+  Yllä olevissa esimerkeissä merkkijonomuuttuja esitetään sekä String-tyyppisenä että Object-tyyppisenä, jonka lisäksi String-tyyppinen muuttuja asetetaan Object-tyyppiseen muuttujaan. Asetus toiseen suuntaan, eli Object-tyyppisen muuttujan asettaminen String-tyyppiseksi ei kuitenkaan onnistu. Tämä johtuu siitä, että <code>Object</code>-tyyppiset muuttujat eivät ole tyyppiä <code>String</code></p>
+
+<% partial 'partials/code_highlight' do %>
+Object merkkijonoString = "toinen merkkijono";
+String merkkijono = merkkijonoString; // EI ONNISTU!
+<% end %>
+
+<p>
+  Mistä tässä oikein on kyse?
+</p>
+
+<p>
+  Jokainen muuttuja voidaan esittää muuttujan alkuperäisen tyypin lisäksi myös muuttujan toteuttamien rajapintojen sekä perimien luokkien tyyppisenä. Luokka String perii luokan Object, joten String-oliot ovat aina myös tyyppiä Object. Luokka Object ei peri String-luokkaa, joten Object-tyyppiset muuttujat eivät ole automaattisesti tyyppiä String. Tutustutaan tarkemmin <code><a href="https://docs.oracle.com/javase/8/docs/api/java/lang/String.html">String</a></code>-luokan API-dokumentaatioon, erityisesti HTML-sivun yläosaan.
+</p>
+
+<img src="/img/material/string-api-perinta.png" alt="Kuvakaappaus String-luokan API-dokumentaatiosta. Kuvakaappauksessa näkyy, että String-luokka perii luokan Object."/>
+
+<p>
+  String-luokan API-dokumentaatio alkaa yleisellä otsakkeella jota seuraa luokan pakkaus (<code>java.lang</code>). Pakkauksen jälkeen tulee luokan nimi (<code>Class String</code>), jota seuraa luokan <em>perintähierarkia</em>.
+</p>
+
+<pre>
+  <a href="https://docs.oracle.com/javase/8/docs/api/java/lang/Object.html">java.lang.Object</a>
+  <img src="/img/material/perinta.gif"/><strong>java.lang.String</strong>
+</pre>
+
+<p>
+  Perintähierarkia listaa luokat, jotka luokka on perinyt. Perityt luokat listataan perimisjärjestyksessä, tarkasteltava luokka aina alimpana. String-luokan perintähierarkiasta näemme, että <code>String</code>-luokka perii luokan <code>Object</code>. <em>Javassa jokainen luokka voi periä korkeintaan yhden luokan</em>. Toisaalta, perittävä luokka on voinut periä toisen luokan, joten välillisesti luokka voi periä useampia luokkia.
+</p>
+
+<p>
+  Perintähierarkiaa voi ajatella myös listana tyypeistä, joita olio toteuttaa.
+</p>
+
+<p>
+  Tieto siitä, että oliot voivat olla montaa eri tyyppiä -- esimerkiksi tyyppiä Object -- suoraviivaistaa ohjelmointia. Jos tarvitsemme metodissa vain Object-luokassa määriteltyjä metodeja kuten <code>toString</code>, <code>equals</code> ja <code>hashCode</code>, voimme käyttää metodin parametrina tyyppiä <code>Object</code>. Tällöin metodille voi antaa parametrina <em>minkä tahansa</em> olion. Tarkastellaan tätä metodin <code>tulostaMonesti</code> avulla. Metodi saa parametrinaan <code>Object</code>-tyyppisen muuttujan ja tulostusten lukumäärän.
+</p>
+
+<% partial 'partials/code_highlight' do %>
+public class Tulostin {
+    ...
+    public void tulostaMonesti(Object object, int kertaa) {
+        for (int i = 0; i &lt; kertaa; i++) {
+            System.out.println(object.toString());
+            // tai System.out.println(object);
+        }
+    }
+    ...
+}
+<% end %>
+
+<p>
+  Metodille voi antaa parametrina minkä tahansa olion. Metodin <code>tulostaMonesti</code> sisällä oliolla on käytössään vain <code>Object</code>-luokassa määritellyt metodit, koska olio <em>tunnetaan</em> metodissa <code>Object</code>-tyyppisenä. Todellisuudessa olio voi olla myös toisen tyyppinen.
+</p>
+
+<% partial 'partials/code_highlight' do %>
+Tulostin tulostin = new Tulostin();
+
+String merkkijono = " o ";
+List&lt;String&gt; sanat = new ArrayList&lt;&gt;();
+sanat.add("polymorfismi");
+sanat.add("perintä");
+sanat.add("kapselointi");
+sanat.add("abstrahointi");
+
+tulostin.tulostaMonesti(merkkijono, 2);
+tulostin.tulostaMonesti(sanat, 3);
+<% end %>
+
+<% partial 'partials/sample_output' do %>
+ o
+ o
+[polymorfismi, perintä, kapselointi, abstrahointi]
+[polymorfismi, perintä, kapselointi, abstrahointi]
+[polymorfismi, perintä, kapselointi, abstrahointi]
+<% end %>
+
+<p>
+  Jatketaan <code>String</code>-luokan API-kuvauksen tarkastelua. Kuvauksessa olevaa perintähierarkiaa seuraa listaus luokan toteuttamista rajapinnoista.
+</p>
+
+<pre>
+  <strong>All Implemented Interfaces:</strong>
+  <a href="https://docs.oracle.com/javase/8/docs/api/java/io/Serializable.html" target="_blank" rel="noopener">Serializable</a>, <a href="https://docs.oracle.com/javase/8/docs/api/java/lang/CharSequence.html" target="_blank" rel="noopener">CharSequence</a>, <a href="https://docs.oracle.com/javase/8/docs/api/java/lang/Comparable.html" target="_blank" rel="noopener">Comparable</a>&lt;<a href="https://docs.oracle.com/javase/8/docs/api/java/lang/String.html" target="_blank" rel="noopener">String</a>&gt;
+</pre>
+
+<p>
+  Luokka <code>String</code> toteuttaa rajapinnat <code>Serializable</code>, <code>CharSequence</code>, ja <code>Comparable&lt;String&gt;</code>. Myös rajapinta on tyyppi. Luokan String API-kuvauksen mukaan String-olion tyypiksi voi asettaa seuraavat rajapinnat.
+</p>
+
+<% partial 'partials/code_highlight' do %>
+Serializable serializableString = "merkkijono";
+CharSequence charSequenceString = "merkkijono";
+Comparable&lt;String&gt; comparableString = "merkkijono";
+<% end %>
+
+<p>
+  Koska metodeille voidaan määritellä metodin parametrin tyyppi, voimme määritellä metodeja jotka vastaanottavat <em>tietyn rajapinnan toteuttavan</em> olion. Kun metodille määritellään parametrina rajapinta, sille voidaan antaa parametrina mikä tahansa olio, joka toteuttaa kyseisen rajapinnan.
+</p>
+
+<p>
+  Täydennetään <code>Tulostin</code>-luokkaa siten, että sillä on metodi <code>CharSequence</code>-rajapinnan toteuttavien olioiden merkkien tulostamiseen. Rajapinta <code>CharSequence</code> tarjoaa muunmuassa metodit <code>int length()</code>, jolla saa merkkijonon pituuden, ja <code>char charAt(int index)</code>, jolla saa merkin tietyssä indeksissä.
+</p>
+
+<% partial 'partials/code_highlight' do %>
+public class Tulostin {
+    ...
+    public void tulostaMonesti(Object object, int kertaa) {
+        for (int i = 0; i &lt; kertaa; i++) {
+            System.out.println(object.toString());
+        }
+    }
+
+    public void tulostaMerkit(CharSequence charSequence) {
+        for (int i = 0; i &lt; charSequence.length(); i++) {
+            System.out.println(charSequence.charAt(i));
+        }
+    }
+    ...
+}<% end %>
+
+<p>
+  Metodille <code>tulostaMerkit</code> voi antaa minkä tahansa <code>CharSequence</code>-rajapinnan toteuttavan olion. Näitä on muunmuassa <code>String</code> ja merkkijonojen rakentamisessa usein Stringiä tehokkaampi <code>StringBuilder</code>. Metodi <code>tulostaMerkit</code> tulostaa annetun olion jokaisen merkin omalle rivilleen.
+</p>
+
+<% partial 'partials/code_highlight' do %>
+Tulostin tulostin = new Tulostin();
+
+String mjono = "toimii";
+
+tulostin.tulostaMerkit(mjono);
+<% end %>
+
+<% partial 'partials/sample_output' do %>
+t
+o
+i
+m
+i
+i
+<% end %>
+
+
+<% partial 'partials/exercise', locals: { name: 'Joukkoja' } do %>
+
+  <p>
+    Tässä tehtävässä teemme eliöita ja eliöistä koostuvia laumoja jotka liikkuvat ympäriinsä. Eliöiden sijaintien ilmoittamiseen käytetään <em>kaksiulotteista koordinaatistoa</em>. Jokaiseen sijaintiin liittyy kaksi lukua, <code>x</code>- ja <code>y</code>-koordinaatti. Koordinaatti <code>x</code> kertoo, kuinka pitkällä "nollapisteestä" mitattuna sijainti on vaakasuunnassa, ja koordinaatti <code>y</code> vastaavasti kuinka pitkällä sijainti on pystysuunnassa. Jos koordinaatiston käsite ei ole tuttu, voit lukea siitä lisää esimerkiksi <a href="http://fi.wikipedia.org/wiki/Koordinaatisto">wikipediasta</a>.
+  </p>
+
+  <p>
+    Tehtävän mukana tulee rajapinta <code>Siirrettava</code>, joka kuvaa asiaa jota voidaan siirtää paikasta toiseen. Rajapinta sisältää metodin <code>void siirra(int dx, int dy)</code>. Parametri <code>dx</code> kertoo, paljonko asia siirtyy x-akselilla ja <code>dy</code> y-akselilla.
+  </p>
+
+  <p>
+    Tehtävässä toteutat luokat <code>Elio</code> ja <code>Lauma</code>, jotka molemmat ovat siirrettäviä. Toteuta kaikki toiminnallisuus pakkaukseen <code>siirrettava</code>.
+  </p>
+
+  <h2>Elio-luokan toteuttaminen</h2>
+
+  <p>
+    Luo pakkaukseen <code>siirrettava</code> luokka <code>Elio</code>, joka toteuttaa rajapinnan <code>Siirrettava</code>. Eliön tulee tietää oma sijaintinsa (x, y -koordinaatteina). Luokan <code>Elio</code> APIn tulee olla seuraava:
+  </p>
+
+  <ul>
+    <li><strong>public Elio(int x, int y)</strong><br/>Luokan konstruktori, joka saa olion aloitussijainnin x- ja y-koordinaatit parametrina</li>
+    <li><strong>public String toString()</strong><br/> Luo ja palauttaa oliosta merkkijonoesityksen. Eliön merkkijonoesityksen tulee olla seuraavanlainen <code>"x: 3; y: 6"</code>. Huomaa että koordinaatit on erotettu puolipisteellä (<code>;</code>)</li>
+    <li><strong>public void siirra(int dx, int dy)</strong><br/> Siirtää oliota parametrina saatujen arvojen verran. Muuttuja <code>dx</code> sisältää muutoksen koordinaattiin <code>x</code>, muuttuja <code>dy</code> sisältää muutoksen koordinaattiin <code>y</code>. Esimerkiksi jos muuttujan <code>dx</code> arvo on 5, tulee oliomuuttujan <code>x</code> arvoa kasvattaa viidellä</li>
+  </ul>
+
+  <p>
+    Kokeile luokan <code>Elio</code> toimintaa seuraavalla esimerkkikoodilla.
+  </p>
+
+  <% partial 'partials/code_highlight' do %>
+Elio elio = new Elio(20, 30);
+System.out.println(elio);
+elio.siirra(-10, 5);
+System.out.println(elio);
+elio.siirra(50, 20);
+System.out.println(elio);
+  <% end %>
+
+  <% partial 'partials/sample_output' do %>
+x: 20; y: 30
+x: 10; y: 35
+x: 60; y: 55
+  <% end %>
+
+
+  <h2>Lauman toteutus</h2>
+
+  <p>
+    Luo pakkaukseen <code>siirrettava</code> luokka <code>Lauma</code>, joka toteuttaa rajapinnan <code>Siirrettava</code>. Lauma koostuu useasta <code>Siirrettava</code>-rajapinnan toteutavasta oliosta, jotka tulee tallettaa esimerkiksi listarakenteeseen.
+  </p>
+
+  <p>
+    Luokalla <code>Lauma</code> tulee olla seuraavanlainen API.
+  </p>
+
+  <ul>
+    <li><strong>public String toString()</strong><br/> Palauttaa merkkijonoesityksen lauman jäsenten sijainnista rivin vaihdolla erotettuna.</li>
+    <li><strong>public void lisaaLaumaan(Siirrettava siirrettava)</strong><br/> Lisää laumaan uuden <code>Siirrettava</code>-rajapinnan toteuttavan olion</li>
+    <li><strong>public void siirra(int dx, int dy)</strong><br/> Siirtää laumaa parametrina saatujen arvojen verran. Huomaa että tässä sinun tulee siirtää jokaista lauman jäsentä.</li>
+  </ul>
+
+  <p>Kokeile ohjelmasi toimintaa alla olevalla esimerkkikoodilla.</p>
+
+  <% partial 'partials/code_highlight' do %>
+Lauma lauma = new Lauma();
+lauma.lisaaLaumaan(new Elio(73, 56));
+lauma.lisaaLaumaan(new Elio(57, 66));
+lauma.lisaaLaumaan(new Elio(46, 52));
+lauma.lisaaLaumaan(new Elio(19, 107));
+System.out.println(lauma);
+  <% end %>
+
+  <% partial 'partials/sample_output' do %>
+x: 73; y: 56
+x: 57; y: 66
+x: 46; y: 52
+x: 19; y: 107
+  <% end %>
+
+<% end %>
+
+
+<% partial 'partials/material_heading' do %>
+  Luokan ominaisuuksien periminen
+<% end %>
+
+
+<p>
+  Luokkia käytetään olio-ohjelmoinnissa ongelma-alueeseen liittyvien käsitteiden selkeyttämiseen. Jokainen luomamme luokka lisää toiminnallisuutta käytössämme olevaan ohjelmointikieleen. Tätä toiminnallisuutta tarvitaan kohtaamiemme ongelmien ratkomiseen, <em>ratkaisut syntyvät luokista luotujen olioiden välisen interaktion avulla</em>. Olio-ohjelmoinnissa olio on itsenäinen kokonaisuus, jolla on olion tarjoamien metodien avulla muutettava tila. Olioita käytetään yhteistyössä; jokaisella oliolla on oma vastuualue. Esimerkiksi käyttöliittymäluokkamme ovat tähän mennessä hyödyntäneet <code>Scanner</code>-olioita.
+</p>
+
+<p>
+  Jokainen Javan luokka perii luokan Object, eli jokainen luomamme luokka saa käyttöönsä kaikki Object-luokassa määritellyt metodit. Jos haluamme muuttaa Object-luokassa määriteltyjen metodien toiminnallisuutta tulee ne korvata (<code>Override</code>) määrittelemällä niille uusi toteutus luodussa luokassa.
+</p>
+
+<p>
+  Luokan <code>Object</code> perimisen lisäksi myös muiden luokkien periminen on mahdollista. Javan <code><a href="https://docs.oracle.com/javase/8/docs/api/java/util/ArrayList.html" target="_blank" rel="noopener">ArrayList</a></code>-luokan APIa tarkasteltaessa huomaamme että <code>ArrayList</code> perii luokan <code>AbstractList</code>. Luokka <code>AbstractList</code> perii luokan <code>AbstractCollection</code>, joka perii luokan <code>Object</code>.
+</p>
+
+<pre>
+  <a href="https://docs.oracle.com/javase/8/docs/api/java/lang/Object.html" target="_blank" rel="noopener">java.lang.Object</a>
+  <img src="/img/material/perinta.gif" /><a href="https://docs.oracle.com/javase/8/docs/api/java/util/AbstractCollection.html" target="_blank" rel="noopener">java.util.AbstractCollection</a>&lt;E&gt;
+    <img src="/img/material/perinta.gif" /><a href="https://docs.oracle.com/javase/8/docs/api/java/AbstractList.html" target="_blank" rel="noopener">java.util.AbstractList</a>&lt;E&gt;
+      <img src="/img/material/perinta.gif" /><strong>java.util.ArrayList&lt;E&gt;</strong>
+</pre>
+
+<p>
+  Kukin luokka voi periä suoranaisesti yhden luokan. Välillisesti luokka kuitenkin perii kaikki perimänsä luokan ominaisuudet. Luokka <code>ArrayList</code> perii luokan <code>AbstractList</code>, ja välillisesti luokat <code>AbstractCollection</code> ja <code>Object</code>. Luokalla <code>ArrayList</code> on siis käytössään luokkien <code>AbstractList</code>, <code>AbstractCollection</code> ja <code>Object</code> muuttujat, metodit <em>ja</em> rajapinnat.
+</p>
+
+<p>
+  Luokan ominaisuudet peritään avainsanalla <code>extends</code>. Luokan perivää luokkaa kutsutaan aliluokaksi (<em>subclass</em>), perittävää luokkaa yliluokaksi (<em>superclass</em>). Tutustutaan erään autonvalmistajan järjestelmään, joka hallinnoi auton osia. Osien hallinan peruskomponentti on luokka <code>Osa</code>, joka määrittelee tunnuksen, valmistajan ja kuvauksen.
+</p>
+
+<% partial 'partials/code_highlight' do %>
+public class Osa {
+
+    private String tunnus;
+    private String valmistaja;
+    private String kuvaus;
+
+    public Osa(String tunnus, String valmistaja, String kuvaus) {
+        this.tunnus = tunnus;
+        this.valmistaja = valmistaja;
+        this.kuvaus = kuvaus;
+    }
+
+    public String getTunnus() {
+        return tunnus;
+    }
+
+    public String getKuvaus() {
+        return kuvaus;
+    }
+
+    public String getValmistaja() {
+        return valmistaja;
+    }
+}<% end %>
+
+<p>
+  Yksi osa autoa on moottori. Kuten kaikilla osilla, myös moottorilla on valmistaja, tunnus ja kuvaus. Näiden lisäksi moottoriin liittyy moottorityyppi: esimerkiksi polttomoottori, sähkömoottori tai hybridi. Luodaan luokan <code>Osa</code> perivä luokka <code>Moottori</code>: moottori on osan erikoistapaus.
+</p>
+
+<% partial 'partials/code_highlight' do %>
+public class Moottori extends Osa {
+
+    private String moottorityyppi;
+
+    public Moottori(String moottorityyppi, String tunnus, String valmistaja, String kuvaus) {
+        super(tunnus, valmistaja, kuvaus);
+        this.moottorityyppi = moottorityyppi;
+    }
+
+    public String getMoottorityyppi() {
+        return moottorityyppi;
+    }
+}<% end %>
+
+<p>
+  Luokkamäärittely <code>public class Moottori extends Osa</code> kertoo että luokka <code>Moottori</code> perii luokan <code>Osa</code> toiminnallisuuden. Luokassa <code>Moottori</code> määritellään oliomuuttuja <code>moottorityyppi</code>.
+</p>
+
+<p>
+  Moottori-luokan konstruktori on mielenkiintoinen. Konstruktorin ensimmäisellä rivillä on avainsana <code>super</code>, jolla kutsutaan yliluokan konstruktoria. Kutsu <code>super(tunnus, valmistaja, kuaus)</code> kutsuu luokassa <code>Osa</code> määriteltyä konstruktoria <code>public Osa(String tunnus, String valmistaja, String kuvaus</code>, jolloin yliluokassa määritellyt oliomuuttujat saavat arvonsa. Tämän jälkeen oliomuuttujalle <code>moottorityyppi</code> asetetaan siihen liittyvä arvo.
+</p>
+
+<p>
+  Kun luokka <code>Moottori</code> perii luokan <code>Osa</code>, saa se käyttöönsä kaikki luokan <code>Osa</code> tarjoamat metodit. Luokasta <code>Moottori</code> voi tehdä ilmentymän aivan kuten mistä tahansa muustakin luokasta.
+</p>
+
+<% partial 'partials/code_highlight' do %>
+Moottori moottori = new Moottori("polttomoottori", "hz", "volkswagen", "VW GOLF 1L 86-91");
+System.out.println(moottori.getMoottorityyppi());
+System.out.println(moottori.getValmistaja());
+<% end %>
+
+<% partial 'partials/sample_output' do %>
+polttomoottori
+volkswagen
+<% end %>
+
+<p>
+  Kuten huomaat, luokalla <code>Moottori</code> on käytössä luokassa <code>Osa</code> määritellyt metodit.
+</p>
+
+
+<% partial 'partials/material_sub_heading' do %>
+  Näkyvyysmääreet private, protected ja public
+<% end %>
+
+<p>
+  Jos metodilla tai muuttujalla on näkyvyysmääre <code>private</code>, ei se näy aliluokille eikä aliluokalla ole mitään suoraa tapaa päästä käsiksi siihen. Moottori ei siis pääse suoraan käsiksi yliluokassa Osa määriteltyihin ominaisuuksiinsa (tunnus, valmistaja, kuvaus) -- tällä tarkoitetaan sitä, että Moottori-luokassa ohjelmoija ei voi suoraan käsitellä niitä yliluokan muuttujia, joilla on näkyvyysmääre private.
+</p>
+
+<p>
+  Aliluokka näkee kaiken yliluokan julkisen eli <code>public</code>-määreellä varustetun kaluston. Jos halutaan määritellä yliluokkaan joitain muuttujia tai metodeja joiden näkeminen halutaan sallia aliluokille, mutta estää muilta voidaan käyttää näkyvyysmäärettä <code>protected</code>.
+</p>
+
+
+<% partial 'partials/material_sub_heading' do %>
+  Yliluokan konstruktorin ja metodien kutsuminen
+<% end %>
+
+<p>
+  Yliluokan konstruktoria kutsutaan avainsanalla <code>super</code>. Kutsulle annetaan parametrina yliluokan konstruktorin vaatiman tyyppiset arvot.
+</p>
+
+<p>
+  Konstruktoria kutsuttaessa yliluokassa määritellyt muuttujat alustetaan. Konstruktorikutsussa tapahtuu käytännössä täysin samat asiat kuin normaalissa konstruktorikutsussa. Jos yliluokassa ei ole määritelty parametritonta konstruktoria, tulee aliluokan konstruktorikutsuissa olla aina mukana yliluokan konstruktorikutsu.
+</p>
+
+<p>
+  Huom! Kutsun <code>super</code> tulee olla aina konstruktorin ensimmäisellä rivillä!
+</p>
+
+
+<% partial 'partials/material_sub_heading' do %>
+  Yliluokan metodin kutsuminen
+<% end %>
+
+<p>
+  Yliluokassa määriteltyjä metodeja voi kutsua <code>super</code>-etuliitteen avulla, aivan kuten tässä luokassa määriteltyjä metodeja voi kutsua <code>this</code>-etuliitteellä. Esimerkiksi yliluokassa määriteltyä <code>toString</code>-metodia voi hyödyntää sen korvaavassa metodissa seuraavasti:
+</p>
+
+<% partial 'partials/code_highlight' do %>
+@Override
+public String toString() {
+    return super.toString() + "\n  Ja oma viestini vielä!";
+}
+<% end %>
+
+
+<% partial 'partials/exercise', locals: { name: 'Henkilö ja perilliset' } do %>
+
+
+  <h2>Henkilo</h2>
+
+  <p>
+    Tee pakkaus <code>henkilot</code> ja sinne luokka <code>Henkilo</code>. Luokan tulee toimia seuraavan esimerkin mukaisesti.
+  </p>
+
+  <% partial 'partials/code_highlight' do %>
+Henkilo ada = new Henkilo("Ada Lovelace", "Korsontie 1 03100 Vantaa");
+Henkilo esko = new Henkilo("Esko Ukkonen", "Mannerheimintie 15 00100 Helsinki");
+System.out.println(ada);
+System.out.println(esko);
+  <% end %>
+
+  <% partial 'partials/sample_output' do %>
+Ada Lovelace
+  Korsontie 1 03100 Vantaa
+Esko Ukkonen
+  Mannerheimintie 15 00100 Helsinki
+  <% end %>
+
+
+  <h2>Opiskelija</h2>
+
+  <p>
+    Tee pakkaukseen <code>henkilot</code> luokka <code>Opiskelija</code> joka perii luokan <code>Henkilo</code>.
+  </p>
+
+  <p>
+    Opiskelijalla on aluksi 0 opintopistettä. Aina kun opiskelija opiskelee, kasvaa opintopistemäärä. Luokan tulee toimia seuraavan esimerkin mukaisesti.
+  </p>
+
+  <% partial 'partials/code_highlight' do %>
+Opiskelija olli = new Opiskelija("Olli", "Ida Albergintie 1 00400 Helsinki");
+System.out.println(olli);
+System.out.println("opintopisteitä " + olli.opintopisteita());
+olli.opiskele();
+System.out.println("opintopisteitä "+ olli.opintopisteita());
+  <% end %>
+
+  <% partial 'partials/sample_output' do %>
+Olli
+  Ida Albergintie 1 00400 Helsinki
+opintopisteitä 0
+opintopisteitä 1
+  <% end %>
+
+
+  <h2>Opiskelijalle toString</h2>
+
+  <p>
+    Edellisessä tehtävässä <code>Opiskelija</code> perii toString-metodin luokalta <code>Henkilo</code>. Perityn metodin voi myös ylikirjoittaa, eli korvata omalla versiolla. Tee luokalle Opiskelija oma versio toString-metodista. Metodin tulee toimia seuraavan esimerkin mukaisesti.
+  </p>
+
+  <% partial 'partials/code_highlight' do %>
+Opiskelija olli = new Opiskelija("Olli", "Ida Albergintie 1 00400 Helsinki");
+System.out.println(olli);
+olli.opiskele();
+System.out.println(olli);
+  <% end %>
+
+  <% partial 'partials/sample_output' do %>
+Olli
+  Ida Albergintie 1 00400 Helsinki
+  opintopisteitä 0
+Olli
+  Ida Albergintie 1 00400 Helsinki
+  opintopisteitä 1
+  <% end %>
+
+
+  <h2>Opettaja</h2>
+
+  <p>
+    Tee luokan Henkilo perivä luokka Opettaja. Opettajalla on palkka joka tulostuu opettajan merkkijonoesityksessä.
+  </p>
+
+  <p>Luokan tulee toimia seuraavan esimerkin mukaisesti.</p>
+
+  <% partial 'partials/code_highlight' do %>
+Opettaja ada = new Opettaja("Ada Lovelace", "Korsontie 1 03100 Vantaa", 1200);
+Opettaja esko = new Opettaja("Esko Ukkonen", "Mannerheimintie 15 00100 Helsinki", 5400);
+System.out.println(ada);
+System.out.println(esko);
+
+Opiskelija olli = new Opiskelija("Olli", "Ida Albergintie 1 00400 Helsinki");
+for (int i = 0; i &lt; 25; i++) {
+    olli.opiskele();
+}
+System.out.println(olli);
+  <% end %>
+
+  <% partial 'partials/sample_output' do %>
+Ada Lovelace
+  Korsontie 1 03100 Vantaa
+  palkka 1200 euroa/kk
+Esko Ukkonen
+  Mannerheimintie 15 00100 Helsinki
+  palkka 5400 euroa/kk
+Olli
+  Ida Albergintie 1 00400 Helsinki
+  opintopisteitä 25
+  <% end %>
+
+
+  <h2>Kaikki Henkilot listalle</h2>
+
+  <p>
+    Toteuta luokkaan <code>HenkiloTulostus</code> metodi <code>public void tulostaLaitoksenHenkilot(List&lt;Henkilo&gt; henkilot)</code>, joka tulostaa kaikki metodille parametrina annetussa listassa olevat henkilöt. Metodin tulee toimia seuraavasti <code>main</code>-metodista kutsuttaessa.
+  </p>
+
+  <% partial 'partials/code_highlight' do %>
+public static void main(String[] args) {
+    List&lt;Henkilo&gt; henkilot = new ArrayList&lt;Henkilo&gt;();
+    henkilot.add(new Opettaja("Ada Lovelace", "Korsontie 1 03100 Vantaa", 1200));
+    henkilot.add(new Opiskelija("Olli", "Ida Albergintie 1 00400 Helsinki"));
+
+    new HenkiloTulostus().tulostaLaitoksenHenkilot(henkilot);
+}<% end %>
+
+  <% partial 'partials/sample_output' do %>
+Ada Lovelace
+  Korsontie 1 03100 Vantaa
+  palkka 1200 euroa/kk
+Olli
+  Ida Albergintie 1 00400 Helsinki
+  opintopisteitä 0
+  <% end %>
+
+<% end %>
+
+
+<% partial 'partials/material_sub_heading' do %>
+  Todellinen tyyppi määrää suoritettavan metodin
+<% end %>
+
+<p>
+  Olion kutsuttavissa olevat metodit määrittyvät muuttujan tyypin kautta. Esimerkiksi jos <code>Opiskelija</code>-tyyppisen olion viite on talletettu <code>Henkilo</code>-tyyppiseen muuttujaan, on oliosta käytössä vain <code>Henkilo</code>-luokassa määritellyt metodit (sekä Henkilo-luokan yliluokan ja rajapintojen metodit):
+</p>
+
+<% partial 'partials/code_highlight' do %>
+Henkilo olli = new Opiskelija("Olli", "Ida Albergintie 1 00400 Helsinki");
+olli.opintopisteita();        // EI TOIMI!
+olli.opiskele();              // EI TOIMI!
+String.out.println(olli);   // olli.toString() TOIMII
+<% end %>
+
+<p>
+  Oliolla on siis käytössä jokainen sen tyyppiin sekä sen yliluokkiin ja rajapintoihin liittyvä metodi. Esimerkiksi Opiskelija-tyyppisellä oliolla on käytössä Henkilo-luokassa määritellyt metodit sekä Object-luokassa määritellyt metodit.
+</p>
+
+<p>
+  Edellisessä tehtävässä korvasimme Opiskelijan luokalta Henkilö perimän <code>toString</code> uudella versiolla. Myös luokka Henkilö oli jo korvannut Object-luokalta perimänsä toStringin. Jos käsittelemme olioa jonkun muun kuin sen todellisen tyypin kautta, mitä versiota olion metodista kutsutaan?
+</p>
+
+<p>
+  Seuraavassa esimerkissä kahta opiskelijaa käsitellään erityyppisten muuttujien kautta. Mikä versio metodista toString suoritetaan, luokassa Object, Henkilo vai Opiskelija määritelty?
+</p>
+
+<% partial 'partials/code_highlight' do %>
+Opiskelija olli = new Opiskelija("Olli", "Ida Albergintie 1 00400 Helsinki");
+String.out.println(olli);
+Henkilo olliHenkilo = new Opiskelija("Olli", "Ida Albergintie 1 00400 Helsinki")
+System.out.println(olliHenkilo);
+Object olliObject = new Opiskelija("Olli", "Ida Albergintie 1 00400 Helsinki")
+System.out.println(olliObject);
+
+Object liisa = new Opiskelija("Liisa", "Väinö Auerin katu 20 00500 Helsinki");
+String.out.println(liisa);
+<% end %>
+
+<% partial 'partials/sample_output' do %>
+Olli
+  Ida Albergintie 1 00400 Helsinki
+  opintopisteitä 0
+Olli
+  Ida Albergintie 1 00400 Helsinki
+  opintopisteitä 0
+Olli
+  Ida Albergintie 1 00400 Helsinki
+  opintopisteitä 0
+Liisa
+  Väinö Auerin katu 20 00500 Helsinki
+  opintopisteitä 0
+<% end %>
+
+
+<p>
+  Suoritettava metodi valitaan olion todellisen tyypin perusteella, eli sen luokan perusteella, jonka konstruktoria kutsutaan kun olio luodaan. Jos kutsuttua metodia ei ole määritelty luokassa, suoritetaan perintähierarkiassa olion todellista tyyppiä lähinnä oleva metodin toteutus.
+</p>
+
+<p>
+  Hieman yleisemmin: <em>Suoritettava metodi valitaan aina olion todellisen tyypin perusteella riippumatta käytetyn muuttujan tyypistä. Oliot ovat monimuotoisia, eli olioita voi käyttää usean eri muuttujatyypin kautta. Suoritettava metodi liittyy aina olion todelliseen tyyppiin.</em> Tätä monimuotoisuutta kutsutaan <strong>polymorfismiksi</strong>.
+</p>
+
+<p>
+  Tarkastellaan tätä vielä toisen esimerkin avulla.
+</p>
+
+
+<p>
+  Kaksiulotteisessa koordinaatiostossa sijaitsevaa pistettä voisi kuvata seuraavan luokan avulla:
+</p>
+
+<% partial 'partials/code_highlight' do %>
+public class Piste {
+
+    private int x;
+    private int y;
+
+    public Piste(int x, int y) {
+        this.x = x;
+        this.y = y;
+    }
+
+    public int manhattanEtaisyysOrigosta() {
+        return Math.abs(x) + Math.abs(y);
+    }
+
+    protected String sijainti(){
+        return x + ", " + y;
+    }
+
+    @Override
+    public String toString() {
+        return "(" + this.sijainti() + ") etäisyys " + this.manhattanEtaisyysOrigosta();
+    }
+}<% end %>
+
+<p>
+  Metodi <code>sijainti</code> ei ole tarkoitettu ulkoiseen käyttöön, joten se on näkyvyysmääreeltään protected, eli aliluokat pääsevät siihen käsiksi. Esimerkiksi reitinhakualgoritmien hyödyntämällä <a href="http://en.wiktionary.org/wiki/Manhattan_distance">Manhattan-etäisyydellä</a> tarkoitetaan pisteiden etäisyyttä, jos niiden välin voi kulkea ainoastaan koordinaattiakselien suuntaisesti.
+</p>
+
+<p>
+  Värillinen piste on muuten samanlainen kuin piste, mutta se sisältää merkkijonona ilmaistavan värin. Luokka voidaan siis tehdä perimällä Piste.
+</p>
+
+<% partial 'partials/code_highlight' do %>
+public class VariPiste extends Piste {
+
+    private String vari;
+
+    public VariPiste(int x, int y, String vari) {
+        super(x, y);
+        this.vari = vari;
+    }
+
+    @Override
+    public String toString() {
+        return super.toString() + " väri: " + vari;
+    }
+}
+<% end %>
+
+<p>
+  Luokka määrittelee oliomuuttujan värin talletusta varten. Koordinaatit on valmiiksi määriteltynä yliluokassa. Merkkijonoesityksestä halutaan muuten samanlainen kuin pisteellä, mutta väri tulee myös ilmaista. Ylikirjoitettu metodi <code>toString</code> kutsuu yliluokan toString-metodia ja lisää sen tulokseen pisteen värin.
+</p>
+
+<p>
+  Seuraavassa esimerkki, jossa listalle laitetaan muutama piste. Osa pisteistä on "normaaleja" ja osa väripisteitä. Lopulta tulostetaan listalla olevat pisteet. Jokaisen pisteen metodi toString suoritetaan pisteen todellisen tyypin perusteella, vaikka lista tuntee kaikki pisteet <code>Piste</code>-tyyppisinä.
+</p>
+
+<% partial 'partials/code_highlight' do %>
+public class Main {
+    public static void main(String[] args) {
+        List&lt;Piste&gt; pisteet = new ArrayList&lt;&gt;();
+        pisteet.add(new Piste(4, 8));
+        pisteet.add(new VariPiste(1, 1, "vihreä"));
+        pisteet.add(new VariPiste(2, 5, "sininen"));
+        pisteet.add(new Piste(0, 0));
+
+        pisteet.stream().forEach(p -&gt; System.out.println(p));
+    }
+}
+<% end %>
+
+<% partial 'partials/sample_output' do %>
+(4, 8) etäisyys 12
+(1, 1) etäisyys 2 väri: vihreä
+(2, 5) etäisyys 7 väri: sininen
+(0, 0) etäisyys 0
+<% end %>
+
+<p>
+  Haluamme ohjelmaamme myös kolmiulotteisen pisteen. Koska kyseessä ei ole värillinen versio, periytetään se luokasta piste.
+</p>
+
+<% partial 'partials/code_highlight' do %>
+public class Piste3D extends Piste {
+
+    private int z;
+
+    public Piste3D(int x, int y, int z) {
+        super(x, y);
+        this.z = z;
+    }
+
+    @Override
+    protected String sijainti() {
+        return super.sijainti() + ", " + z;    // tulos merkkijono muotoa "x, y, z"
+    }
+
+    @Override
+    public int manhattanEtaisyysOrigosta() {
+        // kysytään ensin yliluokalta x:n ja y:n perusteella laskettua etäisyyttä
+        // ja lisätään tulokseen z-koordinaatin vaikutus
+        return super.manhattanEtaisyysOrigosta() + Math.abs(z);
+    }
+
+    @Override
+    public String toString() {
+        return "(" + this.sijainti() + ") etäisyys " + this.manhattanEtaisyysOrigosta();
+    }
+}
+<% end %>
+
+<p>
+  Kolmiulotteinen piste siis määrittelee kolmatta koordinaattia vastaavan oliomuuttujan ja ylikirjoittaa metodit <code>sijainti</code>, <code>manhattanEtaisyysOrigosta</code> ja <code>toString</code> siten, että ne huomioivat kolmannen ulottuvuuden. Voimme nyt laajentaa edellistä esimerkkiä ja lisätä listalle myös kolmiulotteisia pisteitä.
+</p>
+
+<% partial 'partials/code_highlight' do %>
+public class Main {
+
+    public static void main(String[] args) {
+        List&lt;Piste&gt; pisteet = new ArrayList&lt;&gt;();
+        pisteet.add(new Piste(4, 8));
+        pisteet.add(new VariPiste(1, 1, "vihreä"));
+        pisteet.add(new VariPiste(2, 5, "sininen"));
+        pisteet.add(new Piste3D(5, 2, 8));
+        pisteet.add(new Piste(0, 0));
+
+        pisteet.stream().forEach(p -&gt; System.out.println(p));
+    }
+  }
+<% end %>
+
+<% partial 'partials/sample_output' do %>
+(4, 8) etäisyys 12
+(1, 1) etäisyys 2 väri: vihreä
+(2, 5) etäisyys 7 väri: sininen
+(5, 2, 8) etäisyys 15
+(0, 0) etäisyys 0
+<% end %>
+
+<p>
+  Huomamme, että kolmiulotteisen pisteen metodi <code>toString</code> on täsmälleen sama kuin pisteen toString. Voisimmeko jättää toStringin ylikirjoittamatta? Vastaus on kyllä! Kolmiulotteinen piste pelkistyy seuraavanlaiseksi.
+</p>
+
+<% partial 'partials/code_highlight' do %>
+public class Piste3D extends Piste {
+
+    private int z;
+
+    public Piste3D(int x, int y, int z) {
+        super(x, y);
+        this.z = z;
+    }
+
+    @Override
+    protected String sijainti() {
+        return super.sijainti() + ", " + z;
+    }
+
+    @Override
+    public int manhattanEtaisyysOrigosta() {
+        return super.manhattanEtaisyysOrigosta() + Math.abs(z);
+    }
+}<% end %>
+
+<p>
+  Mitä tarkalleenottaen tapahtuu kuin kolmiulotteiselle pisteelle kutsutaan toString-metodia? Suoritus etenee seuraavasti.
+</p>
+
+<ol>
+  <li>etsitään toString:in määrittelyä luokasta Piste3D, sitä ei löydy joten mennään yliluokkaan</li>
+  <li>etsitään toString:in määrittelyä yliluokasta Piste, metodi löytyy, joten suoritetaan sen koodi</li>
+  <ul>
+    <li>suoritettava koodi siis on <code>return "("+this.sijainti()+") etäisyys "+this.manhattanEtaisyysOrigosta();</code></li>
+    <li>esimmäisenä suoritetaan metodi sijainti</li>
+    <li>etsitään metodin sijainti määrittelyä luokasta Piste3D, metodi löytyy ja suoritetaan sen koodi</li>
+    <li>metodin sijainti laskee oman tuloksensa kutsumalla yliluokassa olevaa metodia sijainti</li>
+    <li>seuraavaksi etsitään metodin manhattanEtaisyysOrigosta määrittelyä luokasta Piste3D, metodi löytyy ja suoritetaan sen koodi</li>
+    <li>jälleen metodi laskee tuloksensa kutsuen ensin yliluokassa olevaa samannimistä metodia</li>
+  </ul>
+</ol>
+
+<p>
+  Metodikutsun aikaansaama toimintoketju siis on monivaiheinen. Periaate on kuitenkin selkeä: suoritettavan metodin määrittelyä etsitään ensin olion todellisen tyypin määrittelystä ja jos sitä ei löydy edetään yliluokkaan. Ja jos yliluokastakaan ei löydy metodin toteutusta siirrytään etsimään yliluokan yliluokasta jne...
+</p>
+
+
+<% partial 'partials/material_sub_heading' do %>
+  Milloin perintää kannattaa käyttää?
+<% end %>
+
+<p>
+  Perintä on väline käsitehierarkioiden rakentamiseen ja erikoistamiseen; aliluokka on aina yliluokan erikoistapaus. Jos luotava luokka on olemassaolevan luokan erikoistapaus, voidaan uusi luokka luoda perimällä olemassaoleva luokka. Esimerkiksi auton osiin liittyvässä esimerkissä moottori <em>on</em> osa, mutta moottoriin liittyy lisätoiminnallisuutta mitä jokaisella osalla ei ole.
+</p>
+
+<p>
+  Perittäessä aliluokka saa käyttöönsä yliluokan toiminnallisuudet. Jos aliluokka ei tarvitse tai käytä perittyä toiminnallisuutta, ei perintä ole perusteltua. Perityt luokat perivät yliluokkiensa metodit ja rajapinnat, eli aliluokkia voidaan käyttää missä tahansa missä yliluokkaa on käytetty. Perintähierarkia kannattaa pitää matalana, sillä hierarkian ylläpito ja jatkokehitys vaikeutuu perintöhierarkian kasvaessa. Yleisesti ottaen, jos perintähierarkian korkeus on yli 2 tai 3, ohjelman rakenteessa on todennäköisesti parannettavaa.
+</p>
+
+<p>
+  Perinnän käyttöä tulee miettiä. Esimerkiksi luokan <code>Auto</code> periminen luokasta <code>Osa</code> (tai <code>Moottori</code>) on väärin. Auto <em>sisältää</em> moottorin ja osia, mutta auto ei ole moottori tai osa. Voimme yleisemmin ajatella että <em>jos olio omistaa tai koostuu toisista olioista, ei perintää tule käyttää</em>.
+</p>
+
+<p>
+  Perintää käytettäessä tulee varmistaa että Single Responsibility Principle pätee myös perittäessä. Jokaisella luokalla tulee olla vain yksi syy muuttua. Jos huomaat että perintä lisää luokan vastuita, tulee luokka pilkkoa useammaksi luokaksi.
+</p>
+
+
+<% partial 'partials/material_sub_sub_heading' do %>
+  Perinnän väärinkäyttö
+<% end %>
+
+<p>
+  Pohditaan postituspalveluun liittyviä luokkia <code>Asiakas</code>, joka sisältää asiakkaan tiedot, ja <code>Tilaus</code>, joka perii asiakkaan tiedot ja sisältää tilattavan tavaran tiedot. Luokassa <code>Tilaus</code> on myös metodi <code>postitusOsoite</code>, joka kertoo tilauksen postitusosoitteen.
+</p>
+
+<% partial 'partials/code_highlight' do %>
+public class Asiakas {
+
+    private String nimi;
+    private String osoite;
+
+    public Asiakas(String nimi, String osoite) {
+        this.nimi = nimi;
+        this.osoite = osoite;
+    }
+
+    public String getNimi() {
+        return nimi;
+    }
+
+    public String getOsoite() {
+        return osoite;
+    }
+
+    public void setOsoite(String osoite) {
+        this.osoite = osoite;
+    }
+}<% end %>
+
+<% partial 'partials/code_highlight' do %>
+public class Tilaus extends Asiakas {
+
+    private String tuote;
+    private String lukumaara;
+
+    public Tilaus(String tuote, String lukumaara, String nimi, String osoite) {
+        super(nimi, osoite);
+        this.tuote = tuote;
+        this.lukumaara = lukumaara;
+    }
+
+    public String getTuote() {
+        return tuote;
+    }
+
+    public String getLukumaara() {
+        return lukumaara;
+    }
+
+    public String postitusOsoite() {
+        return this.getNimi() + "\n" + this.getOsoite();
+    }
+}<% end %>
+
+<p>
+  Yllä perintää on käytetty väärin. Luokkaa perittäessä aliluokan tulee olla yliluokan erikoistapaus; tilaus ei ole asiakkaan erikoistapaus. Väärinkäyttö ilmenee single responsibility principlen rikkomisena: luokalla <code>Tilaus</code> on vastuu sekä asiakkaan tietojen ylläpidosta, että tilauksen tietojen ylläpidosta.
+</p>
+
+<p>
+  Ratkaisussa piilevä ongelma tulee esiin kun mietimme mitä käy asiakkaan osoitteen muuttuessa.
+</p>
+
+<p>
+  Osoitteen muuttuessa joudumme muuttamaan <em>jokaista</em> kyseiseen asiakkaaseen liittyvää tilausoliota, mikä kertoo huonosta tilanteesta. Parempi ratkaisu olisi kapseloida <code>Asiakas</code> <code>Tilaus</code>-luokan oliomuuttujaksi. Jos ajattelemme tarkemmin tilauksen semantiikkaa, tämä on selvää. <em>Tilauksella on asiakas</em>. Muutetaan luokkaa <code>Tilaus</code> siten, että se sisältää <code>Asiakas</code>-viitteen.
+</p>
+
+<% partial 'partials/code_highlight' do %>
+public class Tilaus {
+
+    private Asiakas asiakas;
+    private String tuote;
+    private String lukumaara;
+
+    public Tilaus(Asiakas asiakas, String tuote, String lukumaara) {
+        this.asiakas = asiakas;
+        this.tuote = tuote;
+        this.lukumaara = lukumaara;
+    }
+
+    public String getTuote() {
+        return tuote;
+    }
+
+    public String getLukumaara() {
+        return lukumaara;
+    }
+
+    public String postitusOsoite() {
+        return this.asiakas.getNimi() + "\n" + this.asiakas.getOsoite();
+    }
+}
+<% end %>
+
+<p>
+  Yllä oleva luokka <code>Tilaus</code> on nyt parempi. Metodi <code>postitusosoite</code> käyttää <em>asiakas</em>-viitettä postitusosoitteen saamiseen sen sijaan että luokka perisi luokan <code>Asiakas</code>. Tämä helpottaa sekä ohjelman ylläpitoa, että sen konkreettista toiminnallisuutta.
+</p>
+
+<p>
+  Nyt asiakkaan muuttaessa tarvitsee muuttaa vain asiakkaan tietoja, tilauksiin ei tarvitse tehdä muutoksia.
+</p>
+
+
+<% partial 'partials/exercise', locals: { name: 'Varastointia' } do %>
+
+  <p>
+    Tehtäväpohjassa tulee mukana luokka <code>Varasto</code>, jonka tarjoamat konstruktorit ja metodit ovat seuraavat:
+  </p>
+
+  <ul>
+    <li><b>public Varasto(double tilavuus)</b><br/> Luo tyhjän varaston, jonka vetoisuus eli tilavuus annetaan parametrina; sopimaton tilavuus (&lt;=0) luo käyttökelvottoman varaston, jonka tilavuus on 0.</li>
+
+    <li><b>public double getSaldo()</b><br/> Palauttaa arvonaan varaston saldon, eli varastossa olevan tavaran tilavuuden.</li>
+
+    <li><b>public double getTilavuus()</b><br/> Palauttaa arvonaan varaston kokonaistilavuuden (eli sen, joka annettiin konstruktorille).</li>
+
+    <li><b>public double paljonkoMahtuu()</b><br/> Palauttaa arvonaan tiedon, paljonko varastoon vielä mahtuu.</li>
+
+    <li><b>public void lisaaVarastoon(double maara)</b><br/> Lisää varastoon pyydetyn määrän; jos määrä on negatiivinen, mikään ei muutu, jos kaikki pyydetty ei enää mahdu, varasto laitetaan täydeksi ja loput määrästä "heitetään menemään", "vuotaa yli".</li>
+
+    <li><b>public double otaVarastosta(double maara)</b><br/> Otetaan varastosta pyydetty määrä, metodi palauttaa paljonko <b>saadaan</b>. Jos pyydetty määrä on negatiivinen, mikään ei muutu ja palautetaan nolla. Jos pyydetään enemmän kuin varastossa on, annetaan mitä voidaan ja varasto tyhjenee.</li>
+
+    <li><b>public String toString()</b><br/> Palauttaa olion tilan merkkijonoesityksenä tyyliin <tt>saldo = 64.5, tilaa 123.5</tt></li></ul>
+
+  <p>
+    Tehtävässä rakennetaan <code>Varasto</code>-luokasta useampia erilaisia varastoja. Huom! Toteuta kaikki luokat pakkaukseen <code>varastot</code>.
+  </p>
+
+  <h2>Tuotevarasto, vaihe 1</h2>
+
+  <p>
+    Luokka <code>Varasto</code> hallitsee tuotteen määrään liittyvät toiminnot. Nyt tuotteelle halutaan lisäksi tuotenimi ja nimen käsittelyvälineet. <i>  <b>Ohjelmoidaan Tuotevarasto Varaston aliluokaksi!</b></i> Toteutetaan ensin pelkkä yksityinen oliomuuttuja tuotenimelle, konstruktori ja getteri nimikentälle:
+  </p>
+
+  <ul>
+    <li><b>public Tuotevarasto(String tuotenimi, double tilavuus)</b><br/> Luo tyhjän tuotevaraston. Tuotenimi ja vetoisuus annetaan parametrina.</li>
+
+    <li><b>public String getNimi()</b><br/> Palauttaa arvonaan tuotteen nimen.</li>
+  </ul>
+
+  <p>
+    <em>Muista millä tavoin konstruktori voi ensi toimenaan suorittaa yliluokan konstruktorin!</em>
+  </p>
+
+  <p>
+    Käyttöesimerkki:
+  </p>
+
+  <% partial 'partials/code_highlight' do %>
+Tuotevarasto mehu = new Tuotevarasto("Juice", 1000.0);
+mehu.lisaaVarastoon(1000.0);
+mehu.otaVarastosta(11.3);
+System.out.println(mehu.getNimi()); // Juice
+System.out.println(mehu);           // saldo = 988.7, tilaa 11.3
+  <% end %>
+
+  <% partial 'partials/sample_output' do %>
+Juice
+saldo = 988.7, vielä tilaa 11.3
+  <% end %>
+
+
+  <h2>Tuotevarasto, vaihe 2</h2>
+
+  <p>
+    Kuten edellisestä esimerkistä näkee, Tuotevarasto-olion perimä <code>toString()</code> ei tiedä (tietenkään!) mitään tuotteen nimestä. <em>Asialle on tehtävä jotain!</em> Lisätään samalla myös setteri tuotenimelle:
+  </p>
+
+  <ul>
+    <li><b>public void setNimi(String uusiNimi)</b> asettaa tuotteelle uuden nimen.</li>
+
+    <li><b>public String toString()</b> palauttaa olion tilan merkkijonoesityksenä tyyliin <tt>Juice: saldo = 64.5, tilaa 123.5</tt></li>
+  </ul>
+
+  <p>
+    Uuden <code>toString()</code>-metodin voisi toki ohjelmoida käyttäen yliluokalta perittyjä gettereitä, joilla perittyjen, mutta piilossa pidettyjen kenttien arvoja saa käyttöönsä. Koska yliluokkaan on kuitenkin jo ohjelmoitu tarvittava taito varastotilanteen merkkiesityksen tuottamiseen, miksi nähdä vaivaa sen uudelleen ohjelmointiin. Käytä siis hyväksesi perittyä <code>toString</code>iä.
+  </p>
+
+  <p>
+    <em>Muista miten korvattua metodia voi kutsua aliluokassa!</em>
+  </p>
+
+  <p>
+    Käyttöesimerkki:
+  </p>
+
+  <% partial 'partials/code_highlight' do %>
+Tuotevarasto mehu = new Tuotevarasto("Juice", 1000.0);
+mehu.lisaaVarastoon(1000.0);
+mehu.otaVarastosta(11.3);
+System.out.println(mehu.getNimi()); // Juice
+mehu.lisaaVarastoon(1.0);
+System.out.println(mehu);           // Juice: saldo = 989.7, tilaa 10.299999999999955
+  <% end %>
+
+  <% partial 'partials/sample_output' do %>
+Juice
+Juice: saldo = 989.7, tilaa 10.299999999999955
+  <% end %>
+
+
+  <h2>Muutoshistoria</h2>
+
+  <p>
+    Toisinaan saattaa olla kiinnostavaa tietää, millä tavoin jonkin tuotteen varastotilanne muuttuu: onko varasto usein hyvin vajaa, ollaanko usein ylärajalla, onko vaihelu suurta vai pientä, jne. Varustetaan siksi <code>Tuotevarasto</code>-luokka taidolla muistaa tuotteen määrän muutoshistoriaa.
+  </p>
+
+  <p>
+    Aloitetaan apuvälineen laadinnalla.
+  </p>
+
+  <p>
+    Muutoshistorian muistamisen voisi toki toteuttaa suoraankin <code>ArrayList&lt;Double&gt;</code>-oliona luokassa <i>Tuotevarasto</i>, mutta nyt laaditaan kuitenkin oma <i>erikoistettu väline</i> tähän tarkoitukseen. Väline toteutetaan kapseloimalla <code>ArrayList&lt;Double&gt;</code>-olio.
+  </p>
+
+  <p>
+    <code>Muutoshistoria</code>-luokan julkiset konstruktorit ja metodit:
+  </p>
+
+  <ul>
+    <li><b>public Muutoshistoria()</b> luo tyhjän <code>Muutoshistoria</code>-olion.</li>
+
+    <li><b>public void lisaa(double tilanne)</b> lisää muutoshistorian viimeisimmäksi muistettavaksi määräksi parametrina annetun tilanteen. </li>
+
+    <li><b>public void nollaa()</b> tyhjää muistin.</li>
+
+    <li><b>public String toString()</b> palauttaa muutoshistorian merkkijonoesityksen. <i>ArrayList-luokan antama merkkijonoesitys kelpaa sellaisenaan.</i> </li>
+
+  </ul>
+
+
+  <h2>Muutoshistoria, vaihe 2</h2>
+
+  <p>Täydennä <code>Muutoshistoria</code>-luokkaa analyysimetodein:</p>
+
+  <ul>
+
+    <li><b>public double maxArvo()</b> palauttaa muutoshistorian suurimman arvon. Jos historia on tyhjä, metodi palauttaa nollan.</li>
+
+    <li><b>public double minArvo()</b> palauttaa muutoshistorian pienimmän arvon. Jos historia on tyhjä, metodi palauttaa nollan.</li>
+
+    <li><b>public double keskiarvo()</b> palauttaa muutoshistorian arvojen keskiarvon. Jos historia on tyhjä, metodi palauttaa nollan.</li>
+
+  </ul>
+
+  <h2>Muutoshistoria, vaihe 3</h2>
+
+  <p>
+    Täydennä <code>Muutoshistoria</code>-luokkaa analyysimetodein:
+  </p>
+
+  <ul>
+    <li><b>public double suurinMuutos()</b> palauttaa muutoshistorian isoimman (huom: -5:n kokoinen muutos on isompi kuin 4:n kokoinen muutos) yksittäisen muutoksen itseisarvon. Jos historia on tyhjä tai yhden arvon mittainen, metodi palauttaa nollan. Itseisarvo on luvun etäisyys nollasta. Esimerkiksi luvun -5.5 itseisarvo on 5.5, luvun 3.2 itseisarvo on 3.2. </li>
+
+    <li><b>public double varianssi()</b> palauttaa muutoshistorian arvojen varianssin (käytetään otosvarianssin kaavaa). Jos historia on tyhjä tai yhden arvon mittainen, metodi palauttaa nollan.</li>
+  </ul>
+
+  <p>
+    Ohjeen varianssin laskemiseksi voit katsoa esimerkiksi <a href="http://fi.wikipedia.org/wiki/Varianssi#Populaatio-_ja_otosvarianssi">Wikipediasta</a> kohdasta populaatio- ja otosvarianssi. Esimerkiksi lukujen 3, 2, 7, 2 keskiarvo on 3.5, joten otosvarianssi on ((3 - 3.5)² + (2 - 3.5)² + (7 - 3.5)² + (2 - 3.5)²)/(4 - 1) ≈ 5,666667.)
+  </p>
+
+
+  <h2>Muistava tuotevarasto, vaihe 1</h2>
+
+  <p>
+    Toteuta luokan <code>Tuotevarasto</code> aliluokkana <code>MuistavaTuotevarasto</code>. Uusi versio tarjoaa vanhojen lisäksi varastotilanteen muutoshistoriaan liittyviä palveluita. Historiaa hallitaan <code>Muutoshistoria</code>-oliolla.
+  </p>
+
+  <p>
+    Julkiset konstruktorit ja metodit:
+  </p>
+
+  <ul>
+    <li><b>public MuistavaTuotevarasto(String tuotenimi, double tilavuus, double alkuSaldo)</b>	luo tuotevaraston. Tuotenimi, vetoisuus ja alkusaldo annetaan parametrina. <i>Aseta alkusaldo sekä varaston alkusaldoksi että muutoshistorian ensimmäiseksi arvoksi.</i></li>
+
+    <li><b>public String historia()</b> palauttaa tuotehistorian tyyliin <tt>[0.0, 119.2, 21.2]</tt>.  <i>Käytä Muutoshistoria-olion merkkiesitystä sellaisenaan.</i></li>
+  </ul>
+
+  <p>
+    <b>Huomaa</b> että tässä esiversiossa historia ei vielä toimi kunnolla; nyt vasta vain aloitussaldo muistetaan.
+  </p>
+
+  <p>
+    Käyttöesimerkki:
+  </p>
+
+  <% partial 'partials/code_highlight' do %>
+// tuttuun tapaan:
+MuistavaTuotevarasto mehu = new MuistavaTuotevarasto("Juice", 1000.0, 1000.0);
+mehu.otaVarastosta(11.3);
+System.out.println(mehu.getNimi()); // Juice
+mehu.lisaaVarastoon(1.0);
+System.out.println(mehu);           // Juice: saldo = 989.7, vielä tilaa 10.3
+...
+    <b>// mutta vielä historia() ei toimi kunnolla:</b>
+System.out.println(mehu.historia()); // [1000.0]
+    // saadaan siis vasta konstruktorin asettama historian alkupiste...
+...
+  <% end %>
+
+  <% partial 'partials/sample_output' do %>
+Juice
+Juice: saldo = 989.7, vielä tilaa 10.299999999999955
+[1000.0]
+  <% end %>
+
+  <h2>Muistava tuotevarasto, vaihe 2</h2>
+
+  <p>
+    <i>On aika aloittaa historia!</i> Ensimmäinen versio ei historiasta tiennyt kuin alkupisteen. Täydennä luokkaa metodein
+  </p>
+
+  <ul>
+    <li><b>public void lisaaVarastoon(double maara)</b> toimii kuin <i>Varasto</i>-luokan metodi, mutta muuttunut tilanne kirjataan historiaan.	<b>Huom: </b> historiaan tulee kirjata lisäyksen jälkeinen varastosaldo, ei lisättävää määrää!</li>
+
+    <li><b>public double otaVarastosta(double maara)</b> toimii kuin <code>Varasto</code>-luokan metodi, mutta muuttunut tilanne kirjataan historiaan. <b>Huom: </b> historiaan tulee kirjata poiston jälkeinen varastosaldo, ei poistettavaa määrää!</li>
+  </ul>
+
+  <p>
+    Käyttöesimerkki:
+  </p>
+
+  <% partial 'partials/code_highlight' do %>
+// tuttuun tapaan:
+MuistavaTuotevarasto mehu = new MuistavaTuotevarasto("Juice", 1000.0, 1000.0);
+mehu.otaVarastosta(11.3);
+System.out.println(mehu.getNimi()); // Juice
+mehu.lisaaVarastoon(1.0);
+System.out.println(mehu);           // Juice: saldo = 989.7, vielä tilaa 10.3
+...
+// mutta nyt on historiaakin:
+System.out.println(mehu.historia()); // [1000.0, 988.7, 989.7]
+...
+  <% end %>
+
+  <% partial 'partials/sample_output' do %>
+Juice
+Juice: saldo = 989.7, vielä tilaa 10.299999999999955
+[1000.0, 988.7, 989.7]
+  <% end %>
+
+  <p>
+    <i>Muista miten korvaava metodi voi käyttää hyväkseen korvattua metodia!</i>
+  </p>
+
+
+  <h4>Muistava tuotevarasto, vaihe 3</h4>
+
+  <p>
+    Täydennä luokkaa metodilla
+  </p>
+
+  <ul>
+
+    <li><b>public void tulostaAnalyysi()</b>, joka tulostaa tuotteeseen liittyviä historiatietoja esimerkin esittämään tapaan.</li>
+
+  </ul>
+
+  <p>
+    Käyttöesimerkki:
+  </p>
+
+  <% partial 'partials/code_highlight' do %>
+MuistavaTuotevarasto mehu = new MuistavaTuotevarasto("Juice", 1000.0, 1000.0);
+mehu.otaVarastosta(11.3);
+mehu.lisaaVarastoon(1.0);
+//System.out.println(mehu.historia()); // [1000.0, 988.7, 989.7]
+
+mehu.tulostaAnalyysi();
+  <% end %>
+
+  <% partial 'partials/sample_output' do %>
+Tuote: Juice
+Historia: [1000.0, 988.7, 989.7]
+Suurin tuotemäärä: 1000.0
+Pienin tuotemäärä: 988.7
+Keskiarvo: 992.8
+  <% end %>
+
+  <h4>Muistava tuotevarasto, vaihe 4</h4>
+
+  <p>
+    Täydennä analyysin tulostus sellaiseksi, että mukana ovat myös muutoshistorian suurin muutos ja historian varianssi.
+  </p>
+
+<% end %>
+
+
+<% partial 'partials/material_sub_heading' do %>
+  Perintä, rajapinnat, kumpikin, vai eikö kumpaakaan?
+<% end %>
+
+<p>
+  Perintä ei sulje pois rajapintojen käyttöä, eikä rajapintojen käyttö sulje pois perinnän käyttöä. Rajapinnat toimivat sopimuksena luokan tarjoamasta toteutuksesta, ja mahdollistavat konkreettisen toteutuksen abstrahoinnin. Rajapinnan toteuttavan luokan vaihto on hyvin helppoa.
+</p>
+
+<p>
+  Aivan kuten rajapintaa toteuttaessa, sitoudumme perittäessä siihen, että aliluokkamme tarjoaa kaikki yliluokan metodit. Monimuotoisuuden ja polymorfismin takia perintäkin toimii kuin rajapinnat. Voimme antaa yliluokkaa käyttävälle metodille sen aliluokan ilmentymän.
+</p>
+
+
+<% partial 'partials/material_sub_heading' do %>
+  Abstrakti luokka
+<% end %>
+
+<p>
+  Abstrakti luokka yhdistää rajapintoja ja perintää. Niistä ei voi tehdä ilmentymiä, vaan ilmentymät tehdään tehdään abstraktin luokan aliluokista.  Abstrakti luokka voi sisältää sekä normaaleja metodeja, joissa on metodirunko, että abstrakteja metodeja, jotka sisältävät ainoastaan metodimäärittelyn. Abstraktien metodien toteutus jätetään perivän luokan vastuulle. Yleisesti ajatellen abstrakteja luokkia käytetään esimerkiksi kun abstraktin luokan kuvaama käsite ei ole selkeä itsenäinen käsite. Tällöin siitä ei tule pystyä tekemään ilmentymiä.
+</p>
+
+<p>
+  Sekä abstraktin luokan että abstraktien metodien määrittelyssä käytetään avainsanaa <code>abstract</code>. Abstrakti luokka määritellään lauseella <code>public abstract class <em>LuokanNimi</em></code>, abstrakti metodi taas lauseella <code>public abstract <em>palautustyyppi</em> <em>metodinNimi</em></code>. Pohditaan seuraavaa abstraktia luokkaa <code>Toiminto</code>, joka tarjoaa rungon toiminnoille ja niiden suorittamiselle.
+</p>
+
+<% partial 'partials/code_highlight' do %>
+public abstract class Toiminto {
+
+    private String nimi;
+
+    public Toiminto(String nimi) {
+        this.nimi = nimi;
+    }
+
+    public String getNimi() {
+        return this.nimi;
+    }
+
+    public abstract void suorita(Scanner lukija);
+}
+<% end %>
+
+<p>
+  Abstrakti luokka <code>Toiminto</code> toimii runkona erilaisten toimintojen toteuttamiseen. Esimerkiksi pluslaskun voi toteuttaa perimällä luokka <code>Toiminto</code> seuraavasti.
+</p>
+
+<% partial 'partials/code_highlight' do %>
+public class Pluslasku extends Toiminto {
+
+    public Pluslasku() {
+        super("Pluslasku");
+    }
+
+    @Override
+    public void suorita(Scanner lukija) {
+        System.out.print("Anna ensimmäinen luku: ");
+        int eka = Integer.parseInt(lukija.nextLine());
+        System.out.print("Anna toinen luku: ");
+        int toka = Integer.parseInt(lukija.nextLine());
+
+        System.out.println("Lukujen summa on " + (eka + toka));
+    }
+}
+<% end %>
+
+<p>
+  Koska kaikki <code>Toiminto</code>-luokan perivät luokat ovat myös tyyppiä toiminto, voimme rakentaa käyttöliittymän <code>Toiminto</code>-tyyppisten muuttujien varaan. Seuraava luokka <code>Kayttoliittyma</code> sisaltaa listan toimintoja ja lukijan. Toimintoja voi lisätä käyttöliittymään dynaamisesti.
+</p>
+
+<% partial 'partials/code_highlight' do %>
+public class Kayttoliittyma {
+
+    private Scanner lukija;
+    private List&lt;Toiminto&gt; toiminnot;
+
+    public Kayttoliittyma(Scanner lukija) {
+        this.lukija = lukija;
+        this.toiminnot = new ArrayList&lt;&gt;();
+    }
+
+    public void lisaaToiminto(Toiminto toiminto) {
+        this.toiminnot.add(toiminto);
+    }
+
+    public void kaynnista() {
+        while (true) {
+            tulostaToiminnot();
+            System.out.println("Valinta: ");
+
+            String valinta = this.lukija.nextLine();
+            if (valinta.equals("0")) {
+                break;
+            }
+
+            suoritaToiminto(valinta);
+            System.out.println();
+        }
+    }
+
+    private void tulostaToiminnot() {
+        System.out.println("\t0: Lopeta");
+        for (int i = 0; i &lt; this.toiminnot.size(); i++) {
+            String toiminnonNimi = this.toiminnot.get(i).getNimi();
+            System.out.println("\t" + (i + 1) + ": " + toiminnonNimi);
+        }
+    }
+
+    private void suoritaToiminto(String valinta) {
+        int toiminto = Integer.parseInt(valinta);
+
+        Toiminto valittu = this.toiminnot.get(toiminto - 1);
+        valittu.suorita(lukija);
+    }
+}
+<% end %>
+
+<p>
+  Käyttöliittymä toimii seuraavasti:
+</p>
+
+<% partial 'partials/code_highlight' do %>
+Kayttoliittyma kayttolittyma = new Kayttoliittyma(new Scanner(System.in));
+kayttolittyma.lisaaToiminto(new Pluslasku());
+
+kayttolittyma.kaynnista();
+<% end %>
+
+<% partial 'partials/sample_output' do %>
+Toiminnot:
+        0: Lopeta
+        1: Pluslasku
+Valinta: <font color="red">1</font>
+Anna ensimmäinen luku: <font color="red">8</font>
+Anna toinen luku: <font color="red">12</font>
+Lukujen summa on 20
+
+Toiminnot:
+        0: Lopeta
+        1: Pluslasku
+Valinta: <font color="red">0</font>
+<% end %>
+
+<p>
+  Rajapintojen ja abstraktien luokkien suurin ero on siinä, että abstrakteissa luokissa voidaan määritellä metodien lisäksi myös oliomuuttujia sekä konstruktoreja. Koska abstrakteihin luokkiin voidaan määritellä toiminnallisuutta, voidaan niitä käyttää esimerkiksi oletustoiminnallisuuden määrittelyyn. Yllä käyttöliittymä käytti abstraktissa luokassa määriteltyä toiminnan nimen tallentamista.
+</p>
+
+
+
+<% partial 'partials/exercise', locals: { name: 'Erilaisia laatikoita' } do %>
+
+  <p>
+    Tehtäväpohjan mukana tulee luokat <code>Tavara</code> ja <code>Laatikko</code>. Luokka <code>Laatikko</code> on abstrakti luokka, jossa useamman tavaran lisääminen on toteutettu siten, että kutsutaan aina <code>lisaa</code>-metodia. Yhden tavaran lisäämiseen tarkoitettu metodi <code>lisaa</code> on abstrakti, joten jokaisen <code>Laatikko</code>-luokan perivän laatikon tulee toteuttaa se. Tehtävänäsi on muokata luokkaa <code>Tavara</code> ja toteuttaa muutamia erilaisia laatikoita luokan <code>Laatikko</code> pohjalta.
+  </p>
+
+  <p>
+    Lisää kaikki uudet luokat pakkaukseen <code>laatikot</code>.
+  </p>
+
+
+  <% partial 'partials/code_highlight' do %>
+package laatikot;
+
+import java.util.Collection;
+
+public abstract class Laatikko {
+
+    public abstract void lisaa(Tavara tavara);
+
+    public void lisaa(Collection&lt;Tavara&gt; tavarat) {
+        tavarat.stream().forEach(t -&gt; lisaa(t));
+    }
+
+    public abstract boolean onkoLaatikossa(Tavara tavara);
+}
+  <% end %>
+
+
+  <h2>Tavaran muokkaus</h2>
+
+  <p>
+    Lisää <code>Tavara</code>-luokan konstruktoriin tarkistus, jossa tarkistetaan että tavaran paino ei ole koskaan negatiivinen (paino 0 hyväksytään). Jos paino on negatiivinen, tulee konstruktorin heittää <code>IllegalArgumentException</code>-poikkeus. Toteuta <code>Tavara</code>-luokalle myös metodit <code>equals</code> ja <code>hashCode</code>, joiden avulla  pääset hyödyntämään erilaisten listojen ja kokoelmien <code>contains</code>-metodia. Toteuta metodit siten, että Tavara-luokan oliomuuttujan <code>paino</code> arvolla ei ole väliä. <em>Voit hyvin hyödyntää NetBeansin tarjoamaa toiminnallisuutta equalsin ja hashCoden toteuttamiseen.</em>
+  </p>
+
+
+  <h2>Maksimipainollinen laatikko</h2>
+
+  <p>
+    Toteuta pakkaukseen <code>laatikot</code> luokka <code>MaksimipainollinenLaatikko</code>, joka perii luokan <code>Laatikko</code>. Maksimipainollisella laatikolla on konstruktori <code>public MaksimipainollinenLaatikko(int maksimipaino)</code>, joka määrittelee laatikon maksimipainon. Maksimipainolliseen laatikkoon voi lisätä tavaraa jos ja vain jos tavaran lisääminen ei ylitä laatikon maksimipainoa.
+  </p>
+
+  <% partial 'partials/code_highlight' do %>
+MaksimipainollinenLaatikko kahviLaatikko = new MaksimipainollinenLaatikko(10);
+kahviLaatikko.lisaa(new Tavara("Saludo", 5));
+kahviLaatikko.lisaa(new Tavara("Pirkka", 5));
+kahviLaatikko.lisaa(new Tavara("Kopi Luwak", 5));
+
+System.out.println(kahviLaatikko.onkoLaatikossa(new Tavara("Saludo")));
+System.out.println(kahviLaatikko.onkoLaatikossa(new Tavara("Pirkka")));
+System.out.println(kahviLaatikko.onkoLaatikossa(new Tavara("Kopi Luwak")));
+  <% end %>
+
+  <% partial 'partials/sample_output' do %>
+true
+true
+false
+  <% end %>
+
+
+  <h2>Yhden tavaran laatikko ja Hukkaava laatikko</h2>
+
+  <p>
+    Toteuta seuraavaksi pakkaukseen <code>laatikot</code> luokka <code>YhdenTavaranLaatikko</code>, joka perii luokan <code>Laatikko</code>. Yhden tavaran laatikolla on konstruktori <code>public YhdenTavaranLaatikko()</code>, ja siihen mahtuu tasan yksi tavara. Jos tavara on jo laatikossa sitä ei tule vaihtaa. Laatikkoon lisättävän tavaran painolla ei ole väliä.
+  </p>
+
+  <% partial 'partials/code_highlight' do %>
+YhdenTavaranLaatikko laatikko = new YhdenTavaranLaatikko();
+laatikko.lisaa(new Tavara("Saludo", 5));
+laatikko.lisaa(new Tavara("Pirkka", 5));
+
+System.out.println(laatikko.onkoLaatikossa(new Tavara("Saludo")));
+System.out.println(laatikko.onkoLaatikossa(new Tavara("Pirkka")));
+  <% end %>
+
+  <% partial 'partials/sample_output' do %>
+true
+false
+  <% end %>
+
+  <p>
+    Toteuta seuraavaksi pakkaukseen <code>laatikot</code> luokka <code>HukkaavaLaatikko</code>, joka perii luokan <code>Laatikko</code>. Hukkaavalla laatikolla on konstruktori <code>public HukkaavaLaatikko()</code>. Hukkaavaan laatikkoon voi lisätä kaikki tavarat, mutta tavaroita ei löydy niitä etsittäessä. Laatikkoon lisäämisen tulee siis aina onnistua, mutta metodin <code>onkoLaatikossa</code> kutsumisen tulee aina palauttaa false.
+  </p>
+
+  <% partial 'partials/code_highlight' do %>
+HukkaavaLaatikko laatikko = new HukkaavaLaatikko();
+laatikko.lisaa(new Tavara("Saludo", 5));
+laatikko.lisaa(new Tavara("Pirkka", 5));
+
+System.out.println(laatikko.onkoLaatikossa(new Tavara("Saludo")));
+System.out.println(laatikko.onkoLaatikossa(new Tavara("Pirkka")));
+  <% end %>
+
+  <% partial 'partials/sample_output' do %>
+false
+false
+  <% end %>
+
+<% end %>
+
+
+
+<% partial 'partials/exercise', locals: { name: 'Asteroids' } do %>
+
+  <p>
+    Tehtäväpohjassa on vuonna 1979 julkaistun <a href="https://en.wikipedia.org/wiki/Asteroids_(video_game)" target="_blank" rel="noopener">Asteroids</a>-nimisen pelin hahmotelma. Peli käynnistyy kun suoritat pakkauksessa asteroids olevan luokan AsteroidsOhjelma main-metodin.
+  </p>
+
+  <p>
+    Peli näyttää seuraavalta:
+  </p>
+
+  <img src="/img/exercises/10-08-asteroids.png" width="600px" />
+
+  <p>
+    &nbsp;
+  </p>
+
+  <p>
+    Tehtävänäsi on <em>refaktoroida</em> lähdekoodia -- eli muuttaa sitä selvemmäksi ilman että pelin toiminnallisuus muuttuu. Keskity pakkauksessa <code>asteroids.domain</code> oleviin luokkiin ja tunnista luokille mahdollisia yhtenäisiä yliluokkia sekä rajapintoja. Siirrä tämän jälkeen luokille yhtenäistä toiminnallisuutta näihin yliluokkiin.
+  </p>
+
+  <p>
+    Yhteisten yliluokkien sekä rajapintojen tunnistaminen kannattaa aloittaa luokkien toiminnallisuuksien tarkastelulla. Mietin millä luokilla on yhteisiä metodeja, ja mitkä ovatko jotkut luokat jonkinlaisen yleisemmän käsitteen ilmentymiä.
+  </p>
+
+  <p>
+    Dokumentoi tekemäsi muutokset yliluokkien kommentteihin. Tehtävä on kahden pisteen arvoinen -- tehtävään ei ole automaattisia testejä.
+  </p>
+
+  <p>
+    Voit halutessasi myös palata täydentämään ja muokkaamaan pelin toimintaa, sekä lisätä siihen ominaisuuksia. Tee kuitenkin tätä ennen myös seuraava tehtävä.
+  </p>
+
+<% end %>
+
+
+<% partial 'partials/exercise', locals: { name: 'Luola' } do %>
+
+  <p>
+    <em>Tämä tehtävä on neljän tehtäväpisteen arvoinen.</em> Huom! Toteuta kaikki toiminnallisuus pakkaukseen <code>luola</code>.
+  </p>
+
+  <p>
+    <strong>Huom: jotta testit toimisivat, ohjelmasi saa luoda vain yhden Scanner-olion. Älä käytä luokkien nimissä skandeja. Älä myöskään käytä staattisia muuttujia, testit suorittavat ohjelman useita kertoja joten staattisiin muuttujiin edellisillä suorituskerroilla jääneet arvot todennäköisesti häiritsevät testien toimintaa!</strong> -- ohjelmassa on vain muutamia testejä, varmistathan itse myös ohjelmasi toiminnan.
+  </p>
+
+  <p>
+    Tässä tehtävässä pääset toteuttamaan luolapelin. Pelissä pelaaja on luolassa hirviöitten kanssa. Pelaajan tehtävänä on ehtiä tallata kaikki hirviöt ennen kuin hänen lampustaan loppuu virta ja hirviöt pääsevät pimeän turvin syömään hänet. Pelaaja voi nähdä hirviöiden sijainnit välkäyttämällä lamppua, jonka jälkeen hänen on liikuttava sokkona ennen seuraavaa välkäytystä. Pelaaja voi kulkea monta askelta yhden siirron aikana.
+  </p>
+
+  <p>
+    Pelitilanne eli luola, pelaaja ja hirviöt esitetään pelaajalle tekstimuotoisesti. Tulostuksen ensimmäinen rivi kertoo jäljellä olevien siirtojen (eli lampun jäljellä olevan virran) määrän. Virran määrää seuraa pelaajan ja hirviöitten sijainnit, joiden jälkeen on pelitilanteesta piirretty kartta. Alla olevassa esimerkissä näet pelaajan (<code>@</code>) ja kolme hirviötä (<code>h</code>).  Alla olevassa esimerkissä pelaajalla on virtaa neljääntoista siirtoon.
+  </p>
+
+  <% partial 'partials/sample_output' do %>
+14
+
+@ 1 2
+h 6 1
+h 7 3
+h 12 2
+
+.................
+......h..........
+.@.........h.....
+.......h.........
+  <% end %>
+
+  <p>
+    Yllä olevassa esimerkissä virtaa on 14 välkäytykseen. Pelaaja <code>@</code> sijatsee koordinaatissa <code>1 2</code>. Huomaa että koordinaatit lasketaan aina pelialueen vasemmasta ylälaidasta lähtien. Alla olevassa kartassa merkki <code>X</code> on koordinaatissa <code>0 0</code>, <code>Y</code> koordinaatissa <code>2 0</code> ja <code>Z</code> koordinaatissa <code>0 2</code>.
+  </p>
+
+  <% partial 'partials/sample_output' do %>
+X.Y..............
+.................
+Z................
+.................
+  <% end %>
+
+  <p>
+    Käyttäjä voi liikkua antamalla sarjan komentoja ja painamalla rivinvaihtoa. Komennot ovat:
+  </p>
+
+  <ul>
+    <li><code>w</code> liiku ylöspäin</li>
+    <li><code>s</code> liiku alaspäin</li>
+    <li><code>a</code> liiku vasemmalle</li>
+    <li><code>d</code> liiku oikealle</li>
+  </ul>
+
+  <p>
+    Kun käyttäjän antamat komennot on suoritettu (niitä voi olla useampi), piirretään uusi pelitilanne. Lampun virta vähenee yhdellä aina kun uusi pelitilanne piirretään. Jos virta menee nollaan, peli loppuu ja ruudulle tulostetaan teksti <code>HÄVISIT</code>.
+  </p>
+
+  <p>
+    Hirviöt liikkuvat pelissä satunnaisesti, yhden askeleen jokaista pelaajan askelta kohti -- voit käyttää luokkaa Random satunnaisen liikkeen luomiseen (satunnainen liike luodaan esim. arpomalla luku väliltä 0-3, jokainen luku vastaa yhtä suuntaa). Jos pelaaja ja hirviö osuvat samaan ruutuun (vaikka vain tilapäisesti), hirviö tuhoutuu. Jos hirviö yrittää siirtyä pelilaudalta ulos tai ruutuun jossa on jo hirviö, jätetään siirto suorittamatta. Kun kaikki hirviöt on tuhottu, peli loppuu ja tulostetaan <code>VOITIT</code>.
+  </p>
+
+  <p>
+    Testaamisen helpottamiseksi tee peliisi luokka <code>Luola</code>, jolla on:
+  </p>
+
+  <ul>
+    <li>konstruktori <strong><code>public Luola(int leveys, int korkeus, int hirvioita, int siirtoja, boolean hirviotLiikkuvat)</code></strong>
+      <p>Luvut <code>leveys</code> ja <code>korkeus</code> antavat luolan koon (se on aina neliskulmainen), <code>hirvioita</code> antaa hirviöiden lukumäärän alussa (hirviöiden sijainnin voi arpoa), <code>siirtoja</code> antaa siirtojen lukumäärän alussa ja jos <code>hirviotLiikkuvat</code> on <code>false</code>, hirviöt eivät liiku.</p></li>
+    <li>metodi <strong><code>public void run(Scanner lukija)</code></strong> joka käynnistää pelin, ja jolle annetaan uusi Scanner-olio parametriksi</li>
+  </ul>
+
+  <p>
+    <em>Huom!</em> pelaajan tulee aloittaa sijainnista 0,0!
+  </p>
+
+  <p>
+    <em>Huom!</em> jos pelaaja tai hirviö koittaa liikkua ulos luolasta tai kaksi hirviötä koittaa liikkua samaan ruutuun, ei liikettä tule tapahtua!
+  </p>
+
+  <p>
+    Alla vielä selkeyden vuoksi esimerkkipeli:
+  </p>
+
+  <% partial 'partials/sample_output' do %>
+14
+
+@ 0 0
+h 1 2
+h 7 8
+h 7 5
+h 8 0
+h 2 9
+
+@.......h.
+..........
+.h........
+..........
+..........
+.......h..
+..........
+..........
+.......h..
+..h.......
+
+<font color="red">ssd</font>
+13
+
+@ 1 2
+h 8 8
+h 7 4
+h 8 3
+h 1 8
+
+..........
+..........
+.@........
+........h.
+.......h..
+..........
+..........
+..........
+.h......h.
+..........
+
+<font color="red">ssss</font>
+12
+
+@ 1 6
+h 6 9
+h 6 5
+h 8 3
+
+..........
+..........
+..........
+........h.
+..........
+......h...
+.@........
+..........
+..........
+......h...
+
+<font color="red">dd</font>
+11
+
+@ 3 6
+h 5 9
+h 6 7
+h 8 1
+
+..........
+........h.
+..........
+..........
+..........
+..........
+...@......
+......h...
+..........
+.....h....
+
+<font color="red">ddds</font>
+10
+
+@ 6 7
+h 6 6
+h 5 0
+
+.....h....
+..........
+..........
+..........
+..........
+..........
+......h...
+......@...
+..........
+..........
+
+<font color="red">w</font>
+9
+
+@ 6 6
+h 4 0
+
+....h.....
+..........
+..........
+..........
+..........
+..........
+......@...
+..........
+..........
+..........
+
+<font color="red">www</font>
+8
+
+@ 6 3
+h 4 0
+
+....h.....
+..........
+..........
+......@...
+..........
+..........
+..........
+..........
+..........
+..........
+
+<font color="red">aa</font>
+7
+
+@ 4 3
+h 4 2
+
+..........
+..........
+....h.....
+....@.....
+..........
+..........
+..........
+..........
+..........
+..........
+
+<font color="red">w</font>
+VOITIT
+  <% end %>
+
+<% end %>
+
+
+<%= partial 'partials/quiz', locals: { id: '58cfafff28a0e60004775155' } %>

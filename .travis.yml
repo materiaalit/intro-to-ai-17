@@ -1,0 +1,32 @@
+language: ruby
+rvm: 2.3.3
+cache:
+  bundler: true
+  directories:
+  - node_modules
+branches:
+  only:
+  - master
+before_install:
+- nvm install 7.4.0
+install:
+- npm install
+- bundle install --jobs=3 --retry=3 --deployment --path=${BUNDLE_PATH:-vendor/bundle}
+before_script:
+- git config --global user.name "hnbot"
+- git config --global user.email "nygrenh+hnbot@gmail.com"
+- export COMMIT_MESSAGE=Update:\ $(git log -1 --pretty=%s)
+- git clone -b gh-pages --single-branch https://github.com/materiaalit/intro-to-ai-17.git
+  build
+script:
+- bundle exec middleman build
+after_success:
+- cd build
+- git checkout HEAD README.md .github
+- git add --all
+- git commit -m "$COMMIT_MESSAGE"
+- git push "https://hnbot:$GITHUB_API_KEY@github.com/materiaalit/intro-to-ai-17.git"
+  gh-pages:gh-pages 2>&1 | sed "s/$GITHUB_API_KEY/<confidential>/g"
+env:
+  global:
+    secure: vjzExwvAUPuwL8BAuC6su5yoQxB/GLNvuFdK6IuvTfUo5E7egMZn+AvdULWZiy75FjewBS+eLxNywgbi431U6x0b8LUPab4Dri4x0gvcmvra5jZM6EaKJ3ez+G2g7qepZLeLgFjnDBOf9OqTFsvElbUY/J3F2Cy/1xHjUeC1BodZ8CmUXsare4zLNYKs3DTokyjahUIziHYJX2svpyTazARfY0HZjtLNdR+p1k8fbsmTrddNxFNJz/1bQHMdsHF9kPmKflQpGplZ4u1TWxWDIHVZ7CteSIR0FOM1bO6eMOx7JU6XViwAQwn6YD4wOcNyXQLAy/tOkmo54i44bWhNYS2MLvq1T/qRDsYFJx8zDSR/kJckWS60anTDtr+qFuqDPC+nNoILCt+WiQLIUqXEE7zi8h48XZDzMxCG83kXTbRshIUZ+p+Tnzu8VWBKLBdzvlzgVgw+uts2d8Da+eac15CI0R2qSC7dzYpjfSzVyeoZuc+hI3JNU/W5iPy4uqtiiZVDwnjIqd4iTg4Z/5MVUDoberM1cC+0lMulU1ur68fUC3HSfrf2EvyPAgKzsJRqMxAs7QiRuOgv5LWmn39mFrflmybjcA7+NyS0+kqn2CsvW+NTTalhZa++YuDPHjDKKA4ZxyQ9TEwbPmfbCGB1+ohpGgbhfFTPJMLCzkEegBA=

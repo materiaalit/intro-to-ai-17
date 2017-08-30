@@ -1,0 +1,2338 @@
+---
+  title: Osa 7
+  exercise_page: true
+  quiz_page: true
+  published: false
+---
+
+
+<% partial 'partials/hint', locals: { name: 'Seitsemännen osion tavoitteet' } do %>
+
+  <p>
+    Seitsemäs osa on viimeinen osa kurssilla Ohjelmoinnin perusteet. Kahdeksas osa aloittaa Ohjelmoinnin jatkokurssin. Kurssit kannattaa suorittaa "putkeen" -- Ohjelmoinnin MOOC sisältää molemmat osat.
+  </p>
+
+  <p>
+    Seitsemännessä osassa pohditaan ohjelmien kommentointia, rakennetta sekä ohjelmien koostamista useammista paloista. Tutustumme myös lyhyesti automaattiseen testaamiseen (teema tulee tutummaksi Ohjelmoinnin jatkokurssilla) sekä opimme kirjoittamaan tietoa tiedostoihin. Kertaaminen on myös suuressa roolissa.
+  </p>
+
+  <p>
+    Ohjeet kolmanteen konekokeeseen löytyvät tämän osan lopusta.
+  </p>
+
+<% end %>
+
+<% partial 'partials/hint', locals: { name: 'Kurssin väli/loppukysely' } do %>
+
+
+  <p>
+    Kurssiin kuuluu kyselyitä, joiden tavoitteena on parantaa kurssia. Vastaa kyselyyn osoitteessa <a href="https://elomake.helsinki.fi/lomakkeet/78143/lomake.html"  target="_blank" rel="noopener">https://elomake.helsinki.fi/lomakkeet/78143/lomake.html</a>.
+  </p>
+
+  <p>
+    Käy vastaamassa ensin kyselyyn ja ruksaa sen jälkeen allaoleva tekstikenttä. Jos allaolevan tekstikentän ruksaaminen ei onnistu, varmista että olet kirjautunut tälle sivulle. Kirjautuminen onnistuu sivun oikeasta ylälaidasta.
+  </p>
+
+  <%= partial 'partials/quiz', locals: { id: '58ae1066ad2afb0004f42931' } %>
+
+<% end %>
+
+
+
+<% partial 'partials/material_heading' do %>
+  Ohjelmien rakenteesta
+<% end %>
+
+<p>
+  Aloitetaan seitsemäs osa muutamalla sanalla lähdekoodin kommentoinnista sekä ymmärrettävyydestä.
+</p>
+
+<% partial 'partials/material_sub_heading' do %>
+  Lähdekoodin kommentointi
+<% end %>
+
+<p>
+  Lähdekoodiin voidaan lisätä kommentteja joko yhdelle riville kahden vinoviivan jälkeen <code>// kommentti</code> tai useammalle riville vinoviivan ja tähden sekä tähden ja vinoviivan rajaamalle alueelle <code>/* kommentti */</code>.
+</p>
+
+
+<% partial 'partials/code_highlight' do %>
+/*
+Tulostaa luvut kymmenestä yhteen. Jokainen
+luku tulostetaan omalle rivilleen.
+*/
+int luku = 10;
+while (luku &gt; 0) {
+    System.out.println(luku);
+    luku--; // sama kuin luku = luku - 1;
+}
+<% end %>
+
+
+<p>
+  Kommenteilla on useita käyttötarkoituksia. Ohjelmointikurssilla ohjelmointia opettelevan kannattaa käyttää kommentteja ohjelman toiminnallisuuden itselleen selittämiseen. Kun yllä oleva lähdekoodi on selitetty kommenteissa rivi riviltä auki, näyttää se esimerkiksi seuraavalta.
+</p>
+
+<% partial 'partials/code_highlight' do %>
+/*
+Tulostaa luvut kymmenestä yhteen. Jokainen
+luku tulostetaan omalle rivilleen.
+*/
+
+// Luodaan kokonaislukutyyppinen muuttuja nimeltä
+// luku, johon asetetaan arvo 10.
+int luku = 10;
+
+// Toistolauseen lohkon suoritusta jatketaan kunnes
+// muuttujan luku arvo on nolla tai pienempi kuin nolla.
+// Suoritus ei lopu _heti_ kun muuttujaan luku asetetaan
+// arvo nolla, vaan vasta kun toistolauseen ehtolauseke
+// evaluoidaan seuraavan kerran. Tämä tapahtuu aina lohkon
+// suorituksen jälkeen.
+while (luku &gt; 0) {
+    // tulostetaan muuttujassa luku oleva arvo sekä rivinvaihto
+    System.out.println(luku);
+    // vähennetään yksi luku-muuttujan arvosta
+    luku--; // sama kuin luku = luku - 1;
+}
+<% end %>
+
+<p>
+  Kommentit eivät vaikuta ohjelman suoritukseen, eli ohjelma toimii kommenttien kanssa täysin samalla tavalla kuin ilman kommentteja.
+</p>
+
+<p>
+  Edellä käytetty ohjelmoinnin opetteluun tarkoitettu kommentointityyli on kuitenkin ohjelmistokehitykseen kelpaamaton. Ohjelmistoja rakennettaessa <strong>lähdekoodin tulee kommentoida itse itsensä</strong>. Tällöin ohjelman toiminnallisuus tulee ilmi luokkien, metodien ja muuttujien nimistä.
+</p>
+
+<p>
+  Edelliset esimerkit voidaan yhtä hyvin kommentoida kapseloimalla ohjelmakoodi sopivasti nimettyn metodin sisään. Alla on kaksi esimerkkiä yllä olevan koodin kapseloivista metodeista -- toinen metodeista on hieman yleiskäyttöisempi kuin toinen.
+</p>
+
+<% partial 'partials/code_highlight' do %>
+public void tulostaLuvutKymmenestaYhteen() {
+    int luku = 10;
+    while (luku &gt; 0) {
+        System.out.println(luku);
+        luku--;
+    }
+}
+<% end %>
+
+<% partial 'partials/code_highlight' do %>
+public void tulostaLuvutIsoimmastaPienimpaan(int mista, int mihin) {
+    while (mista &gt;= mihin) {
+        System.out.println(mista);
+        mista--;
+    }
+}
+<% end %>
+
+<% partial 'partials/material_sub_heading' do %>
+  Kommenteista ja ymmärrettävyydestä
+<% end %>
+
+<p>
+  Alla on hieman kryptisempi ohjelma.
+</p>
+
+<p>
+  Tutustu ohjelmaan ja yritä selvittää mitä ohjelma tekee ennen materiaalissa etenemistä. Alla olevan ohjelman suorituksen selvittämisessä kannattaa käyttää esimerkiksi kynää ja paperia. Kun käytössäsi on kynä ja paperi, aloita ohjelmakoodin läpi käyminen rivi riviltä kuin olisit tietokone. Kirjaa jokaisen rivin jälkeen ylös ohjelman käyttämissä muuttujissa tapahtuneet muutokset.
+</p>
+
+<% partial 'partials/code_highlight' do %>
+int[] t = {12, 14, 18, 40, 41, 42, 47, 52, 59};
+int x = 42;
+
+int a = 0;
+int b = t.length - 1;
+while (a &lt;= b) {
+    int c = a + (b - a) / 2;
+    if (x &lt; t[c]) {
+        b = c - 1;
+    } else if (x &gt; t[c]) {
+        a = c + 1;
+    } else {
+        System.out.println(c);
+    }
+}
+
+System.out.println("-1");
+<% end %>
+
+<p>
+  Kun olet kokeillut ohjelman toiminnan seuraamista yllä olevalla ohjelmalla, toista harjoitus alla olevalla ohjelmalla. Alla olevassa ohjelmassa muuttujien nimet on muutettu kuvaavammiksi.
+</p>
+
+<% partial 'partials/code_highlight' do %>
+int[] taulukko = {12, 14, 18, 40, 41, 42, 47, 52, 59};
+int haettava = 42;
+
+int alaraja = 0;
+int ylaraja = taulukko.length - 1;
+while (alaraja &lt;= ylaraja) {
+    int keskikohta = alaraja + (ylaraja - alaraja) / 2;
+    if (haettava &lt; taulukko[keskikohta]) {
+        ylaraja = keskikohta - 1;
+    } else if (haettava &gt; taulukko[keskikohta]) {
+        alaraja = keskikohta + 1;
+    } else {
+        System.out.println(keskikohta);
+    }
+}
+
+System.out.println("-1");
+<% end %>
+
+<p>
+  Lähdekoodi, missä muuttujien nimet on selkeitä, on helpommin ymmärrettävää kuin lähdekoodi, missä muuttujien nimet eivät kuvaa niiden tarkoitusta. Haluamme ohjelmasta kuitenkin version, joka on nopeasti ymmärrettävissä. Luodaan siitä metodi ja nimetään metodi sopivasti.
+</p>
+
+<% partial 'partials/code_highlight' do %>
+public int binaariHaku(int[] taulukko, int haettava) {
+    int alaraja = 0;
+    int ylaraja = taulukko.length - 1;
+    while (alaraja &lt;= ylaraja) {
+        int keskikohta = alaraja + (ylaraja - alaraja) / 2;
+        if (haettava &lt; taulukko[keskikohta]) {
+            ylaraja = keskikohta - 1;
+        } else if (haettava &gt; taulukko[keskikohta]) {
+            alaraja = keskikohta + 1;
+        } else {
+            return keskikohta;
+        }
+    }
+
+    return -1;
+}
+<% end %>
+
+<p>
+  Lähdekoodi on nyt ymmärrettävissä suoraan metodin määrittelystä: <code>public void binaariHaku(int[] taulukko, int haettava)</code>. Kyseessä on binäärihakualgoritmi, joka etsii taulukosta annettua lukua. Metodimäärittely ei kuitenkaan kerro binäärihakuun liittyvistä oletuksista tai sen palautusarvoista.
+</p>
+
+<p>
+  Korjataan tilanne kommentilla. Yllä esitetyn binäärihakualgoritmin toiminnan ehtona on se, että taulukko on järjestyksessä pienimmästä suurimpaan. Jos etsittävä luku löytyy, algoritmi palauttaa luvun indeksin. Jos lukua taas ei löydy, algoritmi palauttaa luvun -1.
+</p>
+
+<p>
+  Käytämme alla ohjelman dokumentointiin liittyvää kommentointitapaa, missä kommentti alkaa vinoviivalla ja kahdella tähdellä sekä päättyy yhteen tähteen ja vinoviivaan <code>/** kommentti */</code>. Ohjelmointiympäristöt näyttävät metodeihin liittyvät dokumenttikommentit muunmuassa lähdekoodin automaattisen täydennyksen yhteydessä.
+</p>
+
+<% partial 'partials/code_highlight' do %>
+/**
+  Binäärihaku etsii parametrina annetusta taulukosta parametrina annettua lukua.
+  Jos etsittävä luku löytyy, metodi palauttaa luvun indeksin taulukossa. Jos
+  etsittävää lukua ei löydy, metodi palauttaa arvon -1. Metodi olettaa, että
+  taulukko on järjestetty pienimmästä arvosta suurimpaan.
+*/
+
+public int binaariHaku(int[] taulukko, int haettava) {
+    int alaraja = 0;
+    int ylaraja = taulukko.length - 1;
+    while (alaraja &lt;= ylaraja) {
+        int keskikohta = alaraja + (ylaraja - alaraja) / 2;
+        if (haettava &lt; taulukko[keskikohta]) {
+            ylaraja = keskikohta - 1;
+        } else if (haettava &gt; taulukko[keskikohta]) {
+            alaraja = keskikohta + 1;
+        } else {
+            return keskikohta;
+        }
+    }
+
+    return -1;
+}
+<% end %>
+
+<p>
+  Alla olevassa kuvassa näytetään miten ohjelmointiympäristö näyttää metodiin liittyvän kommentin. Oletuksena on, että hakualgoritmi on luokassa Hakualgoritmit. Kun luokasta on tehty olio, ja ohjelmoija alkaa kirjoittamaan metodin nimeä, näyttää ohjelmointiympäristö metodiin aiemmin liitetyn dokumentaation.
+</p>
+
+<img src="/img/material/autocomplete-with-comment.png" alt="Ohjelmointiympäristö näyttää metodiin liitetyn kommentin."/>
+
+<p>
+  &nbsp;
+</p>
+
+<p>
+  Kommentteja käytetään siis ensisijaisesti luokkien sekä metodien yleisen toiminnallisuuden kuvaamisessa sen sijaan, että kerrottaisiin yksityiskohtaisesti mitä ohjelma tekee. Yksityiskohtainen ohjelman toiminnan avaaminen on kuitenkin hyvä tapa selittää ohjelmakoodia itselleen. Yleisesti ottaen voidaan ajatella niin, että vaikeasti ymmärrettävät ohjelmat kannattaa pilkkoa luokkiin ja metodeihin, jotka kuvaavat ohjelman rakennetta. Dokumentointi ja kommentointi niiltä osin, mitkä eivät ole luokkien tai metodien nimistä selviä, on tärkeää -- esimerkiksi metodien paluuarvot sekä niiden toimintaan liittyvät oletukset on hyvä dokumentoida.
+</p>
+
+
+<% partial 'partials/material_sub_heading' do %>
+  Sovellus ja sen osat
+<% end %>
+
+<p>
+  Edellä puhuimme kommenteista sekä ohjelman pilkkomisesta luokkiin ja metodeihin, jotka kuvaavat ohjelman rakennetta. Seuraava katkelma on <a href="https://en.wikipedia.org/wiki/Edsger_W._Dijkstra" target="_blank" rel="noopener">Edsger W. Dijkstran</a> artikkelista <a href="https://www.cs.utexas.edu/users/EWD/ewd04xx/EWD447.PDF" target="_blank" rel="noopener">On the role of scientific thought</a>.
+</p>
+
+<p>
+  <em>
+    Let me try to explain to you, what to my taste is characteristic for all intelligent thinking. It is, that one is willing to study in depth an aspect of one's subject matter in isolation for the sake of its own consistency, all the time knowing that one is occupying oneself only with one of the aspects. We know that a program must be correct and we can study it from that viewpoint only; we also know that it should be efficient and we can study its efficiency on another day, so to speak. In another mood we may ask ourselves whether, and if so: why, the program is desirable. But nothing is gained - on the contrary! - by tackling these various aspects simultaneously. It is what I sometimes have called "<strong>the separation of concerns</strong>", which, even if not perfectly possible, is yet the only available technique for effective ordering of one's thoughts, that I know of. This is what I mean by "focusing one's attention upon some aspect": it does not mean ignoring the other aspects, it is just doing justice to the fact that from this aspect's point of view, the other is irrelevant. It is being one- and multiple-track minded simultaneously.
+  </em>
+</p>
+
+<p>
+  Ohjelmoijan tulee pystyä tarkastelemaan ohjelmaansa eri näkökulmista ilman, että muut ohjelman osa-alueet vievät keskittymistä. Käyttöliittymään tulee voida keskittyä ilman, että ohjelmoijan tulee keskittyä sovelluksen ydinlogiikkaan. Vastaavasti ohjelmassa ja ongelma-alueessa esiintyviin käsitteisiin tulee voida keskittyä ilman, että ohjelmoijan tarvitsee välittää käyttöliittymästä. Vastaavasti ohjelmassa käytettävien algoritmien tehokkuus on oma "huolenaihe", johon ohjelmoijan tulee voida keskittyä ilman huolta muista osa-alueista.
+</p>
+
+<p>
+  Samaa ajatusta voidaan jatkaa vastuiden näkökulmasta. Robert "Uncle Bob" C. Martin kuvaa <a href="https://8thlight.com/blog/uncle-bob/2014/05/08/SingleReponsibilityPrinciple.html" target="_blank" rel="noopener">blogissaan</a> termiä "<strong>single responsibility principle</strong>" seuraavasti.
+</p>
+
+
+<p>
+  <em>
+    When you write a software module, you want to make sure that when changes are requested, those changes can only originate from a single person, or rather, a single tightly coupled group of people representing a single narrowly defined business function. You want to isolate your modules from the complexities of the organization as a whole, and design your systems such that each module is responsible (responds to) the needs of just that one business function.
+  </em>
+</p>
+
+<p>
+  <em>
+    [..in other words..] Gather together the things that change for the same reasons. Separate those things that change for different reasons.
+  </em>
+</p>
+
+
+<p>
+  Selkeys saadaan aikaan sopivalla luokkarakenteella sekä nimeämiskäytänteiden seuraamisella. Jokaisella luokalla tulee olla vastuu, johon liittyviä tehtäviä luokka hoitaa. Metodeja käytetään toiston vähentämiseen ja luokkien sisäisten toimintojen jäsentämiseen. Myös metodeilla tulee olla selkeä vastuu eli metodien ei tule olla liian pitkiä ja liian montaa asiaa tekeviä. Liian montaa asiaa tekevät monimutkaiset metodit tuleekin pilkkoa useiksi pienemmiksi apumetodeiksi joita alkuperäinen metodi kutsuu.
+</p>
+
+
+
+<% partial 'partials/hint', locals: { name: 'Hyvin harva ohjelma kirjoitetaan vain kerran' } do %>
+
+  <p>
+    Ohjelmistoja kehittäessä keskitytään tyypillisesti niihin ohjelmiston ominaisuuksiin, jotka tuovat eniten arvoa ohjelmiston käyttäjälle. Nämä ominaisuudet sovitaan yhdessä ohjelmiston kehittäjän sekä loppukäyttäjän kanssa, mikä mahdollistaa ominaisuuksien järjestämisen tärkeysjärjestykseen.
+  </p>
+
+  <p>
+    Ohjelmistoille on tyypillistä se, että ohjelmistoon liittyvät toiveet sekä ominaisuuksien tärkeysjärjestys muuttuu ohjelmiston elinkaaren aikana. Tämä johtaa siihen, että osia ohjelmistosta kirjoitetaan uudestaan, osia siirrellään paikasta toiseen ja osia poistetaan kokonaan.
+  </p>
+
+  <p>
+    Ohjelmoijan näkökulmasta tämä tarkoittaa ensisijaisesti sitä, että ohjelmisto kehittyy jatkuvasti. Uudelleenkirjoitettavat osat tulevat tyypillisesti paremmiksi, sillä ohjelmoija oppii ongelma-alueesta siihen liittyviä ratkaisuja kehittäessään. Samalla tämä tarkoittaa sitä, että ohjelmoijan tulee myös säilyttää kokonaiskuva ohjelman rakenteesta, sillä joitain osia saatetaan myös uudelleenkäyttää muissa osissa ohjelmistoa.
+  </p>
+
+  <p>
+    Yleisesti ottaen voidaan todeta, että hyvin harva ohjelma kirjoitetaan vain kerran. Tätä ajatusta jatkaen on hyvä pyrkiä tilanteeseen, missä ohjelman käyttäjä pääsee kokeilemaan sitä mahdollisimman nopeasti -- tällöin muutostoiveiden kerääminen myös alkaa nopeasti. Ohjelmistoja tehdessä onkin hyvä usein luoda ensin <a href="https://en.wikipedia.org/wiki/Proof_of_concept" target="_blank" rel="noopener">Proof of Concept</a>-sovellus, jolla voidaan kokeilla idean toimivuutta. Jos idea on hyvä, sitä jatkokehitetään -- samalla myös ohjelma ja kehittyy.
+  </p>
+
+<% end %>
+
+
+
+<% partial 'partials/material_heading' do %>
+  Ongelmasta kokonaisuuteen ja takaisin osiin
+<% end %>
+
+<p>
+  Tarkastellaan erään ohjelman rakennusprosessia. Ohjelma kysyy käyttäjältä sanoja kunnes käyttäjä syöttää saman sanan uudestaan. Ohjelma käyttää taulukkoa sanojen tallentamiseen -- ohjelmassa on tehty oletus, että käyttäjä voi syöttää korkeintaan 1000 sanaa.
+</p>
+
+<% partial 'partials/sample_output' do %>
+Anna sana: <span class="red">porkkana</span>
+Anna sana: <span class="red">selleri</span>
+Anna sana: <span class="red">nauris</span>
+Anna sana: <span class="red">lanttu</span>
+Anna sana: <span class="red">selleri</span>
+Annoit saman sanan uudestaan!
+<% end %>
+
+<p>
+  Rakennetaan ohjelma osissa. Eräs haasteista on se, että on vaikea päättää miten lähestyä tehtävää, eli miten ongelma tulisi jäsentää osaongelmiksi, ja mistä osaongelmasta kannattaisi aloittaa. Yhtä oikeaa vastausta ei ole -- joskus on hyvä lähteä pohtimaan ongelmaan liittyviä käsitteitä ja niiden yhteyksiä, joskus taas ohjelman tarjoamaa käyttöliittymää.
+</p>
+
+<p>
+  Käyttöliittymän hahmottelu voisi lähteä liikenteeseen luokasta Kayttoliittyma. Käyttöliittymä käyttää Scanner-oliota, jonka sille voi antaa. Tämän lisäksi käyttöliittymällä on käynnistämiseen tarkoitettu metodi.
+</p>
+
+<% partial 'partials/code_highlight' do %>
+public class Kayttoliittyma {
+    private Scanner lukija;
+
+    public Kayttoliittyma(Scanner lukija) {
+        this.lukija = lukija;
+    }
+
+    public void kaynnista() {
+        // tehdään jotain
+    }
+}
+<% end %>
+
+<p>
+  Käyttöliittymän luominen ja käynnistäminen onnistuu seuraavasti.
+</p>
+
+<% partial 'partials/code_highlight' do %>
+public static void main(String[] args) {
+    Scanner lukija = new Scanner(System.in);
+    Kayttoliittyma kayttoliittyma = new Kayttoliittyma(lukija);
+    kayttoliittyma.kaynnista();
+}<% end %>
+
+
+
+<% partial 'partials/material_sub_heading' do %>
+  Toisto ja lopetus
+<% end %>
+
+<p>
+  Ohjelmassa on (ainakin) kaksi "aliongelmaa". Ensimmäinen on sanojen toistuva lukeminen käyttäjältä kunnes tietty ehto toteutuu. Tämä voitaisiin hahmotella seuraavaan tapaan.
+</p>
+
+
+<% partial 'partials/code_highlight' do %>
+public class Kayttoliittyma {
+    private Scanner lukija;
+
+    public Kayttoliittyma(Scanner lukija) {
+        this.lukija = lukija;
+    }
+
+    public void kaynnista() {
+
+        while (true) {
+            System.out.print("Anna sana: ");
+            String sana = lukija.nextLine();
+
+            if (<em>pitää lopettaa</em>) {
+                break;
+            }
+
+        }
+
+        System.out.println("Annoit saman sanan uudestaan!");
+    }
+}
+<% end %>
+
+
+<p>
+  Sanojen kysely jatkuu kunnes käyttäjä syöttää jo aiemmin syötetyn sanan. Täydennetään ohjelmaa siten, että se tarkistaa onko sana jo syötetty. Vielä ei tiedetä miten toiminnallisuus kannattaisi tehdä, joten tehdään siitä vasta runko.
+</p>
+
+<% partial 'partials/code_highlight' do %>
+public class Kayttoliittyma {
+    private Scanner lukija;
+
+    public Kayttoliittyma(Scanner lukija) {
+        this.lukija = lukija;
+    }
+
+    public void kaynnista() {
+
+        while (true) {
+            System.out.print("Anna sana: ");
+            String sana = lukija.nextLine();
+
+            if (onJoSyotetty(sana)) {
+                break;
+            }
+
+        }
+
+        System.out.println("Annoit saman sanan uudestaan!");
+    }
+
+    public boolean onJoSyotetty(String sana) {
+        // tänne jotain
+
+        return false;
+    }
+}
+<% end %>
+
+<p>
+  Ohjelmaa on hyvä testata koko ajan, joten tehdään metodista kokeiluversio:
+</p>
+
+<% partial 'partials/code_highlight' do %>
+public boolean onJoSyotetty(String sana) {
+    if (sana.equals("loppu")) {
+        return true;
+    }
+
+    return false;
+}
+<% end %>
+
+<p>
+  Nyt toisto jatkuu niin kauan kunnes syötteenä on sana loppu:
+</p>
+
+<% partial 'partials/sample_output' do %>
+Anna sana: <span class="red">porkkana</span>
+Anna sana: <span class="red">selleri</span>
+Anna sana: <span class="red">nauris</span>
+Anna sana: <span class="red">lanttu</span>
+Anna sana: <span class="red">loppu</span>
+Annoit saman sanan uudestaan!
+<% end %>
+
+<p>
+  Ohjelma ei toimi vielä kokonaisuudessaan, mutta ensimmäinen osaongelma eli ohjelman pysäyttäminen kunnes tietty ehto toteutuu on saatu toimimaan.
+</p>
+
+<% partial 'partials/material_sub_heading' do %>
+  Oleellisten tietojen tallentaminen
+<% end %>
+
+<p>
+  Toinen osaongelma on aiemmin syötettyjen sanojen muistaminen. Taulukko sopii mainiosti tähän tarkoitukseen -- myös ArrayList kävisi mainiosti, mutta harjoitellaan taulukkojen käyttöä. Taulukon lisäksi tarvitaan muuttuja, joka pitää kirjaa taulukkoon lisättyjen sanojen lukumäärästä ja samalla seuraavaksi taulukkoon lisättävän sanan indeksistä. Lisätään nämä toistaiseksi luokan Kayttoliittyma oliomuuttujiksi.
+</p>
+
+<% partial 'partials/code_highlight' do %>
+String[] aiemmatSanat = new String[1000];
+int sanojaSyotetty = 0;
+<% end %>
+
+<p>
+  Kun uusi sana syötetään, on se lisättävä syötettyjen sanojen joukkoon. Tämä tapahtuu lisäämällä while-silmukkaan taulukkoa ja sanojen laskuria päivittävät rivit:
+</p>
+
+<% partial 'partials/code_highlight' do %>
+while (true) {
+    System.out.print("Anna sana: ");
+    String sana = lukija.nextLine();
+
+    if (onJoSyotetty(sana)) {
+        break;
+    }
+
+    // lisätään uusi sana aiempien sanojen taulukkoon
+    aiemmatSanat[sanojaSyotetty] = sana;
+    sanojaSyotetty++;
+}
+<% end %>
+
+<p>
+  Kayttoliittyma näyttää kokonaisuudessaan seuraavalta.
+</p>
+
+<% partial 'partials/code_highlight' do %>
+public class Kayttoliittyma {
+    private Scanner lukija;
+    private String[] aiemmatSanat;
+    private int sanojaSyotetty;
+
+    public Kayttoliittyma(Scanner lukija) {
+        this.lukija = lukija;
+        this.aiemmatSanat = new String[1000];
+        this.sanojaSyotetty = 0;
+    }
+
+    public void kaynnista() {
+
+        while (true) {
+            System.out.print("Anna sana: ");
+            String sana = lukija.nextLine();
+
+            if (onJoSyotetty(sana)) {
+                break;
+            }
+
+            // lisätään uusi sana aiempien sanojen taulukkoon
+            aiemmatSanat[sanojaSyotetty] = sana;
+            sanojaSyotetty++;
+
+        }
+
+        System.out.println("Annoit saman sanan uudestaan!");
+    }
+
+    public boolean onJoSyotetty(String sana) {
+        if (sana.equals("loppu")) {
+            return true;
+        }
+
+        return false;
+    }
+}
+<% end %>
+
+<p>
+  Jälleen kannattaa testata, että ohjelma toimii edelleen. Voi olla hyödyksi esim. lisätä kaynnista-metodin loppuun testitulostus, joka varmistaa että syötetyt sanat todella menivät taulukkoon.
+</p>
+
+<% partial 'partials/code_highlight' do %>
+// testitulostus joka varmistaa että kaikki toimii edelleen
+for (int i = 0; i &lt; this.sanojaSyotetty; i++) {
+    System.out.println(this.aiemmatSanat[i]);
+}
+<% end %>
+
+<% partial 'partials/material_sub_heading' do %>
+  Osaongelmien ratkaisujen yhdistäminen
+<% end %>
+
+<p>
+  Muokataan vielä äsken tekemämme metodi <code>onJoSyotetty</code> tutkimaan onko kysytty sana jo syötettyjen joukossa, eli taulukon käytössä olevassa alkuosassa.
+</p>
+
+<% partial 'partials/code_highlight' do %>
+public boolean onJoSyotetty(String sana) {
+    for (int i = 0; i &lt; this.sanojaSyotetty; i++) {
+        if (sana.equals(this.aiemmatSanat[i])) {
+            return true;
+        }
+    }
+
+    return false;
+}
+<% end %>
+
+<p>
+  Nyt sovellus toimii kutakuinkin halutusti.
+</p>
+
+<% partial 'partials/material_sub_heading' do %>
+  Oliot luonnollisena osana ongelmanratkaisua
+<% end %>
+
+<p>
+  Rakensimme äsken ratkaisun ongelmaan, missä luetaan käyttäjältä sanoja, kunnes käyttäjä antaa saman sanan uudestaan. Syöte ohjelmalle oli esimerkiksi seuraavanlainen.
+</p>
+
+<% partial 'partials/sample_output' do %>
+Anna sana: <span class="red">porkkana</span>
+Anna sana: <span class="red">selleri</span>
+Anna sana: <span class="red">nauris</span>
+Anna sana: <span class="red">lanttu</span>
+Anna sana: <span class="red">selleri</span>
+Annoit saman sanan uudestaan!
+<% end %>
+
+<p>Päädyimme ratkaisuun</p>
+
+<% partial 'partials/code_highlight' do %>
+public class Kayttoliittyma {
+    private Scanner lukija;
+    private String[] aiemmatSanat;
+    private int sanojaSyotetty;
+
+    public Kayttoliittyma(Scanner lukija) {
+        this.lukija = lukija;
+        this.aiemmatSanat = new String[1000];
+        this.sanojaSyotetty = 0;
+    }
+
+    public void kaynnista() {
+
+        while (true) {
+            System.out.print("Anna sana: ");
+            String sana = lukija.nextLine();
+
+            if (onJoSyotetty(sana)) {
+                break;
+            }
+
+            // lisätään uusi sana aiempien sanojen taulukkoon
+            aiemmatSanat[sanojaSyotetty] = sana;
+            sanojaSyotetty++;
+
+        }
+
+        System.out.println("Annoit saman sanan uudestaan!");
+    }
+
+    public boolean onJoSyotetty(String sana) {
+        for (int i = 0; i &lt; this.sanojaSyotetty; i++) {
+            if (sana.equals(this.aiemmatSanat[i])) {
+                return true;
+            }
+        }
+
+        return false;
+    }
+}
+<% end %>
+
+
+<p>
+  Ohjelman käyttämät apumuuttujat, eli taulukko <code>aiemmatSanat</code> ja kokonaisluku <code>sanojaSyotetty</code> ovat yksityiskohtia käyttöliittymän kannalta. Käyttöliittymän kannaltahan on oleellista, että muistetaan niiden <em>sanojen joukko</em> jotka on nähty jo aiemmin. Sanojen joukko on selkeä erillinen "käsite", tai abstraktio. Tälläiset selkeät käsitteet ovat potentiaalisia olioita; kun koodissa huomataan "käsite" voi sen eristämistä erilliseksi luokaksi harkita.
+</p>
+
+<% partial 'partials/material_sub_sub_heading' do %>
+  Sanajoukko
+<% end %>
+
+<p>
+  Tehdään luokka <code>Sanajoukko</code>, jonka käyttöönoton jälkeen käyttöliittymän metodi <code>kaynnista</code> on seuraavanlainen:
+</p>
+
+<% partial 'partials/code_highlight' do %>
+while (true) {
+    String sana = lukija.nextLine();
+
+    if (aiemmatSanat.sisaltaa(sana)) {
+        break;
+    }
+
+    aiemmatSanat.lisaa(sana);
+}
+
+System.out.println("Annoit saman sanan uudestaan!");
+<% end %>
+
+<p>
+  Käyttöliittymän kannalta Sanajoukolla kannattaisi siis olla metodit <code>boolean sisaltaa(String sana)</code> jolla tarkastetaan sisältyykö annettu sana jo sanajoukkoon ja <code>void lisaa(String sana)</code> jolla annettu sana lisätään joukkoon.
+</p>
+
+<p>
+  Huomaamme, että näin kirjoitettuna käyttöliittymän luettavuus on huomattavasti parempi kuin taulukkoa käyttäen.
+</p>
+
+<p>
+  Luokan <code>Sanajoukko</code> runko näyttää seuraavanlaiselta:
+</p>
+
+<% partial 'partials/code_highlight' do %>
+public class Sanajoukko {
+    // sopivia oliomuuttujia
+
+    public Sanajoukko() {
+        // konstruktori
+    }
+
+    public boolean sisaltaa(String sana) {
+        // sisältää-metodin toteutus
+        return false;
+    }
+
+    public void lisaa(String sana) {
+        // lisaa-metodin toteutus
+    }
+}
+<% end %>
+
+
+<% partial 'partials/material_sub_sub_heading' do %>
+  Alustava toteutus aiemmasta ratkaisusta
+<% end %>
+
+<p>
+  Voimme toteuttaa sanajoukon siirtämällä aiemman ratkaisumme taulukon sanajoukon oliomuuttujaksi:
+</p>
+
+<% partial 'partials/code_highlight' do %>
+public class Sanajoukko {
+    private String[] joukonSanat;
+    private int sanojaSyotetty;
+
+    public Sanajoukko() {
+        this.joukonSanat = new String[1000];
+        this.sanojaSyotetty = 0;
+    }
+
+    // ...
+}
+<% end %>
+
+<p>
+  Oliomuuttujien alustus tapahtuu tuttuun tapaan konstruktorissa.
+</p>
+
+<p>
+  Uuden sanan lisääminen on helppoa. Koska <code>sanojaSyotetty</code> muistaa monta sanaa taulukossa jo on, ja taulukon indeksit alkavat nollasta, tulee uusi sana juuri tähän paikkaan. Muuttujan arvo pitää muistaa vielä kasvattaa:
+</p>
+
+<% partial 'partials/code_highlight' do %>
+public class Sanajoukko {
+    private String[] joukonSanat;
+    private int sanojaSyotetty;
+
+    public Sanajoukko() {
+        this.joukonSanat = new String[1000];
+        this.sanojaSyotetty = 0;
+    }
+
+    public void lisaa(String sana) {
+        this.joukonSanat[this.sanojaSyotetty] = sana;
+        this.sanojaSyotetty++;
+    }
+
+    // ...
+}
+<% end %>
+
+<p>
+  Ja vielä metodi, jolla tarkistetaan onko sana jo joukossa. Eli käydään sanat muistavan taulukon alkuosaa läpi syötettyjen sanojen verran ja palautetaan true jos etsitty sana löytyy:
+</p>
+
+<% partial 'partials/code_highlight' do %>
+public class Sanajoukko {
+    private String[] joukonSanat;
+    private int sanojaSyotetty;
+
+    public Sanajoukko() {
+        this.joukonSanat = new String[1000];
+        this.sanojaSyotetty = 0;
+    }
+
+    public void lisaa(String sana) {
+        this.joukonSanat[this.sanojaSyotetty] = sana;
+        this.sanojaSyotetty++;
+    }
+
+    public boolean sisaltaa(String sana) {
+        for (int i = 0; i &lt; sanojaSyotetty; i++) {
+            if (joukonSanat[i].equals(sana)) {
+                return true;
+            }
+        }
+
+        return false;
+    }
+}
+<% end %>
+
+<p>
+  Ratkaisu on nyt varsin elegantti. Erillinen käsite on saatu erotettua ja käyttöliittymä näyttää siistiltä. Kaikki "likaiset yksityiskohdat" (taulukko ja lukumäärä sanoista) on saatu siivottua eli kapseloitua olion sisälle.
+</p>
+
+<p>
+  Muokataan käyttöliittymää niin, että se käyttää Sanajoukkoa. Sanajoukko annetaan käyttöliittymälle samalla tavalla parametrina kuin Scanner.
+</p>
+
+<% partial 'partials/code_highlight' do %>
+public class Kayttoliittyma {
+    private Scanner lukija;
+    private Sanajoukko sanajoukko;
+
+    public Kayttoliittyma(Scanner lukija, Sanajoukko sanajoukko) {
+        this.lukija = lukija;
+        this.sanajoukko = sanajoukko;
+    }
+
+    public void kaynnista() {
+
+        while (true) {
+            System.out.print("Anna sana: ");
+            String sana = lukija.nextLine();
+
+            if (sanajoukko.sisaltaa(sana)) {
+                break;
+            }
+
+            sanajoukko.lisaa(sana);
+        }
+
+        System.out.println("Annoit saman sanan uudestaan!");
+    }
+}
+<% end %>
+
+<p>
+  Ohjelman käynnistäminen tapahtuu nyt seuraavasti:
+</p>
+
+
+<% partial 'partials/code_highlight' do %>
+public static void main(String[] args) {
+    Scanner lukija = new Scanner(System.in);
+    Sanajoukko joukko = new Sanajoukko();
+
+    Kayttoliittyma kayttoliittyma = new Kayttoliittyma(lukija, joukko);
+    kayttoliittyma.kaynnista();
+}<% end %>
+
+
+<% partial 'partials/material_sub_heading' do %>
+  Luokan sisäisen toteutuksen muuttaminen
+<% end %>
+
+<p>
+  Sanojen muistaminen voidaan toteuttaa helposti myös ArrayListia käyttämällä. Korvataan luokan <code>Sanajoukko</code> sisällä oleva taulukko listalla:
+</p>
+
+<% partial 'partials/code_highlight' do %>
+import java.util.ArrayList;
+
+public class Sanajoukko {
+    private ArrayList&lt;String&gt; joukonSanat;
+
+    public Sanajoukko() {
+        this.joukonSanat = new ArrayList&lt;&gt;();
+    }
+
+    public boolean sisaltaa(String sana) {
+        return this.joukonSanat.contains(sana);
+    }
+
+    public void lisaa(String sana) {
+        this.joukonSanat.add(sana);
+    }
+}
+<% end %>
+
+<p>
+  Näin päädytään ratkaisuun jossa <code>Sanajoukko</code> ainoastaan "kapseloi" ArrayList:in. Onko tässä järkeä? Kenties. Voimme nimittäin halutessamme tehdä Sanajoukolle muitakin muutoksia. Ennen pitkään saatamme esim. huomata, että sanajoukko pitää tallentaa tiedostoon. Jos tekisimme nämä muutokset Sanajoukkoon muuttamatta käyttöliittymän käyttävien metodien nimiä, ei käyttöliittymää tarvitsisi muuttaa mitenkään.
+</p>
+
+<p>
+  Oleellista on tässä se, että Sanajoukko-luokkaan tehdyt sisäiset muutokset eivät vaikuta luokkaan Käyttöliittymä. Kun vaihdoimme taulukon listaan, käyttöliittymä ei muutu millään tavalla. Tämä johtuu siitä, että käyttöliittymä käyttää sanajoukkoa sen tarjoamien metodien -- eli julkisten rajapintojen -- kautta.
+</p>
+
+<% partial 'partials/material_sub_heading' do %>
+  Uusien toiminnallisuuksien toteuttaminen: palindromit
+<% end %>
+
+<p>
+  Voi olla, että jatkossa ohjelmaa halutaan laajentaa siten, että <code>Sanajoukko</code>-luokan olisi osattava uusia asiota. Jos ohjelmassa haluttaisiin esimerkiksi tietää kuinka moni syötetyistä sanoista oli palindromi, voidaan sanajoukkoa laajentaa metodilla <code>palindromeja</code>.</p>
+
+<% partial 'partials/code_highlight' do %>
+public void kaynnista() {
+
+    while (true) {
+        System.out.print("Anna sana: ");
+        String sana = lukija.nextLine();
+
+        if (sanajoukko.sisaltaa(sana)) {
+            break;
+        }
+
+        sanajoukko.lisaa(sana);
+    }
+
+    System.out.println("Annoit saman sanan uudestaan!");
+    System.out.println("Sanoistasi " + sanajoukko.palindromeja() + " oli palindromeja");
+}<% end %>
+
+<p>
+  Käyttöliittymä säilyy siistinä ja palindromien laskeminen jää <code>Sanajoukko</code>-olion huoleksi. Metodin toteutus voisi olla esimerkiksi seuraavanlainen.</p>
+
+<% partial 'partials/code_highlight' do %>
+import java.util.ArrayList;
+
+public class Sanajoukko {
+    private ArrayList&lt;String&gt; joukonSanat;
+
+    public Sanajoukko() {
+        this.joukonSanat = new ArrayList&lt;&gt;();
+    }
+
+    public boolean sisaltaa(String sana) {
+        return this.joukonSanat.contains(sana);
+    }
+
+    public void lisaa(String sana) {
+        this.joukonSanat.add(sana);
+    }
+
+    public int palindromeja() {
+        return (int) this.joukonSanat.stream().filter(s -> onPalindromi(s)).count();
+    }
+
+    public boolean onPalindromi(String sana) {
+        int loppu = sana.length() - 1;
+
+        for (int i = 0; i &lt; sana.length() / 2; i++) {
+            if (sana.charAt(i) != sana.charAt(loppu - i)) {
+                return false;
+            }
+        }
+
+        return true;
+    }
+}
+<% end %>
+
+<p>
+  Metodissa <code>palindromeja</code> käytetään sekä apumetodia <code>onPalindromi</code> että virran filter-metodia. Virran <code>count</code>-metodi palauttaa <code>long</code>-tyyppisen kokonaisluvun, joka tulee muuntaa int-tyyppiseksi ennen sen palautusta metodista.
+</p>
+
+
+<% partial 'partials/material_sub_heading' do %>
+  Uusiokäyttö
+<% end %>
+
+
+<p>Kun ohjelmakoodin käsitteet on eriytetty omiksi luokikseen, voi niitä uusiokäyttää helposti myös muissa projekteissa. Esimerkiksi luokkaa <code>Sanajoukko</code> voisi käyttää yhtä hyvin graafisesta käyttöliittymästä, ja se voisi myös olla osa kännykässä olevaa sovellusta. Tämän lisäksi ohjelman toiminnan testaaminen on huomattavasti helpompaa silloin kun ohjelma on jaettu erillisiin käsitteisiin, joita kutakin voi käyttää myös omana itsenäisenä yksikkönään.</p>
+
+
+<!--
+     <p>Jos sanojen talletukseen olisi käytetty suoraan ArrayList:iä, olisi palindromien laskeminen vaatinut pääohjelman koodiin suurempia muutoksia kuin Sanajoukko-luokan käyttö. Joskus on toki tilanteita, joissa kannattaa käyttää suoraan valmista kalustoa eikä oman luokan määrittelylle ole tarvetta. Kuitenkin jos koodin luettavuus alkaa kärsimään, on selkeistä käsitteistä syytä tehdä omat luokkansa. Kuten näimme tämä parhaassa tapauksessa mahdollistaa ohjelman laajennettavuutta ja muokattavuutta.</p>
+   -->
+<!--  </div> -->
+
+
+
+<% partial 'partials/material_sub_heading' do %>
+  Neuvoja ohjelmointiin
+<% end %>
+
+<p>
+  Seuraa näitä neuvoja aina ohjelmoidessasi.
+</p>
+
+<ul>
+  <li> Etene pieni askel kerrallaan
+    <ul>
+      <li> Yritä pilkkoa ongelma osaongelmiin ja <strong>ratkaise vain yksi osaongelma kerrallaan</strong> </li>
+      <li> Testaa aina että ohjelma on etenemässä oikeaan suuntaan eli että osaongelman ratkaisu meni oikein</li>
+      <li> Tunnista ehdot, minkä tapauksessa ohjelman tulee toimia eri tavalla. Esimerkiksi yllä tarkistus, jolla katsotaan onko sana jo syötetty, johtaa erilaiseen toiminnallisuuden.</li>
+    </ul>
+  </li>
+  <li> Kirjoita mahdollisimman "siistiä" koodia
+    <ul>
+      <li> sisennä koodi </li>
+      <li> käytä kuvaavia muuttujien ja metodien nimiä</li>
+      <li> älä tee liian pitkiä metodeja, edes mainia</li>
+      <li> tee yhdessä metodissa vaan yksi asia</li>
+      <li> <strong>poista koodistasi kaikki copy-paste</strong></li>
+      <li> korvaa koodisi "huonot" ja epäsiistit osat siistillä koodilla</li>
+    </ul>
+  </li>
+  <li> Astu tarvittaessa askel taaksepäin ja mieti kokonaisuutta. Jos ohjelma ei toimi, voi olla hyvä idea palata aiemmin toimineeseen tilaan. Käänteisesti voidaan sanoa, että rikkinäinen ohjelma korjaantuu harvemmin lisäämällä siihen lisää koodia. </li>
+</ul>
+
+<p>
+  Ohjelmoijat noudattavat näitä käytänteitä sen takia että ohjelmointi olisi helpompaa. Käytänteiden noudattaminen tekee myös ohjelmien lukemisesta, ylläpitämisestä ja muokkaamisesta helpompaa muille.
+</p>
+
+
+<% partial 'partials/exercise', locals: { name: 'Arvosanatilastot' } do %>
+
+  <p>
+    Tässä tehtävässä toteutetaan ohjelma kurssipistetilastojen tulostamiseen. Ohjelmalle syötetään pisteitä (kokonaislukuja nollasta sataan), ja ohjelma tulostaa niiden perusteella arvosanoihin liittyviä tilastoja. Syötteiden lukeminen lopetetaan kun käyttäjä syöttää luvun -1. Lukuja, jotka eivät ole välillä [0-100] ei tule ottaa huomioon tilastojen laskemisessa.
+  </p>
+
+  <h2>Pisteiden keskiarvot</h2>
+
+  <p>
+    Kirjoita ohjelma, joka lukee käyttäjältä kurssin yhteispisteitä kuvaavia kokonaislukuja. Luvut väliltä [0-100] ovat hyväksyttäviä ja luku -1 lopettaa syötteen. Muut luvut ovat virhesyötteitä, jotka tulee jättää huomiotta. Kun käyttäjä syöttää luvun -1, tulostetaan (1) syötettyjen yhteispisteiden keskiarvo ja (2) hyväksyttyyn arvosanaan riittävien yhteispisteiden keskiarvo.
+  </p>
+
+  <p>
+    Hyväksytyn arvosanan saa vähintään 51 kurssipisteellä. Voit olettaa, että käyttäjä kirjoittaa aina vähintään yhden välillä [0-100] olevan kokonaisluvun.
+  </p>
+
+  <% partial 'partials/sample_output' do %>
+Syötä yhteispisteet, -1 lopettaa:
+<font color="red">-42</font>
+<font color="red">24</font>
+<font color="red">42</font>
+<font color="red">72</font>
+<font color="red">80</font>
+<font color="red">52</font>
+<font color="red">-1</font>
+Pisteiden keskiarvo (kaikki): 54.0
+Pisteiden keskiarvo (hyväksytyt): 68.0
+  <% end %>
+
+  <% partial 'partials/sample_output' do %>
+Syötä yhteispisteet, -1 lopettaa:
+<font color="red">50</font>
+<font color="red">51</font>
+<font color="red">52</font>
+<font color="red">-1</font>
+Pisteiden keskiarvo (kaikki): 51.0
+Pisteiden keskiarvo (hyväksytyt): 51.5
+  <% end %>
+
+
+  <h2>Hyväksyttyjen prosenttiosuus</h2>
+
+  <p>
+    Täydennä edellisessä osassa toteuttamaasi ohjelmaa siten, että ohjelma tulostaa myös hyväksymisprosentin. Hyväksymisprosentti lasketaan kaavalla <em>100 * hyväksytyt / osallistujat</em>.
+  </p>
+
+  <% partial 'partials/sample_output' do %>
+Syötä yhteispisteet, -1 lopettaa:
+<font color="red">50</font>
+<font color="red">51</font>
+<font color="red">52</font>
+<font color="red">-1</font>
+Pisteiden keskiarvo (kaikki): 51.0
+Pisteiden keskiarvo (hyväksytyt): 51.5
+Hyväksymisprosentti: 66.66666666666667
+  <% end %>
+
+  <% partial 'partials/sample_output' do %>
+Syötä yhteispisteet, -1 lopettaa:
+<font color="red">102</font>
+<font color="red">-4</font>
+<font color="red">33</font>
+<font color="red">66</font>
+<font color="red">99</font>
+<font color="red">1</font>
+<font color="red">-1</font>
+Pisteiden keskiarvo (kaikki): 49.75
+Pisteiden keskiarvo (hyväksytyt): 82.5
+Hyväksymisprosentti: 50.0
+  <% end %>
+
+
+  <h2>Arvosanajakauma</h2>
+
+  <p>
+    Täydennä ohjelmaa siten, että ohjelma tulostaa myös arvosanajakauman. Arvosananajakauma muodostetaan seuraavasti.
+  </p>
+
+  <table class="table">
+    <tbody>
+      <tr><th>pistemäärä</th><th>arvosana</th></tr>
+      <tr><td>&lt; 51</td><td>hylätty eli 0</td></tr>
+      <tr><td>&lt; 61</td><td>1</td></tr>
+      <tr><td>&lt; 71</td><td>2</td></tr>
+      <tr><td>&lt; 81</td><td>3</td></tr>
+      <tr><td>&lt; 91</td><td>4</td></tr>
+      <tr><td>&gt;= 91</td><td>5</td></tr>
+    </tbody>
+  </table>
+
+
+  <p>
+    Jokainen koepistemäärä muutetaan arvosanaksi yllä olevan taulukon perusteella. Jos syötetty pistemäärä ei ole välillä [0-100], jätetään se huomiotta.
+  </p>
+
+  <p>
+    Arvosanajakauma tulostetaan tähtinä. Esim jos arvosanaan 5 oikeuttavia koepistemääriä on 1 kappale, tulostuu rivi <em>5: *</em>. Jos johonkin arvosanaan oikeuttavia pistemääriä ei ole, ei yhtään tähteä tulostu, alla olevassa esimerkissä näin on mm. nelosten kohdalla.</em>
+  </p>
+
+  <% partial 'partials/sample_output' do %>
+Syötä yhteispisteet, -1 lopettaa:
+<font color="red">102</font>
+<font color="red">-2</font>
+<font color="red">1</font>
+<font color="red">33</font>
+<font color="red">66</font>
+<font color="red">99</font>
+<font color="red">-1</font>
+Pisteiden keskiarvo (kaikki): 49.75
+Pisteiden keskiarvo (hyväksytyt): 82.5
+Hyväksymisprosentti: 50.0
+Arvosanajakauma:
+5: *
+4:
+3:
+2: *
+1:
+0: **
+  <% end %>
+
+<% end %>
+
+
+
+<% partial 'partials/exercise', locals: { name: 'Kirjaston tietojärjestelmä' } do %>
+
+  <p>
+    Kumpulan tiedekirjasto tarvitsee uuden järjestelmän kirjojen hallintaan. Tässä tehtävässä toteutetaan <em>prototyyppi</em>, jossa toteutetaan kirjan haku nimen, julkaisijan tai julkaisuvuoden perusteella.
+  </p>
+
+  <p>
+    Rakennetaan järjestelmä osista, ensin toteutetaan oleelliset luokat eli <code>Kirja</code> ja <code>Kirjasto</code>. Luokka <code>Kirja</code> sisältää kirjaan liittyvät tiedot, luokka <code>Kirjasto</code> tarjoaa erilaisia hakutoiminnallisuuksia kirjoihin liittyen.
+  </p>
+
+  <h2>Kirja</h2>
+
+  <p>
+    Luodaan ensiksi luokka Kirja. Kirjalla on oliomuuttujina <code>nimeke</code>, eli kirjan nimi, <code>julkaisija</code>, eli kirjan julkaisija, ja <code>julkaisuvuosi</code> eli vuosi jolloin kirja on julkaistu. Kaksi ensimmäistä muuttujaa on merkkijonotyyppisiä, viimeisin on kokonaisluku. Oletamme tässä että kirjalla on aina vain yksi kirjoittaja.
+  </p>
+
+  <p>
+    Toteuta luokka <code>Kirja</code>. Kirjalla tulee olla myös konstruktori <code>public Kirja(String niemeke, String julkaisija, int julkaisuvuosi)</code> sekä metodit <code>public String nimeke()</code>, <code>public String julkaisija()</code>, <code>public int julkaisuvuosi()</code> ja <code>public String toString()</code>. Arvannet mitä metodien tulee tehdä, alla esimerkki.
+  </p>
+
+  <p>
+    Testaa luokan toimintaa:
+  </p>
+
+  <% partial 'partials/code_highlight' do %>
+Kirja cheese = new Kirja("Cheese Problems Solved", "Woodhead Publishing", 2007);
+System.out.println(cheese.nimeke());
+System.out.println(cheese.julkaisija());
+System.out.println(cheese.julkaisuvuosi());
+
+System.out.println(cheese);
+  <% end %>
+
+  <% partial 'partials/sample_output' do %>
+Cheese Problems Solved
+Woodhead Publishing
+2007
+Cheese Problems Solved, Woodhead Publishing, 2007
+  <% end %>
+
+
+  <h2>Kirjasto</h2>
+
+  <p>
+    Kirjaston tehtävä on antaa käyttäjälle mahdollisuus kirjojen lisäämiseen ja niiden hakemiseen. Luo luokka <code>Kirjasto</code>, jolla on konstruktori <code>public Kirjasto()</code> ja metodit <code>public void lisaaKirja(Kirja uusiKirja)</code> ja <code>public void tulostaKirjat()</code>
+  </p>
+
+  <% partial 'partials/code_highlight' do %>
+Kirjasto kirjasto = new Kirjasto();
+
+Kirja cheese = new Kirja("Cheese Problems Solved", "Woodhead Publishing", 2007);
+kirjasto.lisaaKirja(cheese);
+
+Kirja nhl = new Kirja("NHL Hockey", "Stanley Kupp", 1952);
+kirjasto.lisaaKirja(nhl);
+
+kirjasto.lisaaKirja(new Kirja("Battle Axes", "Tom A. Hawk", 1851));
+
+kirjasto.tulostaKirjat();
+  <% end %>
+
+  <% partial 'partials/sample_output' do %>
+Cheese Problems Solved, Woodhead Publishing, 2007
+NHL Hockey, Stanley Kupp, 1952
+Battle Axes, Tom A. Hawk, 1851
+  <% end %>
+
+
+  <h2>Hakutoiminnallisuus</h2>
+
+  <p>
+    Kirjastosta tulee pystyä etsimään kirjoja nimekkeiden ja julkaisijoiden perusteella. Lisää kirjastolle metodit <code>public ArrayList&lt;Kirja&gt; haeKirjaNimekkeella(String nimeke)</code>, <code>public ArrayList&lt;Kirja&gt; haeKirjaJulkaisijalla(String julkaisija)</code> ja <code>public ArrayList&lt;Kirja&gt; haeKirjaJulkaisuvuodella(int julkaisuvuosi)</code>. Metodit palauttavat listan kirjoista, joissa on haluttu nimeke, julkaisija tai julkaisuvuosi.</p>
+
+  <p>Voit halutessasi hyödyntää seuraavaa runkoa metodin tekemiseen.</p>
+
+  <% partial 'partials/code_highlight' do %>
+public class Kirjasto {
+    // ...
+
+    public ArrayList&lt;Kirja&gt; haeKirjaNimekkeella(String nimeke) {
+        ArrayList&lt;Kirja&gt; loydetyt = new ArrayList&lt;&gt;();
+
+        // käy läpi kaikki kirjat ja lisää ne joilla haetun kaltainen nimeke listalle loydetyt
+
+        return loydetyt;
+    }
+}
+  <% end %>
+
+  <p>
+    Huom! Kun haet teet hakua merkkijonon avulla, älä tee tarkkaa hakua (metodi <code>equals</code>) vaan käytä <code>String</code>-luokan metodia <code>contains</code>. Huomaat todennäköisesti myös että sinulla on ns. copy-paste -koodia <code>Kirjasto</code>-luokan koodissa. Keksitkö tavan päästä siitä eroon?
+  </p>
+
+  <% partial 'partials/code_highlight' do %>
+Kirjasto kirjasto = new Kirjasto();
+
+kirjasto.lisaaKirja(new Kirja("Cheese Problems Solved", "Woodhead Publishing", 2007));
+kirjasto.lisaaKirja(new Kirja("The Stinky Cheese Man and Other Fairly Stupid Tales", "Penguin Group", 1992));
+kirjasto.lisaaKirja(new Kirja("NHL Hockey", "Stanley Kupp", 1952));
+kirjasto.lisaaKirja(new Kirja("Battle Axes", "Tom A. Hawk", 1851));
+
+kirjasto.haeKirjaNimekkeella("Cheese").forEach(k -&gt; System.out.println(k));
+
+System.out.println("---");
+kirjasto.haeKirjaJulkaisijalla("Pong Group").forEach(k -&gt; System.out.println(k));
+
+System.out.println("---");
+kirjasto.haeKirjaJulkaisuvuodella(1851).forEach(k -&gt; System.out.println(k));
+  <% end %>
+
+  <% partial 'partials/sample_output' do %>
+Cheese Problems Solved, Woodhead Publishing, 2007
+The Stinky Cheese Man and Other Fairly Stupid Tales, Penguin Group, 1992
+---
+---
+Battle Axes, Tom A. Hawk, 1851
+  <% end %>
+
+<% end %>
+
+
+
+<% partial 'partials/exercise', locals: { name: 'Lintubongarin tietokanta' } do %>
+
+  <p><b>Tehtävä vastaa kolmea yksiosaista tehtävää. </b></p>
+
+  <p>
+    Tässä tehtävässä suunnittelet ja toteutat tietokannan lintubongareille. Tietokanta sisältää lintuja, joista jokaisella on nimi (merkkijono) ja latinankielinen nimi (merkkijono). Tämän lisäksi tietokanta laskee kunkin linnun havaintokertoja.
+  </p>
+
+  <p>
+    Ohjelmasi täytyy toteuttaa seuraavat komennot:
+  </p>
+
+  <ul>
+    <li><code>Lisaa</code> - lisää linnun (<b>huom:</b> komennon nimessä ei ä-kirjainta!)</li>
+    <li><code>Havainto</code> - lisää havainnon</li>
+    <li><code>Tilasto</code> - tulostaa kaikki linnut</li>
+    <li><code>Nayta</code> - tulostaa yhden linnun (<b>huom:</b> komennon nimessä ei ä-kirjainta!)</li>
+    <li><code>Lopeta</code> - lopettaa ohjelman</li>
+  </ul>
+
+  <p>
+    Lisäksi virheelliset syötteet pitää käsitellä. (Ks. <code>Simo</code> alla). Tässä vielä esimerkki ohjelman toiminnasta:
+  </p>
+
+  <% partial 'partials/sample_output' do %>
+? <font color="red">Lisaa</font>
+Nimi: <font color="red">Korppi</font>
+Latinankielinen nimi: <font color="red">Corvus Corvus</font>
+? <font color="red">Lisaa</font>
+Nimi: <font color="red">Haukka</font>
+Latinankielinen nimi: <font color="red">Dorkus Dorkus</font>
+? <font color="red">Havainto</font>
+Mikä havaittu? <font color="red">Haukka</font>
+? <font color="red">Havainto</font>
+Mikä havaittu? <font color="red">Simo</font>
+Ei ole lintu!
+? <font color="red">Havainto</font>
+Mikä havaittu? <font color="red">Haukka</font>
+? <font color="red">Tilasto</font>
+Haukka (Dorkus Dorkus): 2 havaintoa
+Korppi (Corvus Corvus): 0 havaintoa
+? <font color="red">Nayta</font>
+Mikä? <font color="red">Haukka</font>
+Haukka (Dorkus Dorkus): 2 havaintoa
+? <font color="red">Lopeta</font>
+  <% end %>
+
+  <p>
+    <strong>Huom!</strong> Ohjelmasi rakenne on täysin vapaa. Testaamme vain että <code>Paaohjelma</code> luokan <code>main</code>-metodi toimii kuten tässä on kuvailtu. Hyödyt tehtävässä todennäköisesti ongelma-aluetta sopivasti kuvaavista luokista.
+  </p>
+<% end %>
+
+
+
+<% partial 'partials/material_heading' do %>
+  Ensiaskeleet automaattiseen testaamiseen
+<% end %>
+
+<p>
+  Ohjelman testaaminen käsin on usein työlästä. Syötteen antaminen on kuitenkin mahdollista automatisoida esimerkiksi syöttämällä Scanner-oliolle luettava merkkijono. Alla on annettu esimerkki siitä, miten edellisessä luvussa luotua ohjelmaa voi testata automaattisesti. Ohjelmassa syötetään ensin viisi merkkijonoa, jonka jälkeen syötetään aiemmin nähty merkkijono. Tämän jälkeen yritetään syöttää vielä uusi merkkijono. Merkkijonoa "kuusi" ei pitäisi esiintyä sanajoukossa.
+</p>
+
+<p>
+  Testisyötteen voi antaa merkkijonona Scanner-oliolle konstruktorissa.
+</p>
+
+<% partial 'partials/code_highlight' do %>
+String syote = "yksi\n" + "kaksi\n"  +
+               "kolme\n" + "nelja\n" +
+               "viisi\n" + "yksi\n"  +
+               "kuusi\n";
+
+Scanner lukija = new Scanner(syote);
+Sanajoukko joukko = new Sanajoukko();
+
+Kayttoliittyma kayttoliittyma = new Kayttoliittyma(lukija, joukko);
+kayttoliittyma.kaynnista();
+
+if (joukko.sisaltaa("kuusi")) {
+    System.out.println("Joukkoon lisättiin arvo, jota sinne ei olisi pitänyt lisätä.");
+}
+<% end %>
+
+<p>
+  Ohjelma tulostus näyttää vain ohjelman antaman tulostuksen, ei käyttäjän tekemiä komentoja.
+</p>
+
+<% partial 'partials/sample_output' do %>
+Anna sana:
+Anna sana:
+Anna sana:
+Anna sana:
+Anna sana:
+Anna sana:
+Annoit saman sanan uudestaan!
+Sanoistasi 0 oli palindromeja
+<% end %>
+
+<p>
+  Merkkijonon antaminen Scanner-luokan konstruktorille korvaa näppäimistöltä luettavan syötteen. Merkkijonomuuttujan <code>syote</code> sisältö siis "simuloi" käyttäjän antamaa syötettä. Rivinvaihto syötteeseen merkitään <code>\n</code>:llä. Jokainen yksittäinen rivinvaihtomerkkiin loppuva osa syote-merkkijonossa siis vastaa yhtä nextLine()-komentoon annettua syötettä.
+</p>
+
+<p>
+  Kun haluat testata ohjelmasi toimintaa jälleen käsin, vaihda Scanner-olion konstruktorin parametriksi <code>System.in</code>, eli järjestelmän syötevirta. Voit toisaalta halutessasi myös vaihtaa testisyötettä, sillä kyse on merkkijonosta.
+</p>
+
+<p>
+  Ohjelman toiminnan oikeellisuus tulee edelleen tarkastaa ruudulta. Tulostus voi olla aluksi hieman hämmentävää, sillä automatisoitu syöte ei näy ruudulla ollenkaan. Lopullinen tavoite on automatisoida myös ohjelman tulostuksen oikeellisuden tarkastaminen niin hyvin, että ohjelman testaus ja testituloksen analysointi onnistuu "nappia painamalla". Palaamme aiheeseen myöhemmissä osissa.
+</p>
+
+
+<% partial 'partials/exercise', locals: { name: 'Debuggailua' } do %>
+
+  <p>
+    Ohjelmassa on yritetty luoda sovellus, joka kysyy käyttäjältä merkkijonoa ja lukua. Sovelluksen pitäisi toimia esimerkiksi seuraavasti:
+  </p>
+
+  <% partial 'partials/sample_output' do %>
+Sana:
+<font color="red">testi</font>
+Luku:
+<font color="red">3</font>
+t
+ e
+  s
+t
+ i
+  <% end %>
+
+  <p>
+    Esimerkki 2:
+  </p>
+
+  <% partial 'partials/sample_output' do %>
+Sana:
+<font color="red">esim</font>
+Luku:
+<font color="red">2</font>
+e
+ s
+i
+ m
+  <% end %>
+
+  <p>
+    Tällä hetkellä ohjelma ei kuitenkaan toimi halutusti. Ota selvää miksi ja korjaa ohjelma.
+  </p>
+
+<% end %>
+
+
+
+<% partial 'partials/material_heading' do %>
+  Tiedostoon tallentaminen
+<% end %>
+
+<p>
+  Tutustuimme edellisessä osassa tiedostojen lukemiseen. Tarkastellaan seuraavaksi lukemisen lisäksi myös tiedostoon kirjoittamista. Kertaa aluksi edellisestä osasta tiedoston lukeminen.
+</p>
+
+
+<% partial 'partials/exercise', locals: { name: 'Tiedostoanalyysi' } do %>
+
+  <p>
+    Tässä tehtävässä tehdään sovellus tiedoston rivi- ja merkkimäärän laskemiseen.
+  </p>
+
+  <h2>Rivien laskeminen</h2>
+
+  <p>
+    Tee luokka <code>Analyysi</code>, jolla on konstruktori <code>public Analyysi(String tiedosto)</code>. Toteuta luokalle metodi <code>public int rivimaara()</code>, joka palauttaa konstruktorille annetun tiedoston rivimäärän. Metodi ei saa olla "kertakäyttöinen", eli sen pitää tuottaa oikea tulos myös usealla peräkkäisellä kutsulla.
+  </p>
+
+  <h2>Merkkien laskeminen</h2>
+
+  <p>
+    Toteuta luokkaan <code>Analyysi</code> metodi <code>public int merkkeja()</code>, joka palauttaa luokan konstruktorille annetun tiedoston merkkien määrän. Kuten edellä, metodi ei saa olla "kertakäyttöinen", eli sen pitää tuottaa oikea tulos myös usealla peräkkäisellä kutsulla.
+  </p>
+
+  <p>
+    Huomaa, että rivinvaihdot tulee laskea myös merkeiksi -- <em>tiedoston lukijat tuppaavat syömään nämä rivin vaihdot</em>.
+  </p>
+
+  <p>
+    Voit päättää itse miten reagoidaan jos konstruktorin parametrina saatua tiedostoa ei ole olemassa.
+  </p>
+
+  <p>
+    Projektissa on testausta varten tiedosto <em>testitiedosto.txt</em>. Ohjelmasta avatessa tiedoston nimeksi tulee antaa <code>src/testitiedosto.txt</code>. Tiedoston sisältö on seuraava:
+  </p>
+
+  <pre>
+rivejä tässä on 3 ja merkkejä
+koska rivinvaihdotkin ovat
+merkkejä
+  </pre>
+
+  <p>
+    Ohjelman toiminta testaustiedostolla:
+  </p>
+
+  <% partial 'partials/code_highlight' do %>
+File tiedosto = new File("src/testitiedosto.txt");
+Analyysi analyysi = new Analyysi(tiedosto);
+System.out.println("Rivejä: " + analyysi.rivimaara());
+System.out.println("Merkkejä: " + analyysi.merkkeja());
+  <% end %>
+
+  <% partial 'partials/sample_output' do %>
+Rivejä: 3
+Merkkejä: 67
+  <% end %>
+
+<% end %>
+
+<% partial 'partials/exercise', locals: { name: 'Sanatutkimus' } do %>
+
+  <p>
+    Tehdään luokka Sanatutkimus, jolla voi tehdä erilaisia tutkimuksia tiedoston sisältämille sanoille. Tässä kohtaa on hyvä myös kerrata osassa 5 käsiteltyjä merkkijonojen metodeja.
+  </p>
+
+  <p>
+    Kotimaisten kielten tutkimuskeskus (Kotus) on julkaissut netissä suomen kielen sanalistan. Tässä tehtävässä käytetään listan muokattua versiota, joka löytyy tehtäväpohjasta <code>src</code>-hakemistosta nimellä <code>sanalista.txt</code>, eli suhteellisesta polusta <code>"src/sanalista.txt"</code>. Koska sanalista on varsin pitkä, on projektissa testausta varten myös <code>pienilista.txt</code> joka löytyy polusta <code>"src/pienilista.txt"</code>.
+  </p>
+
+  <p>
+    <strong>Mikäli sinulla on ongelmia ääkkösellisten sanojen kanssa</strong> (mac ja windows käyttäjät), lue tiedoston rivit antamalla lukijalle tieto tiedoston merkistöstä seuraavasti: <code>Files.lines(Paths.get(tiedosto), StandardCharsets.UTF_8)</code>. Ongelmat liittyvät erityisesti testien suoritukseen.
+  </p>
+
+  <h2>Sanojen määrä</h2>
+
+  <p>
+    Luo Sanatutkimus-luokalle konstruktori <code>public Sanatutkimus(String tiedosto)</code> joka luo uuden Sanatutkimus-olion, joka tutkii parametrina annettavaa tiedostoa.
+  </p>
+
+  <p>
+    Tee luokkaan metodi <code>public int sanojenMaara()</code>, joka lukee tiedostossa olevat sanat ja tulostaa niiden määrän. Tässä vaiheessa sanoilla ei tarvitse tehdä mitään, riittää laskea niiden määrä. Voit olettaa tässä tehtävässä, että tiedostossa on vain yksi sana riviä kohti.
+  </p>
+
+  <h2>z-kirjain</h2>
+
+  <p>Tee luokkaan metodi <code>public ArrayList&lt;String&gt; kirjaimenZSisaltavatSanat()</code>, joka palauttaa tiedoston kaikki sanat, joissa on z-kirjain. Tällaisia sanoja ovat esimerkiksi jazz ja zombi.</p>
+
+  <h2>n-pääte</h2>
+
+  <p>Tee luokkaan metodi <code>public ArrayList&lt;String&gt; kirjaimeenNPaattyvatSanat()</code>, joka palauttaa tiedoston kaikki sanat, jotka päättyvät n-kirjaimeen. Tällaisia sanoja ovat esimerkiksi aakkonen ja valkokaulustyöläinen.
+  </p>
+
+  <p>
+    <em>Huom! Jos luet tiedoston uudestaan ja uudestaan jokaisessa metodissa huomaat viimeistään tässä vaiheessa copy-paste koodia. Kannattaa miettiä olisiko tiedoston lukeminen helpompi tehdä osana konstruktoria tai metodina, jota konstruktori kutsuu. Metodeissa voitaisiin käyttää tällöin jo luettua listaa ja luoda siitä aina uusi, hakuehtoihin sopiva lista.</em>
+  </p>
+
+  <h2>Palindromit</h2>
+
+  <p>
+    Tee luokkaan metodi <code>public ArrayList&lt;String&gt; palindromit()</code>, joka palauttaa tiedoston kaikki sanat, jotka ovat palindromeja. Tällaisia sanoja ovat esimerkiksi ala ja enne.
+  </p>
+
+  <h2>Kaikki vokaalit</h2>
+
+  <p>
+    Tee luokkaan metodi <code>public ArrayList&lt;String&gt; kaikkiVokaalitSisaltavatSanat()</code>, joka palauttaa tiedoston kaikki sanat, jotka sisältävät kaikki suomen kielen vokaalit (aeiouyäö). Tällaisia sanoja ovat esimerkiksi myöhäiselokuva ja ympäristönsuojelija.
+  </p>
+
+<% end %>
+
+
+<p>
+  Tiedostoon kirjoittaminen on melko suoraviivaista. Kuten lukemisessa, tarvitsemme tiedon tiedoston polusta eli minne tiedosto luodaan tai missä olevaan tiedostoon kirjoitetaan. Tämän lisäksi tarvitsemme myös kirjoitettavan tiedon, joka esitetään listana merkkijonoja. Kirjoitettaessa päätetään myös tiedoston käyttämä muoto, tyypillisesti <code>StandardCharsets.UTF_8</code>. Aivan kuten lukeminen, myös kirjoittaminen voi aiheuttaa virhetilanteen, johon tulee varautua. Tämä tehdään <code>try { ... } catch (Exception e) { ... }</code> -rakenteella.
+</p>
+
+<p>
+  Alla olevassa esimerkissä luetaan ensin käyttäjältä kirjoitettava sisältö. Tämän jälkeen luetaan tiedoston nimi, johon merkkijono kirjoitetaan. Lopulta merkkijono kirjoitetaan tiedostoon.
+</p>
+
+<% partial 'partials/code_highlight' do %>
+Scanner lukija = new Scanner(System.in);
+
+ArrayList&lt;String&gt; rivit = new ArrayList&lt;&gt;();
+System.out.println("Mitä kirjoitetaan, tyhjä lopettaa?");
+
+while (true) {
+    String kirjoitettava = lukija.nextLine();
+    if (kirjoitettava.isEmpty()) {
+        break;
+    }
+
+    rivit.add(kirjoitettava);
+}
+
+System.out.println("Minne kirjoitetaan?");
+String tiedosto = lukija.nextLine();
+
+// tiedostoon kirjoittaminen
+try {
+    Files.write(Paths.get(tiedosto), rivit, StandardCharsets.UTF_8);
+} catch (Exception e) {
+    System.out.println("Virhe tiedostoon kirjoittamisessa: " + e.getMessage());
+}
+<% end %>
+
+<p>
+  Yllä oleva esimerkki luo tarvittaessa uuden tiedoston. Jos tiedosto on jo olemassa, tiedoston vanha sisältö poistetaan ennen tiedostoon kirjoittamista.
+</p>
+
+<p>
+  Jos halutaan, että tiedostoon vain lisätään -- eli että tiedoston vanhaa sisältöä ei poisteta, lisätään kirjoituskomentoon parametri <code>StandardOpenOption.APPEND</code>. Tällöin edellisen ohjelman kirjoitusosa on seuraavanlainen.
+</p>
+
+<% partial 'partials/code_highlight' do %>
+try {
+    Files.write(Paths.get(tiedosto), rivit, StandardCharsets.UTF_8, StandardOpenOption.APPEND);
+} catch (Exception e) {
+    System.out.println("Virhe tiedostoon kirjoittamisessa: " + e.getMessage());
+}
+<% end %>
+
+<p>
+  Tiedoston lukemisen ja tiedostoon kirjoittamisen voi eriyttää omaksi luokakseen. Alla tiedostoon kirjoittamiseen löytyy sekä rivin että listan kirjoittamiseen liittyvät metodit. Allaolevat esimerkit näyttävät myös miten luokan sisällä olevat metodit voivat kutsua muita luokan sisällä olevia metodeja -- jos metodit ovat saman nimisiä, kutsuttava metodi päätellään metodin parametreista ja niiden tyypeistä.
+</p>
+
+<% partial 'partials/code_highlight' do %>
+import java.io.IOException;
+import java.nio.charset.StandardCharsets;
+import java.nio.file.Files;
+import java.nio.file.Paths;
+import java.nio.file.StandardOpenOption;
+import java.util.ArrayList;
+
+public class Tiedostonkasittelija {
+
+    public ArrayList&lt;String&gt; lueTiedosto(String tiedosto) {
+        ArrayList&lt;String&gt; rivit = new ArrayList&lt;&gt;();
+        try {
+            Files.lines(Paths.get(tiedosto)).forEach(rivi -&gt; rivit.add(rivi));
+        } catch (IOException e) {
+            System.out.println("Lukeminen epäonnistui. Virhe: " + e.getMessage());
+        }
+
+        return rivit;
+    }
+
+    public void kirjoitaTiedostoon(String tiedosto, String rivi) {
+        kirjoitaTiedostoon(tiedosto, merkkijonoListana(rivi));
+    }
+
+    public void kirjoitaTiedostoon(String tiedosto, ArrayList&lt;String&gt; rivit) {
+        try {
+            Files.write(Paths.get(tiedosto), rivit, StandardCharsets.UTF_8);
+        } catch (IOException e) {
+            System.out.println("Kirjoittaminen epäonnistui. Virhe: " + e.getMessage());
+        }
+    }
+
+    public void kirjoitaTiedostoon(String tiedosto, String rivi) {
+        lisaaTiedostoon(tiedosto, merkkijonoListana(rivi));
+    }
+
+    public void lisaaTiedostoon(String tiedosto, ArrayList&lt;String&gt; rivit) {
+        try {
+            Files.write(Paths.get(tiedosto), rivit,
+                StandardCharsets.UTF_8, StandardOpenOption.APPEND);
+        } catch (IOException e) {
+            System.out.println("Lisääminen epäonnistui. Virhe: " + e.getMessage());
+        }
+    }
+
+    public ArrayList&lt;String&gt; merkkijonoListana(String merkkijono) {
+        ArrayList&lt;String&gt; rivit = new ArrayList&lt;&gt;();
+        rivit.add(rivi);
+
+        return rivit;
+    }
+}
+<% end %>
+
+<p>
+  Nyt ohjelmoijan ei enää tarvitse välittää kirjoittamiseen ja lukemiseen liittyvistä yksityiskohdista. Alla olevassa esimerkissä kirjoitetaan tiedostoon "paivakirja.txt" kaksi riviä.
+</p>
+
+<% partial 'partials/code_highlight' do %>
+public static void main(String[] args) {
+    Tiedostonkasittelija tiedosto = new Tiedostonkasittelija();
+    tiedosto.lisaaTiedostoon("paivakirja.txt", "Rakas päiväkirja, tänään oli kiva päivä.");
+    tiedosto.lisaaTiedostoon("paivakirja.txt", "Rakas päiväkirja, tänäänkin oli kiva päivä.");
+}
+<% end %>
+
+
+
+
+<% partial 'partials/exercise', locals: { name: 'Sensuroija' } do %>
+
+  <p>
+    Luo luokka Sensuroija, joka saa konstruktorin parametrina sensuroitavan merkkijonon. Luo luokalle tämän jälkeen metodi <code>public void sensuroi(String lahdetiedosto, String kohdetiedosto)</code>, joka (1) lukee lähdetiedoston, (2) poistaa luetusta datasta kaikki sanat, joissa esiintyy sensuroijalle konstruktorin parametrina annettu merkkijono, ja (3) tallentaa jäljelle jääneet sanat kohdetiedostoon.
+  </p>
+
+  <p>
+    Voit olettaa, että syötetiedostossa jokainen rivi sisältää yhden sanan. Tehtäväpohjan mukana on edellisessäkin tehtävässä nähtyjä sanalistoja, joita voit käyttää testaamiseen.
+  </p>
+
+  <p>
+    Mikäli testeissä on omituisia ongelmia merkistön (mac ja windows -käyttäjät) kanssa, voit kokeilla merkistön lisäämistä lukemiseen ja tallentamiseen. Tämä onnistuu seuraavilla esimerkeillä:
+  </p>
+
+  <% partial 'partials/code_highlight' do %>
+Files.write(Paths.get(tiedosto), rivit, StandardCharsets.UTF_8);
+Files.lines(Paths.get(tiedosto), StandardCharsets.UTF_8)
+  <% end %>
+
+<% end %>
+
+
+
+<% partial 'partials/material_heading' do %>
+  Kertausta
+<% end %>
+
+
+<% partial 'partials/exercise', locals: { name: 'Lahjapakkaamo' } do %>
+
+
+  <p>
+    Tässä tehtävässä harjoitellaan lahjojen pakkaamista. Tehdään luokat <code>Lahja</code> ja <code>Pakkaus</code>. Lahjalla on nimi ja paino, ja Pakkaus sisältää lahjoja.
+  </p>
+
+  <h2>Lahja-luokka</h2>
+
+  <p>
+    Tee luokka <code>Lahja</code>, josta muodostetut oliot kuvaavat erilaisia lahjoja. Tallennettavat tiedot ovat tavaran nimi ja paino (kg).
+  </p>
+
+  <p>
+    Lisää luokkaan seuraavat metodit:
+  </p>
+
+  <ul>
+    <li>Konstruktori, jolle annetaan parametrina lahjan nimi ja paino</li>
+    <li>Metodi <code>public String getNimi()</code>, joka palauttaa lahjan nimen</li>
+    <li>Metodi <code>public int getPaino()</code>, joka palauttaa lahjan painon</li>
+    <li>Metodi <code>public String toString()</code>, joka palauttaa merkkijonon muotoa "nimi (paino kg)"</li>
+  </ul>
+
+  <p>
+    Seuraavassa on luokan käyttöesimerkki:
+  </p>
+
+  <% partial 'partials/code_highlight' do %>
+public class Main {
+    public static void main(String[] args) {
+        Lahja kirja = new Lahja("Aapiskukko", 2);
+
+        System.out.println("Lahjan nimi: " + kirja.getNimi());
+        System.out.println("Lahjan paino: " + kirja.getPaino());
+
+        System.out.println("Lahja: " + kirja);
+    }
+}<% end %>
+
+  <p>
+    Ohjelman tulostuksen tulisi olla seuraava:
+  </p>
+
+  <% partial 'partials/sample_output' do %>
+Lahjan nimi: Aapiskukko
+Lahjan paino: 2
+Lahja: Aapiskukko (2 kg)<% end %>
+
+
+  <h2>Pakkaus-luokka</h2>
+
+  <p>
+    Tee luokka <code>Pakkaus</code>. Pakkaus voi sisältää äärettömän määrän lahjoja, jonka lisäksi se tarjoaa metodin lahjojen yhteispainon laskemiseen.
+  </p>
+
+  <p>
+    Lisää luokkaan seuraavat metodit:
+  </p>
+
+  <ul>
+    <li> Parametriton konstruktori</li>
+    <li> Metodi <code>public void lisaaLahja(Lahja lahja)</code>, joka lisää parametrina annettavan lahjan pakkaukseen. Metodi ei palauta mitään arvoa.</li>
+  </ul>
+
+  <p>
+    Tavarat kannattaa tallentaa <code>ArrayList</code>-olioon:
+  </p>
+
+  <% partial 'partials/code_highlight' do %>
+ArrayList&lt;Lahja&gt; lahjat = new ArrayList&lt;&gt;();<% end %>
+
+  <p>
+    Seuraavassa on luokan käyttöesimerkki:
+  </p>
+
+  <% partial 'partials/code_highlight' do %>
+public class Main {
+    public static void main(String[] args) {
+        Lahja kirja = new Lahja("Aapiskukko", 2);
+
+        Pakkaus paketti = new Pakkaus();
+        paketti.lisaaLahja(kirja);
+        System.out.println(paketti.getPaino());
+    }
+}<% end %>
+
+  <p>
+    Ohjelman tulostuksen tulisi olla seuraava:
+  </p>
+
+  <% partial 'partials/sample_output' do %>
+2<% end %>
+
+<% end %>
+
+
+
+<% partial 'partials/exercise', locals: { name: 'Tavara, Matkalaukku ja Lastiruuma' } do %>
+
+  <p>
+    Tässä tehtäväsarjassa tehdään luokat <code>Tavara</code>, <code>Matkalaukku</code> ja <code>Lastiruuma</code>, joiden avulla harjoitellaan olioita, jotka sisältävät toisia olioita.
+  </p>
+
+
+  <h2>Tavara-luokka</h2>
+
+  <p>
+    Tee luokka <code>Tavara</code>, josta muodostetut oliot vastaavat erilaisia tavaroita. Tallennettavat tiedot ovat tavaran nimi ja paino (kg).
+  </p>
+
+  <p>
+    Lisää luokkaan seuraavat metodit:
+  </p>
+
+  <ul>
+    <li>Konstruktori, jolle annetaan parametrina tavaran nimi ja paino</li>
+    <li>Metodi <code>public String getNimi()</code>, joka palauttaa tavaran nimen</li>
+    <li>Metodi <code>public int getPaino()</code>, joka palauttaa tavaran painon</li>
+    <li>Metodi <code>public String toString()</code>, joka palauttaa merkkijonon muotoa "nimi (paino kg)"</li>
+  </ul>
+
+  <p>
+    Seuraavassa on luokan käyttöesimerkki:
+  </p>
+
+  <% partial 'partials/code_highlight' do %>
+public class Main {
+    public static void main(String[] args) {
+        Tavara kirja = new Tavara("Aapiskukko", 2);
+        Tavara puhelin = new Tavara("Nokia 3210", 1);
+
+        System.out.println("Kirjan nimi: " + kirja.getNimi());
+        System.out.println("Kirjan paino: " + kirja.getPaino());
+
+        System.out.println("Kirja: " + kirja);
+        System.out.println("Puhelin: " + puhelin);
+    }
+}<% end %>
+
+  <p>
+    Ohjelman tulostuksen tulisi olla seuraava:
+  </p>
+
+  <% partial 'partials/sample_output' do %>
+Kirjan nimi: Aapiskukko
+Kirjan paino: 2
+Kirja: Aapiskukko (2 kg)
+Puhelin: Nokia 3210 (1 kg)<% end %>
+
+
+  <h2>Matkalaukku-luokka</h2>
+
+  <p>
+    Tee luokka <code>Matkalaukku</code>. Matkalaukkuun liittyy tavaroita ja maksimipaino, joka määrittelee tavaroiden suurimman mahdollisen yhteispainon.
+  </p>
+
+  <p>
+    Lisää luokkaan seuraavat metodit:
+  </p>
+
+  <ul>
+    <li> Konstruktori, jolle annetaan maksimipaino</li>
+    <li> Metodi <code>public void lisaaTavara(Tavara tavara)</code>, joka lisää parametrina annettavan tavaran matkalaukkuun. Metodi ei palauta mitään arvoa.</li>
+    <li> Metodi <code>public String toString()</code>, joka palauttaa merkkijonon muotoa "x tavaraa (y kg)"</li>
+  </ul>
+
+  <p>
+    Tavarat kannattaa tallentaa <code>ArrayList</code>-olioon:
+  </p>
+
+  <% partial 'partials/code_highlight' do %>
+ArrayList&lt;Tavara&gt; tavarat = new ArrayList&lt;&gt;();<% end %>
+
+  <p>
+    Luokan <code>Matkalaukku</code> tulee valvoa, että sen sisältämien tavaroiden yhteispaino ei ylitä maksimipainoa. Jos maksimipaino ylittyisi lisättävän tavaran vuoksi, metodi <code>lisaaTavara</code> ei saa lisätä uutta tavaraa laukkuun.
+  </p>
+
+  <p>
+    Seuraavassa on luokan käyttöesimerkki:
+  </p>
+
+  <% partial 'partials/code_highlight' do %>
+public class Main {
+    public static void main(String[] args) {
+        Tavara kirja = new Tavara("Aapiskukko", 2);
+        Tavara puhelin = new Tavara("Nokia 3210", 1);
+        Tavara tiiliskivi = new Tavara("tiiliskivi", 4);
+
+        Matkalaukku matkalaukku = new Matkalaukku(5);
+        System.out.println(matkalaukku);
+
+        matkalaukku.lisaaTavara(kirja);
+        System.out.println(matkalaukku);
+
+        matkalaukku.lisaaTavara(puhelin);
+        System.out.println(matkalaukku);
+
+        matkalaukku.lisaaTavara(tiiliskivi);
+        System.out.println(matkalaukku);
+    }
+}<% end %>
+
+  <p>
+    Ohjelman tulostuksen tulisi olla seuraava:
+  </p>
+
+  <% partial 'partials/sample_output' do %>
+0 tavaraa (0 kg)
+1 tavaraa (2 kg)
+2 tavaraa (3 kg)
+2 tavaraa (3 kg)<% end %>
+
+
+  <h2>Kielenhuoltoa</h2>
+
+  <p>
+    Ilmoitukset "0 tavaraa" ja "1 tavaraa" eivät ole kovin hyvää suomea &ndash; paremmat muodot olisivat "ei tavaroita" ja "1 tavara". Tee tämä muutos luokkaan <code>Matkalaukku</code>.
+  </p>
+
+  <p>
+    Nyt edellisen ohjelman tulostuksen tulisi olla seuraava:
+  </p>
+
+  <% partial 'partials/sample_output' do %>
+ei tavaroita (0 kg)
+1 tavara (2 kg)
+2 tavaraa (3 kg)
+2 tavaraa (3 kg)<% end %>
+
+
+  <h2>Kaikki tavarat</h2>
+
+  <p>
+    Lisää luokkaan <code>Matkalaukku</code> seuraavat metodit:
+  </p>
+
+  <ul>
+    <li> metodi <code>tulostaTavarat</code>, joka tulostaa kaikki matkalaukussa olevat tavarat</li>
+    <li> metodi <code>yhteispaino</code>, joka palauttaa tavaroiden yhteispainon</li>
+  </ul>
+
+  <p>
+    Seuraavassa on luokan käyttöesimerkki:
+  </p>
+
+  <% partial 'partials/code_highlight' do %>
+public class Main {
+    public static void main(String[] args) {
+        Tavara kirja = new Tavara("Aapiskukko", 2);
+        Tavara puhelin = new Tavara("Nokia 3210", 1);
+        Tavara tiiliskivi = new Tavara("tiiliskivi", 4);
+
+        Matkalaukku matkalaukku = new Matkalaukku(10);
+        matkalaukku.lisaaTavara(kirja);
+        matkalaukku.lisaaTavara(puhelin);
+        matkalaukku.lisaaTavara(tiiliskivi);
+
+        System.out.println("Matkalaukussa on seuraavat tavarat:");
+        matkalaukku.tulostaTavarat();
+        System.out.println("Yhteispaino: " + matkalaukku.yhteispaino() + " kg");
+    }
+}<% end %>
+
+  <p>
+    Ohjelman tulostuksen tulisi olla seuraava:
+  </p>
+
+  <% partial 'partials/sample_output' do %>
+Matkalaukussa on seuraavat tavarat:
+Aapiskukko (2 kg)
+Nokia 3210 (1 kg)
+Tiiliskivi (4 kg)
+Yhteispaino: 7 kg<% end %>
+
+  <p>
+    Muokkaa myös luokkaasi siten, että käytät vain kahta oliomuuttujaa. Toinen sisältää maksimipainon, toinen on lista laukussa olevista tavaroista.
+  </p>
+
+
+  <h2>Raskain tavara</h2>
+
+  <p>
+    Lisää vielä luokkaan <code>Matkalaukku</code> metodi <code>raskainTavara</code>, joka palauttaa painoltaan suurimman tavaran. Jos yhtä raskaita tavaroita on useita, metodi voi palauttaa minkä tahansa niistä. Metodin tulee palauttaa olioviite. Jos laukku on tyhjä, palauta arvo <em>null</em>.
+  </p>
+
+  <p>
+    Seuraavassa on luokan käyttöesimerkki:
+  </p>
+
+  <% partial 'partials/code_highlight' do %>
+public class Main {
+    public static void main(String[] args) {
+        Tavara kirja = new Tavara("Aapiskukko", 2);
+        Tavara puhelin = new Tavara("Nokia 3210", 1);
+        Tavara tiiliskivi = new Tavara("Tiiliskivi", 4);
+
+        Matkalaukku matkalaukku = new Matkalaukku(10);
+        matkalaukku.lisaaTavara(kirja);
+        matkalaukku.lisaaTavara(puhelin);
+        matkalaukku.lisaaTavara(tiiliskivi);
+
+        Tavara raskain = matkalaukku.raskainTavara();
+        System.out.println("Raskain tavara: " + raskain);
+    }
+}<% end %>
+
+  <p>
+    Ohjelman tulostuksen tulisi olla seuraava:
+  </p>
+
+  <% partial 'partials/sample_output' do %>
+Raskain tavara: Tiiliskivi (4 kg)<% end %>
+
+
+  <h2>Lastiruuma-luokka</h2>
+
+  <p>
+    Tee luokka <code>Lastiruuma</code>, johon liittyvät seuraavat metodit:
+  </p>
+
+  <ul>
+    <li> konstruktori, jolle annetaan maksimipaino</li>
+    <li> metodi <code>public void lisaaMatkalaukku(Matkalaukku laukku)</code>, joka lisää parametrina annetun matkalaukun lastiruumaan</li>
+    <li> metodi <code>public String toString()</code>, joka palauttaa merkkijonon muotoa "x matkalaukkua (y kg)"</li>
+  </ul>
+
+  <p>
+    Tallenna matkalaukut sopivaan <code>ArrayList</code>-rakenteeseen.
+  </p>
+
+  <p>
+    Luokan <code>Lastiruuma</code> tulee valvoa, että sen sisältämien matkalaukkujen yhteispaino ei ylitä maksimipainoa. Jos maksimipaino ylittyisi uuden matkalaukun vuoksi, metodi <code>lisaaMatkalaukku</code> ei saa lisätä uutta matkalaukkua.
+  </p>
+
+  <p>
+    Seuraavassa on luokan käyttöesimerkki:
+  </p>
+
+  <% partial 'partials/code_highlight' do %>
+public class Main {
+    public static void main(String[] args) {
+        Tavara kirja = new Tavara("Aapiskukko", 2);
+        Tavara puhelin = new Tavara("Nokia 3210", 1);
+        Tavara tiiliskivi = new Tavara("tiiliskivi", 4);
+
+        Matkalaukku adanLaukku = new Matkalaukku(10);
+        adanLaukku.lisaaTavara(kirja);
+        adanLaukku.lisaaTavara(puhelin);
+
+        Matkalaukku pekanLaukku = new Matkalaukku(10);
+        pekanLaukku.lisaaTavara(tiiliskivi);
+
+        Lastiruuma lastiruuma = new Lastiruuma(1000);
+        lastiruuma.lisaaMatkalaukku(adanLaukku);
+        lastiruuma.lisaaMatkalaukku(pekanLaukku);
+
+        System.out.println(lastiruuma);
+    }
+}<% end %>
+
+  <p>
+    Ohjelman tulostuksen tulisi olla seuraava:
+  </p>
+
+  <% partial 'partials/sample_output' do %>
+2 matkalaukkua (7 kg)<% end %>
+
+
+  <h2>Lastiruuman sisältö</h2>
+
+  <p>
+    Lisää luokkaan <code>Lastiruuma</code> metodi <code>public void tulostaTavarat()</code>, joka tulostaa kaikki lastiruuman matkalaukuissa olevat tavarat.
+  </p>
+
+  <p>
+    Seuraavassa on luokan käyttöesimerkki:
+  </p>
+
+  <% partial 'partials/code_highlight' do %>
+public class Main {
+    public static void main(String[] args) {
+        Tavara kirja = new Tavara("Aapiskukko", 2);
+        Tavara puhelin = new Tavara("Nokia 3210", 1);
+        Tavara tiiliskivi = new Tavara("tiiliskivi", 4);
+
+        Matkalaukku adanLaukku = new Matkalaukku(10);
+        adanLaukku.lisaaTavara(kirja);
+        adanLaukku.lisaaTavara(puhelin);
+
+        Matkalaukku pekanLaukku = new Matkalaukku(10);
+        pekanLaukku.lisaaTavara(tiiliskivi);
+
+        Lastiruuma lastiruuma = new Lastiruuma(1000);
+        lastiruuma.lisaaMatkalaukku(adanLaukku);
+        lastiruuma.lisaaMatkalaukku(pekanLaukku);
+
+        System.out.println("Ruuman matkalaukuissa on seuraavat tavarat:");
+        lastiruuma.tulostaTavarat();
+    }
+}<% end %>
+
+  <p>
+    Ohjelman tulostuksen tulisi olla seuraava:
+  </p>
+
+  <% partial 'partials/sample_output' do %>
+Ruuman matkalaukuissa on seuraavat tavarat:
+Aapiskukko (2 kg)
+Nokia 3210 (1 kg)
+tiiliskivi (4 kg)<% end %>
+
+<% end %>
+
+
+
+
+<% partial 'partials/exercise', locals: { name: 'Schelling' } do %>
+
+  <p>
+    Kertaa ennen tätä tehtävää edellisen osan kaksiulotteisiin taulukkoihin liittynyt osa.
+  </p>
+
+  <p>
+    <a href="https://en.wikipedia.org/wiki/Thomas_Schelling" target="_blank" rel="noopener">Thomas Schelling</a> on yhdysvaltalainen taloustieteilijä, joka esitti ihmisten eriytymistä selittävän mallin. Malli perustuu ajatukselle, että vaikka ihmiset asetettasiin satunnaisesti asumaan, he muuttavat pois jos he eivät ole tyytyväisiä naapureihinsa.
+  </p>
+
+  <p>
+    Tässä tehtävässä pohditaan Schellingin mallia sekä kehitetään siihen liittyvää simulaatio-ohjelmaa.
+  </p>
+
+  <p>
+    Simulaation suoritus alkaa tilanteesta, missä ihmiset ovat asetettu satunnaisesti asumaan.
+  </p>
+
+  <img src="/img/exercises/schelling-alku.png" alt="Tilanne, missä ihmiset asuvat satunnaisesti."/>
+
+  <p>
+    &nbsp;
+  </p>
+
+  <p>
+    Kun simulaatio etenee, päädytään ennen pitkää tilanteeseen, missä samankaltaiset ihmiset ovat muuttaneet samankaltaisten ihmisten luo.
+  </p>
+
+  <img src="/img/exercises/schelling-loppu.png" alt="Ihmiset ovat muuttaneet sopivampiin paikkoihin."/>
+
+  <p>
+    &nbsp;
+  </p>
+
+  <p>
+    Simulaatio-ohjelmasta puuttuu muutamia oleellisia toiminnallisuuksia: (1) kartan tyhjennys, (2) tyhjien paikkojen etsiminen, sekä (3) tyytymättömien henkilöiden tunnistaminen. Kannattaa ennen aloitusta tutustua nykyiseen tehtävän koodiin -- ohjelmassa on mukana myös visualisointiin käytettävä komponentti.
+  </p>
+
+
+  <h2>Kartan tyhjentäminen ja tyhjien paikkojen etsiminen</h2>
+
+  <p>
+    Simulaatiomallissa käytetään kaksiulotteista taulukkoa asuinalueen kuvaamiseen. Taulukossa oleva arvo 0 kuvaa tyhjää paikkaa ja luvut 1-5 kuvaavat eri ryhmiä.
+  </p>
+
+  <p>
+    Toteuta ensin luokan <code>Eriytymismalli</code> metodiin <code>public void asetaKaikkiTyhjiksi()</code> toiminnallisuus, joka asettaa jokaisen taulukon <code>taulukko</code> solun arvoksi 0.
+  </p>
+
+  <p>
+    Lisää tämän jälkeen metodiin <code>public ArrayList&lt;Piste&gt; tyhjatPaikat()</code> toiminnallisuus, joka tunnistaa tyhjät paikat (solut, joissa on arvo 0), luo jokaisesta Piste-olion, ja palauttaa ne listana. Huomaa, että käytössä olevassa kaksiulotteisessa taulukossa ensimmäinen ulottuvuus kuvaa x-koordinaattia, ja toinen y-koordinaattia (taulukko[x][y]).
+  </p>
+
+
+  <h2>Tyytymättömien hakeminen</h2>
+
+  <p>
+    Mallille voidaan asettaa parametri <code>tyytyvaisyysraja</code>. Tyytyväisyysrajalla kuvataan samaan ryhmään kuuluvien naapureiden minimimäärää, millä henkilö on tyytyväinen sijaintiinsa. Jos ruudussa (x, y) olevan henkilön naapureista on samankaltaisia yhtä paljon tai yli <code>tyytyvaisyysraja</code>n, on henkilö tyytyväinen. Muissa tapauksissa henkilö on tyytymätön.
+  </p>
+
+  <p>
+    Naapureista tulee tarkastella kaikkia ruudun vieressä olevia ruutuja. Alueen ulkopuolella olevat ruudut (esim. -1, 0) tulee käsitellä tyhjänä ruutuna (ei samankaltainen).
+  </p>
+
+  <p>
+    Toteuta metodi <code>public ArrayList&lt;Piste&gt; haeTyytymattomat()</code>, joka palauttaa tyytymättömät listana.
+  </p>
+
+  <p>
+    Kun metodi on toteutettu, ihaile ohjelman toimintaa :)
+  </p>
+
+
+  <p>
+    <em>
+      Vaikka karttamme on suorakulmio, voisi sen yhtä hyvin piirtää vaikkapa Helsingin muotoiseksi.
+    </em>
+  </p>
+
+<% end %>
+
+
+
+<% partial 'partials/exercise', locals: { name: 'Uno' } do %>
+
+  <p>
+    <a href="https://fi.wikipedia.org/wiki/Uno_(korttipeli)" target="_blank" rel="noopener">Uno</a> on korttipeli, missä jokaisella pelaajalla on kädessään kortteja. Kortteja pelataan vuorotellen siten, että jokainen pelaaja pelaa aina yhden kortin kerrallaan. Pelin voittaja on se, jonka kädestä loppuu kortit ensimmäisenä kesken.
+  </p>
+
+  <p>
+    Suurimmalla osalla korteista on väri -- Punainen, Vihreä, Sininen tai Keltainen -- ja kortin saa pelata edellisen pelaajan pelaaman kortin jälkeen jos kortilla on sama väri tai numero kuin edellisellä kortilla. Pelissä on lisäksi joukko erikoiskortteja. Osalla niistä on väri ja ne saa pelata vain jos edellisessä kortissa on sama väri. Osalla erikoiskorteista ei ole väriä. Värittömät kortit saa pelata minkä tahansa kortin jälkeen (pelaaminen tapahtuu kuitenkin aina omalla vuorolla).
+  </p>
+
+  <ul>
+    <li>
+      Värilliset erikoiskortit ovat "Ohitus", "Suunnanvaihto" ja "Nosta 2". Kun pelaaja pelaa kortin "Ohitus", seuraavalta pelaajalta jää vuoro välistä. Kortti "Suunnanvaihto" kääntää pelin suuntaa (esim. myötäpäivästä vastapäivään), ja "Nosta 2" lisää seuraavalle pelaajalle kaksi korttia sekä jättää häneltä vuoron välistä.
+    </li>
+    <li>
+      Värittömät erikoiskortit ovat "Villi kortti" ja "Villi kortti + Nosta 4". Molemmat kortit antavat kortin pelaavalle pelaajalle mahdollisuuden valita seuraavaksi pelattava väri. Tämän lisäksi kortti "Villi kortti + Nosta 4" lisää seuraavalle pelaajalle 4 korttia sekä jättää häneltä vuoron välistä.
+    </li>
+  </ul>
+
+  <p>
+    Pelin tavoitteena on saada kortit loppumaan. Kun tämä tapahtuu, ensimmäisenä korttinsa loppuun pelannut pelaaja saa pisteitä muiden pelaajien käteen jääneistä korteista. Pisteet lasketaan seuraavasti: numerokortit ovat kortissa olevan numeron arvoisia, värilliset erikoiskortit ovat 20 pisteen arvoisia, ja värittömät erikoiskortit ovat 50 pisteen arvoisia. Uusia pelejä pelataan kunnes joku pelaajista saavuttaa 500 pistettä.
+  </p>
+
+  <p>
+    Tässä tehtävässä rakennetaan Uno-peliä varten tekoäly. Ennen aloittamista, kokeile tehtäväpohjassa olevan pelin käynnistämistä ja pelaamista. Peli käynnistetään tehtäväpohjan Main-luokasta.
+  </p>
+
+  <hr/>
+
+  <p>
+    Tekoäly tulee toteuttaa luokkaan <code>Tekoalypelaaja</code>. Luokalle on valmiiksi määriteltynä <em>rajapinta</em> (palaamme tähän myöhemmissä osissa) ja kolme metodia.
+  </p>
+
+  <ul>
+    <li>
+      <p>
+	Metodi <code>public int pelaa(ArrayList&lt;Kortti&gt, omatKortit, Kortti paallimmaisin, String vari, Pelitilanne tilanne)</code> on tekoälyn ydin ja sen tehtävänä on päättää mikä kortti pelataan seuraavaksi. Metodi saa parametrina pelaajan kädessä olevat kortit (omatKortit), viimeksi pelatun kortin minkä päälle pelataan (paallimmaisin), edellisen pelaajan valitseman värin jos viimeksi pelattu kortti oli villi kortti (vari), sekä yleisen pelitilanteen (tilanne). Pelitilanne-luokasta kerrotaan enemmän tehtävänannon lopussa.
+	<br/>
+	Tehtävänäsi on toteuttaa ohjelma, joka palauttaa pelattavan kortin indeksin. Jos käytettävissä ei ole yhtäkään sopivaa korttia, metodin tulee palauttaa arvo -1, jolloin nostetaan kortti. Huomaa, että pelissä tulee pelata kortti jos se vain on mahdollista.
+      </p>
+    </li>
+
+    <li>
+      <p>
+	Metodia <code>public String valitseVari(ArrayList&lt;Kortti&gt; omatKortit)</code> kutsutaan kun tekoäly pelaa villin kortin eli vaihtaa pelattavaa väriä. Metodin tulee palauttaa joku seuraavista merkkijonoista: "Punainen", "Vihreä", "Sininen", "Keltainen".
+      </p>
+    </li>
+
+    <li>
+      <p>
+	Metodi <code>public String nimi()</code> kertoo tekoälysi nimen, jonka saat luonnollisesti keksiä itse. Tekoälyn nimi saattaa ilmestyä jonkinlaisiin turnauslistoihin, eli pidä nimi ns. kilttinä.
+      </p>
+    </li>
+  </ul>
+
+  <p>
+    Tehtävänäsi on tutustua ohjelmaan sekä toteuttaa luokkaan Tekoalypelaaja tekoäly, joka toimii oikein, eli se pelaa aina sallitun kortin. Oikein toimiva tekoäly on kahden tehtäväpisteen arvoinen.
+  </p>
+
+  <p>
+    Kun olet saanut toteutettua oikein toimivan tekoälyn, viilaa sitä paremmaksi.
+  </p>
+
+  <p>
+    Kun tehtävän määräaika on ohi, jokaisen palauttamaa (toimivaa) tekoälyä peluutetaan kaikkia muita tekoälyjä vastaan useampaan otteeseen. Parhaille tekoälyille on tiedossa myös palkintoja.
+  </p>
+
+
+  <hr/>
+
+  <p>
+    Vinkkejä viilaamiseen:
+  </p>
+
+  <ul>
+    <li>
+      Koska häviötilanteessa käden pisteet menevät voittajalla, saattaa olla hyvä idea pyrkiä pelaamaan ensin kortit, joiden pistearvo on suuri.
+    </li>
+    <li>
+      Toisaalta, esimerkiksi villit kortit saattavat olla erittäin hyödyllisiä myöhemmässä vaiheessa peliä, eli niistä kannattanee pitää kiinni.
+    </li>
+    <li>
+      Tai no, ehkä villeistä korteista ei kannata pitää ikuisesti kiinni, koska ne kuitenkin ovat 50 pisteen arvoisia.
+    </li>
+    <li>
+      Kun pelaat villin kortin ja valitset värin, voi olla ihan fiksua valita väri, jota sinulla on paljon kädessä.
+    </li>
+    <li>
+      Toiisaalta sitten, jos kädessäsi on punaiset 0, 1 ja 6 ja vihreä 9 sekä vihdeä nosta 2, voi olla kuitenkin ihan fiksua yrittää ensin hankkiutua eroon vihreistä korteista, sillä niiden pistearvo on hyvin suuri.
+    </li>
+    <li>
+      Pohdi tilannetta, missä pöydällä on punainen 5 ja kädessäsi on punainen 3 sekä sininen 5. Kannattaako sinun pelata punainen vai vihreä kortti? Tässä on pohdittavana sekä mahdollinen pistesaldo että syy punaisen kortin pöydällä olemiseen. Entäpä jos vastustaja on pelannut punaisen kortin koska hänellä on punaisia kortteja jäljellä?
+    </li>
+    <li>
+      Jokaista nollakorttia löytyy pelistä vain yksi, mutta jokaista numerokorttia on kaksi. Nollan pelaaminen ei vaikuta käden pisteisiin, mutta sen pelaaminen saattaa johtaa tilanteeseen, missä on epätodennäköisempää että jollain muulla on sama numero. Tällöin todennäköisyys värin vaihdolle saattaa olla pienempi..
+    </li>
+    <li>
+      Kaikkiin näihin vinkkeihin varmaankin vaikuttaa myös kädessä olevien korttien määrä. Pienellä määrällä kortteja voi olla ehkäpä hyvä ottaa riskejä ja yrittää voittaa peli. Toisaalta sitten, jos kädessä on paljon kortteja, kannattaa ehkä unohtaa kyseisen kierroksen voitto ja pyrkiä minimoimaan vastustajalle menevien pisteiden määrä.
+    </li>
+    <li>
+      Ainiin, muutkin osallistujat lukevat näitä vinkkejä.. Löytyisiköhän joillekin edeltäville vinkeille jonkinlainen käänteisstrategia?
+    </li>
+  </ul>
+
+  <hr/>
+
+  <p>
+    Pelitilanne-luokka sisältää havaintoja tähän asti kuluneesta pelistä sekä lisätietoa kehittyneemmille tekoälyille. Se tarjoaa seuraavat metodit:
+  </p>
+
+  <ul>
+    <li>
+      Metodi <code>public String getSuunta()</code> palauttaa pelin tämänhetkisen suunnan. Suunta on joko "Myötäpäivään" eli eteenpäin tai "Vastapäivään" eli taaksepäin.
+    </li>
+    <li>
+      Metodi <code>public int getOmaIndeksi()</code> palauttaa oman tekoälyn indeksin. Indeksiä käytetään seuraavissa metodeissa.
+    </li>
+    <li>
+      Metodi <code>public int[] getPelaajienPisteet()</code> kertoo tämänhetkisen pistetilanteen kaikille pelaajille.
+    </li>
+    <li>
+      Metodi <code>public int[] getPelaajienKorttienLukumaarat()</code> kertoo pelaajien tämänhetkisen korttien lukumäärän.
+    </li>
+    <li>
+      Metodi <code>public String[] getPelaajienViimeksiPelaamatVarit()</code> kertoo pelaajien viimeksi pelaamat värit. Alkiossa on arvo null jos pelaaja ei ole vielä pelannut korttia.
+    </li>
+  </ul>
+
+  <p>
+    <em>
+      Tehtävän alkuperäinen idea: Stephen Davies, UMW
+    </em>
+  </p>
+
+
+<% end %>
+
+
+<p>
+  Hengähdä hetkeksi ja mieti kurssin alkua. Olet todennäköisesti kehittynyt huimasti.
+</p>
+
+<%= partial 'partials/quiz', locals: { id: '58ae10d1ad2afb0004f42935' } %>
+
+
+<% partial 'partials/hint', locals: { name: 'Lopuksi' } do %>
+
+  <p>
+    <em>
+      Huom! Jos et vielä vastannut osoitteessa <a href="https://elomake.helsinki.fi/lomakkeet/78143/lomake.html" target="_blank" rel="noopener">https://elomake.helsinki.fi/lomakkeet/78143/lomake.html</a> olevaan kyselyyn, tee se nyt.
+    </em>
+  </p>
+
+  <% if false %>
+  <p>
+    Jos teet kurssia Ohjelmoinnin perusteet tai aikataulutettua Ohjelmoinnin MOOCia, tässä kohtaa tulee tehdä kurssin kolmas konekoe. Kolmannen konekokeen tekemiseen on kokeen aloitushetkestä 180 minuuttia. Kolmas konekoe vastaa kahtakymmentä kurssipistettä Ohjelmoinnin perusteet -kurssista, ja sen pisteistä tulee saada vähintään puolet, jotta kurssi arvostellaan.
+  </p>
+
+  <p>
+    Konekokeessa on useampia tehtäviä ja ne tulee tehdä TMC:ssä tehtävien mukana tuleviin tehtäväpohjiin "Konekoe03_01.Tehtava", "Konekoe03_02.Tehtava" jne. Tehtävänannot saat osoitteessa <a href="https://myexams.herokuapp.com" target="_blank" rel="noopener">https://myexams.herokuapp.com</a> olevasta sovelluksesta. Edellämainitussa osoitteessa sekä tämän materiaalin johdanto-osiossa on myös lisätietoja kokeen suorittamiseen liittyen. Muistathan, että koe on yksilösuoritus.
+  </p>
+
+  <p>
+    Osoitteessa <a href="https://myexams.herokuapp.com" target="_blank" rel="noopener">https://myexams.herokuapp.com</a> olevaan sovellukseen kirjaudutaan TMC-tunnuksilla (samat tunnukset kuin mitä käytät TMC:hen kirjautumiseen). Kun olet kirjautunut sovellukseen, valitse ylävalikosta "Kokeeni". Näet tämän jälkeen listauksen, missä näkyy tehtävänä olevat kokeet. Kun valitset kokeen, saat siihen liittyvät tiedot näkyville ja voit aloittaa halutessasi kokeen tekemisen.
+  </p>
+
+  <p>
+    Huom! Älä kuitenkaan aloita kokeen tekemistä ennen kuin olet kerrannut edeltävät osat ja olet varma, että sinulla on aikaa tehdä koe. Konekoe tulee tehdä Helsingin yliopiston kurssilla 10.3. klo 14:00 mennessä ja aikataulutetussa Ohjelmoinnin MOOCissa 26.3. mennessä.
+  </p>
+  <% end %>
+
+<% end %>
+
+
+
+<%= partial 'partials/quiz', locals: { id: '58ac580da8f5110004278457' } %>

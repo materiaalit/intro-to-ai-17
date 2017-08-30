@@ -1,0 +1,86 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <title>Ohjelmoinnin MOOC 2017 | <%= current_page.data.title %></title>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <link href="https://fonts.googleapis.com/css?family=Roboto" rel="stylesheet">
+
+    <%= stylesheet_link_tag 'styles' %>
+
+    <link rel="stylesheet" href="//cdnjs.cloudflare.com/ajax/libs/highlight.js/9.7.0/styles/xcode.min.css">
+
+    <link rel="stylesheet" type="text/css" href="//cdnjs.cloudflare.com/ajax/libs/cookieconsent2/3.0.1/cookieconsent.min.css" />
+
+    <link rel="stylesheet" href="//2017-ohjelmointi.github.io/cdn/code-states-visualizer.css" />
+    <link rel="stylesheet" href="https://materiaalit.github.io/typonator-cdn/app.css" />
+
+    <% if build? %>
+      <%= partial 'partials/analytics' %>
+    <% end %>
+  </head>
+  <body>
+    <div class="main-wrapper">
+      <div class="header-wrapper">
+        <%= partial 'partials/browser_warning' %>
+
+        <%= partial 'partials/navigation' %>
+      </div>
+
+      <div class="content-wrapper">
+        <div class="container material" id="material">
+          <% if current_page.data.exercise_page %>
+            <%= partial 'partials/exercise_list', locals: { include_quizzes: current_page.data.quiz_page } %>
+          <% end %>
+
+          <%= yield %>
+        </div>
+      </div>
+
+      <div class="footer-wrapper">
+        <%= partial 'partials/footer' %>
+      </div>
+    </div>
+
+    <%= partial 'partials/login_modal' %>
+
+    <%= partial 'partials/table_of_contents' %>
+
+    <%= partial 'partials/quiznator' %>
+
+    <%= partial 'partials/student-dashboard' %>
+
+    <script src="https://code.jquery.com/jquery-3.1.1.min.js"
+	    integrity="sha256-hVVnYaiADRTO2PzUGmuLJr8BLUSjGIZsDYGmIJLv2b8="
+	    crossorigin="anonymous"></script>
+
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js" integrity="sha384-Tc5IQib027qvyjSMfHjOMaLkfuWVxZxUPnCJA7l2mCWNIpG9mGCD8wGNIcPD7Txa" crossorigin="anonymous"></script>
+
+    <script>
+      window.SD_SHOW_SURVEY = ['part6', 'part7'].indexOf(window.location.pathname.replace(/\//g,'')) >= 0;
+    </script>
+
+    <%= javascript_include_tag 'scripts' %>
+
+    <script src="https://use.fontawesome.com/ed2f73836b.js"></script>
+
+    <script src="//cdnjs.cloudflare.com/ajax/libs/highlight.js/9.7.0/highlight.min.js"></script>
+
+    <script>hljs.initHighlightingOnLoad();</script>
+
+    <script src="//cdnjs.cloudflare.com/ajax/libs/cookieconsent2/3.0.1/cookieconsent.min.js"></script>
+    <script src='//cdnjs.cloudflare.com/ajax/libs/diff_match_patch/20121119/diff_match_patch.js'></script>
+
+    <script>window.cookieconsent.initialise({"palette":{"popup":{"background":"#000"},"button":{"background":"#f1d600"}}});</script>
+
+    <script src='//2017-ohjelmointi.github.io/cdn/code-states-visualizer.js'></script>
+    <script src='https://materiaalit.github.io/typonator-cdn/app.js'></script>
+    <script>
+      document.addEventListener("DOMContentLoaded", function() {
+        window.initCodeStatesVisualizer();
+        window.initTyponator();
+      });
+    </script>
+  </body>
+</html>

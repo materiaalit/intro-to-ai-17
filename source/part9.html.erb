@@ -1,0 +1,1746 @@
+---
+  title: Osa 9
+  exercise_page: true
+  quiz_page: true
+  published: false
+---
+
+
+<% partial 'partials/hint', locals: { name: 'Yhdeksännen osion tavoitteet' } do %>
+
+  <p>
+    Yhdeksännessä osiossa käsitellään ohjelman luokkien jakamista pakkauksiin. Tämän lisäksi tutustumme ohjelmissa tapahtuviin poikkeuksiin ja opimme käsittelemään sekä tarkastamaan käyttäjän antamia virheellisiä syötteitä. Opimme käyttämään useampia rajapintoja, sekä tutustumme Javan valmiiseen järjestämisessä käytettävään rajapintaan Comparable.
+  </p>
+
+  <p>
+    Osassa on muutamia pienempiä harjoituksia sekä kaksi isompaa tehtävää, joissa pääset suunnittelemaan sovelluksen rakenteen. Tulet huomaamaan, että isompien tehtävien rakenne voi olla hyvinkin samankaltainen -- erillinen käyttöliittymäluokka, muutamia käsitteitä kuvaavia luokkia, sekä listoja ja mahdollisesti hajautustauluja sisältävää sovelluslogiikkaa olioiden "kirjanpitoon". Isommat tehtävät vievät todennäköisesti useamman tunnin -- varaa tekemiseen sekä kertaamiseen aikaa.
+  </p>
+
+  <p>
+    Tämän osan jälkeen osaat suunnitella ja toteuttaa käyttöliittymäkuvauksen pohjalta laajemman sovelluksen. Osaat käyttää pakkauksia luokkien jakamiseen erilaisiin vastuualueisiin, sekä tarkastaa käyttäjän antamia syötteitä. Osaat käsitellä ohjelmassa tapahtuvia poikkeuksia. Lisäksi rajapinnat ja hajautustaulut tulevat yhä tutummiksi.
+  </p>
+
+<% end %>
+
+
+<% partial 'partials/material_heading' do %>
+  Ohjelman rakenne ja pakkaukset
+<% end %>
+
+
+<p>
+  Ohjelmaa varten toteutettujen luokkien määrän kasvaessa niiden toiminnallisuuksien ja metodien muistaminen vaikeutuu. Muistamista helpottaa luokkien järkevä nimentä sekä luokkien suunnittelu siten, että jokaisella luokalla on yksi selkeä vastuu. Tämän lisäksi luokat kannattaa jakaa toiminnallisuutta, käyttötarkoitusta tai jotain muuta loogista kokonaisuutta kuvaaviin pakkauksiin.
+</p>
+
+<p>
+  Pakkaukset (<em>package</em>) ovat käytännössä hakemistoja (directory, puhekielessä myös kansio), joihin lähdekooditiedostot organisoidaan.
+</p>
+
+<p>
+  Ohjelmointiympäristöt tarjoavat valmiit työkalut pakkausten hallintaan. Olemme tähän mennessä luoneet luokkia ja rajapintoja vain projektiin liittyvän lähdekoodipakkaukset-osion (<em>Source Packages</em>) oletuspakkaukseen (<em>default package</em>). Uuden pakkauksen voi luoda NetBeansissa projektin pakkauksiin liittyvässä Source Packages -osiossa oikeaa hiirennappia painamalla ja valitsemalla <em>New -&gt; Java Package...</em>.
+</p>
+
+<p>
+  Pakkauksen sisälle voidaan luoda luokkia aivan kuten oletuspakkaukseenkin (<code>default package</code>). Alla luodaan juuri luotuun pakkaukseen <code>kirjasto</code> luokka <code>Sovellus</code>.
+</p>
+
+<p>
+  Luokan pakkaus -- eli pakkaus, jossa luokka sijaitsee -- ilmaistaan lähdekooditiedoston alussa lauseella <code>package <em>pakkaus</em>;</code>. Alla oleva luokka <code>Sovellus</code> sijaitsee pakkauksessa <code>kirjasto</code>.
+</p>
+
+<% partial 'partials/code_highlight' do %>
+package kirjasto;
+
+public class Sovellus {
+
+    public static void main(String[] args) {
+        System.out.println("Hello packageworld!");
+    }
+}
+<% end %>
+
+<p>
+  Jokainen pakkaus -- myös oletuspakkaus eli default package -- voi sisältää useampia pakkauksia. Esimerkiksi pakkausmäärittelyssä <code>package kirjasto.domain</code> pakkaus <code>domain</code> on pakkauksen <code>kirjasto</code> sisällä. Edellä käytettyä nimeä <code>domain</code> käytetään usein kuvaamaan sovellusalueen käsitteisiin liittyvien luokkien säilytyspaikkaa. Esimerkiksi luokka <code>Kirja</code> voisi hyvin olla pakkauksen <code>kirjasto.domain</code> sisällä, sillä se kuvaa kirjastosovellukseen liittyvää käsitettä.
+</p>
+
+<% partial 'partials/code_highlight' do %>
+package kirjasto.domain;
+
+public class Kirja {
+    private String nimi;
+
+    public Kirja(String nimi) {
+        this.nimi = nimi;
+    }
+
+    public String getNimi() {
+        return this.nimi;
+    }
+}
+<% end %>
+
+<p>
+  Pakkauksissa olevia luokkia tuodaan luokan käyttöön <code>import</code>-lauseen avulla. Pakkauksessa <code>kirjasto.domain</code> oleva luokka <code>Kirja</code> tuodaan käyttöön puolipisteeseen päättyvällä lauseella <code>import kirjasto.domain.Kirja</code>. Luokkien tuomiseen käytetyt import-lauseet asetetaan lähdekooditiedostoon pakkausmäärittelyn jälkeen.
+</p>
+
+
+<% partial 'partials/code_highlight' do %>
+package kirjasto;
+
+import kirjasto.domain.Kirja;
+
+public class Sovellus {
+
+    public static void main(String[] args) {
+        Kirja kirja = new Kirja("pakkausten ABC!");
+        System.out.println("Hello packageworld: " + kirja.getNimi());
+    }
+}
+<% end %>
+
+<% partial 'partials/sample_output' do %>
+Hello packageworld: pakkausten ABC!
+<% end %>
+
+
+<p>
+  Jatkossa <em>kaikissa</em> tehtävissämme käytetään pakkauksia. Luodaan seuraavaksi ensimmäiset pakkaukset itse.
+</p>
+
+<% partial 'partials/exercise', locals: { name: 'Ensimmäisiä pakkauksia' } do %>
+
+
+  <h2>Käyttöliittymä-rajapinta</h2>
+
+  <p>
+    Luo projektipohjaan pakkaus <code>mooc</code>. Rakennetaan tämän pakkauksen sisälle sovelluksen toiminta. Lisää pakkaukseen mooc pakkaus <code>ui</code> (tämän jälkeen käytössä pitäisi olla pakkaus <code>mooc.ui</code>), ja lisää sinne rajapinta <code>Kayttoliittyma</code>.
+  </p>
+
+  <p>
+    Rajapinnan <code>Kayttoliittyma</code> tulee määritellä metodi <code>void paivita()</code>.
+  </p>
+
+
+  <h2>Tekstikäyttöliittymä</h2>
+
+  <p>
+    Luo samaan pakkaukseen luokka <code>Tekstikayttoliittyma</code>, joka toteuttaa rajapinnan <code>Kayttoliittyma</code>. Toteuta luokassa <code>Tekstikayttoliittyma</code> rajapinnan <code>Kayttoliittyma</code> vaatima metodi <code>public void paivita()</code> siten, että sen ainut tehtävä on merkkijonon "<code>Päivitetään käyttöliittymää</code>"-tulostaminen <code>System.out.println</code>-metodikutsulla.
+  </p>
+
+
+  <h2>Sovelluslogiikka</h2>
+
+  <p>
+    Luo tämän jälkeen pakkaus <code>mooc.logiikka</code>, ja lisää sinne luokka <code>Sovelluslogiikka</code>. Sovelluslogiikan tarjoaman toiminnallisuuden tulee olla seuraavanlainen.
+  </p>
+
+  <ul>
+    <li><code>public Sovelluslogiikka(Kayttoliittyma kayttoliittyma)</code></li>Sovelluslogiikka-luokan konstruktori. Saa parametrina Kayttoliittyma-rajapinnan toteuttavan luokan. Huom: jotta sovelluslogiikka näkisi rajapinnan, on sen "importoitava" se, eli tarvitset tiedoston alkuun rivin <code>import mooc.ui.Kayttoliittyma;</code> <br/>
+    <li><code>public void suorita(int montaKertaa)</code></li> Tulostaa <code>montaKertaa</code>-muuttujan määrittelemän määrän merkkijonoa "Sovelluslogiikka toimii". Jokaisen "Sovelluslogiikka toimii"-tulostuksen jälkeen tulee kutsua konstruktorin parametrina saadun rajapinnan <code>Kayttoliittyma</code>-toteuttaman olion määrittelemää <code>paivita()</code>-metodia.<br/>
+  </ul>
+
+  <p>
+    Voit testata sovelluksen toimintaa seuraavalla pääohjelmaluokalla.
+  </p>
+
+  <% partial 'partials/code_highlight' do %>
+import mooc.logiikka.Sovelluslogiikka;
+import mooc.ui.Kayttoliittyma;
+import mooc.ui.Tekstikayttoliittyma;
+
+public class Main {
+
+    public static void main(String[] args) {
+        Kayttoliittyma kayttoliittyma = new Tekstikayttoliittyma();
+        new Sovelluslogiikka(kayttoliittyma).suorita(3);
+    }
+}
+  <% end %>
+
+  <% partial 'partials/sample_output' do %>
+Sovelluslogiikka toimii
+Päivitetään käyttöliittymää
+Sovelluslogiikka toimii
+Päivitetään käyttöliittymää
+Sovelluslogiikka toimii
+Päivitetään käyttöliittymää
+  <% end %>
+
+<% end %>
+
+
+<% partial 'partials/material_sub_heading' do %>
+  Hakemistorakenne tiedostojärjestelmässä
+<% end %>
+
+<p>
+  Kaikki NetBeansissa näkyvät projektit ovat tietokoneesi <em><a href="http://fi.wikipedia.org/wiki/Tiedostoj%C3%A4rjestelm%C3%A4" target="_blank" rel="noopener">tiedostojärjestelmässä</a></em> tai jollain keskitetyllä levypalvelimella. Jokaiselle projektille on olemassa oma hakemisto, jonka sisällä on projektiin liittyvät tiedostot ja hakemistot.
+</p>
+
+<p>
+  Projektin hakemistossa <code>src</code> on ohjelmaan liittyvät lähdekoodit. Jos luokan pakkauksena on kirjasto, sijaitsee se projektin lähdekoodihakemiston <code>src</code> sisällä olevassa hakemistossa <code>kirjasto</code>. NetBeansissa voi käydä katsomassa projektien konkreettista rakennetta <em>Files</em>-välilehdeltä joka on normaalisti <em>Projects</em>-välilehden vieressä. Jos et näe välilehteä <em>Files</em>, saa sen näkyville valitsemalla vaihtoehdon <em>Files</em> valikosta <em>Window</em>.
+</p>
+
+<p>
+  Sovelluskehitystä tehdään normaalisti <em>Projects</em>-välilehdeltä, jossa NetBeans on piilottanut projektiin liittyviä tiedostoja joista ohjelmoijan ei tarvitse välittää.
+</p>
+
+
+<% partial 'partials/material_sub_heading' do %>
+  Pakkaukset ja näkyvyysmääreet
+<% end %>
+
+<p>
+  Olemme tähän mennessä käyttäneet kahta näkyvyysmäärettä. Näkyvyysmääreellä <code>private</code> määritellään muuttujia (ja metodeja), jotka ovat näkyvissä vain sen luokan sisällä joka määrittelee ne. Niitä ei voi käyttää luokan ulkopuolelta. Näkyvyysmääreellä <code>public</code> varustetut metodit ja muuttujat ovat taas kaikkien käytettävissä.
+</p>
+
+<% partial 'partials/code_highlight' do %>
+package kirjasto.ui;
+
+public class Kayttoliittyma {
+    private Scanner lukija;
+
+    public Kayttoliittyma(Scanner lukija) {
+        this.lukija = lukija;
+    }
+
+    public void kaynnista() {
+        tulostaOtsikko();
+
+        // muu toiminnallisuus
+    }
+
+    private void tulostaOtsikko() {
+        System.out.println("************");
+        System.out.println("* KIRJASTO *");
+        System.out.println("************");
+    }
+}
+<% end %>
+
+<p>
+  Yllä olevasta <code>Kayttoliittyma</code>-luokasta tehdyn olion konstruktori ja <code>kaynnista</code>-metodi on kutsuttavissa mistä tahansa ohjelmasta. Metodi <code>tulostaOtsikko</code> ja <code>lukija</code>-muuttuja on käytössä vain luokan sisällä.
+</p>
+
+<p>
+  Jos näkyvyysmäärettä ei määritellä, metodit ja muuttujat ovat näkyvillä saman pakkauksen sisällä. Tätä kutsutaan oletus- tai pakkausnäkyvyydeksi. Muutetaan yllä olevaa esimerkkiä siten, että metodilla <code>tulostaOtsikko</code> on pakkausnäkyvyys.
+</p>
+
+<% partial 'partials/code_highlight' do %>
+package kirjasto.ui;
+
+public class Kayttoliittyma {
+    private Scanner lukija;
+
+    public Kayttoliittyma(Scanner lukija) {
+        this.lukija = lukija;
+    }
+
+    public void kaynnista() {
+        tulostaOtsikko();
+
+        // muu toiminnallisuus
+    }
+
+    void tulostaOtsikko() {
+        System.out.println("************");
+        System.out.println("* KIRJASTO *");
+        System.out.println("************");
+    }
+}
+<% end %>
+
+<p>
+  Nyt saman pakkauksen sisällä olevat luokat -- eli luokat, jotka sijaitsevat pakkauksessa <code>kirjasto.ui</code> voivat käyttää metodia <code>tulostaOtsikko</code>.
+</p>
+
+<% partial 'partials/code_highlight' do %>
+package kirjasto.ui;
+
+import java.util.Scanner;
+
+public class Main {
+
+    public static void main(String[] args) {
+        Scanner lukija = new Scanner(System.in);
+        Kayttoliittyma kayttoliittyma = new Kayttoliittyma(lukija);
+
+        kayttoliittyma.tulostaOtsikko(); // onnistuu!
+    }
+}
+<% end %>
+
+<p>
+  Jos luokka on eri pakkauksessa, ei metodia <code>tulostaOtsikko</code> pysty käyttämään. Alla olevassa esimerkissä luokka Main on pakkauksessa <code>kirjasto</code>, jolloin pakkauksessa <code>kirjasto.ui</code> pakkausnäkyvyydellä määriteltyyn metodiin <code>tulostaOtsikko</code> ei pääse käsiksi.
+</p>
+
+<% partial 'partials/code_highlight' do %>
+package kirjasto;
+
+import java.util.Scanner;
+import kirjasto.ui.Kayttoliittyma;
+
+public class Main {
+
+    public static void main(String[] args) {
+        Scanner lukija = new Scanner(System.in);
+        Kayttoliittyma kayttoliittyma = new Kayttoliittyma(lukija);
+
+        kayttoliittyma.tulostaOtsikko(); // ei onnistu!
+    }
+}
+<% end %>
+
+
+
+<% partial 'partials/exercise', locals: { name: 'Lentokenttä' } do %>
+
+  <p>
+    Tässä tehtävässä pääset suunnittelemaan vapaasti ohjelman rakenteen. Käyttöliittymän ulkomuoto sekä vaaditut komennot on määritelty ennalta. Tehtävä on kolmen yksittäisen tehtäväpisteen arvoinen.
+  </p>
+
+  <p>
+    <strong>Huom: jotta testit toimisivat, saat luoda ohjelmassasi vain yhden Scanner-olion käyttäjän syötteen lukemiseen.</strong>
+  </p>
+
+  <p>
+    Lentokenttä-tehtävässä toteutetaan lentokentän hallintasovellus. Lentokentän hallintasovelluksessa hallinnoidaan lentokoneita ja lentoja. Lentokoneista tiedetään aina tunnus ja kapasiteetti. Lennoista tiedetään lennon lentokone, lähtöpaikan tunnus (esim. <a href="http://en.wikipedia.org/wiki/Helsinki_Airport" target="_blank" rel="noopener">HEL</a>) ja kohdepaikan tunnus (esim. <a href="http://en.wikipedia.org/wiki/Batman_Airport" target="_blank" rel="noopener">BAL</a>).
+  </p>
+
+  <p>
+    Sekä lentokoneita että lentoja voi olla useita. Samalla lentokoneella voidaan myös lentää useita eri lentoja.
+  </p>
+
+  <p>
+    Sovelluksen tulee toimia kahdessa vaiheessa: ensin syötetään lentokoneiden ja lentojen tietoja hallintakäyttöliittymässä, jonka jälkeen siirrytään lentopalvelun käyttöön. Lentopalvelussa on kolme toimintoa; lentokoneiden tulostaminen, lentojen tulostaminen, ja lentokoneen tietojen tulostaminen. Tämän lisäksi käyttäjä voi poistua ohjelmasta valitsemalla vaihtoehdon <code>x</code>. Jos käyttäjä syöttää epäkelvon komennon, kysytään komentoa uudestaan.
+  </p>
+
+
+  <% partial 'partials/sample_output' do %>
+Lentokentän hallinta
+--------------------
+
+Valitse toiminto:
+[1] Lisää lentokone
+[2] Lisää lento
+[x] Poistu hallintamoodista
+&gt; <font color="red">1</font>
+Anna lentokoneen tunnus: <font color="red">HA-LOL</font>
+Anna lentokoneen kapasiteetti: <font color="red">42</font>
+Valitse toiminto:
+[1] Lisää lentokone
+[2] Lisää lento
+[x] Poistu hallintamoodista
+&gt; <font color="red">1</font>
+Anna lentokoneen tunnus: <font color="red">G-OWAC</font>
+Anna lentokoneen kapasiteetti: <font color="red">101</font>
+Valitse toiminto:
+[1] Lisää lentokone
+[2] Lisää lento
+[x] Poistu hallintamoodista
+&gt; <font color="red">2</font>
+Anna lentokoneen tunnus: <font color="red">HA-LOL</font>
+Anna lähtöpaikan tunnus: <font color="red">HEL</font>
+Anna kohdepaikan tunnus: <font color="red">BAL</font>
+Valitse toiminto:
+[1] Lisää lentokone
+[2] Lisää lento
+[x] Poistu hallintamoodista
+&gt; <font color="red">2</font>
+Anna lentokoneen tunnus: <font color="red">G-OWAC</font>
+Anna lähtöpaikan tunnus: <font color="red">JFK</font>
+Anna kohdepaikan tunnus: <font color="red">BAL</font>
+Valitse toiminto:
+[1] Lisää lentokone
+[2] Lisää lento
+[x] Poistu hallintamoodista
+&gt; <font color="red">2</font>
+Anna lentokoneen tunnus: <font color="red">HA-LOL</font>
+Anna lähtöpaikan tunnus: <font color="red">BAL</font>
+Anna kohdepaikan tunnus: <font color="red">HEL</font>
+Valitse toiminto:
+[1] Lisää lentokone
+[2] Lisää lento
+[x] Poistu hallintamoodista
+&gt; <font color="red">x</font>
+
+Lentopalvelu
+------------
+
+Valitse toiminto:
+[1] Tulosta lentokoneet
+[2] Tulosta lennot
+[3] Tulosta lentokoneen tiedot
+[x] Lopeta
+&gt; <font color="red">1</font>
+G-OWAC (101 henkilöä)
+HA-LOL (42 henkilöä)
+Valitse toiminto:
+[1] Tulosta lentokoneet
+[2] Tulosta lennot
+[3] Tulosta lentokoneen tiedot
+[x] Lopeta
+&gt; <font color="red">2</font>
+HA-LOL (42 henkilöä) (HEL-BAL)
+HA-LOL (42 henkilöä) (BAL-HEL)
+G-OWAC (101 henkilöä) (JFK-BAL)
+
+Valitse toiminto:
+[1] Tulosta lentokoneet
+[2] Tulosta lennot
+[3] Tulosta lentokoneen tiedot
+[x] Lopeta
+&gt; <font color="red">3</font>
+Mikä kone: <font color="red">G-OWAC</font>
+G-OWAC (101 henkilöä)
+
+Valitse toiminto:
+[1] Tulosta lentokoneet
+[2] Tulosta lennot
+[3] Tulosta lentokoneen tiedot
+[x] Lopeta
+&gt; <font color="red">x</font>
+<% end %>
+
+<p>
+  <strong>Huom1:</strong> Testien kannalta on oleellista että <em>käyttöliittymä</em> toimii <strong>täsmälleen</strong> kuten yllä kuvattu. Ohjelman tulostamat vaihtoehdot kannattanee copypasteta tästä ohjelmakoodiin. Testit eivät oleta, että ohjelmasi on varautunut epäkelpoihin syötteisiin.
+</p>
+
+<p>
+  <strong>Huom2:</strong> älä käytä luokkein nimissä skandeja, ne saattavat aiheuttaa ongelmia testeihin!
+</p>
+
+<p>
+  <em>
+    <strong>Ohjelman tulee käynnistyä kun pakkauksessa lentokentta olevan luokan Main metodi main suoritetaan.</strong>
+  </em>
+</p>
+
+<% end %>
+
+
+
+
+<% partial 'partials/material_heading' do %>
+  Poikkeukset
+<% end %>
+
+<p>
+  Poikkeukset ovat tilanteita, joissa ohjelman suoritus päättyy virheeseen. Ohjelmassa on esimerkiksi kutsuttu <em>null</em>-viitteeseen liittyvää metodia, jolloin ohjelmassa tapahtuu poikkeus <code>NullPointerException</code>. Vastaavasti taulukon ulkopuolella olevan indeksin hakeminen johtaa poikkeukseen <code>IndexOutOfBoundsException</code> ym.
+</p>
+
+<p>
+  Osa Javassa esiintyvistä poikkeuksista on sellaisia, että niihin tulee aina varautua. Näitä ovat esimerkiksi tiedoston lukemisessa tapahtuvaan virheeseen tai verkkoyhteyden katkeamiseen liittyvät poikkeukset. Osa poikkeuksista taas on ajonaikaisia poikkeuksia -- kuten vaikkapa NullPointerException --, joihin ei erikseen tarvitse varautua. Java ilmoittaa aina jos ohjelmassa on lause tai lauseke, jossa mahdollisesti tapahtuvaan poikkeukseen tulee varautua.
+</p>
+
+
+<% partial 'partials/material_sub_heading' do %>
+  Poikkeusten käsittely
+<% end %>
+
+<p>
+  Poikkeukset käsitellään <code>try { } catch (Exception e) { }</code> -lohkorakenteella. Avainsanan <code>try</code> aloittaman lohkon sisällä on lähdekoodi, jonka suorituksessa tapahtuu <em>mahdollisesti</em> poikkeus. Avainsanan <code>catch</code> aloittaman lohkon sisällä taas määritellään poikkeustilanteessa tapahtuva käsittely, eli mitä tehdään kun try-lohkossa tapahtuu poikkeus. Avainsanaa catch seuraa myös käsiteltävän poikkeuksen tyyppi, esimerkiksi "kaikki poikkeukset" eli Exception (<code>catch (Exception e)</code>).
+</p>
+
+<% partial 'partials/code_highlight' do %>
+try {
+    // poikkeuksen mahdollisesti heittävä ohjelmakoodi
+} catch (Exception e) {
+    // lohko johon päädytään poikkeustilanteessa
+}
+<% end %>
+
+<p>
+  Avainsana <code>catch</code> eli <em>ota kiinni</em> tulee siitä, että poikkeukset <em>heitetään</em> (<code>throw</code>).</p>
+</p>
+
+<p>
+  Kuten edellä todettiin, ajonaikaisiin poikkeuksiin kuten NullPointerException ei tarvitse erikseen varautua. Tällaiset poikkeukset voidaan jättää käsittelemättä, jolloin ohjelman suoritus päättyy virheeseen poikkeustilanteen tapahtuessa. Tarkastellaan erästä poikkeustilannetta nyt jo tutun merkkijonon kokonaisluvuksi muuntamisen kautta.
+</p>
+
+<p>
+  Olemme käyttäneet luokan <code>Integer</code> metodia <code><a href="http://docs.oracle.com/javase/8/docs/api/java/lang/Integer.html#parseInt-java.lang.String-" target="_blank" rel="noopener">parseInt</a></code> merkkijonon kokonaisluvuksi muuntamiseen. Metodi heittää poikkeuksen <code>NumberFormatException</code>, jos sille parametrina annettu merkkijono ei ole muunnettavissa kokonaisluvuksi.
+</p>
+
+<% partial 'partials/code_highlight' do %>
+Scanner lukija = new Scanner(System.in);
+System.out.print("Syötä numero: ");
+
+int numero = Integer.parseInt(lukija.nextLine());
+<% end %>
+
+<% partial 'partials/sample_output' do %>
+Syötä numero: <font color="red">tatti</font>
+  <font color="red">Exception in thread "..." java.lang.NumberFormatException: For input string: "tatti"</font>
+<% end %>
+
+<p>
+  Yllä ohjelma heittää poikkeuksen, kun käyttäjä syöttää virheellisen numeron. Ohjelman suoritus päättyy tällöin virhetilanteeseen.
+</p>
+
+<p>
+  Lisätään esimerkkiin poikkeuksen käsittely. Kutsu, joka saattaa heittää poikkeuksen asetetaan <code>try</code>-lohkon sisään, ja virhetilanteessa tapahtuva toiminta <code>catch</code>-lohkon sisään.
+</p>
+
+<% partial 'partials/code_highlight' do %>
+Scanner lukija = new Scanner(System.in);
+
+System.out.print("Syötä numero: ");
+int numero = -1;
+
+try {
+    numero = Integer.parseInt(lukija.nextLine());
+} catch (Exception e) {
+    System.out.println("Et syöttänyt kunnollista numeroa.");
+}
+<% end %>
+
+<% partial 'partials/sample_output' do %>
+Syötä numero: <font color="red">5</font>
+<% end %>
+
+<% partial 'partials/sample_output' do %>
+Syötä numero: <font color="red">enpäs!</font>
+Et syöttänyt kunnollista numeroa.
+<% end %>
+
+<p>
+  Avainsanan <code>try</code> määrittelemän lohkon sisältä siirrytään <code>catch</code>-lohkoon heti poikkeuksen tapahtuessa. Havainnollistetaan tätä lisäämällä tulostuslause <code>try</code>-lohkossa metodia <code>Integer.parseInt</code> kutsuvan rivin jälkeen.
+</p>
+
+<% partial 'partials/code_highlight' do %>
+Scanner lukija = new Scanner(System.in);
+
+System.out.print("Syötä numero: ");
+int numero = -1;
+
+try {
+    numero = Integer.parseInt(lukija.nextLine());
+    System.out.println("Hienosti syötetty!");
+} catch (Exception e) {
+    System.out.println("Et syöttänyt kunnollista numeroa.");
+}
+<% end %>
+
+<% partial 'partials/sample_output' do %>
+Syötä numero: <font color="red">5</font>
+Hienosti syötetty!
+<% end %>
+
+<% partial 'partials/sample_output' do %>
+Syötä numero: <font color="red">enpäs!</font>
+Et syöttänyt kunnollista numeroa.
+<% end %>
+
+<p>
+  Ohjelmalle syötetty merkkijono <code>enpäs!</code> annetaan parametrina <code>Integer.parseInt</code>-metodille, joka heittää poikkeuksen, jos parametrina saadun merkkijonon muuntaminen luvuksi epäonnistuu. Huomaa, että <code>catch</code>-lohkossa oleva koodi suoritetaan <em>vain</em> poikkeustapauksissa.
+</p>
+
+<p>
+  Tehdään yllä olevasta luvun muuntajasta hieman hyödyllisempi. Tehdään siitä metodi, joka kysyy numeroa yhä uudestaan, kunnes käyttäjä syöttää oikean numeron. Metodin suoritus loppuu vasta silloin, kun käyttäjä syöttää kokonaisluvun.
+</p>
+
+<% partial 'partials/code_highlight' do %>
+public int lueLuku(Scanner lukija) {
+    while (true) {
+        System.out.print("Syötä numero: ");
+
+        try {
+            int numero = Integer.parseInt(lukija.nextLine());
+            return numero;
+        } catch (Exception e) {
+            System.out.println("Et syöttänyt kunnollista numeroa.");
+        }
+    }
+}
+<% end %>
+
+<% partial 'partials/sample_output' do %>
+Syötä numero: <font color="red">enpäs!</font>
+Et syöttänyt kunnollista numeroa.
+Syötä numero: <font color="red">Matilla on ovessa tatti.</font>
+Et syöttänyt kunnollista numeroa.
+Syötä numero: <font color="red">43</font>
+<% end %>
+
+
+<% partial 'partials/material_sub_heading' do %>
+  Käsittelyvastuun siirtäminen
+<% end %>
+
+<p>
+  Metodit ja konstruktorit voivat <em>heittää</em> poikkeuksia. Heitettäviä poikkeuksia on karkeasti ottaen kahdenlaisia. On poikkeuksia jotka on pakko käsitellä, ja on poikkeuksia joita ei ole pakko käsitellä. Poikkeukset käsitellään joko <code>try-catch</code> -lohkossa, tai <em>heittämällä ne ulos metodista</em>.
+</p>
+
+<p>
+  Alla olevassa esimerkissä luetaan parametrina annetun tiedoston rivit yksitellen. Tiedoston lukeminen saattaa heittää poikkeuksen -- voi olla, ettei tiedostoa esimerkiksi löydy, tai voi olla ettei siihen ole lukuoikeuksia. Tällainen poikkeus tulee käsitellä. Poikkeuksen käsittely tapahtuu  <code>try-catch</code> -lauseella. Seuraavassa esimerkissä emme juurikaan välitä poikkeustilanteesta, mutta tulostamme kuitenkin poikkeukseen liittyvän viestin.
+</p>
+
+<% partial 'partials/code_highlight' do %>
+public List&lt;String&gt; lue(String tiedosto) {
+    List&lt;String&gt; rivit = new ArrayList&lt;&gt;();
+
+    try {
+        Files.lines(Paths.get("tiedosto.txt")).forEach(rivi -&gt; rivit.add(rivi));
+    } catch (Exception e) {
+        System.out.println("Virhe: " + e.getMessage());
+    }
+
+    return rivit;
+}
+<% end %>
+
+<p>
+  Ohjelmoija voi myös jättää poikkeuksen käsittelemättä ja <em>siirtää vastuun</em> poikkeuksen käsittelystä metodin kutsujalle. Vastuun siirto tapahtuu heittämällä poikkeus metodista eteenpäin lisäämällä tästä tieto metodin määrittelyyn. Tieto poikkeuksen heitosta -- <code>throws <em>PoikkeusTyyppi</em></code>, missä poikkeustyyppi esimerkiksi Exception -- lisätään ennen metodirungon avaavaa aaltosulkua.
+</p>
+
+<% partial 'partials/code_highlight' do %>
+public List&lt;String&gt; lue(String tiedosto) <strong>throws Exception</strong> {
+    ArrayList&lt;String&gt; rivit = new ArrayList&lt;&gt;();
+    Files.lines(Paths.get(tiedosto)).forEach(rivi -&gt; rivit.add(rivi));
+    return rivit;
+}
+<% end %>
+
+<p>
+  Nyt metodia <code>lue</code> kutsuvan metodin tulee joko käsitellä poikkeus <code>try-catch</code> -lohkossa tai siirtää poikkeuksen käsittelyn vastuuta eteenpäin. Joskus poikkeuksen käsittelyä vältetään viimeiseen asti, ja <code>main</code>-metodikin heittää poikkeuksen käsiteltäväksi eteenpäin:
+</p>
+
+<% partial 'partials/code_highlight' do %>
+public class Paaohjelma {
+   public static void main(String[] args) throws Exception {
+       // ...
+   }
+}
+<% end %>
+
+<p>
+  Tällöin mahdollinen poikkeus päätyy ohjelman suorittajalle eli Javan virtuaalikoneelle, joka keskeyttää ohjelman suorituksen poikkeukseen johtavan virheen tapahtuessa.
+</p>
+
+
+
+<% partial 'partials/material_sub_heading' do %>
+  Poikkeusten heittäminen
+<% end %>
+
+<p>
+  Voimme heittää poikkeuksen <code>throw</code>-komennolla. Esimerkiksi <code>NumberFormatException</code>-luokasta luodun poikkeuksen heittäminen tapahtuisi komennolla <code>throw new NumberFormatException()</code>. Seuraava ohjelma päätyy aina poikkeustilaan.
+</p>
+
+<% partial 'partials/code_highlight' do %>
+public class Ohjelma {
+
+    public static void main(String[] args) throws Exception {
+        throw new NumberFormatException(); // Ohjelmassa heitetään poikkeus
+    }
+}
+<% end %>
+
+<p>
+  Eräs poikkeus, johon käyttäjän ei ole pakko varautua on <code>IllegalArgumentException</code>. Poikkeuksella <code>IllegalArgumentException</code> kerrotaan että metodille tai konstruktorille annettujen parametrien arvot ovat <em>vääränlaiset</em>. IllegalArgumentException-poikkeusta käytetään esimerkiksi silloin, kun halutaan varmistaa, että parametreilla on tietyt arvot.
+</p>
+
+<p>
+  Luodaan luokka <code>Arvosana</code>, joka saa konstruktorin parametrina kokonaislukutyyppisen arvosanan.
+</p>
+
+<% partial 'partials/code_highlight' do %>
+public class Arvosana {
+    private int arvosana;
+
+    public Arvosana(int arvosana) {
+        this.arvosana = arvosana;
+    }
+
+    public int getArvosana() {
+        return this.arvosana;
+    }
+}<% end %>
+
+<p>
+  Haluamme seuraavaksi varmistaa, että Arvosana-luokan konstruktorin parametrina saatu arvo täyttää tietyt kriteerit. Arvosanan tulee olla aina välillä 0-5. Jos arvosana on jotain muuta, haluamme <em>heittää poikkeuksen</em>. Lisätään <code>Arvosana</code>-luokan konstruktoriin ehtolause, joka tarkistaa onko arvosana arvovälin 0-5 ulkopuolella. Jos on, heitetään poikkeus <code>IllegalArgumentException</code> sanomalla <code>throw new IllegalArgumentException("Arvosanan tulee olla välillä 0-5");</code>.
+</p>
+
+<% partial 'partials/code_highlight' do %>
+public class Arvosana {
+    private int arvosana;
+
+    public Arvosana(int arvosana) {
+        if (arvosana &lt; 0 || arvosana &gt; 5) {
+            throw new IllegalArgumentException("Arvosanan tulee olla välillä 0-5");
+        }
+
+        this.arvosana = arvosana;
+    }
+
+    public int getArvosana() {
+        return this.arvosana;
+    }
+}
+<% end %>
+
+<% partial 'partials/code_highlight' do %>
+Arvosana arvosana = new Arvosana(3);
+System.out.println(arvosana.getArvosana());
+
+Arvosana virheellinenArvo = new Arvosana(22);
+// tapahtuu poikkeus, tästä ei jatketa eteenpäin
+<% end %>
+
+<% partial 'partials/sample_output' do %>
+3
+Exception in thread "..." java.lang.IllegalArgumentException: Arvosanan tulee olla välillä 0-5
+<% end %>
+
+<p>
+  Jos poikkeus on esimerkiksi tyyppiä IllegalArgumentException, tai yleisemmin ajonaikainen poikkeus, ei sen heittämisestä tarvitse kirjoittaa erikseen metodin määrittelyyn.
+</p>
+
+
+<% partial 'partials/exercise', locals: { name: 'Parametrien validointi' } do %>
+
+  <p>
+    Harjoitellaan hieman parametrien validointia <code>IllegalArgumentException</code>-poikkeuksen avulla. Tehtäväpohjassa tulee kaksi luokkaa, <code>Henkilo</code> ja <code>Laskin</code>. Muuta luokkia seuraavasti:
+  </p>
+
+  <h2>Henkilön validointi</h2>
+
+  <p>
+    Luokan <code>Henkilo</code> konstruktorin tulee varmistaa että parametrina annettu nimi ei ole null, tyhjä tai yli 40 merkkiä pitkä. Myös iän tulee olla väliltä 0-120. Jos joku edelläolevista ehdoista ei päde, tulee konstruktorin heittää <code>IllegalArgumentException</code>-poikkeus.
+  </p>
+
+
+  <h2>Laskimen validointi</h2>
+
+  <p>
+    Luokan <code>Laskin</code> metodeja tulee muuttaa seuraavasti: Metodin <code>kertoma</code> tulee toimia vain jos parametrina annetaan ei-negatiivinen luku (0 tai suurempi). Metodin <code>binomikerroin</code> tulee toimia vain jos parametrit ovat ei-negatiivisia ja osajoukon koko on pienempi kuin joukon koko. Jos jompikumpi metodeista saa epäkelpoja arvoja metodikutsujen yhteydessä, tulee metodien heittää poikkeus <code>IllegalArgumentException</code>.
+  </p>
+
+<% end %>
+
+
+<% partial 'partials/material_sub_heading' do %>
+  Poikkeukset ja rajapinnat
+<% end %>
+
+<p>
+  Rajapintaluokilla ei ole metodirunkoa, mutta metodimäärittely on vapaasti rajapinnan suunnittelijan toteutettavissa. Rajapintaluokissa voidaan määritellä metodeja, jotka saattavat heittää poikkeuksen. Esimerkiksi seuraavan rajapinnan <code>Tiedostopalvelin</code> toteuttavat luokat heittävät <em>mahdollisesti</em> poikkeuksen <code>lataa</code>- ja <code>tallenna</code>-metodissa.
+</p>
+
+<% partial 'partials/code_highlight' do %>
+public interface Tiedostopalvelin {
+    String lataa(String tiedosto) throws Exception;
+    void tallenna(String tiedosto, String merkkijono) throws Exception;
+}
+<% end %>
+
+<p>
+  Jos rajapinta määrittelee metodeille <code>throws Exception</code>-määreet, eli että metodit heittävät mahdollisesti poikkeuksen, tulee samat määreet olla myös rajapinnan toteuttavassa luokassa. Luokan ei kuitenkaan ole pakko heittää poikkeusta kuten alla olevasta esimerkistä näkee.
+</p>
+
+<% partial 'partials/code_highlight' do %>
+public class Tekstipalvelin implements Tiedostopalvelin {
+
+    private Map&lt;String, String&gt; data;
+
+    public Tekstipalvelin() {
+        this.data = new HashMap&lt;&gt;();
+    }
+
+    @Override
+    public String lataa(String tiedosto) throws Exception {
+        return this.data.get(tiedosto);
+    }
+
+    @Override
+    public void tallenna(String tiedosto, String merkkijono) throws Exception {
+        this.data.put(tiedosto, merkkijono);
+    }
+}
+<% end %>
+
+
+<% partial 'partials/material_sub_heading' do %>
+  Poikkeuksen tiedot
+<% end %>
+
+<p>
+  Poikkeusten käsittelytoiminnallisuuden sisältämä <code>catch</code>-lohko määrittelee catch-osion sisällä poikkeuksen johon varaudutaan <code>catch (<em>Exception e</em>)</code>. Poikkeuksen tiedot tallennetaan <code>e</code>-muuttujaan.
+</p>
+
+<% partial 'partials/code_highlight' do %>
+try {
+    // ohjelmakoodi, joka saattaa heittää poikkeuksen
+} catch (Exception e) {
+    // poikkeuksen tiedot ovat tallessa muuttujassa e
+}
+<% end %>
+
+<p>
+  Luokka <code>Exception</code> tarjoaa hyödyllisiä metodeja. Esimerkiksi metodi <code>printStackTrace()</code> tulostaa <em>stack tracen</em>, joka kertoo miten poikkeukseen päädyttiin. Tutkitaan seuraavaa metodin <code>printStackTrace()</code> tulostamaa virhettä.
+</p>
+
+<% partial 'partials/sample_output' do %>
+Exception in thread "main" java.lang.NullPointerException
+  at pakkaus.Luokka.tulosta(Luokka.java:43)
+  at pakkaus.Luokka.main(Luokka.java:29)
+<% end %>
+
+<p>
+  Stack tracen lukeminen tapahtuu alhaalta ylöspäin. Alimpana on ensimmäinen kutsu, eli ohjelman suoritus on alkanut luokan <code>Luokka</code> metodista <code>main()</code>. Luokan <code>Luokka</code> main-metodin rivillä 29 on kutsuttu metodia <code>tulosta()</code>. Metodin <code>tulosta</code> rivillä 43 on tapahtunut poikkeus <code>NullPointerException</code>. Poikkeuksen tiedot ovatkin hyvin hyödyllisiä virhekohdan selvittämisessä.
+</p>
+
+
+<% partial 'partials/exercise', locals: { name: 'Sensorit ja lämpötilan mittausta' } do %>
+
+
+  <p>
+    Kaikki luotavat luokat tulee sijoittaa pakkaukseen <code>sovellus</code>.
+  </p>
+
+  <p>
+    Käytössämme on seuraava rajapinta:
+  </p>
+
+  <% partial 'partials/code_highlight' do %>
+public interface Sensori {
+    boolean onPaalla();  // palauttaa true jos sensori on päällä
+    void paalle();       // käynnistä sensorin
+    void poisPaalta();   // sulkee sensorin
+    int mittaa();        // palauttaa sensorin lukeman jos sensori on päällä
+                         // jos sensori ei ole päällä heittää poikkeuksen
+                         // IllegalStateException
+}
+  <% end %>
+
+
+  <h2>Vakiosensori</h2>
+
+  <p>
+    Tee luokka <code>Vakiosensori</code> joka toteuttaa rajapinnan <code>Sensori</code>.
+  </p>
+
+  <p>
+    Vakiosensori on koko ajan päällä. Metodien paalle ja poisPaalta kutsuminen ei tee mitään. Vakiosensorilla tulee olla konstruktori, jonka parametrina on kokonaisluku. Metodikutsu <code>mittaa</code> palauttaa aina konstruktorille parametrina annetun luvun.
+  </p>
+
+  <p>Esimerkki:</p>
+
+  <% partial 'partials/code_highlight' do %>
+public static void main(String[] args) {
+    Vakiosensori kymppi = new Vakiosensori(10);
+    Vakiosensori miinusViis = new Vakiosensori(-5);
+
+    System.out.println(kymppi.mittaa());
+    System.out.println(miinusViis.mittaa());
+
+    System.out.println(kymppi.onPaalla());
+    kymppi.poisPaalta();
+    System.out.println(kymppi.onPaalla());
+}
+  <% end %>
+
+  <% partial 'partials/sample_output' do %>
+10
+-5
+true
+true
+  <% end %>
+
+
+  <h2>Lampomittari</h2>
+
+  <p>
+    Tee luokka <code>Lampomittari</code>, joka toteuttaa rajapinnan <code>Sensori</code>.
+  </p>
+
+  <p>
+    Aluksi lämpömittari on poissa päältä. Kutsuttaessa metodia <code>mittaa</code> kun mittari on päällä mittari arpoo luvun väliltä -30...30 ja palauttaa sen kutsujalle. Jos mittari ei ole päällä, heitetään poikkeus <code>IllegalStateException</code>.
+  </p>
+
+  <p>
+    Käytä Javan valmista luokkaa <a href="https://docs.oracle.com/javase/8/docs/api/java/util/Random.html" target="_blank" rel="noopener">Random</a> satunnaisen luvun arpomiseen. Saat luvun väliltä 0...60 kutsulla <code>new Random().nextInt(61);</code> -- väliltä -30...30 arvotun luvun saa vähentämällä väliltä 0...60 olevasta luvusta sopiva luku.
+  </p>
+
+
+  <h2>Keskiarvosensori</h2>
+
+  <p>
+    Tee luokka <code>Keskiarvosensori</code>, joka toteuttaa rajapinnan <code>Sensori</code>.
+  </p>
+
+  <p>
+    Keskiarvosensori sisältää useita sensoreita. Rajapinnan <code>Sensori</code> määrittelemien metodien lisäksi keskiarvosensorilla on metodi <code>public void lisaaSensori(Sensori lisattava)</code> jonka avulla keskiarvosensorin hallintaan lisätään uusi sensori.
+  </p>
+
+  <p>
+    Keskiarvosensori on päällä silloin kuin <em>kaikki</em> sen sisältävät sensorit ovat päällä. Kun keskiarvosensori käynnistetään, täytyy kaikkien sen sisältävien sensorien käynnistyä jos ne eivät ole käynnissä. Kun keskiarvosensori suljetaan, täytyy ainakin yhden sen sisältävän sensorin mennä pois päältä. Saa myös käydä niin että kaikki sen sisältävät sensorit menevät pois päältä.
+  </p>
+
+  <p>
+    Keskiarvosensorin metodi <code>mittaa</code> palauttaa sen sisältämien sensoreiden lukemien keskiarvon (koska paluuarvo on <code>int</code>, pyöristyy lukema alaspäin kuten kokonaisluvuilla tehdyissä jakolaskuissa). Jos keskiarvosensorin metodia <code>mittaa</code> kutsutaan sensorin ollessa poissa päältä, tai jos keskiarvosensorille ei vielä ole lisätty yhtään sensoria heitetään poikkeus <code>IllegalStateException</code>.
+  </p>
+
+  <p>
+    Seuraavassa sensoreja käyttävä esimerkkiohjelma (huomaa, että sekä Lämpömittarin että Keskiarvosensorin konstruktorit ovat parametrittomia):
+  </p>
+
+  <% partial 'partials/code_highlight' do %>
+public static void main(String[] args) {
+    Sensori kumpula = new Lampomittari();
+    kumpula.paalle();
+    System.out.println("lämpötila Kumpulassa " + kumpula.mittaa() + " astetta");
+
+    Sensori kaisaniemi = new Lampomittari();
+    Sensori helsinkiVantaa = new Lampomittari();
+
+    Keskiarvosensori paakaupunki = new Keskiarvosensori();
+    paakaupunki.lisaaSensori(kumpula);
+    paakaupunki.lisaaSensori(kaisaniemi);
+    paakaupunki.lisaaSensori(helsinkiVantaa);
+
+    paakaupunki.paalle();
+    System.out.println("lämpötila Pääkaupunkiseudulla "+paakaupunki.mittaa() + " astetta");
+}
+  <% end %>
+
+  <p>
+    Alla olevan esimerkin tulostukset riippuvat arvotuista lämpötiloista:
+  </p>
+
+  <% partial 'partials/code_highlight' do %>
+lämpötila Kumpulassa 11 astetta
+lämpötila Pääkaupunkiseudulla 8 astetta
+  <% end %>
+
+
+  <h2>Kaikki mittaukset</h2>
+
+  <p>
+    Lisää luokalle Keskiarvosensori metodi <code>public List&lt;Integer&gt; mittaukset()</code>, joka palauttaa listana kaikkien keskiarvosensorin avulla suoritettujen mittausten tulokset. Seuraavassa esimerkki metodin toiminnasta:
+  </p>
+
+  <% partial 'partials/code_highlight' do %>
+public static void main(String[] args) {
+    Sensori kumpula = new Lampomittari();
+    Sensori kaisaniemi = new Lampomittari();
+    Sensori helsinkiVantaa = new Lampomittari();
+
+    Keskiarvosensori paakaupunki = new Keskiarvosensori();
+    paakaupunki.lisaaSensori(kumpula);
+    paakaupunki.lisaaSensori(kaisaniemi);
+    paakaupunki.lisaaSensori(helsinkiVantaa);
+
+    paakaupunki.paalle();
+    System.out.println("lämpötila Pääkaupunkiseudulla "+paakaupunki.mittaa() + " astetta");
+    System.out.println("lämpötila Pääkaupunkiseudulla "+paakaupunki.mittaa() + " astetta");
+    System.out.println("lämpötila Pääkaupunkiseudulla "+paakaupunki.mittaa() + " astetta");
+
+    System.out.println("mittaukset: "+paakaupunki.mittaukset());
+}
+  <% end %>
+
+  <p>
+    Alla olevan esimerkin tulostukset riippuvat jälleen arvotuista lämpötiloista:
+  </p>
+
+  <% partial 'partials/code_highlight' do %>
+lämpötila Pääkaupunkiseudulla -10 astetta
+lämpötila Pääkaupunkiseudulla -4 astetta
+lämpötila Pääkaupunkiseudulla 5 astetta
+
+mittaukset: [-10, -4, 5]
+  <% end %>
+
+<% end %>
+
+
+
+<% partial 'partials/material_heading' do %>
+  Lisää rajapinnoista
+<% end %>
+
+<p>
+  Rajapinta määrittelee yhden tai useamman metodin, jotka rajapinnan toteuttavan luokan on pakko toteuttaa. Rajapintoja, kuten kaikkia luokkia voi asettaa pakkauksiin. Esimerkiksi seuraava <code>Tunnistettava</code>-rajapinta sijaitsee pakkauksessa <code>sovellus.domain</code>. Rajapinta määrää, että <code>Tunnistettava</code>-rajapinnan toteuttavien luokkien tulee toteuttaa metodi <code>public String getTunnus()</code>.</p>
+
+<% partial 'partials/code_highlight' do %>
+package sovellus.domain;
+
+public interface Tunnistettava {
+    String getTunnus();
+}
+<% end %>
+
+<p>
+  Luokka toteuttaa rajapinnan <code>implements</code>-avainsanalla. Alla on esimerkkinä luokka <code>Henkilo</code>, joka toteuttaa rajapinnan tunnistettava. Rajapinnan Tunnistettava vaatima metodi <code>getTunnus</code> palauttaa aina henkilön henkilötunnuksen.
+</p>
+
+<% partial 'partials/code_highlight' do %>
+package sovellus.domain;
+
+public class Henkilo implements Tunnistettava {
+    private String nimi;
+    private String henkilotunnus;
+
+    public Henkilo(String nimi, String henkilotunnus) {
+        this.nimi = nimi;
+        this.henkilotunnus = henkilotunnus;
+    }
+
+    public String getNimi() {
+        return this.nimi;
+    }
+
+    public String getHenkilotunnus() {
+        return this.henkilotunnus;
+    }
+
+    @Override
+    public String getTunnus() {
+        return getHenkilotunnus();
+    }
+
+    @Override
+    public String toString() {
+        return this.nimi + " hetu: " + this.henkilotunnus;
+    }
+}
+<% end %>
+
+
+<p>
+  Rajapintojen vahvuus on se, että rajapintaa voidaan käyttää muuttujan tyyppinä. Tämä mahdollistaa yleiskäyttöisempien luokkien tekemisen.
+</p>
+
+<p>
+  Tehdään luokka <code>Rekisteri</code>, jota käytetään Tunnistettava-tyyppisten olioiden säilömiseen. Rekisteriin voidaan lisätä sekä henkilöitä että mitä tahansa muita olioita, jotka toteuttavat rajapinnan Tunnistettava. Yksittäisten henkilöiden hakemisen lisäksi <code>Rekisteri</code> tarjoaa metodin kaikkien henkilöiden hakemiseen listana.
+</p>
+
+<% partial 'partials/code_highlight' do %>
+public class Rekisteri {
+    private Map&lt;String, Tunnistettava&gt; rekisteroidyt;
+
+    public Rekisteri() {
+        this.rekisteroidyt = new HashMap&lt;&gt;();
+    }
+
+    public void lisaa(Tunnistettava lisattava) {
+        this.rekisteroidyt.put(lisattava.getTunnus(), lisattava);
+    }
+
+    public Tunnistettava hae(String tunnus) {
+        return this.rekisteroidyt.get(tunnus);
+    }
+
+    public List&lt;Tunnistettava&gt; haeKaikki() {
+        return new ArrayList&lt;Tunnistettava&gt;(rekisteroidyt.values());
+    }
+}<% end %>
+
+<p>
+  Rekisterin käyttö onnistuu seuraavasti.
+</p>
+
+<% partial 'partials/code_highlight' do %>
+Rekisteri henkilokunta = new Rekisteri();
+henkilokunta.lisaa(new Henkilo("Pekka", "221078-123X"));
+henkilokunta.lisaa(new Henkilo("Jukka", "110956-326B"));
+
+System.out.println(henkilokunta.hae("280283-111A"));
+
+Henkilo loydetty = (Henkilo) henkilokunta.hae("110956-326B");
+System.out.println(loydetty.getNimi());
+<% end %>
+
+<p>
+  Koska henkilöt on lisätty rekisteriin <code>Tunnistettava</code>-tyyppisinä, ne löytyvät sieltä myös Tunnistettava-tyyppisinä. Jos haluamme käsitellä henkilöitä sellaisten metodien kautta, joita rajapinnassa ei ole määritelty, joudumme muuntamaan ne takaisin Henkilo-olioiksi. Tämä tapahtuu eksplisiittisella tyyppimuunnoksella, jota demonstroidaan edellisen esimerkin kahdella viimeisellä rivillä.
+</p>
+
+<p>
+  Entä jos haluaisimme rekisteriin lisäksi metodin, joka palauttaa rekisteriin talletetut henkilöt tunnisteen mukaan järjestettynä? Yksi vaihtoehto olisi käyttää aiemmin tutuksi tullutta virran järjestämistä. Tutustutaan kuitenkin myös Javan valmiiseen järjestämisessä käytettävään rajapintaan.
+</p>
+
+
+<% partial 'partials/material_sub_heading' do %>
+  Järjestämisessä käytettävä rajapinta Comparable
+<% end %>
+
+<p>
+  Javan valmis rajapinta <code><a href="http://docs.oracle.com/javase/8/docs/api/java/lang/Comparable.html">Comparable</a></code> määrittelee metodin <code>compareTo</code>, jota käytetään olioiden vertailuun. Jos olio on vertailujärjestyksessä ennen parametrina saatavaa olioa, tulee metodin palauttaa negatiivinen luku. Jos taas olio on järjestyksessä parametrina saatavan olion jälkeen, tulee metodin palauttaa positiivinen luku. Muulloin palautetaan luku 0. Tätä <code>compareTo</code>-metodin avulla johdettua järjestystä kutsutaan <em>luonnolliseksi järjestykseksi</em> (natural ordering).
+</p>
+
+<p>
+  Tarkastellaan tätä ensin kerhossa käyvää lasta tai nuorta kuvaavan luokan Kerholainen avulla. Jokaisella kerholaisella on nimi ja pituus. Kerholaisten tulee mennä syömään pituusjärjestyksessä, joten toteutetaan kerholaisille rajapinta <code>Comparable</code>. Comparable-rajapinta ottaa tyyppiparametrinaan luokan, johon vertaus tehdään. Käytetään tyyppiparametrina samaa luokkaa <code>Kerholainen</code>.
+</p>
+
+<% partial 'partials/code_highlight' do %>
+public class Kerholainen implements Comparable&lt;Kerholainen&gt; {
+    private String nimi;
+    private int pituus;
+
+    public Kerholainen(String nimi, int pituus) {
+	this.nimi = nimi;
+	this.pituus = pituus;
+    }
+
+    public String getNimi() {
+	return this.nimi;
+    }
+
+    public int getPituus() {
+	return this.pituus;
+    }
+
+    @Override
+    public String toString() {
+	return this.getNimi() + " (" + this.getPituus() + ")";
+    }
+
+    @Override
+    public int compareTo(Kerholainen kerholainen) {
+	if (this.pituus == kerholainen.getPituus()) {
+	    return 0;
+	} else if (this.pituus &gt; kerholainen.getPituus()) {
+	    return 1;
+	} else {
+	    return -1;
+	}
+    }
+}<% end %>
+
+<p>
+  Rajapinnan vaatima metodi <code>compareTo</code> palauttaa kokonaisluvun, joka kertoo vertausjärjestyksestä. Koska <code>compareTo()</code>-metodista riittää palauttaa negatiivinen luku, jos <code>this</code>-olio on pienempi kuin parametrina annettu olio ja nolla, kun pituudet ovat samat, voidaan edellä esitelty metodi <code>compareTo</code> toteuttaa myös seuraavasti.
+</p>
+
+<% partial 'partials/code_highlight' do %>
+@Override
+public int compareTo(Kerholainen kerholainen) {
+    return this.pituus - kerholainen.getPituus();
+}
+<% end %>
+
+<p>
+  Kerholaisten järjestäminen on nyt suoraviivaista.
+</p>
+
+<% partial 'partials/code_highlight' do %>
+List&lt;Kerholainen&gt; kerholaiset = new ArrayList&lt;&gt;();
+kerholaiset.add(new Kerholainen("mikael", 182));
+kerholaiset.add(new Kerholainen("matti", 187));
+kerholaiset.add(new Kerholainen("ada", 184));
+
+kerholaiset.stream().forEach(k -&gt; System.out.println(k);
+System.out.println();
+kerholaiset.stream().sorted().forEach(k -&gt; System.out.println(k);
+<% end %>
+
+<% partial 'partials/sample_output' do %>
+mikael (182)
+matti (187)
+ada (184)
+
+mikael (182)
+ada (184)
+matti (187)
+<% end %>
+
+<p>
+  Koska Kerholainen toteuttaa rajapinnan Comparable, ei virran <code>sorted</code>-metodille tarvitse enää antaa parametrina olioiden vertailuun liittyvää järjestystä. Toisin sanoen, minkä tahansa Comparable-rajapinnan toteuttavan luokan oliot voi järjestää virran sorted-metodilla. Huomaa kuitenkin, että virta ei järjestä alkuperäistä listaa, vaan <em>vain virrassa olevat alkiot ovat järjestyksessä</em> -- jos alkuperäisen listan haluaa järjestykseen, tulee lista korvata järjestetystä virrasta kerätyllä listalla.
+</p>
+
+
+
+<% partial 'partials/exercise', locals: { name: 'Palkkajärjestys' } do %>
+
+  <p>
+    Saat valmiin luokan Ihminen. Ihmisellä on nimi- ja palkkatiedot. Muokkaa Ihminen-luokasta <code>Comparable</code>-rajapinnan toteuttava niin, että <code>compareTo</code>-metodi lajittelee ihmiset palkan mukaan järjestykseen isoimmasta palkasta pienimpään.
+  </p>
+
+<% end %>
+
+<% partial 'partials/exercise', locals: { name: 'Opiskelijat nimijärjestykseen' } do %>
+
+  <p>
+    Saat valmiin luokan Opiskelija. Opiskelijalla on nimi. Muokkaa Opiskelija-luokasta <code>Comparable</code>-rajapinnan toteuttava niin, että <code>compareTo</code>-metodi lajittelee opiskelijat nimen mukaan aakkosjärjestykseen.
+  </p>
+
+  <p>
+    <strong>Vinkki:</strong> Opiskelijan nimi on String, ja String-luokka on itsessään <code>Comparable</code>. Voit hyödyntää String-luokan <code>compareTo</code>-metodia Opiskelija-luokan metodia toteuttaessasi. <code>String.compareTo</code> kohtelee kirjaimia eriarvoisesti kirjainkoon mukaan, ja tätä varten String-luokalla on myös metodi <code>compareToIgnoreCase</code> joka nimensä mukaisesti jättää kirjainkoon huomioimatta. Voit käyttää opiskelijoiden järjestämiseen kumpaa näistä haluat.
+  </p>
+
+<% end %>
+
+
+<% partial 'partials/material_sub_heading' do %>
+  Useamman rajapinnan toteuttaminen
+<% end %>
+
+<p>
+  Luokka voi toteuttaa useamman rajapinnan. Useamman rajapinnan toteuttaminen tapahtuu erottamalla toteutettavat rajapinnat toisistaan pilkuilla (<code>public class ... implements <em>RajapintaEka</em>, <em>RajapintaToka</em> ...</code>). Toteuttaessamme useampaa rajapintaa, tulee meidän toteuttaa kaikki rajapintojen vaatimat metodit. Toteutetaan seuraavaksi luokalle <code>Henkilo</code> rajapinta <code>Comparable</code>.
+</p>
+
+<% partial 'partials/code_highlight' do %>
+package sovellus.domain;
+
+public class Henkilo implements Tunnistettava, Comparable&lt;Henkilo&gt; {
+    private String nimi;
+    private String henkilotunnus;
+
+    public Henkilo(String nimi, String henkilotunnus) {
+        this.nimi = nimi;
+        this.henkilotunnus = henkilotunnus;
+    }
+
+    public String getNimi() {
+        return this.nimi;
+    }
+
+    public String getHenkilotunnus() {
+        return this.henkilotunnus;
+    }
+
+    @Override
+    public String getTunnus() {
+        return getHenkilotunnus();
+    }
+
+    @Override
+    public int compareTo(Henkilo toinen) {
+        return this.getTunnus().compareTo(toinen.getTunnus());
+    }
+}
+<% end %>
+
+<p>
+  Kokeillaan lisätä aiemmin luomallemme Rekisteri-luokalle metodi haeKaikkiJarjestyksessa.
+</p>
+
+<% partial 'partials/code_highlight' do %>
+public List&lt;Tunnistettava&gt; haeKaikkiJarjestyksessa() {
+    // ei toimi!
+    return rekisteroidyt.values()
+        .stream().sorted().collect(Collectors.toCollection(ArrayList::new));
+}
+<% end %>
+
+<p>
+  Metodi ei kuitenkaan toimi. Koska henkilöt on talletettu rekisteriin <code>Tunnistettava</code>-tyyppisinä, on Henkilön toteutettava rajapinta <code>Comparable&lt;Tunnistettava&gt;</code>, jotta rekisteri osaisi järjestää henkilöt tunnistettavina. Joudumme joko muuttamaan henkilön toteuttamaa rajapintaa, tai lisäämään <code>sorted</code>-metodille järjestämiseen käytettävät tiedot. Muutetaan tässä henkilön toteuttamaa rajapintaa:
+</p>
+
+<% partial 'partials/code_highlight' do %>
+public class Henkilo implements Tunnistettava, Comparable&lt;Tunnistettava&gt; {
+    // ...
+
+    @Override
+    public int compareTo(Tunnistettava toinen) {
+        return this.getTunnus().compareTo(toinen.getTunnus());
+    }
+}<% end %>
+
+<p>
+  Nyt ratkaisu toimii!
+</p>
+
+<p>
+  Rekisteri on täysin tietämätön sinne lisättyjen olioiden todellisesta tyypistä. Voimme käyttää luokkaa rekisteri myös muuntyyppisten olioiden kuin henkilöiden rekisteröintiin, kunhan olioiden luokka vaan toteuttaa rajapinnan <code>Tunnistettava</code>. Esim. seuraavassa käytetään rekisteriä kaupassa myytävien tuotteiden hallintaan:
+</p>
+
+<% partial 'partials/code_highlight' do %>
+public class Tuote implements Tunnistettava {
+
+    private String nimi;
+    private String viivakoodi;
+    private int varastosaldo;
+    private int hinta;
+
+    public Tuote(String nimi, String viivakoodi) {
+        this.nimi = nimi;
+        this.viivakoodi = viivakoodi;
+    }
+
+    public String getTunnus() {
+        return viivakoodi;
+    }
+
+    // ...
+}
+<% end %>
+
+
+<% partial 'partials/code_highlight' do %>
+Rekisteri tuotteet = new Rekisteri();
+tuotteet.lisaa(new Tuote("maito", "11111111"));
+tuotteet.lisaa(new Tuote("piimä", "11111112"));
+tuotteet.lisaa(new Tuote("juusto", "11111113"));
+
+System.out.println(tuotteet.hae("99999999"));
+
+Tuote tuote = (Tuote) tuotteet.hae("11111112");
+tuote.kasvataSaldoa(100);
+tuote.muutaHinta(23);
+<% end %>
+
+<p>
+  Teimme luokasta <code>Rekisteri</code> melko yleiskäyttöisen pitämällä sen riippumattomana konkreettisista luokista. Mikä tähänsa luokka, joka toteuttaa rajapinnan <code>Tunnistettava</code>, on rekisterin kanssa käyttökelpoinen. Metodin <code>haeKaikkiJarjestyksessä</code> toimiminen tosin edellyttää luokalta myös vertailtavuuden eli Comparable&lt;Tunnistettava&gt;-rajapinnan toteuttamisen.
+</p>
+
+
+<% partial 'partials/hint', locals: { name: 'Muutama NetBeans-vihje' } do %>
+
+  <ul>
+    <li> <strong>Implement all abstract methods</strong>
+
+      <p>
+	Voit pyytää NetBeansia täydentämään metodirungot automaattisesti rajapinnan toteuttavalle luokalle. Kun olet määritellyt luokan toteuttavan rajapinnan, eli kirjoittanut
+      </p>
+
+      <% partial 'partials/code_highlight' do %>
+public class Luokka implements Rajapinta {
+}
+      <% end %>
+
+      <p>
+	NetBeans värjää luokan nimen punaisella. Mene rivin vasemmassa reunassa olevan lamppusymbolin kohdalle, klikkaa ja valitse <em>Implement all abstract methods</em> ja metodirungot ilmestyvät koodiin!
+      </p>
+
+    </li>
+
+    <li> <strong>Clean and Build</strong>
+
+      <p>
+	Tietyissä tilanteissa NetBeans saattaa mennä sekaisin ja yrittää ajaa koodista versiota johon ei ole huomioitu kaikkia koodiin kirjoitettuja muutoksia. Yleensä huomaat tilanteen siten, että jotain "outoa" vaikuttaa tapahtuvan. Ongelman korjaa usein <em>Clean and build</em> -operaation suorittaminen. Operaatio löytyy Run-valikosta ja sen voi suorittaa myös painamalla <em>harja ja vasara</em> -symbolia. Clean and build poistaa koodista olemassa olevat käännetyt versiot ja tekee uuden käännöksen.
+      </p>
+
+    </li>
+
+  </ul>
+
+<% end %>
+
+
+<% partial 'partials/material_sub_heading' do %>
+  Oletusmetodit rajapinnoissa
+<% end %>
+
+<p>
+  Rajapintoihin voi määritellä oletusmetodeja, joiden mukana annetaan myös toteutus. Oletusmetodien määrittely alkaa avainsanalla <code>default</code>, jota seuraa metodin määrittely. Kuten rajapintojen metodeissa yleensä, myös tässäkään näkyvyyttä ei tarvitse määritellä erikseen. Rajapinnoissa määriteltyjen metodien näkyvyys on aina <code>public</code>.
+</p>
+
+<p>
+  Alla olevassa esimerkissä rajapintaan <code>Luettava</code> on lisätty oletusmetodi <code>lueTulostaen</code>, joka tulostaa <code>lue</code>-metodin palauttaman arvon.
+</p>
+
+<% partial 'partials/code_highlight' do %>
+public interface Luettava {
+    String lue();
+
+    default void lueTulostaen() {
+        System.out.println(lue());
+    }
+}
+<% end %>
+
+<p>
+  Yksi oletusmetodien suurimmista hyödyistä ilmenee tilanteissa, missä rajapinta on määritelty aiemmin, ja useampi luokka toteuttaa sen jo valmiiksi. Jos rajapintaan lisätään uusi metodi, tulee sille ohjelmoida toteutus kaikkiin rajapinnan toteuttamiin luokkiin, jos uusi metodi ei tarjoa oletustoteutusta.
+</p>
+
+<p>
+  Toisaalta, jos oletustoteutus lisätään uuden metodin lisäämisen yhteydessä, ei aiemmin rajapinnan toteuttaneille luokille tarvitse tehdä minkäänlaisia muutoksia. Edellisestä osasta tutut luokat Tekstiviesti ja Sahkoposti toimisivat nyt myös seuraavasti.
+</p>
+
+<% partial 'partials/code_highlight' do %>
+Tekstiviesti viesti = new Tekstiviesti("G. Hopper", "COBOL kicks ass");
+viesti.lueTulostaen();
+
+Sahkoposti posti = new Sahkoposti("D. Knuth", "If you optimize everything, you will always be unhappy.");
+posti.lueTulostaen();
+<% end %>
+
+<% partial 'partials/sample_output' do %>
+COBOL kicks ass
+If you optimize everything, you will always be unhappy.
+<% end %>
+
+
+<% partial 'partials/material_sub_heading' do %>
+  Järjestäminen ja hakeminen
+<% end %>
+
+<p>
+  Tähän mennessä käyttämämme järjestäminen stream-metodin avulla ei muuta alkuperäisen listan järjestystä, vaan se luo aina uuden järjestetyn listan. Tutustutaan seuraavaksi luokkakirjastoon <a href="http://docs.oracle.com/javase/8/docs/api/java/util/Collections.html" target="_blank" rel="noopener">Collections</a>, joka tarjoaa tähän liittyviä yleishyödyllisiä metodeja.
+</p>
+
+<% partial 'partials/material_sub_sub_heading' do %>
+  Järjestäminen
+<% end %>
+
+<p>
+  Collections tarjoaa metodin <code>sort</code> listan järjestämiseen. Metodi olettaa, että listalla olevat oliot toteuttavat rajapinnan Comparable. Järjestäminen on suoraviivaista.
+</p>
+
+
+<% partial 'partials/code_highlight' do %>
+List&lt;Kerholainen&gt; kerholaiset = new ArrayList&lt;&gt;();
+kerholaiset.add(new Kerholainen("mikael", 182));
+kerholaiset.add(new Kerholainen("matti", 187));
+kerholaiset.add(new Kerholainen("ada", 184));
+
+kerholaiset.stream().forEach(k -&gt; System.out.println(k));
+Collections.sort(kerholaiset);
+
+System.out.println();
+
+kerholaiset.stream().forEach(k -&gt; System.out.println(k));
+<% end %>
+
+<% partial 'partials/sample_output' do %>
+mikael (182)
+matti (187)
+ada (184)
+
+mikael (182)
+ada (184)
+matti (187)
+<% end %>
+
+<p>
+  Järjestämisen lisäksi luokkakirjaston avulla voi etsiä esimerkiksi minimi- (<code>min</code>-metodi) tai maksimialkioita (<code>max</code>-metodi), vaikkapa kääntää listan (<code>reverse</code>-metodi).
+</p>
+
+<% partial 'partials/code_highlight' do %>
+List&lt;Kerholainen&gt; kerholaiset = new ArrayList&lt;&gt;();
+kerholaiset.add(new Kerholainen("mikael", 182));
+kerholaiset.add(new Kerholainen("matti", 187));
+kerholaiset.add(new Kerholainen("ada", 184));
+
+kerholaiset.stream().forEach(k -&gt; System.out.println(k));
+Collections.sort(kerholaiset);
+Collections.reverse(kerholaiset);
+
+System.out.println();
+
+kerholaiset.stream().forEach(k -&gt; System.out.println(k));
+
+System.out.println();
+System.out.println(Collections.max(kerholaiset));
+<% end %>
+
+<% partial 'partials/sample_output' do %>
+mikael (182)
+matti (187)
+ada (184)
+
+matti (187)
+ada (184)
+mikael (182)
+
+matti (187)
+<% end %>
+
+<% partial 'partials/material_sub_sub_heading' do %>
+  Hakeminen
+<% end %>
+
+
+<p>
+  Collections-luokkakirjasto tarjoaa myös valmiiksi toteutetun binäärihaun. Metodi <code>binarySearch()</code> palauttaa haetun alkion indeksin listasta jos se löytyy. Jos alkiota ei löydy, metodi palauttaa negatiivisen arvon. Metodi <code>binarySearch()</code> käyttää Comparable-rajapintaa haetun olion löytämiseen.
+</p>
+
+<p>
+  Kerholainen-luokkamme vertaa pituuksia <code>compareTo()</code>-metodissaan, eli listasta etsiessä etsisimme samanpituista kerholaista.
+</p>
+
+<% partial 'partials/code_highlight' do %>
+List&lt;Kerholainen&gt; kerholaiset = new ArrayList&lt;&gt;();
+kerholaiset.add(new Kerholainen("mikael", 182));
+kerholaiset.add(new Kerholainen("matti", 187));
+kerholaiset.add(new Kerholainen("joel", 184));
+
+Collections.sort(kerholaiset);
+
+Kerholainen haettava = new Kerholainen("Nimi", 180);
+int indeksi = Collections.binarySearch(kerholaiset, haettava);
+
+if (indeksi &gt;= 0) {
+    System.out.println("180 senttiä pitkä löytyi indeksistä " + indeksi);
+    System.out.println("nimi: " + kerholaiset.get(indeksi).getNimi());
+}
+
+haettava = new Kerholainen("Nimi", 187);
+int indeksi = Collections.binarySearch(kerholaiset, haettava);
+
+if (indeksi &gt;= 0) {
+    System.out.println("187 senttiä pitkä löytyi indeksistä " + indeksi);
+    System.out.println("nimi: " + kerholaiset.get(indeksi).getNimi());
+}
+<% end %>
+
+<% partial 'partials/sample_output' do %>
+187 senttiä pitkä löytyi indeksistä 2
+nimi: matti
+<% end %>
+
+<p>
+  Esimerkissä kutsuttiin myös metodia <code>Collections.sort()</code> sillä binäärihakualgoritmi ei toimi jos käsiteltävä lista ei ole valmiiksi järjestyksessä. Huom! Älä kuitenkaan toteuta hakutoiminnallisuutta siten, että lista järjestetään jokaisen haun yhteydessä -- järjestäminen itsessään on hitaampaa kuin peräkkäishaku eli listan läpikäynti alkio kerrallaan. Binäärihaun hyödyt tulevatkin esille vasta useamman haun jälkeen.
+</p>
+
+
+<% partial 'partials/exercise', locals: { name: 'Muuttaminen' } do %>
+
+  <p>
+    Muuttokuormaa pakattaessa esineitä lisätään muuttolaatikoihin siten, että tarvittujen laatikoiden määrä on mahdollisimman pieni. Tässä tehtävässä simuloidaan esineiden pakkaamista muuttolaatikoihin. Jokaisella esineellä on tilavuus, ja muuttolaatikoilla on maksimitilavuus.
+  </p>
+
+
+  <h2>Tavara ja Esine</h2>
+
+  <p>
+    Muuttomiehet siirtävät tavarat myöhemmin rekka-autoon (ei toteuteta tässä), joten toteutetaan ensin kaikkia esineitä ja laatikoita kuvaava <code>Tavara</code>-rajapinta.
+  </p>
+
+  <p>
+    Tavara-rajapinnan tulee määritellä metodi <code>int getTilavuus()</code>, jonka avulla tavaroita käsittelevät saavat selville kyseisen tavaran tilavuuden. Toteuta rajapinta <code>Tavara</code> pakkaukseen <code>muuttaminen.domain</code>.
+  </p>
+
+  <p>
+    Toteuta seuraavaksi pakkaukseen <code>muuttaminen.domain</code> luokka <code>Esine</code>, joka saa konstruktorin parametrina esineen nimen (String) ja esineen tilavuuden (int). Luokan tulee toteuttaa rajapinta <code>Tavara</code>.
+  </p>
+
+  <p>
+    Lisää luokalle <code>Esine</code> myös metodit <code>public String getNimi()</code> ja korvaa metodi <code>public String toString()</code> siten että se tuotta merkkijonoja muotoa "<code>nimi (tilavuus dm^3)</code>". Esineen tulee toimia seuraavasti:
+  </p>
+
+  <% partial 'partials/code_highlight' do %>
+Tavara esine = new Esine("hammasharja", 2);
+System.out.println(esine);
+  <% end %>
+
+  <% partial 'partials/sample_output' do %>
+hammasharja (2 dm^3)
+  <% end %>
+
+
+  <h2>Esine vertailtavaksi</h2>
+
+  <p>
+    Pakatessamme esineitä muuttolaatikkoon haluamme aloittaa pakkaamisen järjestyksessä olevista esineistä. Toteuta <code>Esine</code>-luokalla rajapinta <code>Comparable</code> siten, että esineiden <em>luonnollinen järjestys</em> on tilavuuden mukaan nouseva. Kun olet toteuttanut esineellä rajapinnan <code>Comparable</code>, tulee niiden toimia <code>Collections</code>-luokan <code>sort</code>-metodin kanssa seuraavasti.
+  </p>
+
+
+  <% partial 'partials/code_highlight' do %>
+List&lt;Esine&gt; esineet = new ArrayList&lt;&gt;();
+esineet.add(new Esine("passi", 2));
+esineet.add(new Esine("hammasharja", 1));
+esineet.add(new Esine("sirkkeli", 100));
+
+Collections.sort(esineet);
+System.out.println(esineet);
+  <% end %>
+
+  <% partial 'partials/sample_output' do %>
+[hammasharja (1 dm^3), passi (2 dm^3), sirkkeli (100 dm^3)]
+  <% end %>
+
+
+  <h2>Muuttolaatikko</h2>
+
+  <p>Toteuta tämän jälkeen pakkaukseen <code>muuttaminen.domain</code> luokka <code>Muuttolaatikko</code>. Tee aluksi muuttolaatikolle seuraavat:</p>
+
+  <ul>
+    <li><code>public Muuttolaatikko(int maksimitilavuus)</code></li>Muuttolaatikko-luokan konstruktori. Saa parametrina muuttolaatikon maksimitilavuuden.<br/>
+    <li><code>public boolean lisaaTavara(Tavara tavara)</code></li> Lisää muuttolaatikkoon <code>Tavara</code>-rajapinnan toteuttaman esineen. Jos laatikkoon ei mahdu, metodi palauttaa arvon <code>false</code>. Jos tavara mahtuu laatikkoon, metodi palauttaa arvon <code>true</code>. Muuttolaatikon tulee tallettaa tavarat listaan.<br/>
+  </ul>
+
+  <p>
+    Laita vielä <code>Muuttolaatikko</code> toteuttamaan rajapinta <code>Tavara</code>. Metodilla <code>getTilavuus</code> tulee saada selville muuttolaatikossa olevien tavaroiden tämänhetkinen yhteistilavuus.
+  </p>
+
+
+  <h2>Esineiden pakkaaminen</h2>
+
+  <p>
+    Toteuta luokka <code>Pakkaaja</code> pakkaukseen <code>muuttaminen.logiikka</code>. Luokan <code>Pakkaaja</code> konstruktorille annetaan parametrina <code>int laatikoidenTilavuus</code>, joka määrittelee minkä kokoisia muuttolaatikoita pakkaaja käyttää.
+  </p>
+
+  <p>
+    Toteuta tämän jälkeen luokalle metodi <code>public List&lt;Muuttolaatikko&gt; pakkaaTavarat(List&lt;Tavara&gt; tavarat)</code>, joka pakkaa tavarat muuttolaatikoihin.
+  </p>
+
+  <p>
+    Tee metodista sellainen, että kaikki parametrina annetussa listassa olevat tavarat päätyvät muuttolaatikoihin. Muuttolaatikot tulee luoda metodissa. Sinun ei tarvitse varautua tilanteisiin, joissa tavarat ovat suurempia kuin pakkaajan käyttämä muuttolaatikon koko. Testit eivät välitä siitä kuinka täyteen pakkaaja täyttää muuttolaatikot.
+  </p>
+
+  <% partial 'partials/code_highlight' do %>
+// tavarat jotka haluamme pakata
+List&lt;Tavara&gt; tavarat = new ArrayList&lt;&gt;();
+tavarat.add(new Esine("passi", 2));
+tavarat.add(new Esine("hammasharja", 1));
+tavarat.add(new Esine("kirja", 4));
+tavarat.add(new Esine("sirkkeli", 8));
+
+// luodaan pakkaaja, joka käyttää tilavuudeltaan 10:n kokoisia muuttolaatikoita
+Pakkaaja pakkaaja = new Pakkaaja(10);
+
+// pyydetään pakkaajaa pakkaamaan tavarat laatikoihin
+List&lt;Muuttolaatikko&gt; laatikot = pakkaaja.pakkaaTavarat(tavarat);
+
+System.out.println("laatikoita: " + laatikot.size());
+
+laatikot.stream().forEach(laatikko -&gt; {
+    System.out.println("  laatikossa tavaraa: " + laatikko.getTilavuus() + " dm^3");
+});
+  <% end %>
+
+
+  <% partial 'partials/sample_output' do %>
+laatikoita: 2
+laatikossa tavaraa: 7 dm^3
+laatikossa tavaraa: 8 dm^3
+  <% end %>
+
+  <p>
+    Pakkaaja on siis pakannut tavarat kahteen laatikkoon, ensimmäiseen laatikkoon on mennyt 3 ensimmäistä tavaraa, yhteistilavuudeltaan 7, ja listan viimeinen tavara eli sirkkeli jonka tilavuus on 8 on mennyt toiseen laatikkoon. Testit eivät aseta rajoitusta pakkaajan käyttävien muuttolaatioiden määrälle, tavarat olisi siis voitu pakata vaikka jokainen eri laatikkoon, eli tuloste olisi ollut:
+  </p>
+
+  <% partial 'partials/sample_output' do %>
+laatikoita: 4
+laatikossa tavaraa: 2 dm^3
+laatikossa tavaraa: 1 dm^3
+laatikossa tavaraa: 7 dm^3
+laatikossa tavaraa: 8 dm^3
+  <% end %>
+
+  <p>
+    <strong>Huom:</strong> tehtävän testaamista helpottamaan kannatanee tehdä luokalle <code>Muuttolaatikko</code> esim. toString-metodi, jonka avulla voi printata laatikon sisällön.
+  </p>
+
+<% end %>
+
+
+<% partial 'partials/exercise', locals: { name: 'Mäkihyppy' } do %>
+
+  <p>
+    Harjoitellaan taas ohjelman rakenteen omatoimista suunnittelua. Käyttöliittymän ulkomuoto ja vaadittu toiminnallisuus on määritelty ennalta, rakenteen saat toteuttaa vapaasti. <em>Tehtävä on neljän yksittäisen tehtäväpisteen arvoinen.</em>
+  </p>
+
+  <p>
+    <strong>Huom: jotta testit toimisivat, ohjelmasi saa luoda vain yhden käyttäjän syötteen lukemiseen käytettävän Scanner-olion.</strong>
+  </p>
+
+  <p>
+    Mäkihyppy on suomalaisille erittäin rakas laji, jossa pyritään hyppäämään hyppyrimäestä mahdollisimman pitkälle mahdollisimman tyylikkäästi. Tässä tehtävässä toteutetaan simulaattori mäkihyppykilpailulle.
+  </p>
+
+  <p>
+    Simulaattori kysyy ensin käyttäjältä hyppääjien nimiä. Kun käyttäjä antaa tyhjän merkkijonon (eli painaa enteriä) hyppääjän nimeksi siirrytään hyppyvaiheeseen. Hyppyvaiheessa hyppääjät hyppäävät yksitellen käänteisessä pistejärjestyksessä. Hyppääjä, jolla on vähiten pisteitä kerättynä hyppää aina kierroksen ensimmäisenä, toiseksi vähiten pisteitä omaava toisena jne, ..., eniten pisteitä kerännyt viimeisenä.
+  </p>
+
+  <p>
+    Hyppääjän yhteispisteet lasketaan yksittäisten hyppyjen pisteiden summana. Yksittäisen hypyn pisteytys lasketaan hypyn pituudesta (käytä satunnaista kokonaisluku väliltä 60-120) ja tuomariäänistä. Jokaista hyppyä kohden annetaan 5 tuomariääntä (satunnainen luku väliltä 10-20). Tuomariääniä laskettaessa otetaan huomioon vain kolme keskimmäistä ääntä: pienintä ja suurinta ääntä ei oteta huomioon. Esimerkiksi jos Mikael hyppää 61 metriä ja saa tuomariäänet 11, 12, 13, 14 ja 15, on hänen hyppynsä yhteispisteet 100.
+  </p>
+
+  <p>
+    Satunnaisen luvun luomiseen voi käyttää Javan valmista luokkaa <a href="https://docs.oracle.com/javase/8/docs/api/java/util/Random.html" target="_blank" rel="noopener">Random</a>. Sen parametrillinen metodi <a href="https://docs.oracle.com/javase/8/docs/api/java/util/Random.html#nextInt-int-" target="_blank" rel="noopener">nextInt</a> antaa satunnaisen luvun väliltä 0...luku-1. Satunnaisen luvun väliltä 10-20 saa arvottua seuraavasti:
+  </p>
+
+  <% partial 'partials/code_highlight' do %>
+Random arpoja = new Random();
+int luku = arpoja.nextInt(11) + 10;
+  <% end %>
+
+  <p>
+    Kierroksia hypätään niin monta kuin ohjelman käyttäjä haluaa. Kun käyttäjä haluaa lopettaa tulostetaan lopuksi kilpailun lopputulokset. Lopputuloksissa tulostetaan hyppääjät, hyppääjien yhteispisteet ja hyppääjien hyppäämien hyppyjen pituudet. Lopputulokset on järjestetty hyppääjien yhteispisteiden mukaan siten, että eniten pisteitä kerännyt on ensimmäinen.
+  </p>
+
+  <p>
+    Tehtävän tekemisessä on hyötyä <em>muun muassa</em> metodeista <code>Collections.sort</code> ja <code>Collections.reverse</code>. Kannattaa aluksi hahmotella minkälaisia luokkia ja olioita ohjelmassa voisi olla. On myös hyvä pyrkiä tilanteeseen, jossa käyttöliittymäluokka on ainut luokka joka kutsuu tulostuskomentoa.
+  </p>
+
+  <% partial 'partials/sample_output' do %>
+Kumpulan mäkiviikot
+
+Syötä kilpailun osallistujat yksi kerrallaan, tyhjällä merkkijonolla siirtyy hyppyvaiheeseen.
+  Osallistujan nimi: <font color="red">Mikael</font>
+  Osallistujan nimi: <font color="red">Mika</font>
+  Osallistujan nimi:
+
+Kilpailu alkaa!
+
+Kirjoita "hyppaa" niin hypätään, muuten lopetetaan: <font color="red">hyppaa</font>
+
+1. kierros
+
+Hyppyjärjestys:
+  1. Mikael (0 pistettä)
+  2. Mika (0 pistettä)
+
+Kierroksen 1 tulokset
+  Mikael
+    pituus: 95
+    tuomaripisteet: [15, 11, 10, 14, 14]
+  Mika
+    pituus: 112
+    tuomaripisteet: [14, 12, 18, 18, 17]
+
+Kirjoita "hyppaa" niin hypätään, muuten lopetetaan: <font color="red">hyppaa</font>
+
+2. kierros
+
+Hyppyjärjestys:
+  1. Mikael (134 pistettä)
+  2. Mika (161 pistettä)
+
+Kierroksen 2 tulokset
+  Mikael
+    pituus: 96
+    tuomaripisteet: [20, 19, 15, 13, 18]
+  Mika
+    pituus: 61
+    tuomaripisteet: [12, 11, 15, 17, 11]
+
+Kirjoita "hyppaa" niin hypätään, muuten lopetetaan: <font color="red">hyppaa</font>
+
+3. kierros
+
+Hyppyjärjestys:
+  1. Mika (260 pistettä)
+  2. Mikael (282 pistettä)
+
+Kierroksen 3 tulokset
+  Mika
+    pituus: 88
+    tuomaripisteet: [11, 19, 13, 10, 15]
+  Mikael
+    pituus: 63
+    tuomaripisteet: [12, 19, 19, 12, 12]
+
+Kirjoita "hyppaa" niin hypätään, muuten lopetetaan: <font color="red">lopeta</font>
+
+Kiitos!
+
+Kilpailun lopputulokset:
+Sija    Nimi
+1       Mikael (388 pistettä)
+          hyppyjen pituudet: 95 m, 96 m, 63 m
+2       Mika (387 pistettä)
+          hyppyjen pituudet: 112 m, 61 m, 88 m
+  <% end %>
+
+  <p>
+    <strong>Huom1:</strong> Testien kannalta on oleellista että <em>käyttöliittymä</em> toimii kuten yllä kuvattu, esim. rivien alussa olevien välilyöntien määrän on oltava oikea. <strong>Rivien alussa oleva tyhjä pitää tehdä välilyönneillä</strong>, testit eivät toimi jos tyhjä on tehty tabulaattoreilla. Ohjelman tulostamat tekstit kannattaneekin copypasteta ohjelmakoodiin joko tehtävänannosta tai testien virheilmoituksista.
+  </p>
+
+  <p>
+    <strong>Huom2:</strong> älä käytä luokkein nimissä skandeja, ne saattavat aiheuttaa ongelmia testeihin!
+  </p>
+
+  <p>
+    <strong>Ohjelman tulee käynnistyä kun tehtäväpohjassa oleva main-metodi suoritetaan, muistutuksena vieltä, että tehtävässä saa luoda vain yhden Scanner-olion.</strong>
+  </p>
+
+<% end %>
+
+
+
+<%= partial 'partials/quiz', locals: { id: '58c6824060e1d900046ae769' } %>

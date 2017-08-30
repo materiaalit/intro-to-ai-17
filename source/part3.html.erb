@@ -1,0 +1,2393 @@
+---
+  title: Osa 3
+  exercise_page: true
+  quiz_page: true
+  published: false
+---
+
+
+<%= partial 'partials/quiz', locals: { id: '588b1bdfe1d67700046cbac7' } %>
+
+<% if false %>
+<% partial 'partials/hint', locals: { name: 'Ensimmäinen konekoe' } do %>
+
+  <p>
+    Jos teet kurssia Ohjelmoinnin perusteet tai aikataulutettua Ohjelmoinnin MOOCia, tässä kohtaa tulee tehdä kurssin ensimmäinen konekoe. Ensimmäisen konekokeen tekemiseen on kokeen aloitushetkestä 180 minuuttia. Ensimmäinen konekoe vastaa kymmentä kurssipistettä Ohjelmoinnin perusteet -kurssista.
+  </p>
+
+  <p>
+    Konekokeessa on useampia tehtäviä ja ne tulee tehdä TMC:ssä tehtävien mukana tuleviin tehtäväpohjiin "Konekoe01_01.Tehtava", "Konekoe01_02.Tehtava" ja "Konekoe01_03.Tehtava" jne. Tehtävänannot saat osoitteessa <a href="https://myexams.herokuapp.com" target="_blank" rel="noopener">https://myexams.herokuapp.com</a> olevasta sovelluksesta. Edellämainitussa osoitteessa sekä tämän materiaalin johdanto-osiossa on myös lisätietoja kokeen suorittamiseen liittyen. Muistathan, että koe on yksilösuoritus.
+  </p>
+
+  <p>
+    Osoitteessa <a href="https://myexams.herokuapp.com" target="_blank" rel="noopener">https://myexams.herokuapp.com</a> olevaan sovellukseen kirjaudutaan TMC-tunnuksilla (samat tunnukset kuin mitä käytät TMC:hen kirjautumiseen). Kun olet kirjautunut sovellukseen, valitse ylävalikosta "Kokeeni". Näet tämän jälkeen listauksen, missä näkyy tehtävänä olevat kokeet. Kun valitset kokeen, saat siihen liittyvät tiedot näkyville ja voit aloittaa halutessasi kokeen tekemisen.
+  </p>
+
+  <p>
+    Huom! Älä kuitenkaan aloita kokeen tekemistä ennenkuin olet kerrannut osat 1 ja 2, ja olet varma, että sinulla on aikaa tehdä koe. Konekoe tulee tehdä ennen neljännen osan aloittamista.
+  </p>
+
+<% end %>
+<% end %>
+
+<% partial 'partials/hint', locals: { name: 'Kolmannen osion tavoitteet' } do %>
+
+  <p>
+    Kolmannessa osiossa otetaan ensimmäiset askeleet olio-ohjelmoinnin saloihin. Olio-ohjelmointi on tapa ohjelman jakamiseen pienempiin osiin, joilla jokaisella on oma vastuualueensa ohjelman toiminnassa. Tässä osiossa keskitymme ensisijaisesti ohjelmassa esiintyviin käsitteisiin sekä niiden mallintamiseen lähdekoodina.
+  </p>
+
+<% end %>
+
+
+<% partial 'partials/material_heading' do %>
+  Olio-ohjelmointi
+<% end %>
+
+<p>
+  Olio-ohjelmoinnissa on kyse ratkaistavassa ongelmassa esiintyvien käsitteiden eristämisestä omiksi kokonaisuuksikseen sekä näiden kokonaisuuksien käyttämistä ongelman ratkaisemisessa. Kun ongelmaan liittyvät käsitteet on tunnistettu, niistä voidaan myös keskustella. Toisin ajatellen muodostamme ratkaistavasta ongelmasta abstraktioita, joiden avulla ongelmaa on helpompi käsitellä.
+</p>
+
+<p>
+  Kun ongelmasta tunnistetaan käsitteitä, voidaan niitä vastaavia rakenteita luoda myös ohjelmaan. Näitä rakenteita ja niistä luotavia yksittäisiä ilmentymiä eli olioita käytetään ongelman ratkaisemisessa. Nyt ehkä käsittämättömältä tuntuva lausahdus <em>ohjelma rakennetaan pienistä selkeistä yhteistoiminnassa olevista olioista</em> alkaa hiljalleen kurssin edetessä tuntua järkeenkäyvältä ja jopa itsestäänselvältä.
+</p>
+
+
+<% partial 'partials/material_sub_heading' do %>
+  Luokka ja Olio
+<% end %>
+
+
+<p>
+  Olemme käyttäneet jo luokkia ja olioita, joita Java tarjoaa. <strong>Luokka</strong> määrittelee olioiden ominaisuudet eli niihin liittyvät tiedot eli oliomuuttujat, jotka määrittelevät yksittäisen olion sisäisen tilan, ja niiden tarjoamat komennot eli metodit. <strong>Olio</strong> luodaan luokkaan kirjoitetun määrittelyn perusteella. Samasta luokasta voidaan luoda useampia olioita, joilla jokaisella on eri tila eli jokaisella on omat oliomuuttujien arvot. Jokaisella oliolla on myös metodit, jotka olion luomiseen käytetyssä luokassa on määritelty.
+</p>
+
+<p>
+  <strong>Metodi</strong> on luokkaan kirjoitettu lähdekoodista koostuva kokonaisuus, jolle on annettu nimi, ja jota voidaan kutsua. Metodi liittyy aina tiettyyn luokkaan, ja sitä käytetään usein luokasta tehdyn olion sisäisen tilan muokkaamiseen.
+</p>
+
+<p>
+  Esimerkiksi <code>Scanner</code> ja <code>ArrayList</code> ovat Javan tarjoamia luokkia, joista olemme jo tehneet olioita ohjelmiemme käyttöön. Allaolevassa ohjelmassa luodaan ensin Scanner-olio nimeltä <code>lukija</code>, jota käytetään kokonaislukumuuttujien lukemiseen ArrayList-olioon, jonka nimeksi on annettu <code>luvut</code>.
+</p>
+
+
+<% partial 'partials/code_highlight' do %>
+// luodaan Scanner-luokasta olio, jonka nimeksi tulee lukija
+Scanner lukija = new Scanner(System.in);
+// luodaan ArrayList-luokasta olio, jonka nimeksi tulee lista
+ArrayList&lt;Integer&gt; luvut = ArrayList&lt;&gt;();
+
+while (true) {
+    int luku = Integer.parseInt(lukija.nextLine());
+
+    if (luku == 0) {
+        break;
+    }
+
+    luvut.add(luku);
+}
+<% end %>
+
+
+<p>
+  Luokasta luodaan olio aina kutsumalla olion luovaa metodia eli <strong>konstruktoria</strong> komennon <code>new</code> avulla. Esimerkiksi <code>Scanner</code>-luokasta luodaan uusi ilmentymä eli olio kun kutsutaan <code>new Scanner(..)</code>. Konstruktorit saavat parametreja kuten muutkin metodit.
+</p>
+
+<p>
+  Ylläolevassa esimerkissä näemme myös metodien käyttöä. ArrayList-luokalla on yllä nähty metodi <code>add</code>, jota käytetään arvon lisäämiseen listalle. Scanner-luokalla taas on metodi <code>nextLine</code>, jota käytetään käyttäjän syöttämän syötteen noutamiseen.
+</p>
+
+<p>
+  Olioon liittyvää metodikutsua tehdessä (esimerkiksi <code>luvut.add(luku);</code>) pisteen vasemmalle puolelle tulee sen olion nimi, johon liittyen metodia kutsutaan, oikealle metodin nimi. Kun kysytään montako lukua listalla <code>lista</code> on, kutsu on muotoa <code>lista.size()</code> -- kutsumme siis <code>lista</code> oliolle sen metodia <code>size</code>. Metodin palauttama tulos riippuu olion <code>lista</code> tilasta, eli muut ohjelmassa käytetyt oliot eivät vaikuta metodin suoritukseen millään tavalla.
+</p>
+
+
+<% partial 'partials/hint', locals: { name: 'Luokan ja olion suhde' } do %>
+
+  <p>
+    Luokka kuvaa siitä luotavien olioiden "rakennuspiirustukset". Otetaan analogia tietokoneiden ulkopuoleisesta maailmasta. Rintamamiestalot lienevät monille tuttuja. Voidaan ajatella, että jossain on olemassa piirustukset jotka määrittelevät minkälainen rintamamiestalo on. Piirrustukset ovat luokka, eli ne määrittelevät minkälaisia olioita luokasta voidaan luoda:
+  </p>
+
+  <p>
+    <img src="/img/rintamamiestalo-rakennuspiirrustus.jpg"/>
+  </p>
+
+  <p>
+    Yksittäiset oliot eli rintamamiestalot on tehty samojen piirustusten perusteella, eli ne ovat saman luokan ilmentymiä. Yksittäisten olioiden tila eli ominaisuudet (esim. seinien väri, katon rakennusmateriaali ja väri, kivijalan väri, ovien rakennusmateriaali ja väri, ...) vaihtelevat. Seuraavassa yksi "rintamamiestalo-luokan olio":
+  </p>
+
+  <p>
+    <img src="/img/rintamamiestalo.jpg" height=250 />
+  </p>
+
+<% end %>
+
+
+<% partial 'partials/exercise', locals: { name: 'Ensimmäinen tilisi' } do %>
+
+  <p>
+    Tehtäväpohjan mukana tulee valmis luokka <code>Tili</code>. Luokan <code>Tili</code> olio esittää pankkitiliä, jolla on saldo (eli jossa on jokin määrä rahaa). Tilejä käytetään näin:
+  </p>
+
+  <% partial 'partials/code_highlight' do %>
+Tili artonTili = new Tili("Arton tili", 100.00);
+Tili artonSveitsilainenTili = new Tili("Arton tili Sveitsissä", 1000000.00);
+
+System.out.println("Alkutilanne");
+System.out.println(artonTili);
+System.out.println(artonSveitsilainenTili);
+
+artonTili.otto(20);
+System.out.println("Arton tilin saldo on nyt: " + artonTili.saldo());
+artonSveitsilainenTili.pano(200);
+System.out.println("Arton toisen tilin saldo on nyt: " + artonSveitsilainenTili.saldo());
+
+System.out.println("Lopputilanne");
+System.out.println(artonTili);
+System.out.println(artonSveitsilainenTili);
+  <% end %>
+
+  <p>
+    Tee ohjelma, joka luo tilin jonka saldo on 100.0, panee tilille 20.0 ja tulostaa tilin. <strong>Huom!</strong> tee kaikki nämä operaatiot täsmälleen tässä järjestyksessä.
+  </p>
+<% end %>
+
+
+<% partial 'partials/exercise', locals: { name: 'Ensimmäinen tilisiirtosi' } do %>
+
+  <p>
+    Tässäkin tehtävässä on käytössä edellisessä tehtävässä mukana ollut luokka <code>Tili</code>.
+  </p>
+
+  <p>
+    Tee ohjelma joka:
+  </p>
+
+  <ol class="lista">
+    <li>Luo tilin nimeltä <code>"Matin tili"</code> saldolla 1000</li>
+    <li>Luo tilin nimeltä <code>"Oma tili"</code> saldolla 0</li>
+    <li>Nostaa matin tililtä 100.0</li>
+    <li>Panee omalle tilille 100.0</li>
+    <li>Tulostaa molemmat tilit</li>
+  </ol>
+
+<% end %>
+
+<% partial 'partials/material_sub_heading' do %>
+  Luokan luominen
+<% end %>
+
+
+<p>
+  <strong>Luokka määrittelee</strong> minkälaisia luokan oliot ovat:
+</p>
+
+<ul>
+  <li><strong>mitä metodeita olioilla on</strong></li>
+  <li><strong>minkälainen olioiden tila on</strong> tai toisinsanoen mitä muuttujia olioilla on</li>
+</ul>
+
+<p>
+  Tutustutaan seuraavaksi oman luokan luomiseen sekä luokkaan liittyvien oliomuuttujien määrittelyyn.
+</p>
+
+
+<p>
+  Luokka määritellään kuvaamaan jotain mielekästä kokonaisuutta. Usein "mielekäs kokonaisuus" kuvaa jotain reaalimaailman asiaa. Jos tietokoneohjelman pitää käsitellä henkilötietoja, voisi olla mielekästä määritellä erillinen luokka <code>Henkilo</code> joka kokoaa yhteen henkilöön liittyvät metodit ja ominaisuudet.
+</p>
+
+<p>
+  Aloitetaan. Oletetaan että meillä on projektirunko jossa on tyhjä pääohjelma:
+</p>
+
+
+<% partial 'partials/code_highlight' do %>
+public class Main {
+
+    public static void main(String[] args) {
+
+    }
+}
+<% end %>
+
+
+
+<% partial 'partials/hint', locals: { name: 'Uuden luokan luominen' } do %>
+
+  <p>
+    Uuden luokan luominen NetBeansissa tapahtuu valitsemalla vasemmalta <em>projects</em>-kohdasta hiiren oikealla napilla <em>new</em> ja <em>java class</em>. Avautuvaan dialogiin annetaan luokalle nimi.
+  </p>
+
+  <p>
+    Kuten muuttujien ja metodien nimien, myös luokan nimen on aina oltava mahdollisimman kuvaava. Usein ohjelmoinnin edetessä luokka elää ja muuttaa muotoaan, joten on myös mahdollista että luokka nimetään uudelleen.
+  </p>
+
+<% end %>
+
+<p>
+  Luodaan luokka nimeltä <code>Henkilo</code>. Luokkaa varten luodaan erillinen nimeltä <code>Henkilo.java</code>. Ohjelmamme koostuu nyt siis kahdesta erillisestä tiedostosta, sillä myös pääohjelma on omassa tiedostossaan. Aluksi Henkilo.java -tiedosto sisältää luokan määrittelyn <strong>public class Henkilo</strong> sekä luokan sisällön rajaavat aaltosulut.
+</p>
+
+<% partial 'partials/code_highlight' do %>
+public class Henkilo {
+
+}
+<% end %>
+
+<p>
+  Luokkaa kuvaamaan voi piirtää myös luokkakaavion, jonka merkintätekniikkaan tutustutaan tässä samalla. Henkilo-niminen luokka, jossa ei ole mitään sisällä näyttää seuraavalta:
+</p>
+
+<p>
+  <img src="/img/diagrams/luokkakaavio-henkilo.png">
+</p>
+
+<p>
+  Luokka määrittelee mitä toiminnallisuuksia ja ominaisuuksia luokasta luotavilla olioilla on. Päätetään, että jokaisella henkilöoliolla on nimi ja ikä. Nimi on luonnollista esittää merkkijonona, eli Stringinä, ja ikä taas kokonaislukuna. Lisätään nämä rakennuspiirustuksiimme:
+</p>
+
+<% partial 'partials/code_highlight' do %>
+public class Henkilo {
+    private String nimi;
+    private int ika;
+}
+<% end %>
+
+<p>
+  Määrittelimme yllä että jokaisella <code>Henkilo</code>-luokasta luotavalla oliolla on <code>nimi</code> ja <code>ika</code>. Luokan sisälle määriteltyjä muuttujia kutsutaan <strong>oliomuuttujiksi</strong> tai olion kentiksi tai olion attribuuteiksi. Muitakin nimiä tuntuu löytyvän.
+</p>
+
+<p>
+  Oliomuuttujat kirjoitetaan luokan määrittelyä "public class Henkilo {" seuraaville riveille. Jokaisen muuttujan eteen asetetaan avainsana private. Avainsana <strong>private</strong> tarkoittaa sitä, että muuttujat ovat "piilossa" olion sisällä. Tätä kutsutaan <strong>kapseloinniksi</strong>.
+</p>
+
+<p>
+  Luokkaakaaviossa luokkaan liittyvät muuttujat määritellään muodossa "muuttujanNimi: muuttujanTyyppi". Miinusmerkki ennen muuttujan nimeä kertoo, että muuttuja on kapseloitu (sillä on avainsana private).
+</p>
+
+<p>
+  <img src="/img/diagrams/luokkakaavio-henkilo-ika-ja-nimi.png">
+</p>
+
+<p>
+  Olemme nyt määritelleet rakennuspiirustukset -- luokan -- henkilöoliolle. Jokaisella uudella henkilöolioilla on muuttujat <code>nimi</code> ja <code>ika</code>, joissa voi olla oliokohtainen arvo. Henkilöiden "tila" koostuu niiden nimeen ja ikään asetetuista arvoista.
+</p>
+
+
+<% partial 'partials/exercise', locals: { name: 'Luokan luominen' } do %>
+
+  <p>
+    Uuden luokan saa lisättyä NetBeansissa seuraavasti: Ruudun vasemmalla reunalla on projektilistaus (Projects). Paina projektin nimen kohdalla hiiren oikeaa nappia. Valitse avautuvasta valikosta <em>New</em> ja <em>Java Class</em>. Anna luokan nimeksi (Class Name) <code>Koira</code>.
+  </p>
+
+  <p>
+    Tässä tehtävässä harjoittelet luokan luomista. Luo tehtäväpohjaan luokka nimeltä <code>Koira</code> ja lisää sille oliomuuttujat <code>private String nimi</code>, <code>private String rotu</code> ja <code>private int ika</code>. Luokkakaaviona luokka näyttää seuraavalta:
+  </p>
+
+  <p>
+    <img src="/img/diagrams/luokkakaavio-teht-koira.png">
+  </p>
+
+
+  <p>
+    Luokalla ei vielä oikeastaan tee mitään, mutta tämän askeleen harjoittelusta on hyötyä myöhempää ajatellen.
+  </p>
+
+<% end %>
+
+
+
+<% partial 'partials/material_sub_heading' do %>
+  Konstruktorin määrittely
+<% end %>
+
+<p>
+  Konstruktoria käytetään olion luomiseen luokasta.
+</p>
+
+<p>
+  Luotavalle oliolle halutaan asettaa alkutila. Itse määritellyn olion luominen tapahtuu hyvin samaan tapaan kuin Javan valmiiden olioiden kuten <code>ArrayList</code>:ien luominen. Oliot luodaan <code>new</code>-komennolla. Olion luomisen yhteydessä on kätevää pystyä antamaan arvot luotavan olion muuttujille. Esimerkiksi uutta henkilö-oliota luotaessa olisi kätevää pystyä antamaan oliolle nimi:
+</p>
+
+<% partial 'partials/code_highlight' do %>
+public static void main(String[] args) {
+    Henkilo ada = new Henkilo("Ada");
+    // ...
+}
+<% end %>
+
+<p>
+  Tämä onnistuu määrittelemällä olion luova metodi eli <strong>konstruktori</strong>. Konstruktori määritellään oliomuuttujien jälkeen. Seuraavassa esimerkissä Henkilo-luokalle on määritelty konstruktori, jota voidaan käyttää uuden Henkilo-olion luomiseen. Konstruktori asettaa luotavan olion iäksi 0 ja nimeksi konstruktorin parametrina annettavan merkkijonon:
+</p>
+
+<% partial 'partials/code_highlight' do %>
+public class Henkilo {
+    private String nimi;
+    private int ika;
+
+    public Henkilo(String nimiAlussa) {
+        this.ika = 0;
+        this.nimi = nimiAlussa;
+    }
+}
+<% end %>
+
+<p>
+  Konstruktorin nimi on aina sama kuin luokan nimi. Yllä luokka (<em>class</em>) on Henkilo, joten konstruktorin nimeksi tulee Henkilo. Konstruktorille annetaan lisäksi parametrina luotavan henkilööolion nimi. Parametri asetetaan sulkuihin konstruktorin nimen perään. Parametreja mahdollisesti sisältävien sulkujen jälkeen tulee aaltosulut, joiden sisälle määritellään lähdekoodi, jonka ohjelma suorittaa konstruktorikutsun (esim. <code>new Henkilo("Ada")</code>) yhteydessä.
+</p>
+
+<p>
+  Oliot luodaan aina konstruktorin avulla.
+</p>
+
+<p>
+  Muutama huomio: konstruktorin sisällä on lauseke <code>this.ika = 0</code>. Lausekkeessa asetetaan juuri luotavan olion (eli "tämän" olion) oliomuuttujan ika arvoksi 0. Toinen lauseke <code>this.nimi = nimiAlussa;</code> taas asettaa juuri tämän olion sisäiselle muuttujalle <code>nimi</code> arvoksi parametrina annetun merkkijonon.
+</p>
+
+<p>
+  Koska oliomuuttujat on määritelty konstruktorin aaltosulkujen ulkopuolella, voi niitä käyttää myös konstruktorin sisällä.
+</p>
+
+<p>
+  Nyt luokkakaavioon on merkitty luokan nimen ja muuttujien lisäksi myös konstruktori. Konstruktori saa public näkyvyysmääreen takia eteen plussan, jonka lisäksi siitä merkitään sen nimi ja parametrin tyypit (tässä <code>+ Henkilo(String)</code>).
+</p>
+
+<p>
+  <img src="/img/diagrams/luokkakaavio-henkilo-ika-ja-nimi-ja-konstruktori.png">
+</p>
+
+<p>
+  Vielä yksi huomio: jos ohjelmoija ei tee luokalle konstruktoria, tekee Java automaattisesti luokalle oletuskonstruktorin. Oletuskonstruktori on konstruktori joka ei tee mitään. Jos konstruktoria ei jostain syystä tarvita, ei sellaista tarvitse ohjelmoida.
+</p>
+
+
+<% partial 'partials/exercise', locals: { name: 'Toinen luokka' } do %>
+
+  <p>
+    Uuden luokan saa lisättyä seuraavasti: Ruudun vasemmalla reunalla on projektilistaus. Paina projektin nimen kohdalla hiiren oikeaa nappia. Valitse avautuvasta valikosta <em>New</em> ja <em>Java Class</em>. Jos haluat että luokan nimi on Luokka, aseta luokan nimeksi (Class Name) <code>Luokka</code>.
+  </p>
+
+  <p>
+    Luo luokka nimeltä <code>Luokka</code>. Luokalla on oliomuuttujina <code>private String koodi</code>, esimerkiksi "B221", ja <code>private int istumapaikat</code>. Luo tämän jälkeen konstruktori <code>public Luokka(String luokanKoodi, int istumapaikkojenMaara)</code>, minkä avulla oliomuuttujiin asetetaan arvot.
+  </p>
+
+  <p>
+    <img src="/img/diagrams/luokkakaavio-teht-luokka.png">
+  </p>
+
+  <p>
+    Tälläkään luokalla ei vielä oikeastaan tee mitään, mutta seuraavassa tehtävässä luokastamme tehdyllä oliolla voi jo tulostella :).
+  </p>
+
+<% end %>
+
+
+
+<% partial 'partials/material_sub_heading' do %>
+  Metodien määrittely
+<% end %>
+
+
+<p>
+  Alkaa olla korkea aika päästä käyttämään Henkilo-luokasta luotuja olioita. Osaamme luoda olion ja alustaa olion muuttujat. Järkevään toimintaan pystyäkseen olioilla on oltava myös metodeja. <strong>Metodi</strong> on luokkaan kirjoitettu lähdekoodista koostuva kokonaisuus, jolle on annettu nimi, ja jota voidaan kutsua. Metodi liittyy aina tiettyyn luokkaan, ja sitä käytetään usein luokasta tehdyn olion sisäisen tilan muokkaamiseen.
+</p>
+
+<p>
+  Tehdään luokalle Henkilo metodi, jota käytetään olion tietojen tulostamiseen.
+</p>
+
+
+<% partial 'partials/code_highlight' do %>
+public class Henkilo {
+    private String nimi;
+    private int ika;
+
+    public Henkilo(String nimiAlussa) {
+        this.ika = 0;
+        this.nimi = nimiAlussa;
+    }
+
+    public void tulostaHenkilo() {
+        System.out.println(this.nimi + ", ikä " + this.ika + " vuotta");
+    }
+}
+<% end %>
+
+<p>
+  Metodi kirjoitetaan luokan sisälle konstruktorin alapuolelle. Metodin nimen eteen tulee <code>public void</code> sillä metodin on tarkoitus näkyä ulkomaailmalle ("public") ja metodi ei palauta arvoa ("void").
+</p>
+
+<p>
+  Luokkakaavioon on merkitty luokan nimen, oliomuuttujien ja konstruktorin lisäksi nyt myös metodi <code>tulostaHenkilo</code>. Koska metodilla on public-määre, tulee sille alkuun plus, jota seuraa metodin nimi. Metodille ei ole määritelty parametreja, joten ei myöskään piirretä metodin sulkujen sisälle. Metodille merkitään myös tieto siitä, että se ei palauta arvoa, tässä "void".
+</p>
+
+<p>
+  <img src="/img/diagrams/luokkakaavio-henkilo-ika-ja-nimi-ja-konstruktori-ja-tulosta.png">
+</p>
+
+<p>
+  Metodin <code>tulostaHenkilo</code> sisällä on yksi koodirivi joka käyttää hyvakseen oliomuuttujia <code>nimi</code> ja <code>ika</code> -- luokkakaavio ei kerro sisäisestä toteutuksesta. Olion sisäisiin muuttujiin viitataan etuliitteellä <code>this</code>. Kaikki olion muuttujat ovat siis näkyvillä ja käytettävissä metodin sisällä.
+</p>
+
+<p>
+  Luodaan pääohjelmassa kolme henkilöä ja pyydetään niitä tulostamaan itsensä:
+</p>
+
+<% partial 'partials/code_highlight' do %>
+public class Main {
+
+    public static void main(String[] args) {
+        Henkilo ada = new Henkilo("Ada");
+        Henkilo antti = new Henkilo("Antti");
+        Henkilo martin = new Henkilo("Martin");
+
+        ada.tulostaHenkilo();
+        antti.tulostaHenkilo();
+        martin.tulostaHenkilo();
+    }
+}
+<% end %>
+
+<p>
+  Tulostuu:
+</p>
+
+<% partial 'partials/sample_output' do %>
+Ada, ikä 0 vuotta
+Antti, ikä 0 vuotta
+Martin, ikä 0 vuotta
+<% end %>
+
+
+<p>
+  Sama screencastina:
+</p>
+
+<a href="http://www.youtube.com/watch?feature=player_embedded&v=fWwXQ5n2gYo" class="youtube" height="300" target="_blank" rel="noopener"><img src=" https://www.cs.helsinki.fi/group/java/k13/ohpe/img/youtube.jpg"/></a>
+
+<p>
+  &nbsp;
+</p>
+
+
+<% partial 'partials/exercise', locals: { name: 'Pilli' } do %>
+
+  <p>
+    Luo luokka nimeltä <code>Pilli</code>. Pillillä on oliomuuttujina <code>private String aani</code>. Luo tämän jälkeen konstruktori <code>public Pilli(String pillinAani)</code>, minkä avulla luodaan uusi pilli, jolle annetaan ääni.
+  </p>
+
+  <p>
+    Lisää pillille vielä metodi <code>public void soi()</code>, joka tulostaa pillin äänen.
+  </p>
+
+  <p>
+    Pillin tulee toimia seuraavasti.
+  </p>
+
+  <% partial 'partials/code_highlight' do %>
+Pilli sorsapilli = new Pilli("Kvaak");
+Pilli kukkopilli = new Pilli("Peef");
+
+sorsapilli.soi();
+kukkopilli.soi();
+sorsapilli.soi();
+  <% end %>
+
+  <% partial 'partials/sample_output' do %>
+Kvaak
+Peef
+Kvaak
+  <% end %>
+
+<% end %>
+
+
+<% partial 'partials/exercise', locals: { name: 'Ovi' } do %>
+
+  <p>
+    Luo luokka nimeltä <code>Ovi</code>. Ovella ei ole oliomuuttujia. Luo sille parametriton konstruktori (tai käytä oletuskonstruktoria).  Luo tämän jälkeen ovelle metodi <code>public void koputa()</code>, jota kutsuttaessa tulostuu viesti "Who's there?".
+  </p>
+
+  <p>
+    Oven tulee toimia seuraavasti.
+  </p>
+
+  <% partial 'partials/code_highlight' do %>
+Ovi alexander = new Ovi();
+
+alexander.koputa();
+alexander.koputa();
+  <% end %>
+
+  <% partial 'partials/sample_output' do %>
+Who's there?
+Who's there?
+  <% end %>
+
+<% end %>
+
+
+<% partial 'partials/exercise', locals: { name: 'Tuote' } do %>
+
+  <p>Luo luokka <code>Tuote</code> joka esittää kaupan tuotetta jolla on hinta, lukumäärä ja nimi.</p>
+
+  <p> Uuden luokan saa lisättyä seuraavasti: Ruudun vasemmalla reunalla on projektilistaus. Paina projektin nimen kohdalla hiiren oikeaa nappia. Valitse avautuvasta valikosta <em>New</em> ja <em>Java Class</em>. Anna luokan nimeksi (Class Name) <code>Tuote</code>. </p>
+
+  <p>Luokalla tulee olla:</p>
+  <ul>
+    <li>Konstruktori <code>public Tuote(String nimiAlussa, double hintaAlussa, int maaraAlussa)</code></li>
+    <li>Metodi <code>public void tulostaTuote()</code> joka tulostaa tuotteen tiedot tässä muodossa:
+      <% partial 'partials/sample_output' do %>
+Banaani, hinta 1.1, 13 kpl
+      <% end %>
+    </li>
+  </ul>
+
+  <p>Piirrä myös luokkaan liittyvä luokkakaavio itsellesi!</p>
+<% end %>
+
+
+
+<% partial 'partials/material_sub_heading' do %>
+  Oliomuuttujan arvon muuttaminen metodissa
+<% end %>
+
+<p>
+  Lisätään aiemmin rakentamallemme Henkilo-luokalle metodi, joka kasvattaa henkilön ikää vuodella:
+</p>
+
+<% partial 'partials/code_highlight' do %>
+public class Henkilo {
+    // ...
+
+    public void vanhene() {
+        this.ika = this.ika + 1;
+    }
+}
+<% end %>
+
+<p>
+  Metodi kirjoitetaan <code>tulostaHenkilo</code>-metodin tapaan luokan <code>Henkilo</code> sisälle. Metodissa kasvatetaan oliomuuttujan <code>ika</code> arvoa yhdellä.
+</p>
+
+<p>
+  Myös luokkakaavio päivittyy.
+</p>
+
+<p>
+  <img src="/img/diagrams/luokkakaavio-henkilo-ika-ja-nimi-ja-konstruktori-ja-tulosta-ja-vanhene.png">
+</p>
+
+
+<p>
+  Kutsutaan metodia ja katsotaan mitä tapahtuu:
+</p>
+
+<% partial 'partials/code_highlight' do %>
+public class Main {
+
+    public static void main(String[] args) {
+        Henkilo ada = new Henkilo("Ada");
+        Henkilo antti = new Henkilo("Antti");
+
+        ada.tulostaHenkilo();
+        antti.tulostaHenkilo();
+
+        System.out.println("");
+
+        ada.vanhene();
+        ada.vanhene();
+
+        ada.tulostaHenkilo();
+        antti.tulostaHenkilo();
+    }
+}
+<% end %>
+
+<p>
+  Ohjelman tulostus on seuraava:
+</p>
+
+<% partial 'partials/sample_output' do %>
+Ada, ikä 0 vuotta
+Antti, ikä 0 vuotta
+
+Ada, ikä 2 vuotta
+Antti, ikä 0 vuotta
+<% end %>
+
+<p>
+  Eli "syntyessään" molemmat oliot ovat nollavuotiaita (konstruktorissa suoritetaan mm. rivi <code>this.ika = 0;</code>). Olion <code>ada</code> metodia <code>vanhene</code> kutsutaan kaksi kertaa. Kuten tulostus näyttää, tämä saa aikaan sen että Adan ikä on vanhenemisen jälkeen 2 vuotta. Kutsumalla metodia Adaa vastaavalle oliolle, toisen henkilöolion ikä ei muutu, sillä jokaiselle luokasta luotavalle oliolle luodaan myös omat oliomuuttujat.
+</p>
+
+
+<% partial 'partials/exercise', locals: { name: 'Vähenevä laskuri' } do %>
+
+  <p>
+    Tässä tehtävässä on useampi osa. Jokainen osa vastaa yhtä tehtäväpistettä.
+  </p>
+
+  <p>
+    Tehtäväpohjan mukana tulee osittain valmiiksi toteutettu luokka <code>VahenevaLaskuri</code>:
+  </p>
+
+  <% partial 'partials/code_highlight' do %>
+public class VahenevaLaskuri {
+    private int arvo;   // oliomuuttuja joka muistaa laskurin arvon
+
+    public VahenevaLaskuri(int arvoAlussa) {
+        this.arvo = arvoAlussa;
+    }
+
+    public void tulostaArvo() {
+        System.out.println("arvo: " + this.arvo);
+    }
+
+    public void vahene() {
+        // kirjoita tänne metodin toteutus
+        // laskurin arvon on siis tarkoitus vähentyä yhdellä
+    }
+
+    // ja tänne muut metodit
+}
+  <% end %>
+
+  <p>
+    Seuraavassa esimerkki miten pääohjelma käyttää vähenevää laskuria:
+  </p>
+
+  <% partial 'partials/code_highlight' do %>
+public class Paaohjelma {
+    public static void main(String[] args) {
+        VahenevaLaskuri laskuri = new VahenevaLaskuri(10);
+
+        laskuri.tulostaArvo();
+
+        laskuri.vahene();
+        laskuri.tulostaArvo();
+
+        laskuri.vahene();
+        laskuri.tulostaArvo();
+    }
+}
+  <% end %>
+
+  <p>
+    Pitäisi tulostua:
+  </p>
+
+  <% partial 'partials/sample_output' do %>
+arvo: 10
+arvo: 9
+arvo: 8
+  <% end %>
+
+  <p>
+    <code>VahenevaLaskuri</code>-luokan konstruktorille annetaan parametrina alkuarvo. Esimerkin oliota <code>laskuri</code> luodessa laskurille välitetään parametrina arvo <code>10</code>. Esimerkin <code>laskuri</code>-olioon liittyvään oliomuuttujaan <code>arvo</code> asetetaan siis aluksi arvo <code>10</code>. Laskurin arvon voi tulostaa metodilla <code>tulostaArvo()</code>. Laskurilla tulee myös olla metodi <code>vahene()</code> joka vähentää laskurin arvoa yhdellä.</p>
+
+  <h2>Metodin vahene() toteutus</h2>
+
+  <p>Täydennä luokan runkoon metodin <code>vahene()</code> toteutus sellaiseksi, että se vähentää kutsuttavan olion oliomuuttujan <code>arvo</code> arvoa yhdellä. Kun olet toteuttanut metodin <code>vahene()</code>, edellisen esimerkin pääohjelman tulee toimia esimerkkitulosteen mukaan.</p>
+
+  <h2>Laskurin arvo ei saa olla negatiivinen</h2>
+
+  <p>Täydennä metodin <code>vahene()</code> toteutus sellaiseksi, ettei laskurin arvo mene koskaan negatiiviseksi. Eli jos laskurin arvo on jo 0, ei vähennys sitä enää vähennä. Ehtolause auttaa tässä.</p>
+
+  <% partial 'partials/code_highlight' do %>
+public class Paaohjelma {
+    public static void main(String[] args) {
+        VahenevaLaskuri laskuri = new VahenevaLaskuri(2);
+
+        laskuri.tulostaArvo();
+
+        laskuri.vahene();
+        laskuri.tulostaArvo();
+
+        laskuri.vahene();
+        laskuri.tulostaArvo();
+
+        laskuri.vahene();
+        laskuri.tulostaArvo();
+    }
+}
+  <% end %>
+
+
+  <p>Tulostuu:</p>
+
+  <% partial 'partials/sample_output' do %>
+arvo: 2
+arvo: 1
+arvo: 0
+arvo: 0
+  <% end %>
+
+
+  <h2>Laskurin arvon nollaus</h2>
+
+  <p>Tee laskurille metodi <code>public void nollaa()</code> joka nollaa laskurin arvon, esim:</p>
+
+  <% partial 'partials/code_highlight' do %>
+public class Paaohjelma {
+    public static void main(String[] args) {
+        VahenevaLaskuri laskuri = new VahenevaLaskuri(100);
+
+        laskuri.tulostaArvo();
+
+        laskuri.nollaa();
+        laskuri.tulostaArvo();
+
+        laskuri.vahene();
+        laskuri.tulostaArvo();
+    }
+}
+  <% end %>
+
+  <p>Tulostuu:</p>
+
+  <% partial 'partials/sample_output' do %>
+arvo: 100
+arvo: 0
+arvo: 0
+  <% end %>
+
+
+  <h2>Laskurin arvon palautus</h2>
+
+  <p>Tee laskurille metodi <code>public void palautaAlkuarvo()</code>, joka palauttaa laskurille arvon joka sillä oli alussa:</p>
+
+  <% partial 'partials/code_highlight' do %>
+public class Paaohjelma {
+  public static void main(String[] args) {
+      VahenevaLaskuri laskuri = new VahenevaLaskuri(100);
+
+      laskuri.tulostaArvo();
+
+      laskuri.vahene();
+      laskuri.tulostaArvo();
+
+      laskuri.vahene();
+      laskuri.tulostaArvo();
+
+      laskuri.nollaa();
+      laskuri.tulostaArvo();
+
+      laskuri.palautaAlkuarvo();
+      laskuri.tulostaArvo();
+    }
+}
+  <% end %>
+
+  <p>Tulostuu:</p>
+
+  <% partial 'partials/sample_output' do %>
+arvo: 100
+arvo: 99
+arvo: 98
+arvo: 0
+arvo: 100
+  <% end %>
+
+
+  <p><strong>Vihje</strong> jotta alkuarvon voi palauttaa, se täytyy "muistaa" toisen oliomuuttujan avulla! Joudut siis lisäämään ohjelmaan oliomuuttujan johon talletetaan laskurin alussa saama arvo.</p>
+
+<% end %>
+
+<% partial 'partials/exercise', locals: { name: 'Velka' } do %>
+
+  <p>
+    Luo luokka <code>Velka</code>, jolla on double-tyyppiset oliomuuttujat <code>saldo</code> ja <code>korkokerroin</code>. Saldo ja korkokerroin annetaan konstruktorin parametrina <code>public Velka(double saldoAlussa, double korkokerroinAlussa)</code>.
+  </p>
+
+  <p>
+    Luo luokalle myös metodit <code>public void tulostaSaldo()</code> sekä <code>public void odotaVuosi()</code>. Metodi tulostaSaldo tulostaa tämän hetkisen saldon, ja metodi odotaVuosi kasvattaa velan määrää.
+  </p>
+
+  <p>
+    Velan määrän kasvattaminen tapahtuu kertomalla saldo korkokertoimella.
+  </p>
+
+  <p>Luokan tulee toimia seuraavasti:</p>
+
+  <% partial 'partials/code_highlight' do %>
+public class Paaohjelma {
+    public static void main(String[] args) {
+
+        Velka asuntolaina = new Velka(120000.0, 1.01);
+        asuntolaina.tulostaSaldo();
+
+        asuntolaina.odotaVuosi();
+        asuntolaina.tulostaSaldo();
+
+        int vuosia = 0;
+
+        while(vuosia &lt; 20) {
+            asuntolaina.odotaVuosi();
+            vuosia++;
+        }
+
+        asuntolaina.tulostaSaldo();
+    }
+}
+  <% end %>
+
+  <p>
+    Ylläolevassa esimerkissä havainnollistetaan asuntolainan kehitystä prosentin korolla.
+  </p>
+
+  <p>Tulostus:</p>
+
+  <% partial 'partials/sample_output' do %>
+120000.0
+121200.0
+147887.0328416936
+  <% end %>
+
+  <p>
+    Kun saat ohjelman toimimaan, tarkastele edelläolevaa esimerkkiä myös 1990-luvun alkupuolen laman korkokertoimilla. Tällöin korko oli jopa 15-20 prosenttia -- muuta yllä olevan esimerkin korkokertoimeksi <code>1.20</code> ja katso miten käy.
+  </p>
+<% end %>
+
+
+
+
+
+<% partial 'partials/material_sub_heading' do %>
+  Arvon palauttaminen metodista
+<% end %>
+
+
+<p>
+  Metodi voi palauttaa arvon. Tähän mennessä näkemissämme esimerkeissä ja tehtävissä luomamme metodit eivät palauttaneet mitään. Tämä on merkitty kirjoittamalla metodin määrittelyyn avainsana <em>void</em>.
+</p>
+
+<% partial 'partials/code_highlight' do %>
+public class Ovi {
+    public void koputa() {
+    ...
+    }
+}
+<% end %>
+
+<p>
+  Avainsana <strong>void</strong> tarkoittaa että metodi ei palauta arvoa.
+</p>
+
+<p>
+  Jos haluamme, että metodi palauttaa arvon, tulee avainsanan <code>void</code> paikalle asettaa palautettavan muuttujan tyyppi. Seuraavassa esimerkissä näkyvälle luokalle Opettaja on määritelty metodi <code>arvostele</code>, joka palauttaa aina kokonaislukutyyppisen (<code>int</code>) muuttujan (tässä arvo 10). Arvon palauttaminen tapahtuu aina komennolla <strong>return</strong>:
+</p>
+
+<% partial 'partials/code_highlight' do %>
+public class Opettaja {
+    public int arvostele() {
+        return 10;
+    }
+}
+<% end %>
+
+<p>
+  Ylläoleva metodi siis palauttaa sitä kutsuttaessa <code>int</code>-tyyppisen arvon <code>10</code>. Jotta metodin palauttamaa arvoa voisi käyttää, tulee se ottaa talteen muuttujaan. Tämä tapahtuu samalla tavalla kuin normaali muuttujan arvon asetus, eli yhtäsuuruusmerkillä:
+</p>
+
+<% partial 'partials/code_highlight' do %>
+public static void main(String[] args) {
+    Opettaja opettaja = new Opettaja();
+
+    int arvostelu = opettaja.arvostele();
+
+    System.out.println("Arvosanaksi tuli " + arvostelu);
+}
+<% end %>
+
+<p>
+  Metodin paluuarvo sijoitetaan <code>int</code>-tyyppiseen muuttujaan aivan kuin mikä tahansa muukin int-arvo. Paluuarvo voi toimia myös osana mitä tahansa lauseketta:
+</p>
+
+<% partial 'partials/code_highlight' do %>
+public static void main(String[] args) {
+    Opettaja opettaja = new Opettaja();
+
+    double keskiarvo = (opettaja.arvostele() + opettaja.arvostele()) / 2.0;
+
+    System.out.println("Arvostelujen keskiarvo " + keskiarvo);
+}
+<% end %>
+
+<p>
+  Kaikki tähän mennessä näkemämme muuttujatyypit voidaan myös palauttaa metodista. Yhteenveto:
+</p>
+
+<ul>
+  <li>Metodilla, joka ei palauta mitään, on <code>void</code>-määre palautettavan muuttujan tyyppinä.
+    <% partial 'partials/code_highlight' do %>
+public void metodiJokaEiPalautaMitaan() {
+    // metodin runko
+}
+<% end %></li>
+
+  <li>Metodilla, joka palauttaa kokonaislukutyyppisen muuttujan, on <code>int</code>-määre palautettavan muuttujan tyyppinä.
+    <% partial 'partials/code_highlight' do %>
+public int metodiJokaPalauttaaKokonaisLuvun() {
+    // metodin runko, tarvitsee return-komennon
+}
+<% end %></li>
+
+
+  <li>Metodilla, joka palauttaa merkkijonotyyppisen muuttujan, on <code>String</code>-määre palautettavan muuttujan tyyppinä.
+    <% partial 'partials/code_highlight' do %>
+public String metodiJokaPalauttaaTekstin() {
+    // metodin runko, tarvitsee return-komennon
+}
+<% end %></li>
+
+  <li>Metodilla, joka palauttaa liukulukutyyppisen muuttujan, on <code>double</code>-määre palautettavan muuttujan tyyppinä.
+    <% partial 'partials/code_highlight' do %>
+public double metodiJokaPalauttaaLiukuluvun() {
+    // metodin runko, tarvitsee return-komennon
+}
+<% end %>
+  </li>
+</ul>
+
+<p>
+  Lisätään Henkilölle metodi joka palauttaa henkilön iän:
+</p>
+
+<% partial 'partials/code_highlight' do %>
+public class Henkilo {
+    // ...
+
+    public int palautaIka() {
+        return this.ika;
+    }
+}
+<% end %>
+
+<p>
+  Luokka kokonaisuudessaan:
+</p>
+
+<p>
+  <img src="/img/diagrams/luokkakaavio-henkilo-ika-ja-nimi-ja-konstruktori-ja-tulosta-ja-vanhene-ja-palautaika.png">
+</p>
+
+
+<p>
+  Havainnollistetaan metodin toimintaa:
+</p>
+
+<% partial 'partials/code_highlight' do %>
+public class Main {
+
+    public static void main(String[] args) {
+        Henkilo pekka = new Henkilo("Pekka");
+        Henkilo antti = new Henkilo("Antti");
+
+        pekka.vanhene();
+        pekka.vanhene();
+
+        antti.vanhene();
+
+        System.out.println("Pekan ikä: " + pekka.palautaIka());
+        System.out.println("Antin ikä: " + antti.palautaIka());
+
+        int yht = pekka.palautaIka() + antti.palautaIka();
+
+        System.out.println("Pekka ja Antti yhteensä " + yht + " vuotta");
+    }
+}
+<% end %>
+
+
+<% partial 'partials/sample_output' do %>
+Pekan ikä 2
+Antin ikä 1
+
+Pekka ja Antti yhteensä 3 vuotta
+<% end %>
+
+
+<div class="parqu-exercise" data-id="2" data-name="Luokkalaskin"></div>
+
+
+
+<% partial 'partials/exercise', locals: { name: 'Henkilön toteutus' } do %>
+
+  <p>
+    Seuraa materiaalin tähänastista esimerkkiä ja luo luokka Henkilo. Henkilön tulee sisältää seuraavan luokkakaavion määrittelemät ominaisuudet edellä mainittujen esimerkkien mukaisesti.
+  </p>
+
+  <p>
+    <img src="/img/diagrams/luokkakaavio-henkilo-ika-ja-nimi-ja-konstruktori-ja-tulosta-ja-vanhene-ja-palautaika.png">
+  </p>
+
+  <% partial 'partials/code_highlight' do %>
+Henkilo pekka = new Henkilo("Pekka");
+Henkilo antti = new Henkilo("Antti");
+
+antti.tulostaHenkilo();
+
+pekka.vanhene();
+pekka.vanhene();
+
+antti.vanhene();
+
+System.out.println("Pekan ikä: " + pekka.palautaIka());
+System.out.println("Antin ikä: " + antti.palautaIka());
+
+int yht = pekka.palautaIka() + antti.palautaIka();
+
+System.out.println("Pekka ja Antti yhteensä " + yht + " vuotta");
+  <% end %>
+
+  <% partial 'partials/sample_output' do %>
+Antti, ikä 0 vuotta
+Pekan ikä 2
+Antin ikä 1
+
+Pekka ja Antti yhteensä 3 vuotta
+  <% end %>
+
+<% end %>
+
+
+<% partial 'partials/exercise', locals: { name: 'Musiikkikappale' } do %>
+
+  <p>
+    Luo luokka nimeltä <code>Musiikkikappale</code>. Musiikkikappaleella on oliomuuttujat <code>nimi</code> (merkkijono) ja <code>pituus</code> sekunteina (kokonaisluku). Molemmat asetetaan konstruktorissa <code>public Musiikkikappale(String kappaleenNimi, int kappaleenPituus)</code>. Lisää oliolle myös metodit <code>public String nimi()</code>, joka palauttaa kappaleen nimen, ja <code>public int pituus()</code>, joka palauttaa kappaleen pituuden.
+  </p>
+
+  <p>
+    Luokan tulee toimia seuraavasti.
+  </p>
+
+  <% partial 'partials/code_highlight' do %>
+Musiikkikappale garden = new Musiikkikappale("In The Garden", 10910);
+System.out.println("Kappaleen " + garden.nimi() + " pituus on " + garden.pituus() + " sekuntia.");
+  <% end %>
+
+  <% partial 'partials/sample_output' do %>
+Kappaleen In The Garden pituus on 10910 sekuntia.
+  <% end %>
+
+<% end %>
+
+
+<% partial 'partials/exercise', locals: { name: 'Puhelinluettelo' } do %>
+
+  <p>
+    Tehtäväpohjassa tulee mukana ohjelma, jota käytetään henkilöiden lisäämiseen puhelinluetteloon. Ohjelma ei kuitenkaan toimi ihan halutusti, sillä "tyhjien" henkilöiden lisääminen onnistuu listaan vaikkei kenttiin ole syötetty minkäänlaisia arvoja.
+  </p>
+
+  <img src="/img/exercises/03-12-rivit.png" />
+
+  <p>
+    Yllä olevassa esimerkissä puhelinluetteloon on lisätty ensin neljä "tyhjää" henkilöä, jonka jälkeen luetteloon on lisätty yhden henkilön tiedot.
+  </p>
+
+  <p>
+    Muokkaa sovellusta siten, että jos lisättävällä henkilöllä on tyhjä nimi, puhelinnumero tai katuosoite, ei henkilöä lisätä listalle.
+  </p>
+
+  <p>
+    Tehtävässä ei tule mukana automaattisia testejä -- palauta se kun olet saanut sovelluksen toimimaan halutusti.
+  </p>
+
+<% end %>
+
+
+
+<% partial 'partials/material_sub_heading' do %>
+  Henkilo-luokka laajenee
+<% end %>
+
+<p>
+  Tehdään seuraavaksi henkilölle metodi, jonka avulla voidaan selvittää onko henkilö täysi-ikäinen. Metodi palauttaa totuusarvon -- joko <code>true</code> tai <code>false</code>:
+</p>
+
+<% partial 'partials/code_highlight' do %>
+public class Henkilo {
+  // ...
+
+    public boolean taysiIkainen() {
+        if (this.ika &lt; 18) {
+            return false;
+        }
+
+        return true;
+    }
+
+    /*
+    huom. metodin voisi kirjoittaa lyhyemmin seuraavasti:
+
+    public boolean taysiIkainen() {
+        return this.ika >= 18;
+    }
+    */
+}
+<% end %>
+
+<p>
+  Ja testataan:
+</p>
+
+<% partial 'partials/code_highlight' do %>
+public static void main(String[] args) {
+    Henkilo pekka = new Henkilo("Pekka");
+    Henkilo antti = new Henkilo("Antti");
+
+    int i = 0;
+    while (i &lt; 30) {
+        pekka.vanhene();
+        i++;
+    }
+
+    antti.vanhene();
+
+    System.out.println("");
+
+    if (antti.taysiIkainen()) {
+        System.out.print("täysi-ikäinen: ");
+        antti.tulostaHenkilo();
+    } else {
+        System.out.print("alaikäinen: ");
+        antti.tulostaHenkilo();
+    }
+
+    if (pekka.taysiIkainen()) {
+        System.out.print("täysi-ikäinen: ");
+        pekka.tulostaHenkilo();
+    } else {
+        System.out.print("alaikäinen: ");
+        pekka.tulostaHenkilo();
+    }
+}
+<% end %>
+
+<% partial 'partials/sample_output' do %>
+alaikäinen: Antti, ikä 1 vuotta
+täysi-ikäinen: Pekka, ikä 30 vuotta
+<% end %>
+
+
+<p>
+  Viritellään ratkaisua vielä hiukan. Nyt henkilön pystyy "tulostamaan" ainoastaan siten, että nimen lisäksi tulostuu ikä. On tilanteita, joissa haluamme tietoon pelkän olion nimen. Eli tehdään tarkoitusta varten oma metodi:
+</p>
+
+<% partial 'partials/code_highlight' do %>
+public class Henkilo {
+    // ...
+
+    public String getNimi() {
+        return this.nimi;
+    }
+}
+<% end %>
+
+<p>
+  Metodi <code>getNimi</code> palauttaa oliomuuttujan <code>nimi</code> kutsujalle. Metodin nimi on hieman erikoinen. Javassa on usein tapana nimetä oliomuuttujan palauttava metodi juuri näin, eli <code>getMuuttujanNimi</code>. Tälläisiä metodeja kutsutaan usein "gettereiksi".
+</p>
+
+
+<p>
+  Luokka kokonaisuudessaan:
+</p>
+
+<p>
+  <img src="/img/diagrams/luokkakaavio-henkilo-getterit.png">
+</p>
+
+<p>
+  Muotoillaan pääohjelma käyttämään uutta "getteri"-metodia:
+</p>
+
+<% partial 'partials/code_highlight' do %>
+public static void main(String[] args) {
+    Henkilo pekka = new Henkilo("Pekka");
+    Henkilo antti = new Henkilo("Antti");
+
+    int i = 0;
+    while (i &lt; 30) {
+        pekka.vanhene();
+        i++;
+    }
+
+    antti.vanhene();
+
+    System.out.println("");
+
+    if (antti.taysiIkainen()) {
+        System.out.println(antti.getNimi() + " on täysi-ikäinen");
+    } else {
+        System.out.println(antti.getNimi() + " on alaikäinen");
+    }
+
+    if (pekka.taysiIkainen()) {
+        System.out.println(pekka.getNimi() + " on täysi-ikäinen");
+    } else {
+        System.out.println(pekka.getNimi() + " on alaikäinen ");
+    }
+}
+<% end %>
+
+<p>
+  Tulostus alkaa olla jo aika siisti:
+</p>
+
+<% partial 'partials/sample_output' do %>
+Antti on alaikäinen
+Pekka on täysi-ikäinen
+<% end %>
+
+
+<% partial 'partials/exercise', locals: { name: 'Elokuva' } do %>
+  <p>
+    Luo luokka Elokuva, jolla on oliomuuttujat <code>nimi</code> (String) ja <code>ikaraja</code> (int). Tee luokalle konstruktori <code>public Elokuva(String elokuvanNimi, int elokuvanIkaraja)</code> sekä metodit <code>public String nimi()</code> ja <code>public int ikaraja()</code>. Ensimmäinen palauttaa elokuvan nimen ja toinen elokuvan ikärajan.
+  </p>
+
+  <p>
+    Esimerkki luokan toiminnasta.
+  </p>
+
+  <% partial 'partials/code_highlight' do %>
+Elokuva chipmunks = new Elokuva("Alvin and the Chipmunks: The Squeakquel", 0);
+
+Scanner lukija = new Scanner(System.in);
+
+System.out.println("Minkä ikäinen olet?");
+int ika = Integer.parseInt(lukija.nextLine());
+
+System.out.println();
+if (ika &gt;= chipmunks.ikaraja()) {
+    System.out.println("Saat katsoa elokuvan " + chipmunks.nimi());
+} else {
+    System.out.println("Et saa katsoa elokuvaa " + chipmunks.nimi());
+}
+  <% end %>
+
+  <% partial 'partials/sample_output' do %>
+Minkä ikäinen olet?
+<font color="red">7</font>
+
+Saat katsoa elokuvan Alvin and the Chipmunks: The Squeakquel
+  <% end %>
+
+<% end %>
+
+
+
+<% partial 'partials/material_sub_heading' do %>
+  Olion merkkijonoesitys ja toString-metodi
+<% end %>
+
+<p>
+  Olemme syyllistyneet osittain huonoon ohjelmointityyliin tekemällä metodin jonka avulla olio tulostetaan, eli metodin <code>tulostaHenkilo</code>. Suositeltavampi tapa on määritellä oliolle metodi jonka palauttaa olion "merkkijonoesityksen". Merkkijonoesityksen palauttavan metodin nimi on Javassa aina <code>toString</code>. Määritellään seuraavassa henkilölle tämä metodi:
+</p>
+
+<% partial 'partials/code_highlight' do %>
+public class Henkilo {
+    // ...
+
+    public String toString() {
+        return this.nimi + ", ikä " + this.ika + " vuotta";
+    }
+}
+<% end %>
+
+<p>
+  Metodi <code>toString</code> toimii kuten <code>tulostaHenkilo</code>, mutta se ei itse tulosta mitään vaan palauttaa merkkijonoesityksen, jota metodin kutsuja voi halutessaan suorittaa tulostamisen.
+</p>
+
+<p>
+  Metodia käytetään hieman yllättävällä tavalla:
+</p>
+
+<% partial 'partials/code_highlight' do %>
+public static void main(String[] args) {
+    Henkilo pekka = new Henkilo("Pekka");
+    Henkilo antti = new Henkilo("Antti");
+
+    int i = 0;
+    while (i &lt; 30) {
+        pekka.vanhene();
+        i++;
+    }
+
+    antti.vanhene();
+
+    System.out.println(antti); // sama kun System.out.println(antti.toString());
+    System.out.println(pekka); // sama kun System.out.println(pekka.toString());
+}
+<% end %>
+
+
+<p>
+  Periaatteena on, että <code>System.out.println</code>-metodi pyytää olion merkkijonoesityksen ja tulostaa sen. Merkkijonoesityksen palauttavan <code>toString</code>-metodin kutsua ei tarvitse kirjoittaa itse, sillä Java lisää sen automaattisesti. Ohjelmoijan kirjoittaessa:
+</p>
+
+<% partial 'partials/code_highlight' do %>
+System.out.println(antti);
+<% end %>
+
+<p>
+  Java täydentää suorituksen aikana kutsun muotoon:
+</p>
+
+<% partial 'partials/code_highlight' do %>
+System.out.println(antti.toString());
+<% end %>
+
+<p>
+  Käy niin, että oliolta pyydetään sen merkkijonoesitys. Olion palauttama merkkijonoesitys tulostetaan normaaliin tapaan <code>System.out.println</code>-komennolla.
+</p>
+
+<p>
+  <b>Voimme nyt poistaa turhaksi käyneen <code>tulostaHenkilo</code>-metodin.</b>
+</p>
+
+<p>
+  Olioscreencastin toinen osa:
+</p>
+
+<a href="http://www.youtube.com/watch?feature=player_embedded&v=d-56AxspStE" class="youtube" height="300" target="_blank" rel="noopener"><img src=" https://www.cs.helsinki.fi/group/java/k13/ohpe/img/youtube.jpg"/></a>
+
+<!--
+     <p><iframe allowfullscreen="" frameborder="0" height="450" width="700" src="http://www.youtube.com/embed/eX7XXP5GHTk"></iframe></p>
+   -->
+
+<p>&nbsp;</p>
+
+<% partial 'partials/exercise', locals: { name: 'Agentti' } do %>
+
+  <p>
+    Tehtäväpohjassa on määriteltynä luokka Agentti, jolla on etunimi ja sukunimi. Luokalle on määritelty metodi <code>tulosta</code>, joka luo seuraavanlaisen merkkijonoesityksen.
+  </p>
+
+  <% partial 'partials/code_highlight' do %>
+Agentti bond = new Agentti("James", "Bond");
+bond.tulosta();
+  <% end %>
+
+  <% partial 'partials/sample_output' do %>
+My name is Bond, James Bond
+  <% end %>
+
+  <p>
+    Poista luokan metodi <code>tulosta</code> ja luo luokalle metodi <code>public String toString()</code>, joka palauttaa edellämainitun merkkijonoesityksen.
+  </p>
+
+  <p>
+    Luokan tulee toimia jatkossa seuraavasti.
+  </p>
+
+  <% partial 'partials/code_highlight' do %>
+Agentti bond = new Agentti("James", "Bond");
+
+bond.toString(); // ei tulosta mitään
+System.out.println(bond);
+
+Agentti ionic = new Agentti("Ionic", "Bond");
+System.out.println(ionic);
+  <% end %>
+
+  <% partial 'partials/sample_output' do %>
+My name is Bond, James Bond
+My name is Bond, Ionic Bond
+  <% end %>
+
+<% end %>
+
+
+<% partial 'partials/exercise', locals: { name: 'Maksukortti' } do %>
+
+  <p>
+    Helsingin Yliopiston opiskelijaruokaloissa eli Unicafeissa opiskelijat maksavat lounaansa käyttäen maksukorttia. Lopullinen Maksukortti tulee näyttämään luokkakaaviona seuraavalta:
+  </p>
+
+  <p>
+    <img src="/img/diagrams/luokkakaavio-teht-maksukortti.png">
+  </p>
+
+  <p>
+    Tässä tehtäväsäsarjassa tehdään luokka <code>Maksukortti</code>, jonka tarkoituksena on jäljitellä Unicafeissa tapahtuvaa maksutoimintaa.
+  </p>
+
+  <h2>Luokan runko</h2>
+
+  <p>
+    Projektiin tulee kuulumaan kaksi kooditiedostoa:
+  </p>
+
+  <p>
+    Tehtäväpohjan mukana tulee kooditiedosto <code>Paaohjelma</code> jonka sisällä on <code>main</code>-metodi.
+  </p>
+
+  <p>
+    Lisää projektiin uusi luokka nimeltä <code>Maksukortti</code>. Uuden luokan saa lisättyä seuraavasti: Ruudun vasemmalla reunalla on projektilistaus. Paina projektin nimen kohdalla hiiren oikeaa nappia. Valitse avautuvasta valikosta <em>New</em> ja <em>Java Class</em>. Anna luokan nimeksi (Class Name) <code>Maksukortti</code>.
+  </p>
+
+  <p>
+    Tee ensin <code>Maksukortti</code>-olion konstruktori, jolle annetaan kortin alkusaldo ja joka tallentaa sen olion sisäiseen muuttujaan. Tee sitten <code>toString</code>-metodi, joka palauttaa kortin saldon muodossa "Kortilla on rahaa X euroa".
+  </p>
+
+  <p>
+    Seuraavassa on luokan <code>Maksukortti</code> runko:
+  </p>
+
+  <% partial 'partials/code_highlight' do %>
+public class Maksukortti {
+    private double saldo;
+
+    public Maksukortti(double alkusaldo) {
+        // kirjoita koodia tähän
+    }
+
+    public String toString() {
+        // kirjoita koodia tähän
+    }
+}
+  <% end %>
+
+  <p>
+    Seuraava pääohjelma testaa luokkaa:
+  </p>
+
+  <% partial 'partials/code_highlight' do %>
+public class Paaohjelma {
+    public static void main(String[] args) {
+        Maksukortti kortti = new Maksukortti(50);
+        System.out.println(kortti);
+    }
+}
+  <% end %>
+
+
+  <p>
+    Ohjelman tulisi tuottaa seuraava tulostus:
+  </p>
+
+  <% partial 'partials/sample_output' do %>
+Kortilla on rahaa 50.0 euroa
+  <% end %>
+
+
+  <h2>Kortilla maksaminen</h2>
+
+  <p>
+    Täydennä <code>Maksukortti</code>-luokkaa seuraavilla metodeilla:
+  </p>
+
+  <% partial 'partials/code_highlight' do %>
+public void syoEdullisesti() {
+    // kirjoita koodia tähän
+}
+
+public void syoMaukkaasti() {
+      // kirjoita koodia tähän
+}
+  <% end %>
+
+  <p>
+    Metodin <code>syoEdullisesti</code> tulisi vähentää kortin saldoa 2.60 eurolla ja metodin <code>syoMaukkaasti</code> tulisi vähentää kortin saldoa 4.60 eurolla.
+  </p>
+
+  <p>
+    Seuraava pääohjelma testaa luokkaa:
+  </p>
+
+  <% partial 'partials/code_highlight' do %>
+public class Paaohjelma {
+    public static void main(String[] args) {
+        Maksukortti kortti = new Maksukortti(50);
+        System.out.println(kortti);
+
+        kortti.syoEdullisesti();
+        System.out.println(kortti);
+
+        kortti.syoMaukkaasti();
+        kortti.syoEdullisesti();
+        System.out.println(kortti);
+    }
+}
+  <% end %>
+
+  <p>
+    Ohjelman tulisi tuottaa kutakuinkin seuraava tulostus:
+  </p>
+
+  <% partial 'partials/sample_output' do %>
+Kortilla on rahaa 50.0 euroa
+Kortilla on rahaa 47.4 euroa
+Kortilla on rahaa 40.199999999999996 euroa
+  <% end %>
+
+
+  <h2>Ei-negatiivinen saldo</h2>
+
+  <p>
+    Mitä tapahtuu, jos kortilta loppuu raha kesken? Ei ole järkevää, että saldo muuttuu negatiiviseksi. Muuta metodeita <code>syoEdullisesti</code> ja <code>syoMaukkaasti</code> niin, että ne eivät vähennä saldoa, jos saldo menisi negatiiviseksi.
+  </p>
+
+  <p>
+    Seuraava pääohjelma testaa luokkaa:
+  </p>
+
+  <% partial 'partials/code_highlight' do %>
+public class Paaohjelma {
+    public static void main(String[] args) {
+        Maksukortti kortti = new Maksukortti(5);
+        System.out.println(kortti);
+
+        kortti.syoMaukkaasti();
+        System.out.println(kortti);
+
+        kortti.syoMaukkaasti();
+        System.out.println(kortti);
+    }
+}
+  <% end %>
+
+  <p>
+    Ohjelman tulisi tuottaa seuraava tulostus:
+  </p>
+
+  <% partial 'partials/sample_output' do %>
+Kortilla on rahaa 5.0 euroa
+Kortilla on rahaa 0.40000000000000036
+Kortilla on rahaa 0.40000000000000036
+  <% end %>
+
+
+  <p>
+    Yllä toinen metodin <code>syoMaukkaasti</code> kutsu ei vaikuttanut saldoon, koska saldo olisi mennyt negatiiviseksi.
+  </p>
+
+  <h2>Kortin lataaminen</h2>
+
+  <p>
+    Lisää <code>Maksukortti</code>-luokkaan seuraava metodi:
+  </p>
+
+  <% partial 'partials/code_highlight' do %>
+public void lataaRahaa(double rahamaara) {
+    // kirjoita koodia tähän
+}
+  <% end %>
+
+  <p>
+    Metodin tarkoituksena on kasvattaa kortin saldoa parametrina annetulla rahamäärällä. Kuitenkin kortin saldo saa olla korkeintaan 150 euroa, joten jos ladattava rahamäärä ylittäisi sen, saldoksi tulisi tulla silti tasan 150 euroa.
+  </p>
+
+  <p>
+    Seuraava pääohjelma testaa luokkaa:
+  </p>
+
+  <% partial 'partials/code_highlight' do %>
+public class Paaohjelma {
+    public static void main(String[] args) {
+        Maksukortti kortti = new Maksukortti(10);
+        System.out.println(kortti);
+
+        kortti.lataaRahaa(15);
+        System.out.println(kortti);
+
+        kortti.lataaRahaa(10);
+        System.out.println(kortti);
+
+        kortti.lataaRahaa(200);
+        System.out.println(kortti);
+    }
+}
+  <% end %>
+
+  <p>
+    Ohjelman tulisi tuottaa seuraava tulostus:
+  </p>
+
+  <% partial 'partials/sample_output' do %>
+Kortilla on rahaa 10.0 euroa
+Kortilla on rahaa 25.0 euroa
+Kortilla on rahaa 35.0 euroa
+Kortilla on rahaa 150.0 euroa
+  <% end %>
+
+
+  <h2>Kortin lataus negatiivisella arvolla</h2>
+
+  <p>
+    Muuta metodia <code>lataaRahaa</code> vielä siten, että jos yritetään ladata negatiivinen rahamäärä, ei kortilla oleva arvo muutu.
+  </p>
+
+  <p>
+    Seuraava pääohjelma testaa luokkaa:
+  </p>
+
+  <% partial 'partials/code_highlight' do %>
+public class Paaohjelma {
+    public static void main(String[] args) {
+        Maksukortti kortti = new Maksukortti(10);
+        System.out.println("Pekka: " + kortti);
+        kortti.lataaRahaa(-15);
+        System.out.println("Pekka: " + kortti);
+    }
+}
+  <% end %>
+
+  <p>
+    Ohjelman tulisi tuottaa seuraava tulostus:
+  </p>
+
+  <% partial 'partials/sample_output' do %>
+Pekka: Kortilla on rahaa 10.0 euroa
+Pekka: Kortilla on rahaa 10.0 euroa
+  <% end %>
+
+
+  <h2>Monta korttia</h2>
+
+  <p>
+    Tee pääohjelma, joka sisältää seuraavan tapahtumasarjan:
+  </p>
+
+  <ul>
+    <li> Luo Pekan kortti. Kortin alkusaldo on 20 euroa</li>
+    <li> Luo Matin kortti. Kortin alkusaldo on 30 euroa</li>
+    <li> Pekka syö maukkaasti</li>
+    <li> Matti syö edullisesti</li>
+    <li> Korttien arvot tulostetaan (molemmat omalle rivilleen, rivin alkuun kortin omistajan nimi)</li>
+    <li> Pekka lataa rahaa 20 euroa</li>
+    <li> Matti syö maukkaasti</li>
+    <li> Korttien arvot tulostetaan (molemmat omalle rivilleen, rivin alkuun kortin omistajan nimi)</li>
+    <li> Pekka syö edullisesti</li>
+    <li> Pekka syö edullisesti</li>
+    <li> Matti lataa rahaa 50 euroa</li>
+    <li> Korttien arvot tulostetaan (molemmat omalle rivilleen, rivin alkuun kortin omistajan nimi)</li>
+  </ul>
+
+  <p>
+    Pääohjelman runko on seuraava:
+  </p>
+
+
+  <% partial 'partials/code_highlight' do %>
+public class Main {
+    public static void main(String[] args) {
+        Maksukortti pekanKortti = new Maksukortti(20);
+        Maksukortti matinKortti = new Maksukortti(30);
+
+        // kirjoita koodia tähän
+    }
+}
+  <% end %>
+
+  <p>
+    Ohjelman tulisi tuottaa seuraava tulostus:
+  </p>
+
+  <% partial 'partials/sample_output' do %>
+Pekka: Kortilla on rahaa 15.4 euroa
+Matti: Kortilla on rahaa 27.4 euroa
+Pekka: Kortilla on rahaa 35.4 euroa
+Matti: Kortilla on rahaa 22.799999999999997 euroa
+Pekka: Kortilla on rahaa 30.199999999999996 euroa
+Matti: Kortilla on rahaa 72.8 euroa
+  <% end %>
+
+
+<% end %>
+
+
+
+<% partial 'partials/hint', locals: { name: 'Pyöristysvirheet' } do %>
+
+  <p>
+    Huomasit todennäköisesti, että osassa luvuista ilmenee pyöristysvirheitä. Esimerkiksi edellisessä tehtävässä Pekan saldo 30.7 saattaa tulostua muodossa <code>30.700000000000003</code>. Tämä liittyy siihen, että liukuluvut kuten <code>double</code> tallennetaan oikeasti binäärimuodossa, eli nollina ja ykkösinä vain rajattua määrää lukuja käyttäen.
+  </p>
+
+  <p>
+    Koska liukulukuja on ääretön määrä (keksitkö miksi? kuinka monta liuku- tai desimaalilukua mahtuu vaikkapa lukujen 5 ja 6 väliin?), ei kaikkia liukulukuja yksinkertaisesti voi esittää rajatulla määrällä nollia ja ykkösiä. Tietokone joutuu siis rajoittamaan tallennustarkkuutta.
+  </p>
+
+  <p>
+    Normaalisti esimerkiksi tilien saldot tallennetaan kokonaislukuina siten, että arvo 1 vastaa esimerkiksi yhtä senttiä.
+  </p>
+<% end %>
+
+
+
+
+
+<p>
+  <em></em>
+</p>
+
+
+<% partial 'partials/material_sub_heading' do %>
+  Metodin parametrit
+<% end %>
+
+
+<p>
+  Jatketaan taas <code>Henkilo</code>-luokan parissa. Päätetään että haluamme laskea henkilöiden painoindeksejä. Tätä varten teemme henkilölle metodit pituuden ja painon asettamista varten, sekä metodin joka laskee painoindeksin. Henkilön uudet ja muuttuneet osat seuraavassa:
+</p>
+
+<% partial 'partials/code_highlight' do %>
+public class Henkilo {
+    private String nimi;
+    private int ika;
+    private int paino;
+    private int pituus;
+
+    public Henkilo(String nimiAlussa) {
+        this.ika = 0;
+        this.paino = 0;
+        this.pituus = 0;
+        this.nimi = nimiAlussa;
+    }
+
+    public void setPituus(int uusiPituus) {
+        this.pituus = uusiPituus;
+    }
+
+    public void setPaino(int uusiPaino) {
+        this.paino = uusiPaino;
+    }
+
+    public double painoIndeksi() {
+        double pituusPerSata = this.pituus / 100.0;
+        return this.paino / (pituusPerSata * pituusPerSata);
+    }
+
+    // ...
+}
+<% end %>
+
+<p>
+  Eli henkilölle lisättiin oliomuuttujat <code>pituus</code> ja <code>paino</code>. Näille voi asettaa arvon metodeilla <code>setPituus</code> ja <code>setPaino</code>. Jälleen käytössä Javaan vakiintunut nimeämiskäytäntö, eli jos metodin tehtävänä on ainoastaan asettaa arvo oliomuuttujaan, on metodi tapana nimetä <code>setMuuttujanNimi</code>:ksi. Arvon asettavia metodeja kutsutaan usein "settereiksi". Seuraavassa käytämme uusia metodeja:
+</p>
+
+<% partial 'partials/code_highlight' do %>
+public static void main(String[] args) {
+    Henkilo matti = new Henkilo("Matti");
+    Henkilo juhana = new Henkilo("Juhana");
+
+    matti.setPituus(180);
+    matti.setPaino(86);
+
+    juhana.setPituus(175);
+    juhana.setPaino(64);
+
+    System.out.println(matti.getNimi() + ", painoindeksisi on " + matti.painoIndeksi());
+    System.out.println(juhana.getNimi() + ", painoindeksisi on " + juhana.painoIndeksi());
+}
+<% end %>
+
+<p>
+  Tulostus:
+</p>
+
+<% partial 'partials/sample_output' do %>
+Matti, painoindeksisi on 26.54320987654321
+Juhana, painoindeksisi on 20.897959183673468
+<% end %>
+
+
+<div class="parqu-exercise" data-id="16" data-name="Oliomuuttujan muuttaminen"></div>
+
+<div class="parqu-exercise" data-id="17" data-name="Metodin parametrit"></div>
+
+
+<% partial 'partials/material_sub_heading' do %>
+  Parametrilla ja oliomuuttujalla sama nimi!
+<% end %>
+
+<p>
+  Edellä metodissa <code>setPituus</code> asetetaan oliomuuttujaan <code>pituus</code> parametrin <code>uusiPituus</code> arvo:
+</p>
+
+
+<% partial 'partials/code_highlight' do %>
+public void setPituus(int uusiPituus) {
+    this.pituus = uusiPituus;
+}
+<% end %>
+
+<p>
+  Parametrin nimi voisi olla myös sama kuin oliomuuttujan nimi, eli seuraava toimisi myös:
+</p>
+
+<% partial 'partials/code_highlight' do %>
+public void setPituus(int pituus) {
+    this.pituus = pituus;
+}
+<% end %>
+
+<p>
+  Nyt metodissa <code>pituus</code> tarkottaa nimenomaan <em>pituus</em>-nimistä parametria ja <code>this.pituus</code> saman nimistä oliomuuttujaa. Esim. seuraava ei toimisi sillä koodi ei viittaa ollenkaan oliomuuttujaan <em>pituus</em> -- koodi käytännössä asettaa parametrina saadulle <code>pituus</code>-muuttujalle siinä jo olevan arvon:
+</p>
+
+<% partial 'partials/code_highlight' do %>
+public void setPituus(int pituus) {
+    // ÄLÄ TEE NÄIN!!!
+    pituus = pituus;
+}
+<% end %>
+
+<% partial 'partials/code_highlight' do %>
+public void setPituus(int pituus) {
+    // VAAN NÄIN!!!
+    this.pituus = pituus;
+}
+<% end %>
+
+
+
+<% partial 'partials/exercise', locals: { name: 'Kertoja' } do %>
+
+  <p>
+    Luo luokka <code>Kertoja</code> jolla on:
+  </p>
+
+  <ul>
+    <li>Konstruktori <code>public Kertoja(int luku)</code>.</li>
+    <li>Metodi <code>public int kerro(int toinenLuku)</code> joka palauttaa sille annetun luvun <code>toinenLuku</code> kerrottuna konstruktorille annetulla luvulla <code>luku</code>.</li>
+  </ul>
+
+  <p>
+    Esimerkki luokan käytöstä:
+  </p>
+
+  <% partial 'partials/code_highlight' do %>
+    Kertoja kolmellaKertoja = new Kertoja(3);
+
+    System.out.println("kolmellaKertoja.kerro(2): " + kolmellaKertoja.kerro(2));
+
+    Kertoja neljallaKertoja = new Kertoja(4);
+
+    System.out.println("neljallaKertoja.kerro(2): " + neljallaKertoja.kerro(2));
+    System.out.println("kolmellaKertoja.kerro(1): " + kolmellaKertoja.kerro(1));
+    System.out.println("neljallaKertoja.kerro(1): " + neljallaKertoja.kerro(1));
+  <% end %>
+
+  <p>
+    Tulostus
+  </p>
+
+  <% partial 'partials/sample_output' do %>
+    kolmellaKertoja.kerro(2): 6
+    neljallaKertoja.kerro(2): 8
+    kolmellaKertoja.kerro(1): 3
+    neljallaKertoja.kerro(1): 4
+  <% end %>
+
+<% end %>
+
+
+
+<% partial 'partials/exercise', locals: { name: 'Kello laskurin avulla' } do %>
+
+  <p>Tässä tehtävässä tehdään luokka <code>YlhaaltaRajoitettuLaskuri</code> ja sovelletaan sitä kellon tekemiseen.</p>
+
+  <h2>Rajoitettu laskuri</h2>
+
+  <p>Tehdään luokka <code>YlhaaltaRajoitettuLaskuri</code>. Luokan olioilla on seuraava toiminnallisuus:</p>
+
+  <ul>
+    <li>Laskurilla on oliomuuttuja, joka muistaa laskurin arvon. Laskurin arvo on luku väliltä 0...yläraja.</li>
+    <li>Aluksi laskurin arvo on 0.</li>
+    <li>Olion konstruktori määrittää laskurin ylärajan.</li>
+    <li>Metodi <code>seuraava</code> kasvattaa laskurin arvoa. Mutta jos laskurin arvo ylittää ylärajan, sen arvoksi tulee 0.</li>
+    <li> Metodi <code>toString</code> palauttaa laskurin arvon merkkijonona.</li>
+  </ul>
+
+  <p>Tehtäväpohjassa on valmiina pääohjelmaa varten tiedosto <code>Paaohjelma</code>. Aloita tekemällä luokka <code>YlhaaltaRajoitettuLaskuri</code> vastaavasti kuin Maksukortti-tehtävässä. Näin tehdään myös tulevissa tehtäväsarjoissa.</p>
+
+  <p>Luokan rungoksi tulee seuraava:</p>
+
+  <% partial 'partials/code_highlight' do %>
+public class YlhaaltaRajoitettuLaskuri {
+    private int arvo;
+    private int ylaraja;
+
+    public YlhaaltaRajoitettuLaskuri(int ylarajanAlkuarvo) {
+        // kirjoita koodia tähän
+    }
+
+    public void seuraava() {
+        // kirjoita koodia tähän
+    }
+
+    public String toString() {
+        // kirjoita koodia tähän
+    }
+}
+  <% end %>
+
+  <p><b>Vihje</b>: et voi palauttaa toStringissä suoraan kokonaislukutyyppisen oliomuuttujan <code>laskuri</code> arvoa. Kokonaislukumuuttujasta <code>arvo</code> saa merkkijonomuodon esim. lisäämällä sen eteen tyhjän merkkijonon eli kirjoittamalla <code>"" + arvo</code>.</p>
+
+  <p>Seuraavassa on pääohjelma, joka käyttää laskuria:</p>
+
+  <% partial 'partials/code_highlight' do %>
+public class Paaohjelma {
+    public static void main(String[] args) {
+        YlhaaltaRajoitettuLaskuri laskuri = new YlhaaltaRajoitettuLaskuri(4);
+        System.out.println("arvo alussa: " + laskuri);
+
+        int i = 0;
+        while (i &lt; 10) {
+            laskuri.seuraava();
+            System.out.println("arvo: " + laskuri);
+            i++;
+        }
+    }
+}
+  <% end %>
+
+  <p>Laskurille asetetaan konstruktorissa ylärajaksi 4, joten laskurin arvo on luku 0:n ja 4:n väliltä. Huomaa, miten metodi <code>seuraava</code> vie laskurin arvoa eteenpäin, kunnes se pyörähtää 4:n jälkeen 0:aan:</p>
+
+  <p>Ohjelman tulostuksen tulisi olla seuraava:</p>
+
+  <% partial 'partials/sample_output' do %>
+arvo alussa: 0
+arvo: 1
+arvo: 2
+arvo: 3
+arvo: 4
+arvo: 0
+arvo: 1
+arvo: 2
+arvo: 3
+arvo: 4
+arvo: 0
+  <% end %>
+
+
+  <h2>Etunolla tulostukseen</h2>
+
+  <p>Tee <code>toString</code>-metodista sellainen, että se lisää arvon merkkijonoesitykseen etunollan, jos laskurin arvo on vähemmän kuin 10. Eli jos laskurin arvo on esim. 3, palautetaan merkkijono "03", jos arvo taas on esim. 12, palautetaan normaaliin tapaan merkkijono "12".</p>
+
+  <p>Muuta pääohjelma seuraavaan muotoon ja varmista, että tulos on haluttu.</p>
+
+  <% partial 'partials/code_highlight' do %>
+public class Paaohjelma {
+    public static void main(String[] args) {
+        YlhaaltaRajoitettuLaskuri laskuri = new YlhaaltaRajoitettuLaskuri(14);
+        System.out.println("arvo alussa: " + laskuri);
+
+        int i = 0;
+        while (i &lt; 16) {
+            laskuri.seuraava();
+            System.out.println("arvo: " + laskuri);
+            i++;
+        }
+    }
+}
+  <% end %>
+
+  <% partial 'partials/sample_output' do %>
+arvo alussa: 00
+arvo: 01
+arvo: 02
+arvo: 03
+arvo: 04
+arvo: 05
+arvo: 06
+arvo: 07
+arvo: 08
+arvo: 09
+arvo: 10
+arvo: 11
+arvo: 12
+arvo: 13
+arvo: 14
+arvo: 00
+arvo: 01
+  <% end %>
+
+
+  <h2>Kello, ensimmäinen versio</h2>
+
+  <p>Käyttämällä kahta laskuria voimme muodostaa kellon. Tuntimäärä on laskuri, jonka yläraja on 23, ja minuuttimäärä on laskuri jonka yläraja on 59. Kuten kaikki tietävät, kello toimii siten, että aina kun minuuttimäärä pyörähtää nollaan, tuntimäärä kasvaa yhdellä. </p>
+
+  <p>Tee ensin laskurille metodi <code>arvo</code>, joka palauttaa laskurin arvon:</p>
+
+  <% partial 'partials/code_highlight' do %>
+public int arvo() {
+    // kirjoita koodia tähän
+}
+  <% end %>
+
+  <p>Tee sitten kello täydentämällä seuraava pääohjelmarunko (kopioi tämä pääohjelmaksesi sekä täydennä tarvittavilta osin kommenttien ohjaamalla tavalla):</p>
+
+  <% partial 'partials/code_highlight' do %>
+public class Paaohjelma {
+    public static void main(String[] args) {
+        YlhaaltaRajoitettuLaskuri minuutit = new YlhaaltaRajoitettuLaskuri(59);
+        YlhaaltaRajoitettuLaskuri tunnit = new YlhaaltaRajoitettuLaskuri(23);
+
+        int i = 0;
+        while (i &lt; 121) {
+            System.out.println(tunnit + ":" + minuutit);   // tulostetaan nykyinen aika
+            // minuuttimäärä kasvaa
+            // jos minuuttimäärä menee nollaan, tuntimäärä kasvaa
+
+            i++;
+        }
+    }
+}
+  <% end %>
+
+  <p>Jos kellosi toimii oikein, sen tulostus näyttää suunnilleen seuraavalta:</p>
+
+  <% partial 'partials/sample_output' do %>
+00:00
+00:01
+...
+00:59
+01:00
+01:01
+01:02
+...
+01:59
+02:00
+  <% end %>
+
+
+  <h2>Kello, toinen versio</h2>
+
+  <p>Laajenna kelloasi myös sekuntiviisarilla. Tee lisäksi luokalle <code>YlhaaltaRajoitettuLaskuri</code> metodi <code>asetaArvo</code>, jolla laskurille pystyy asettamaan halutun arvon -- jos et ole ihan varma mitä tässä pitäisi tehdä, kertaa materiaalista kohta missä puhutaan "settereistä".</p>
+
+  <p>Jos laskurille yritetään asettaa kelvoton arvo eli negatiivinen luku tai ylärajaa suurempi luku, ei laskurin arvo muutu.</p>
+
+  <p>Tämän metodin avulla voit muuttaa kellon ajan heti ohjelman alussa haluamaksesi.</p>
+
+  <p>Voit testata kellon toimintaa seuraavalla ohjelmalla</p>
+
+  <% partial 'partials/code_highlight' do %>
+import java.util.Scanner;
+
+public class Paaohjelma {
+    public static void main(String[] args)  {
+        Scanner lukija = new Scanner(System.in);
+        YlhaaltaRajoitettuLaskuri sekunnit = new YlhaaltaRajoitettuLaskuri(59);
+        YlhaaltaRajoitettuLaskuri minuutit = new YlhaaltaRajoitettuLaskuri(59);
+        YlhaaltaRajoitettuLaskuri tunnit = new YlhaaltaRajoitettuLaskuri(23);
+
+        System.out.print("sekunnit: ");
+        int sek = // kysy sekuntien alkuarvo käyttäjältä
+        System.out.print("minuutit: ");
+        int min = // kysy minuuttien alkuarvo käyttäjältä
+        System.out.print("tunnit: ");
+        int tun = // kysy tuntien alkuarvo käyttäjältä
+
+        sekunnit.asetaArvo(sek);
+        minuutit.asetaArvo(min);
+        tunnit.asetaArvo(tun);
+
+        int i = 0;
+        while (i &lt; 121) {
+            // lisää edelliseen myös sekuntiviisari
+            i++;
+        }
+
+    }
+}
+  <% end %>
+
+
+  <p>Kokeile laittaa kellosi alkamaan ajasta <i>23:59:50</i> ja varmista, että vuorokauden vaihteessa kello toimii odotetusti!</p>
+
+  <p><strong>Bonus-tehtävä: ikuisesti käyvä kello (tehtävää ei palauteta!)</strong></p>
+
+  <p>Ennen kuin alat tekemään tätä tehtävää, palauta jo tekemäsi kello!</p>
+
+  <p>Muuta pääohjelmasi seuraavaan muotoon:</p>
+
+  <% partial 'partials/code_highlight' do %>
+public class Paaohjelma {
+    public static void main(String[] args) throws Exception {
+        YlhaaltaRajoitettuLaskuri sekunnit = new YlhaaltaRajoitettuLaskuri(59);
+        YlhaaltaRajoitettuLaskuri minuutit = new YlhaaltaRajoitettuLaskuri(59);
+        YlhaaltaRajoitettuLaskuri tunnit = new YlhaaltaRajoitettuLaskuri(23);
+
+        sekunnit.asetaArvo(50);
+        minuutit.asetaArvo(59);
+        tunnit.asetaArvo(23);
+
+        while (true) {
+            System.out.println(tunnit + ":" + minuutit + ":" + sekunnit);
+            Thread.sleep(1000);
+            // lisää kellon aikaa sekunnilla eteenpäin
+        }
+    }
+}
+  <% end %>
+
+  <p>Nyt kello käy ikuisesti ja kasvattaa arvoaan sekunnin välein. Sekunnin odotus tapahtuu komennolla <code>Thread.sleep(1000);</code>, komennon parametri kertoo nukuttavan ajan millisekunteina. Jotta komento toimisi, pitää main:in esittelyriville tehdä pieni lisäys: <code>public static void main(String[] args) <b>throws Exception</b> {</code>, eli tummennettuna oleva <code>throws Exception</code>.</p>
+
+  <p>Saat ohjelman lopetettua painamalla NetBeans-konsolin (eli sen osan johon kello tulostaa arvonsa) vasemmalla laidalla olevasta punaisesta laatikosta.</p>
+
+<% end %>
+
+
+<div class="parqu-exercise" data-id="18" data-name="Olio ja lista"></div>
+
+<div class="self-explanation" data-key="q-olioTermistoa"></div>
+
+
+
+<% partial 'partials/material_sub_heading' do %>
+  Oman metodin kutsu
+<% end %>
+
+<p>Olio voi kutsua myös omia metodeitaan. Jos esim. halutaan, että toString-metodin palauttama merkkijonoesitys kertoisi myös henkilön painoindeksin, kannattaa <code>toString</code>:istä kutsua olion omaa metodia <code>painoIndeksi</code>:</p>
+
+<% partial 'partials/code_highlight' do %>
+public String toString() {
+    return this.nimi + ", ikä " + this.ika + " vuotta, painoindeksini on " + this.painoIndeksi();
+}
+<% end %>
+
+<p>Eli kun olio kutsuu omaa metodiaan, riittää etuliite this ja pelkkä metodin nimi. Vaihtoehtoinen tapa on tehdä oman metodin kutsu muodossa <code>painoIndeksi()</code> jolloin ei korosteta, että kutsutaan "olion itsensä" metodia painoindeksi:</p>
+
+<% partial 'partials/code_highlight' do %>
+public String toString() {
+    return this.nimi + ", ikä " + this.ika + " vuotta, painoindeksini on " + painoIndeksi();
+}
+<% end %>
+
+<p>Olioscreencastin kolmas osa:</p>
+
+<a href="http://www.youtube.com/watch?feature=player_embedded&v=YKwzIGuCLn8" class="youtube" height="300" target="_blank" rel="noopener"><img src=" https://www.cs.helsinki.fi/group/java/k13/ohpe/img/youtube.jpg"/></a>
+
+<!--
+     <p><iframe allowfullscreen="" frameborder="0" height="450" width="700" src="http://www.youtube.com/embed/owhvYkDTX2g"></iframe></p>
+   -->
+
+<p>&nbsp;</p>
+
+<% partial 'partials/exercise', locals: { name: 'Lukutilasto' } do %>
+
+    <h2>Lukujen määrä</h2>
+
+    <p>Tee luokka <code>Lukutilasto</code> (tiedosto luomaasi luokkaa varten on tehtäväpohjassa valmiina), joka tuntee seuraavat toiminnot :</p>
+    <ul>
+      <li> metodi <code>lisaaLuku</code> lisää uuden luvun tilastoon
+	<li> metodi <code>haeLukujenMaara</code> kertoo lisättyjen lukujen määrän
+    </ul>
+
+    <p>Luokan ei tarvitse tallentaa mihinkään lisättyjä lukuja, vaan riittää muistaa niiden määrä. Metodin <code>lisaaLuku</code> ei tässä vaiheessa tarvitse edes ottaa huomioon, mikä luku lisätään tilastoon, koska ainoa tallennettava asia on lukujen määrä.</p>
+
+    <p>Luokan runko on seuraava:</p>
+
+    <% partial 'partials/code_highlight' do %>
+public class Lukutilasto {
+    private int lukujenMaara;
+
+    public Lukutilasto() {
+        // alusta tässä muuttuja lukujenMaara
+    }
+
+    public void lisaaLuku(int luku) {
+        // kirjoita koodia tähän
+    }
+
+    public int haeLukujenMaara() {
+        // kirjoita koodia tähän
+    }
+}
+    <% end %>
+
+    <p>Seuraava ohjelma esittelee luokan käyttöä:</p>
+
+    <% partial 'partials/code_highlight' do %>
+public class Paaohjelma {
+    public static void main(String[] args) {
+        Lukutilasto tilasto = new Lukutilasto();
+        tilasto.lisaaLuku(3);
+        tilasto.lisaaLuku(5);
+        tilasto.lisaaLuku(1);
+        tilasto.lisaaLuku(2);
+        System.out.println("Määrä: " + tilasto.haeLukujenMaara());
+    }
+}
+    <% end %>
+
+    <p>Ohjelman tulostus on seuraava:</p>
+
+    <% partial 'partials/sample_output' do %>
+Määrä: 4
+        <% end %>
+
+
+    <h2>Summa ja keskiarvo</h2>
+
+    <p>Laajenna luokkaa seuraavilla toiminnoilla:</p>
+
+    <ul>
+      <li> metodi <code>summa</code> kertoo lisättyjen lukujen summan (tyhjän lukutilaston summa on 0)
+	<li> metodi <code>keskiarvo</code> kertoo lisättyjen lukujen keskiarvon (tyhjän lukutilaston keskiarvo on 0)
+    </ul>
+
+    <p>Luokan runko on seuraava:</p>
+
+    <% partial 'partials/code_highlight' do %>
+public class Lukutilasto {
+    private int lukujenMaara;
+    private int summa;
+
+    public Lukutilasto() {
+        // alusta tässä muuttujat maara ja summa
+    }
+
+    public void lisaaLuku(int luku) {
+        // kirjoita koodia tähän
+    }
+
+    public int haeLukujenMaara() {
+        // kirjoita koodia tähän
+    }
+
+    public int summa() {
+        // kirjoita koodia tähän
+    }
+
+    public double keskiarvo() {
+        // kirjoita koodia tähän
+    }
+}
+    <% end %>
+
+    <p>Seuraava ohjelma esittelee luokan käyttöä:</p>
+
+    <% partial 'partials/code_highlight' do %>
+public class Main {
+    public static void main(String[] args) {
+        Lukutilasto tilasto = new Lukutilasto();
+        tilasto.lisaaLuku(3);
+        tilasto.lisaaLuku(5);
+        tilasto.lisaaLuku(1);
+        tilasto.lisaaLuku(2);
+        System.out.println("Määrä: " + tilasto.haeLukujenMaara());
+        System.out.println("Summa: " + tilasto.summa());
+        System.out.println("Keskiarvo: " + tilasto.keskiarvo());
+    }
+}
+    <% end %>
+
+    <p>Ohjelman tulostus on seuraava:</p>
+
+    <% partial 'partials/sample_output' do %>
+Määrä: 4
+Summa: 11
+Keskiarvo: 2.75
+        <% end %>
+
+
+    <h2>Summa käyttäjältä</h2>
+
+    <p>Tee ohjelma, joka kysyy lukuja käyttäjältä, kunnes käyttäjä antaa luvun -1. Sitten ohjelma ilmoittaa lukujen summan.</p>
+
+    <p>Ohjelmassa tulee käyttää <code>Lukutilasto</code>-olioa summan laskemiseen.</p>
+
+    <p><strong>HUOM: </strong> älä muuta Lukutilasto-luokaa millään tavalla!</p>
+
+    <% partial 'partials/sample_output' do %>
+Anna lukuja:
+      <font color="red">4</font>
+      <font color="red">2</font>
+      <font color="red">5</font>
+      <font color="red">4</font>
+      <font color="red">-1</font>
+Summa: 15
+        <% end %>
+
+
+    <h2>Monta summaa</h2>
+
+    <p>Muuta edellistä ohjelmaa niin, että ohjelma laskee myös parillisten ja parittomien lukujen summaa.</p>
+
+    <p><b>HUOM</b>: Määrittele ohjelmassa <i>kolme</i> Lukutilasto-olioa ja laske ensimmäisen avulla kaikkien lukujen summa, toisen avulla parillisten lukujen summa ja kolmannen avulla parittomien lukujen summa.</p>
+
+    <p><b>Jotta testi toimisi, on oliot luotava pääohjelmassa edellä mainitussa järjestyksessä (eli ensin kaikkien summan laskeva olio, toisena parillisten summan laskeva ja viimeisenä parittomien summan laskeva olio)!</b></p>
+
+    <p><strong>HUOM: </strong> älä muuta Lukutilasto-luokaa millään tavalla!</p>
+
+    <p>Ohjelman tulee toimia seuraavasti:</p>
+
+    <% partial 'partials/sample_output' do %>
+Anna lukuja:
+      <font color="red">4</font>
+      <font color="red">2</font>
+      <font color="red">5</font>
+      <font color="red">2</font>
+      <font color="red">-1</font>
+Summa: 13
+Parillisten summa: 8
+Parittomien summa: 5
+        <% end %>
+
+
+<% end %>
+
+
+
+
+<% partial 'partials/material_sub_heading' do %>
+  Mistä olio-ohjelmoinnissa oikein on kyse: katsaus viikkoon
+<% end %>
+
+<p>
+  Olio-ohjelmoinnissa on kyse pitkälti käsitteiden eristämisestä omiksi kokonaisuuksikseen tai toisin ajatellen abstraktioiden muodostamisesta. Voisi ajatella, että on turhaa luoda oliota jonka sisällä on ainoastaan luku, sillä saman voisi tehdä suoraan <code>int</code>-muuttujilla. Asia ei kuitenkaan ole aina näin. Jos kello koostuu pelkästään kolmesta int-muuttujasta joita kasvatellaan, muuttuu ohjelma lukijan kannalta epäselvemmäksi, koodista on vaikea "nähdä" mistä on kysymys. Eräs <a href="https://en.wikipedia.org/wiki/Kent_Beck" target="_blank" rel="noopener">kuuluisa ohjelmoija</a> on sanonut <em>"Any fool can write code that a computer can understand.  Good programmers write code that humans can understand"</em>. Koska viisari on oma selkeä käsitteensä, kannattaa ohjelman ymmärrettävyyden parantamiseksi siitä tehdä oma luokka, eli <code>YlhaaltaRajoitettuLaskuri</code>.
+</p>
+
+<p>
+  Käsitteen erottaminen omaksi luokaksi on monellakin tapaa hyvä idea. Ensinnäkin tiettyjä yksityiskohtia (esim. laskurin pyörähtäminen) saadaan piilotettua luokan sisään (eli <em>abstrahoitua</em>). Sen sijaan että kirjoitetaan if-lause ja sijoitusoperaatio, riittää, että laskurin käyttäjä kutsuu selkeästi nimettyä metodia <code>seuraava()</code>. Aikaansaatu laskuri sopii kellon lisäksi ehkä muidenkin ohjelmien rakennuspalikaksi, eli selkeästä käsitteestä tehty luokka voi olla monikäyttöinen. Suuri etu saavutetaan myös sillä, että koska laskurin toteutuksen yksityiskohdat eivät näy laskurin käyttäjille, voidaan yksityiskohtia tarvittaessa muuttaa.
+</p>
+
+<p>
+  Totesimme että kello sisältää kolme viisaria, eli koostuu kolmesta käsitteestä. Oikeastaan kello on itsekin käsite. Seuraavassa osiossa teemme myös luokan Kello, jotta voimme luoda selkeitä Kello-olioita. Kello tulee siis olemaan olio jonka toiminta perustuu "yksinkertaisimpiin" olioihin eli viisareihin. Tämä on juuri olio-ohjelmoinnin suuri idea: ohjelma rakennetaan pienistä selkeistä yhteistoiminnassa olevista olioista.
+</p>
+
+<p>
+  Lausahdus <em>ohjelma rakennetaan pienistä selkeistä yhteistoiminnassa olevista olioista</em> tulee toistumaan kurssilla.
+ </p>
+
+
+
+ <% partial 'partials/exercise', locals: { name: 'Ongelman luokat' } do %>
+
+   <p>
+     Olemme tähän mennessä määritelleet ohjelmassa tarvittavat luokat sekä niihin liittyvät oliomuuttujat melko tarkkaan. Osion viimeisessä tehtävässä pohdit minkälainen luokka tai minkälaiset luokat sopisivat annetun ongelman ratkaisupaloiksi. Tehtävään ei ole olemassa yhtä vastausta, eikä siihen myöskään ole testejä.
+   </p>
+
+   <p>
+     Ongelma on seuraava:
+   </p>
+
+   <p>
+     <em>
+       Järjestän salaseuratapaamisia. Salaseuratapaamisissa käy henkilöitä, joista tiedän vain etunimen ja henkilökohtaisen salaseurakoodin. Olemme kävijöiden kanssa miettineet jonkinlaista järjestelmää aktiivisimpien jäsenten palkitsemiseen, jonka takia tarvitsisin jonkinlaisen tavan henkilökohtaisten vierailujen seuraamiseen. Tarvitsisin siis oikeastaan tavan henkilöiden vierailujen laskemiseen. Tämän lisäksi, jottei samoja henkilöitä palkittaisi yhä uudestaan ja uudestaan, tarvitsisin myös jonkinlaisen tavan annettujen palkintojen lukumäärän ylläpitoon.
+     </em>
+   </p>
+
+   <p>
+     <em>
+       Kuulin, että sinusta voisi olla apua. Minkälaista ratkaisua ehdottaisit edellämainittuun ongelmaani?
+     </em>
+   </p>
+
+
+   <p>
+     Pohdi minkälaisia käsitteitä ongelmaan liittyy ja toteuta niihin liittyvät luokat. Voit halutessasi myös rakentaa ohjelman, joka demonstroi näiden luokkien käyttöä, tai jopa yrittää luoda ohjelman, joka ratkaisee edellämainitun ongelman.
+   </p>
+
+   <p>
+     Kun olet saanut mielestäsi sopivat luokat luotua, palauta ohjelma.
+   </p>
+
+ <% end %>
+
+
+
+
+<%= partial 'partials/quiz', locals: { id: '588b224ed8c1550004361764' } %>

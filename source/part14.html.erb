@@ -1,0 +1,1581 @@
+---
+  title: Osa 14
+  exercise_page: true
+  quiz_page: true
+  published: false
+---
+
+<% if false %>
+<% partial 'partials/hint', locals: { name: 'Kuudes konekoe' } do %>
+
+  <p>
+    Kuudes ja samalla kurssijatkumon viimeinen konekoe käsittelee koko Ohjelmoinnin jatkokurssia. Kuudennen konekokeen tekemiseen on kokeen aloitushetkestä 180 minuuttia. Kuudes konekoe on Ohjelmoinnin jatkokurssin kolmas konekoe, ja se vastaa kahtakymmentä kurssipistettä Ohjelmoinnin jatkokurssista. Konekokeen pisteistä tulee saada vähintään puolet, jotta kurssi arvostellaan.
+  </p>
+
+  <p>
+    Konekokeessa on kaksi tehtävää ja ne tulee tehdä TMC:ssä tehtävien mukana tuleviin tehtäväpohjiin "Konekoe06_01.Tehtava" ja "Konekoe06_02.Tehtava". Tehtävänannot saat osoitteessa <a href="https://myexams.herokuapp.com" target="_blank" rel="noopener">https://myexams.herokuapp.com</a> olevasta sovelluksesta. Edellämainitussa osoitteessa sekä tämän materiaalin johdanto-osiossa on myös lisätietoja kokeen suorittamiseen liittyen.
+  </p>
+
+  <p>
+    Osoitteessa <a href="https://myexams.herokuapp.com" target="_blank" rel="noopener">https://myexams.herokuapp.com</a> olevaan sovellukseen kirjaudutaan TMC-tunnuksilla (samat tunnukset kuin mitä käytät TMC:hen kirjautumiseen). Kun olet kirjautunut sovellukseen, valitse ylävalikosta "Kokeeni". Näet tämän jälkeen listauksen, missä näkyy tehtävänä olevat kokeet. Kun valitset kokeen, saat siihen liittyvät tiedot näkyville ja voit aloittaa halutessasi kokeen tekemisen. <em>Koetehtävät julkaistaan pian.</em>
+  </p>
+
+  <p>
+    Huom! Älä kuitenkaan aloita kokeen tekemistä ennen kuin olet kerrannut tähänastista materiaalia ja olet varma, että sinulla on aikaa tehdä koe. Konekoe käsittelee materiaalin osia 8-14. Konekokeessa oletetaan, että materiaalin osat 1-7 ovat myös muistissa. <strong>Kuudes ja viimeinen konekoe tulee olla tehtynä keskiviikkoon 10.5. klo 23:59 mennessä.</strong>
+  </p>
+
+<% end %>
+<% end %>
+
+<% partial 'partials/hint', locals: { name: 'Neljännentoista osion tavoitteet' } do %>
+
+  <p>
+    Neljännessätoista osassa tutustutaan ohjelmien automaattiseen testaamiseen sekä niiden julkaisemiseen. Tämän osan jälkeen tiedät mistä yksikkötesteissä on kyse ja osaat toteuttaa niitä Javan tarjoamaa JUnit-kirjastoa käyttäen. Tiedät myös miten NetBeansissa paketoidun sovelluksen voi suorittaa komentoriviltä, ja tiedät, että sovelluksia voi myös jakaa muille. Tiedät osan jälkeen myös muutamia seuraavia kursseja, joihin tämän kurssin jälkeen voi tutustua.
+  </p>
+
+<% end %>
+
+
+<% partial 'partials/material_heading' do %>
+  Ohjelmistojen testaaminen
+<% end %>
+
+<p>
+  Kurssin ohjelmointitehtäviä tehdessä Test My Code -järjestelmä on antanut palautetta tehtävistä. Välillä palautteet ovat olleet ymmärrettäviä, ja välillä palautteet eivät ole olleet niin ymmärrettäviä kuin toivoisi. Kun tehtävän on saanut valmiiksi, suuressa osassa tehtävistä Test My Code -järjestelmän viimeinen palaute on ollut "All tests passed!".
+</p>
+
+<p>
+  Tällä viestillä on lukijalle useampi merkitys. Tehtävään liittyvät pisteet ilmestyvät käyttäjätunnukselle kun tehtävän palauttaa palvelimelle. Tehtävää varten toteutettu ohjelma täyttää tehtävän vaatimukset. Tehtävää varten toteutettu ohjelma toimii toivotusti. Onko tämä kuitenkaan totta? Mitä oikeastaan tapahtuu kun tehtävään liittyvät testit ajetaan? Mitä testit ovat?
+</p>
+
+<p>
+  Test My Code -järjestelmän käyttämät testit on kirjoitettu samalla tavalla kuin ohjelmat, joita olet tehnyt kurssin aikana. Ne sisältävät muuttujia, käyttävät ehto- ja toistorakenteita, sekä hyödyntävät luokkia ja niistä luotuja olioita. Suurin ero kurssilla toteutettuihin ohjelmiin on se, että kurssilla luodut ohjelmat toteuttavat haluttua toiminnallisuutta, kun taas testit pyrkivät testaamaan toimiiko ohjelma halutulla tavalla.
+</p>
+
+<p>
+  Yksinkertaisetkin ohjelmat kuten vaikkapa laskin voidaan toteuttaa äärettömän monella erilaisella tavalla. Ohjelmoija voisi halutessaan summaa laskiessa -- vaikkei se olisi kovin tehokasta -- yrittää kirjoittaa jokaista mahdollista lukuparia varten erillisen ehtolauseen, joka tulostaisi juuri kyseisen lukuparin summan. Jos jokaista mahdollista lukuparia varten kirjoittaa erillsien testin, joka varmistaa että kyseinen lukupari summataan oikein, ei testien kirjoittamiselle tule loppua.
+</p>
+
+<p>
+  Laajempia ohjelmistoja testattaessa tehdään käytännössä aina kompromissi ajan ja käytössä olevien resurssien suhteen, ja testejä luodessa pyritään testaamaan sovelluksen oleelliset. Oleelliset osat sisältävät ydintoiminnallisuuden kuten vaikkapa summalaskun toiminnan useammalla erilaisella lukuparilla, sekä myös mahdollisten virhetilanteiden selvittämisen.
+</p>
+
+<p>
+  Sovelluksen testaaminen on aina iteratiivinen prosessi. Kun testaamisen yhteydessä huomataan virhe, tulee virhe korjata. On kuitenkin mahdollista, että virheen korjauksen yhteydessä luodaan vahingossa toinen virhe, joka ei ole ollut olemassa edellisen testauksen yhteydessä. Manuaalisesti ohjelmaa testattaessa tällaisten tapausten tunnistaminen saattaa olla työlästä, mutta ohjelmallisesti toteutetut testit -- kun ne on toteutettu -- seuraavat niiden laatijan ohjeita orjallisesti, ja mahdollisesti huomaavat uuden virheen automaattisesti.
+</p>
+
+<p>
+  Tutustutaan tässä erääseen ohjelmistojen testaamisen peruspilariin, eli yksikkötestaukseen.
+</p>
+
+
+
+<% partial 'partials/material_sub_heading' do %>
+  Yksikkötestaus
+<% end %>
+
+<p>
+  Yksikkötestauksella tarkoitetaan lähdekoodiin kuuluvien yksittäisten osien kuten luokkien ja niiden tarjoamien metodien testaamista.  Luokkien ja metodien rakenteen suunnittelussa käytettävän ohjesäännön -- jokaisella metodilla ja luokalla tulee olla yksi selkeä vastuu -- noudattamisen tai siitä poikkeamisen huomaa testejä kirjoittaessa. Mitä useampi vastuu metodilla on, sitä monimutkaisempi testi on. Jos laaja sovellus on kirjoitettu yksittäiseen metodiin, on testien kirjoittaminen sitä varten erittäin haastavaa ellei jopa mahdotonta. Vastaavasti, jos sovellus on pilkottu selkeisiin luokkiin ja metodeihin, on testienkin kirjoittaminen suoraviivaista.
+</p>
+
+<p>
+  Testien kirjoittamisessa hyödynnetään tyypillisesti valmiita yksikkötestauskirjastoja, jotka tarjoavat metodeja ja apuluokkia testien kirjoittamiseen. Javassa käytetyin yksikkötestauskirjasto on <a href="http://junit.org/" target="_blank" rel="noopener">JUnit</a>, johon löytyy myös tuki lähes kaikista ohjelmointiympäristöistä. Esimerkiksi NetBeans osaa automaattisesti etsiä JUnit-testejä projektista -- jos testejä löytyy, ne näytetään projektin alla Test Packages -kansiossa.
+</p>
+
+<p>
+  Tarkastellaan yksikkötestien kirjoittamista esimerkin kautta. Oletetaan, että käytössämme on seuraava luokka Laskin, ja haluamme kirjoittaa sitä varten automaattisia testejä.
+</p>
+
+
+<% partial 'partials/code_highlight' do %>
+package laskin;
+
+public class Laskin {
+
+    private int arvo;
+
+    public Laskin() {
+	this.arvo = 0;
+    }
+
+    public void summa(int luku) {
+	this.arvo += luku;
+    }
+
+    public void erotus(int luku) {
+	this.arvo += luku;
+    }
+
+    public int getArvo() {
+	return this.arvo;
+    }
+}
+<% end %>
+
+<p>
+  Laskimen toiminta perustuu siihen, että se muistaa aina edellisen laskuoperaation tuottaman tuloksen. Seuraavat laskuoperaatiot lisätään aina edelliseen lopputulokseen. Yllä olevaan laskimeen on jäänyt myös pieni copy-paste -ohjelmoinnista johtuva virhe. Metodin erotus pitäisi vähentää arvosta, mutta nyt se lisää arvoon.
+</p>
+
+<p>
+  Yksikkötestien kirjoittaminen aloitetaan testiluokan luomisella. Kun testaamme luokkaa Laskin, testiluokan nimeksi tulee LaskinTest. Nimen lopussa oleva merkkijono Test kertoo ohjelmointiympäristölle, että kyseessä on testiluokka. Ilman merkkijonoa Test luokassa olevia testejä ei suoriteta. Testit luodaan NetBeansissa Test Packages -kansion alle saman nimiseen pakkaukseen kuin testattava luokka. Alla olevassa kuvassa on kuvakaappaus NetBeansista, missä luokka Laskin on kansion Source Packages alla olevassa pakkauksessa laskin, ja luokka LaskinTest on kansion Test Packages alla olevassa pakkauksessa laskin.
+</p>
+
+<img src="/img/material/junit-laskimentestailua.png"/>
+
+<p>&nbsp;</p>
+
+<p>
+  Testiluokka LaskinTest on aluksi tyhjä.
+</p>
+
+
+<% partial 'partials/code_highlight' do %>
+package laskin;
+
+public class LaskinTest {
+
+}
+<% end %>
+
+<p>
+  Testit ovat testiluokassa olevia metodeja ja jokainen testi testaa yksittäistä asiaa. Aloitetaan luokan Laskin testaaminen -- luodaan ensin testimetodi, jossa varmistetaan, että juuri luodun laskimen sisältämä arvo on 0.
+</p>
+
+<% partial 'partials/code_highlight' do %>
+package laskin;
+
+import static org.junit.Assert.assertEquals;
+import org.junit.Test;
+
+public class LaskinTest {
+
+    @Test
+    public void laskimenArvoAlussaNolla() {
+        Laskin laskin = new Laskin();
+        assertEquals(0, laskin.getArvo());
+    }
+}
+<% end %>
+
+<p>
+  Yllä olevassa metodissa laskimenArvoAlussaNolla luodaan ensin laskinolio. Tämän jälkeen käytetään JUnit-testikehyksen tarjoamaa assertEquals-metodia arvon tarkistamiseen. Metodi tuodaan luokasta Assert komennolla import static, ja sille annetaan parametrina odotettu arvo -- tässä 0 -- sekä laskimen palauttama arvo. Jos metodin assertEquals arvot poikkeavat toisistaan, testin suoritus ei pääty hyväksytysti. Jokaisella testimetodilla tulee olla <em>annotaatio</em> @Test -- tämä kertoo JUnit-testikehykselle, että kyseessä on suoritettava testimetodi.
+</p>
+
+<p>
+  Testien suorittaminen onnistuu valitsemalla projekti oikealla hiirennapilla ja klikkaamalla vaihtoehtoa Test.
+</p>
+
+<img src="/img/material/junit-test.png" />
+
+
+<p>&nbsp;</p>
+
+<p>
+  Testien suorittaminen luo output-välilehdelle (tyypillisesti NetBeansin alalaidassa) tulosteen, jossa on testiluokkakohtaiset tilastot. Alla olevassa esimerkissä on suoritettu pakkauksessa laskin olevan testiluokan LaskinTest testit. Testejä suoritettiin 1, joista yksikään ei epäonnistunut -- epäonnistuminen tarkoittaa tässä sitä, että testin testaama toiminnallisuus ei toiminut oletetusti.
+</p>
+
+<% partial 'partials/sample_output' do %>
+Testsuite: laskin.LaskinTest
+Tests run: 1, Failures: 0, Errors: 0, Skipped: 0, Time elapsed: 0.054 sec
+
+test-report:
+test:
+BUILD SUCCESSFUL (total time: 0 seconds)
+<% end %>
+
+
+<p>
+  Lisätään testiluokkaan summaa ja erotusta lisäävää toiminnallisuutta.
+</p>
+
+<% partial 'partials/code_highlight' do %>
+package laskin;
+
+import static org.junit.Assert.assertEquals;
+import org.junit.Test;
+
+public class LaskinTest {
+
+    @Test
+    public void laskimenArvoAlussaNolla() {
+	Laskin laskin = new Laskin();
+	assertEquals(0, laskin.getArvo());
+    }
+
+    @Test
+    public void arvoViisiKunSummataanViisi() {
+	Laskin laskin = new Laskin();
+	laskin.summa(5);
+	assertEquals(5, laskin.getArvo());
+    }
+
+    @Test
+    public void arvoMiinusKaksiKunErotetaanKaksi() {
+	Laskin laskin = new Laskin();
+	laskin.erotus(2);
+	assertEquals(-2, laskin.getArvo());
+    }
+}
+<% end %>
+
+<p>
+  Testien suorittaminen antaa seuraavanlaisen tulostuksen.
+</p>
+
+
+<% partial 'partials/sample_output' do %>
+Testsuite: laskin.LaskinTest
+Tests run: 3, Failures: 1, Errors: 0, Skipped: 0, Time elapsed: 0.059 sec
+
+Testcase: arvoMiinusKaksiKunErotetaanKaksi(laskin.LaskinTest):	FAILED
+expected:<-2> but was:<2>
+junit.framework.AssertionFailedError: expected:<-2> but was:<2>
+      at laskin.LaskinTest.arvoMiinusKaksiKunErotetaanKaksi(LaskinTest.java:25)
+
+
+Test laskin.LaskinTest FAILED
+test-report:
+test:
+BUILD SUCCESSFUL (total time: 0 seconds)
+<% end %>
+
+<p>
+  Tulostus kertoo, että kolme testiä suoritettiin. Yksi niistä päätyi virheeseen. Testitulostuksessa on tieto myös testin rivistä, jossa virhe tapahtui (25) sekä tieto odotetusta (-2) ja saadusta arvosta (2). Kun testien suoritus päättyy virheesee, NetBeans näyttää testien suoritukseen liitttyvän virhetilanteen myös visuaalisena.
+</p>
+
+<img src="/img/material/junit-test-results.png" />
+
+<p>&nbsp;</p>
+
+<p>
+  Yllä olevassa kuvassa kaksi testeistä on mennyt läpi, mutta yhdessä on tapahtunut virhe. Korjataan luokkaan Laskin jäänyt virhe.
+</p>
+
+<% partial 'partials/code_highlight' do %>
+    // ...
+    public void erotus(int luku) {
+        this.arvo -= luku;
+    }
+    // ...
+<% end %>
+
+<p>
+  Kun testit suoritetaan uudestaan, testit menevät läpi.
+</p>
+
+<% partial 'partials/sample_output' do %>
+Testsuite: laskin.LaskinTest
+Tests run: 3, Failures: 0, Errors: 0, Skipped: 0, Time elapsed: 0.056 sec
+
+test-report:
+test:
+BUILD SUCCESSFUL (total time: 0 seconds)
+<% end %>
+
+<p>
+  Edellä toteutetussa testiluokassa on jonkin verran toisteisuutta. Luokasta Laskin luodaan olio jokaisen testimetodin alussa. Siistitään tätä hieman. Testiluokalle voidaan luoda oliomuuttujia, joiden arvo alustetaan ennen jokaista testimetodin suoritusta. Siirretään Laskin-olio luokan oliomuuttujaksi, ja alustetaan olio ennen jokaisen testimetodin suoritusta. Laskin-olio alustetaan metodissa nimeltä alusta, jolla on annotaatio @Before. JUnit suorittaa annotaatiolla @Before merkityn metodin ennen jokaisen testimetodin suoritusta.
+</p>
+
+<% partial 'partials/code_highlight' do %>
+package laskin;
+
+import static org.junit.Assert.assertEquals;
+import org.junit.Before;
+import org.junit.Test;
+
+public class LaskinTest {
+
+    private Laskin laskin;
+
+    @Before
+    public void alusta() {
+	this.laskin = new Laskin();
+    }
+
+    @Test
+    public void laskimenArvoAlussaNolla() {
+	assertEquals(0, laskin.getArvo());
+    }
+
+    @Test
+    public void arvoViisiKunSummataanViisi() {
+	laskin.summa(5);
+	assertEquals(5, laskin.getArvo());
+    }
+
+    @Test
+    public void arvoMiinusKaksiKunErotetaanKaksi() {
+	laskin.erotus(2);
+	assertEquals(-2, laskin.getArvo());
+    }
+}
+<% end %>
+
+<% partial 'partials/exercise', locals: { name: 'Laskimen testailua' } do %>
+
+  <p>
+    Tehtäväpohjassa tulee edellisen esimerkin alkutilanne. Seuraa edellistä esimerkkiä, ja luo laskimelle esimerkissä näytetyt testit. Kokeile testien toimintaa, ja palauta lopulta tehtävä Test My Code-palvelimelle.
+  </p>
+
+<% end %>
+
+<% partial 'partials/material_sub_heading' do %>
+  Testivetoinen ohjelmistokehitys
+<% end %>
+
+<p>
+  Testivetoinen ohjelmistokehitys (<a href="https://en.wikipedia.org/wiki/Test-driven_development" target="_blank" rel="noopener">Test-driven development</a>) on ohjelmistokehitysprosessi, joka perustuu ohjelman rakentamiseen pienissä osissa. Testivetoisessa ohjelmistokehityksessä ohjelmoija kirjoittaa aina ensin testin. Testi ei mene läpi, sillä testin täyttävä toiminnallisuus puuttuu. Kun testi on kirjoitettu, ohjelmaan lisätään toiminnallisuus, joka täyttää testin vaatimukset. Testit suoritetaan uudestaan, jonka jälkeen -- jos kaikki testit menevät läpi -- lisätään uusi testi tai vaihtoehtoisesti -- jos testit eivät mene läpi -- korjataan aiemmin kirjoitettua ohjelmaa. Ohjelman sisäistä rakennetta korjataan eli refaktoroidaan tarvittaessa siten, että ohjelman toiminnallisuus pysyy samana mutta rakenne selkiytyy.
+</p>
+
+<p>
+  Rakenne koostuu viidestä askeleesta, joita toistetaan kunnes ohjelman toiminnallisuus on valmis.
+</p>
+
+<ul>
+  <li>
+    Kirjoita testi. Ohjelmoija päättää, mitä ohjelman toiminnallisuutta testataan, ja kirjoittaa toiminnallisuutta varten testin.
+  </li>
+  <li>
+    Suorita testit ja tarkista menevätkö testit läpi. Kun uusi testi on kirjoitettu, testit suoritetaan. Jos testin suoritus päättyy hyväksyttyyn tilaan, testissä on todennäköisesti virhe ja se tulee korjata -- testin pitäisi testata vain toiminnallisuutta, jota ei ole vielä toteutettu.
+  </li>
+  <li>
+    Kirjoita toiminnallisuus, joka täyttää testin vaatimukset. Ohjelmoija toteuttaa toiminnallisuuden, joka täyttää vain testin vaatimukset. Huomaa, että tässä ei toteuteta asioita, joita testi ei vaadi -- toiminnallisuutta lisätään vain vähän kerrallaan.
+  </li>
+  <li>
+    Suorita testit. Jos testit eivät pääty hyväksyttyyn tilaan, kirjoitetussa toiminnallisuudessa on todennäköisesti virhe. Korjaa toiminnallisuus -- tai, jos toiminnallisuudessa ei ole virhettä -- korjaa viimeksi toteutettu testi.
+  </li>
+  <li>
+    Korjaa ohjelman sisäistä rakennetta. Kun ohjelman koko kasvaa, sen sisäistä rakennetta korjataan tarvittaessa. Liian pitkät metodit pilkotaan useampaan osaan ja ohjelmasta eriytetään käsitteisiin liittyviä luokkia. Testejä ei muuteta, vaan niitä hyödynnetään ohjelman sisäiseen rakenteeseen tehtyjen muutosten oikeellisuuden varmistamisessa -- jos ohjelman rakenteeseen tehty muutos muuttaa ohjelman toiminnallisuutta, testit varoittavat siitä, ja ohjelmoija voi korjata tilanteen.
+  </li>
+</ul>
+
+<p>
+  Tarkastellaan tätä prosessia tehtävien hallintaan tarkoitetun sovelluksen kannalta. Tehtävien hallintasovellukseen halutaan mahdollisuus tehtävien listaamiseen, lisäämiseen, tehdyksi merkkaamiseen sekä poistamiseen. Aloitetaan sovelluksen kehitys luomalla tyhjä testiluokka. Asetetaan testiluokan nimeksi TehtavienHallintaTest, ja lisätään se pakkaukseen tehtavat. Tällä hetkellä sovelluksessa ei ole vielä lainkaan toiminnallisuutta.
+</p>
+
+<img src="/img/material/tehtavienhallinta-testiluokka.png"/>
+
+<p>&nbsp;</p>
+
+<p>
+  Luodaan ensimmäinen testi. Testissä määritellään luokka Tehtavienhallinta, ja oletetaan, että luokalla on metodi tehtavalista, joka palauttaa tehtävälistan. Testi tarkastaa, että alussa tehtävälista on tyhjä.
+</p>
+
+
+<% partial 'partials/code_highlight' do %>
+package tehtavat;
+
+import static org.junit.Assert.assertEquals;
+import org.junit.Test;
+
+public class TehtavienhallintaTest {
+
+    @Test
+    public void tehtavalistaAlussaTyhja() {
+        Tehtavienhallinta hallinta = new Tehtavienhallinta();
+        assertEquals(0, hallinta.tehtavalista().size());
+    }
+}
+<% end %>
+
+<p>
+  Testin suorittaminen epäonnistuu, koska luokkaa Tehtavienhallinta ei ole määritelty. Toteutetaan seuraavaksi toiminnallisuus, joka täyttää testin. Luodaan luokka Tehtavienhallinta ja lisätään luokalle toiminnallisuus, joka täyttää testin vaatimukset. Luokka luodaan NetBeansissa kansioon Source Packages. Nyt projekti näyttää seuraavalta.
+</p>
+
+
+<img src="/img/material/tehtavienhallinta-luokat.png"/>
+
+<p>&nbsp;</p>
+
+<p>
+  Toiminnallisuus on yksinkertainen. Luokalla Tehtavienhallinta on metodi tehtavalista, joka palauttaa tyhjän listan.
+</p>
+
+<% partial 'partials/code_highlight' do %>
+package tehtavat;
+
+import java.util.ArrayList;
+import java.util.List;
+
+public class Tehtavienhallinta {
+
+    public List&lt;String&gt; tehtavalista() {
+        return new ArrayList&lt;&gt;();
+    }
+}
+<% end %>
+
+<p>
+  Testit menevät läpi. Luokan Tehtavienhallinta sisäinen rakenne on vielä niin pieni, ettei siinä ole juurikaan korjattavaa.
+</p>
+
+<p>
+  Aloitamme testivetoiseen kehitykseen liittyvän syklin uudestaan. Seuraavaksi luomme uuden testin, jossa tarkastellaan tehtävien lisäämiseen liittyvää toiminnallisuutta. Testissä määritellään luokalle Tehtavienhallinta metodi lisää, joka lisää tehtävälistalle uuden tehtävän. Tehtävän lisäämisen onnistuminen tarkastetaan tehtavalista-metodin koon kasvamisen kautta.
+</p>
+
+<% partial 'partials/code_highlight' do %>
+package tehtavat;
+
+import static org.junit.Assert.assertEquals;
+import org.junit.Test;
+
+public class TehtavienhallintaTest {
+
+    @Test
+    public void tehtavalistaAlussaTyhja() {
+        Tehtavienhallinta hallinta = new Tehtavienhallinta();
+        assertEquals(0, hallinta.tehtavalista().size());
+    }
+
+    @Test
+    public void tehtavanLisaaminenKasvattaaListanKokoaYhdella() {
+        Tehtavienhallinta hallinta = new Tehtavienhallinta();
+        hallinta.lisaa("Kirjoita testi");
+        assertEquals(1, hallinta.tehtavalista().size());
+    }
+}
+<% end %>
+
+<p>
+  Testit toimi lainkaan, sillä luokasta Tehtavienhallinta puuttuu lisaa-metodi. Lisätään metodi luokkaan, ja suoritetaan testit.
+</p>
+
+<% partial 'partials/code_highlight' do %>
+package tehtavat;
+
+import java.util.ArrayList;
+import java.util.List;
+
+public class Tehtavienhallinta {
+
+    public List&lt;String&gt; tehtavalista() {
+        return new ArrayList&lt;&gt;();
+    }
+
+    public void lisaa(String tehtava) {
+
+    }
+}
+<% end %>
+
+<p>
+  Nyt testien ajamisesta saadaan seuraava ilmoitus.
+</p>
+
+<% partial 'partials/sample_output' do %>
+Testsuite: tehtavat.TehtavienhallintaTest
+Tests run: 2, Failures: 1, Errors: 0, Skipped: 0, Time elapsed: 0.053 sec
+
+Testcase: tehtavanLisaaminenKasvattaaListanKokoaYhdella(tehtavat.TehtavienhallintaTest):	FAILED
+expected:<1> but was:<0>
+junit.framework.AssertionFailedError: expected:<1> but was:<0>
+    at tehtavat.TehtavienhallintaTest.tehtavanLisaaminenKasvattaa...(TehtavienhallintaTest.java:18)
+<% end %>
+
+<p>
+  Testit eivät siis mene vieläkään läpi. Muokataan luokan tehtävänhallinta toiminnallisuutta siten, että luokalle luodaan oliomuuttujaksi tehtävät sisältävä lista. Muokataan metodin lisaa-toiminnallisuutta vain niin, että se läpäisee testin, mutta ei tee todellisuudessa haluttua asiaa.
+</p>
+
+<% partial 'partials/code_highlight' do %>
+package tehtavat;
+
+import java.util.ArrayList;
+import java.util.List;
+
+public class Tehtavienhallinta {
+
+    private List&lt;String&gt; tehtavat;
+
+    public Tehtavienhallinta() {
+	this.tehtavat = new ArrayList&lt;&gt;();
+    }
+
+    public List&lt;String&gt; tehtavalista() {
+	return this.tehtavat;
+    }
+
+    public void lisaa(String tehtava) {
+	this.tehtavat.add("Uusi");
+    }
+}
+<% end %>
+
+<p>
+  Testit menevät kuitenkin läpi, joten olemme tyytyväisiä ja voimme siirtyä seuraavaan askeleeseen.
+</p>
+
+<% partial 'partials/sample_output' do %>
+Testsuite: tehtavat.TehtavienhallintaTest
+Tests run: 2, Failures: 0, Errors: 0, Skipped: 0, Time elapsed: 0.056 sec
+
+test-report:
+test:
+BUILD SUCCESSFUL (total time: 0 seconds)
+<% end %>
+
+<p>
+  Täydennetään testejä siten, että ne vaativat, että lisätyn tehtävän tulee olla listalla. JUnit-kirjaston tarjoama metodi assertTrue vaatii, että metodin palauttama arvo on true.
+</p>
+
+<% partial 'partials/code_highlight' do %>
+package tehtavat;
+
+import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertTrue;
+import org.junit.Test;
+
+public class TehtavienhallintaTest {
+
+    @Test
+    public void tehtavalistaAlussaTyhja() {
+	Tehtavienhallinta hallinta = new Tehtavienhallinta();
+	assertEquals(0, hallinta.tehtavalista().size());
+    }
+
+    @Test
+    public void tehtavanLisaaminenKasvattaaListanKokoaYhdella() {
+	Tehtavienhallinta hallinta = new Tehtavienhallinta();
+	hallinta.lisaa("Kirjoita testi");
+	assertEquals(1, hallinta.tehtavalista().size());
+    }
+
+    @Test
+    public void lisattyTehtavaLoytyyTehtavalistalta() {
+	Tehtavienhallinta hallinta = new Tehtavienhallinta();
+	hallinta.lisaa("Kirjoita testi");
+	assertTrue(hallinta.tehtavalista().contains("Kirjoita testi"));
+    }
+}
+<% end %>
+
+<p>
+  Testit eivät mene taaskaan läpi ja ohjelman toiminnallisuutta tulee muokata. Noheva ohjelmoija muokkaisi luokan Tehtavienhallinta toimintaa siten, että metodissa lisaa lisättäisiin listalle aina merkkijono "Kirjoita testi". Tämä johtaisi tilanteeseen, missä testit menisivät läpi, mutta toiminnallisuus sovellus ei vieläkään tarjoaisi toimivaa tehtävien lisäämistoiminnallisuutta. Muokataan luokkaa Tehtavienhallinta siten, että lisättävä tehtävä lisätään tehtävälistalle.
+</p>
+
+<% partial 'partials/code_highlight' do %>
+package tehtavat;
+
+import java.util.ArrayList;
+import java.util.List;
+
+public class Tehtavienhallinta {
+
+    private List&lt;String&gt; tehtavat;
+
+    public Tehtavienhallinta() {
+	this.tehtavat = new ArrayList&lt;&gt;();
+    }
+
+    public List&lt;String&gt; tehtavalista() {
+	return this.tehtavat;
+    }
+
+    public void lisaa(String tehtava) {
+	this.tehtavat.add(tehtava);
+    }
+}
+<% end %>
+
+<p>
+  Nyt testit menevät taas läpi. Huomaamme, että testiluokassa on taas jonkinverran toistoa -- siirretään Tehtavienhallinta testiluokan oliomuuttujaksi, ja alustetaan se jokaisen testin alussa.
+</p>
+
+<% partial 'partials/code_highlight' do %>
+package tehtavat;
+
+import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertTrue;
+import org.junit.Before;
+import org.junit.Test;
+
+public class TehtavienhallintaTest {
+
+    private Tehtavienhallinta hallinta;
+
+    @Before
+    public void alusta() {
+	hallinta = new Tehtavienhallinta();
+    }
+
+    @Test
+    public void tehtavalistaAlussaTyhja() {
+	assertEquals(0, hallinta.tehtavalista().size());
+    }
+
+    @Test
+    public void tehtavanLisaaminenKasvattaaListanKokoaYhdella() {
+	hallinta.lisaa("Kirjoita testi");
+	assertEquals(1, hallinta.tehtavalista().size());
+    }
+
+    @Test
+    public void lisattyTehtavaLoytyyTehtavalistalta() {
+	hallinta.lisaa("Kirjoita testi");
+	assertTrue(hallinta.tehtavalista().contains("Kirjoita testi"));
+    }
+}
+<% end %>
+
+<p>
+  Lisätään seuraavaksi mahdollisuus tehtävän tehdyksi merkkaamiseen. Mutta! Mitä tarkoittaa tehdyksi merkkaaminen? Alunperin tavoitteena oli luoda ohjelma, joka mahdollistaa tehtävien listaamisen, listaamisen, tehdyksi merkkaamisen sekä poistamisen. Miten tarkastamme onko tehtävä tehty? Jos emme voi tietää onko tehtävä tehty vai ei, voisimme periaatteessa jättää koko toiminnallisuuden huomiotta. Voimme toisaalta päättää miten tehtän tehdyksi määrittely tapahtuu.
+</p>
+
+<p>
+  Määritellään ensin testi, joka mahdollistaa tehtävän tehdyksi merkkaamiseen.
+</p>
+
+<% partial 'partials/code_highlight' do %>
+    // ...
+    @Test
+    public void tehtavanVoiMerkataTehdyksi() {
+        hallinta.lisaa("Satunnainen tehtava");
+        hallinta.merkkaaTehdyksi("Satunnainen tehtava");
+    }
+    // ..
+<% end %>
+
+<p>
+  Tehtavienhallintaan lisätään seuraavaksi metodi merkkaaTehdyksi. Metodin toiminnallisuus voi olla aluksi tyhjä, sillä testi vaatii vain kyseisen metodin olemassaolon. Kun toiminnallisuus on luotu, lisätään toinen testi -- testi tarkistaa, onko parametrina annettu tehtävä tehty.
+</p>
+
+
+<% partial 'partials/code_highlight' do %>
+    // ...
+    @Test
+    public void tehdyksiMerkattuOnTehty() {
+        hallinta.lisaa("Uusi tehtava");
+        hallinta.merkkaaTehdyksi("Uusi tehtava");
+        assertTrue(hallinta.onTehty("Uusi tehtava"));
+    }
+    // ..
+<% end %>
+
+<p>
+  Nyt toiminnallisuutta varten tulee toteuttaa uusi metodi onTehty. Metodi voi aluksi palauttaa aina arvon true. Kokko luokan Tehtavienhallinta sisältö on nyt seuraava.
+</p>
+
+<% partial 'partials/code_highlight' do %>
+package tehtavat;
+
+import java.util.ArrayList;
+import java.util.List;
+
+public class Tehtavienhallinta {
+
+    private List&lt;String&gt; tehtavat;
+
+    public Tehtavienhallinta() {
+	this.tehtavat = new ArrayList&lt;&gt;();
+    }
+
+    public List&lt;String&gt; tehtavalista() {
+	return this.tehtavat;
+    }
+
+    public void lisaa(String tehtava) {
+	this.tehtavat.add(tehtava);
+    }
+
+    public void merkkaaTehdyksi(String tehtava) {
+
+    }
+
+    public boolean onTehty(String tehtava) {
+	return true;
+    }
+}
+<% end %>
+
+<p>
+  Testit menevät taas läpi. Seuraavaksi toteutettava testi on oleellinen tehtävän toiminnan kannalta. Olemme tähän mennessä tarkistaneet, että haluttu toiminnallisuus on olemassa, mutta emme ole juurikaan tarkastaneet epätoivotun toiminnan poissaoloa. Jos testejä kirjoitettaessa keskitytään halutun toiminnallisuuden olemassaoloon, testit saattavat jäädä ohjelman toiminnallisuutta hyvin vähän tarkastelevaksi.
+</p>
+
+<p>
+  Kirjoitetaan seuraavaksi testi, joka tarkastaa, että tekemättömäksi merkkaamaton testi ei ole tehty.
+</p>
+
+
+<% partial 'partials/code_highlight' do %>
+    // ...
+    @Test
+    public void tehdyksiMerkkaamatonEiOleTehty() {
+	hallinta.lisaa("Uusi tehtava");
+	hallinta.merkkaaTehdyksi("Uusi tehtava");
+	assertFalse(hallinta.onTehty("Joku tehtava"));
+    }
+    // ..
+<% end %>
+
+<p>
+  Joudumme nyt muokkaamaan luokan Tehtavienhallinta toiminnallisuutta hieman enemmän. Lisätään luokkaan erillinen lista tehtäville, jotka on merkattu tehdyiksi.
+</p>
+
+<% partial 'partials/code_highlight' do %>
+package tehtavat;
+
+import java.util.ArrayList;
+import java.util.List;
+
+public class Tehtavienhallinta {
+
+    private List&lt;String&gt; tehtavat;
+    private List&lt;String&gt; tehdytTehtavat;
+
+    public Tehtavienhallinta() {
+	this.tehtavat = new ArrayList&lt;&gt;();
+	this.tehdytTehtavat = new ArrayList&lt;&gt;();
+    }
+
+    public List&lt;String&gt; tehtavalista() {
+	return this.tehtavat;
+    }
+
+    public void lisaa(String tehtava) {
+	this.tehtavat.add(tehtava);
+    }
+
+    public void merkkaaTehdyksi(String tehtava) {
+	this.tehdytTehtavat.add(tehtava);
+    }
+
+    public boolean onTehty(String tehtava) {
+	return this.tehdytTehtavat.contains(tehtava);
+    }
+}
+<% end %>
+
+<p>
+  Testit menevät taas läpi. Sovelluksessa on muutamia muitakin kysymysmerkkejä. Pitäisikö tehtavalistauksessa palautetut tehtävät merkitä jollain tavalla tehdyksi? Voiko tehtävän, joka ei ole tehtävälistalla tosiaankin merkata tehdyksi?
+</p>
+
+<p>
+  Tehdään ensimmäinen hieman laajempi ohjelman sisäisen rakenteen korjaus. Tehtävä on selkeästi käsite, joten sille kannattanee luoda oma erillinen luokka. Luodaan luokka Tehtava. Luokalla Tehtava on nimi sekä tieto siitä, onko tehtävä tehty.
+</p>
+
+<% partial 'partials/code_highlight' do %>
+package tehtavat;
+
+public class Tehtava {
+
+    private String nimi;
+    private boolean tehty;
+
+    public Tehtava(String nimi) {
+	this.nimi = nimi;
+	this.tehty = false;
+    }
+
+    public String getNimi() {
+	return nimi;
+    }
+
+    public void setTehty(boolean tehty) {
+	this.tehty = tehty;
+    }
+
+    public boolean onTehty() {
+	return tehty;
+    }
+
+}
+<% end %>
+
+<p>
+  Muokataan tämän jälkeen luokan Tehtavienhallinta <em>sisäistä</em> rakennetta siten, että luokka tallentaa tehtävät merkkijonojen sijaan Tehtava-olioina. Huomaa, että luokan metodien määrittelyt eivät muutu, mutta niiden sisäinen toteutus muuttuu.
+</p>
+
+<% partial 'partials/code_highlight' do %>
+package tehtavat;
+
+import java.util.ArrayList;
+import java.util.List;
+import java.util.stream.Collectors;
+
+public class Tehtavienhallinta {
+
+    private List&lt;Tehtava&gt; tehtavat;
+
+    public Tehtavienhallinta() {
+	this.tehtavat = new ArrayList&lt;&gt;();
+    }
+
+    public List&lt;String&gt; tehtavalista() {
+        return this.tehtavat.stream()
+            .map(t -&gt; t.getNimi()).collect(Collectors.toList());
+    }
+
+    public void lisaa(String tehtava) {
+	this.tehtavat.add(new Tehtava(tehtava));
+    }
+
+    public void merkkaaTehdyksi(String tehtava) {
+        this.tehtavat.stream()
+            .filter(t -&gt; t.getNimi().equals(tehtava)).forEach(t -&gt; {
+                t.setTehty(true);
+	    });
+    }
+
+    public boolean onTehty(String tehtava) {
+	return this.tehtavat.stream()
+	    .filter(t -&gt; t.getNimi().equals(tehtava))
+	    .filter(t -&gt; t.onTehty()).count() &gt; 0;
+    }
+}
+<% end %>
+
+<p>
+  Vaikka tehty muutos muutti luokan Tehtavienhallinta sisäistä toimintaa merkittävästi, testit toimivat yhä. Sykli jatkuisi samalla tavalla kunnes toivottu perustoiminnallisuus olisi paikallaan.
+</p>
+
+
+<% partial 'partials/exercise', locals: { name: 'Tehtavat' } do %>
+
+  <p>
+    Tehtäväpohjassa tulee edellisen esimerkin alkutilanne. Seuraa edellistä esimerkkiä, ja luo Tehtavienhallinnalta haluttu toiminnallisuus testivetoista ohjelmistokehitystä noudattaen. Kun olet saanut edellisen esimerkin loppuun asti, lisää sovellukseen vielä testit tehtävien poistamiseen sekä testien vaatima toiminnallisuus.
+  </p>
+
+  <p>
+    Kun olet toteuttanut vaaditun toiminnallisuuden, palauta tehtävä lopulta Test My Code-palvelimelle.
+  </p>
+
+<% end %>
+
+
+<% partial 'partials/hint', locals: { name: 'Lisää ohjelmistojen testaamisesta' } do %>
+
+  <p>
+    Yksikkötestaus on vain osa ohjelmiston testaamista. Yksikkötestaamisen lisäksi ohjelmiston toteuttaja toteuttaa myös integraatiotestejä, joissa tarkastellaan komponenttien kuten luokkien yhteistoiminnallisuutta, sekä käyttöliittymätestejä, joissa testataan sovelluksen käyttöliittymää käyttöliittymän tarjoamien elementtien kuten nappien kautta.
+  </p>
+
+  <p>
+    Näitä testaamiseen liittyviä menetelmiä tarkastellaan tarkemmin muunmuassa kursseilla ohjelmistotekniikan menetelmät sekä ohjelmistotuotanto.
+  </p>
+
+<% end %>
+
+
+
+<% partial 'partials/material_sub_heading' do %>
+  Sovelluksen käytettävyys
+<% end %>
+
+<p>
+  Yksikkötestaus on vain osa ohjelmistojen testaamiseen liittyvää työtä. Tärkein sovelluksen testaamisen liittyvä ihmisryhmä on sovelluksen käyttäjät. Käyttäjät toimivat ohjelman parissa ja huomaavat toiminnassa esiintyviä puutteita.
+</p>
+
+<p>
+  Sovelluksen käytettävyyteen liittyy useita erilaisia näkökulmia, joista osa on <a href="https://www.iso.org/standard/16883.html" target="_blank" rel="noopener">standardoitu</a>. Käytettävyyden kannalta oleellisia ominaisuuksia ovat muunmuassa:
+</p>
+
+<ul>
+  <li>Tavoitteiden saavuttaminen. Ohjelmiston käyttäjillä on tavoitteita, joita ohjelmiston avulla halutaan saavuttaa. Miten hyvin ohjelmisto auttaa käyttäjiä saavuttamaan tavoitteensa? Miten tehokkaasti käyttäjät saavuttavat tavoitteensa? Joutuvatko he käyttämään liikaa aikaa tavoitteiden saavuttamiseen? Voisiko tätä helpottaa sovelluksen suunnittelussa?</li>
+  <li>Tyytyväisyys sovelluksen toimintaan. Miten tyytyväisiä käyttäjät ovat sovelluksen toimintaan? Onko sovelluksen käyttö sujuvaa?</li>
+  <li>Ohjelmiston käytön oppiminen. Kuinka nopeasti ohjelmiston käyttö on opittavissa? Minkälaisia ohjeita sovelluksen käyttö vaatii? Tarjoaako ohjelmisto näitä ohjeita? Kuinka hyvin käyttäjä muistaa miten sovellusta käytetään?</li>
+  <li>Virhealttius. Kuinka paljon käyttäjä tekee virheitä sovellusta käyttäessään? Voisiko virheiden määrää vähentää?</li>
+</ul>
+
+<p>
+  Käytettävyyden lisäksi sovelluksissa oleellista on myös saavutettavuus, millä tarkoitetaan erilaisten käyttäjäryhmien huomiointia sovelluksen rakentamisessa. Näitä käsitellään tarkemmin Human-Computer Interaction -teeman kursseilla (Ihmisen ja tietokoneen välinen vuorovaikutus).
+</p>
+
+
+
+<% partial 'partials/material_heading' do %>
+  Sovellukset ohjelmointiympäristön ulkopuolella
+<% end %>
+
+<p>
+  Sovelluksemme ovat tähän mennessä toimineet vain ohjelmistoympäristössä. Tämä ei kuitenkaan ole käytännössä totta, sillä ohjelman käynnistäminen ohjelmointiympäristössä vastaa sen käynnistämistä ohjelmointiympäristön ulkopuolella. Voimme määritellä luokan, jossa olevaa metodia <code>public static void main</code> käytetään ohjelman käynnistämiseen. Käynnistämiseen määriteltävän luokan määrittely tapahtuu klikkaamalla projektia oikealla hiirennapilla ja valitsemalla listasta vaihtoehdon Properties.
+</p>
+
+<p>
+  Tämä avaa ikkunan, mikä sisältää joukon projektiin liittyviä asetuksia. Valitsemalla vasemmalla olevasta valikosta vaihtoehdon "Run", voidaan määritellä käynnistämiseen liittyvä luokka (Main Class). Alla olevassa luokassa luokaksi on valittu pakkauksessa matopeli oleva luokka MatopeliSovellus.
+</p>
+
+<img src="/img/material/project-properties.png" />
+
+<p>&nbsp;</p>
+
+<p>
+  Kun sovelluksen käynnistämiseen käytettävä Main Class on määritelty, voi sovelluksen "paketoida". Tämä tapahtuu klikkaamalla sovellusta oikealla hiirennapilla ja valitsemalla Clean and Build. Tämä luo projektista paketin, joka sisältää suoritettavan sovelluksen.
+</p>
+
+<img src="/img/material/project-clean-and-build.png" />
+
+<p>&nbsp;</p>
+
+<p>
+  NetBeansin Output-välilehti antaa vinkkiä sovelluksen suorittamisesta.
+</p>
+
+<% partial 'partials/sample_output' do %>
+// ...
+Building jar: /<em>polku</em>/osa13/Osa13_09.Matopeli/dist/Osa13_09.Matopeli.jar
+To run this application from the command line without Ant, try:
+java -jar "/<em>polku</em>/osa13/Osa13_09.Matopeli/dist/Osa13_09.Matopeli.jar"
+jar:
+BUILD SUCCESSFUL (total time: 0 seconds)
+<% end %>
+
+<p>
+  Kun annamme komentorivillä output-ikkunassa olleen komennon, sovellus käynnistyy.
+</p>
+
+<pre>
+$ java -jar "/<em>polku</em>/osa13/Osa13_09.Matopeli/dist/Osa13_09.Matopeli.jar"
+</pre>
+
+<% partial 'partials/hint', locals: { name: 'Asennettavan sovelluksen luominen' } do %>
+
+  <p>
+    Edellä kuvattu menetelmä paketoi sovelluksen suoritettavaan muotoon. Tietokoneiden normaalikäyttäjät eivät kuitenkaan ole tottuneet sovellusten käynnistämiseen komentoriviltä -- osalla heistä ei myöskään ole Javaa asennettuna, jonka edellinen komento vaatii.
+  </p>
+
+  <p>
+    NetBeansissa toteutetuista sovelluksista voi myös luoda jaettavia versioita, jotka sisältävät sekä sovelluksen asennusohjeet että Javan. Ohjeita jaettavien sovellusten luomiseen löytyy osoitteesta <a href="https://netbeans.org/kb/docs/java/native_pkg.html" target="_blank" rel="noopener">https://netbeans.org/kb/docs/java/native_pkg.html</a>.
+  </p>
+<% end %>
+
+<p>
+  Verkossa toimivien sovellusten luomiseen tutustutaan muunmuassa kursseilla Tietokantojen perusteet ja Web-palvelinohjelmointi.
+</p>
+
+<p>
+  Kurssi on melkein lopussa. Edessä on vain muutama laajempi tehtävä.
+</p>
+
+
+<% partial 'partials/exercise', locals: { name: '2048' } do %>
+
+  <p>
+    <a href="https://en.wikipedia.org/wiki/2048_(video_game)" target="_blank" rel="noopener">2048</a> on suosittu peli. Peliä pelataan 4x4 -kokoisessa lukuja sisältävässä ruudukossa, ja siinä on neljä mahdollista siirtoa: (o)ikealle, (a)las, (v)asemmalle ja (y)lös. Jokainen siirto siirtää kaikkia ruudukossa olevia arvoja niin paljon haluttuun suuntaan kuin mahdollista. Jos kahdessa vierekkäisessä ruudussa on sama arvo, yhdistetään ruutujen arvot yhteen. Esimerkiksi:
+  </p>
+
+  <pre>
+
+2 0 2 0
+0 0 0 1
+0 1 0 0
+0 0 0 0
+&gt; o
+
+0 0 0 4
+0 0 0 1
+0 0 0 1
+0 1 0 0
+  </pre>
+
+  <p>
+    Aina kun pelaaja tekee siirron, satunnaiseen nolla-arvoiseen kohtaan arvotaan uusi luku. Peli loppuu kun yhdessä ruuduista on luku 2048 tai siirtäminen ei enää onnistu. Alla esimerkki pelin kulusta.
+  </p>
+
+  <pre>
+1 0 0 0
+0 0 0 0
+0 0 0 0
+0 0 0 0
+
+&gt; o
+0 0 0 1
+0 0 0 0
+0 0 0 0
+0 1 0 0
+
+&gt; o
+0 0 0 1
+0 0 0 0
+0 0 0 1
+0 0 0 1
+
+&gt; a
+0 0 0 0
+0 0 0 0
+1 0 0 2
+0 0 0 1
+
+&gt; a
+1 0 0 0
+0 0 0 0
+0 0 0 2
+1 0 0 1
+
+&gt; v
+1 0 0 0
+0 0 0 0
+2 0 0 0
+2 1 0 0
+
+&gt; y
+1 1 0 0
+4 0 0 0
+0 0 0 0
+0 1 0 0
+
+&gt; v
+2 0 0 0
+4 0 0 0
+0 0 0 0
+1 0 1 0
+
+&gt; v
+2 0 0 0
+4 1 0 0
+0 0 0 0
+2 0 0 0
+
+&gt;
+  </pre>
+
+  <p>
+    Tässä tehtävässä rakennat pelin toimintaan tarvittua ydintoiminnallisuutta. Tehtävässä kerrataan myös toistolauseiden ja indeksien käyttöä.
+  </p>
+
+  <h2>Peliruudukko</h2>
+
+  <p>
+    Luo pakkaukseen sovellus luokka Peliruudukko. Luokalla tulee olla parametriton konstruktori, joka luo 4x4-kokoisen ruudukon, ja jonka vasemmassa yläkulmassa on arvo 1. Oleta, että kaksiulotteisen taulukon ensimmäinen indeksi kuvaa y-koordinaattia, ja toinen indeksi x-koordinaattia. Oleta lisäksi, että y-koordinaatti kasvaa alaspäin. Vasen yläkulma on siis kohdassa taulukko[0][0] ja vasen alakulma kohdassa taulukko[3][0] -- olettaen, että taulukon koko on 4.
+  </p>
+
+  <p>
+    Lisää luokalle myös metodit public int[][] getTaulukko(), joka palauttaa pelin sisäisen tilan, ja public void setTaulukko(int[][] taulukko), jolla voi asettaa pelin sisäisen tilan.
+  </p>
+
+  <h2>Siirrä oikealle</h2>
+
+  <p>
+    Tee tämän jälkeen peliruudukolle metodi public void siirraOikealle(), joka siirtää jokaisen rivin palat oikealle. Metodi yhdistää tarvittaessa myös samanarvoiset muuttujat. Alla muutamia esimerkkeja.
+  </p>
+
+  <pre>
+1 1 1 1
+1 1 0 1
+1 1 1 0
+1 0 1 1
+
+&gt; o
+0 0 0 4
+0 0 1 2
+0 0 1 2
+0 0 1 2
+  </pre>
+
+  <pre>
+1 0 0 1
+0 1 0 1
+2 2 4 0
+0 1 0 0
+
+&gt; o
+0 0 0 2
+0 0 0 2
+0 0 0 8
+0 0 0 1
+  </pre>
+
+  <h2>Siirrä ylös ja siirrä alas</h2>
+
+  <p>
+    Tee seuraavaksi peliruudukolle metodit public void siirraYlos(), joka siirtää jokaisen rivin palat ylös, ja public void siirraAlas(), joka siirtää jokaisen rivin palat alas. Metodi yhdistää tarvittaessa myös samanarvoiset muuttujat.
+  </p>
+
+  <h2>Siirrä vasemmalle ja pelin loppuminen</h2>
+
+  <p>
+    Tee seuraavaksi peliruudukolle metodi public void siirraVasemmalle(), joka siirtää jokaisen rivin palat vasemmalle. Kun metodi siirraVasemmalle on valmis, toteuta sovellukseen metodi public boolean peliKaynnissa(), joka palauttaa tiedon pelin jatkumisesta.
+  </p>
+
+  <p>
+    Peli jatkuu jos (1) pelissä on yksikin ruutu, jossa on arvo 0, tai (2) kaksi pelin vierekkaista (vaaka- tai pystytasossa) ruutua ovat samanarvoiset.
+  </p>
+
+  <h2>Tekstikayttoliittyma ja uuden luvun arpominen</h2>
+
+  <p>
+    Tee lopulta pelille tekstikäyttöliittymä. Pelin tulee käynnistyä kun luokassa Peli olevaa main-metodia kutsutaan. Pelaajalle tulee tarjota vaihtoehdot o, v, y, a, x, missä o on oikealle, v on vasemmalle, y on ylös, a on alas, ja x on lopeta. Jokaisen siirron -- paitsi pelin lopettavan x:n -- jälkeen taulukon satunnaiseen tyhjään kohtaan tulee lisätä luku 1. Alla on esimerkki tekstikäyttöliittymän toiminnasta.
+  </p>
+
+  <% partial 'partials/sample_output' do %>
+1 0 0 0
+0 0 0 0
+0 0 0 0
+0 0 0 0
+
+&gt; <font color="red">o</font>
+0 0 0 1
+0 0 0 0
+0 0 0 1
+0 0 0 0
+
+&gt; <font color="red">y</font>
+0 0 0 2
+1 0 0 0
+0 0 0 0
+0 0 0 0
+
+&gt; <font color="red">v</font>
+2 0 1 0
+1 0 0 0
+0 0 0 0
+0 0 0 0
+
+&gt; <font color="red">o</font>
+0 0 2 1
+0 0 0 1
+0 1 0 0
+0 0 0 0
+
+&gt; <font color="red">y</font>
+0 1 2 2
+0 0 0 0
+0 0 0 0
+0 0 1 0
+
+&gt; <font color="red">o</font>
+0 0 1 4
+0 0 0 0
+0 0 0 1
+0 0 0 1
+
+&gt; <font color="red">x</font>
+  <% end %>
+
+<% end %>
+
+<% partial 'partials/exercise', locals: { name: 'Kirjoitusharjoittelu' } do %>
+
+  <p>
+    Tehtäväpohjassa on kirjoitusnopeuden harjoitteluun tarkoitettu sovellus. Käyttäjälle näytetään sovelluksessa kirjoitettavia sanoja. Kun sanan kirjoittaa oikein, sana vaihdetaan seuraavaksi kirjoitettavaan sanaan. Sovellus pitää kirjaa merkkikohtaisesta kirjoitusnopeudesta jokaiselle kirjoitettavalle sanalle. Sovellus näyttää tällä hetkellä seuraavalta.
+  </p>
+
+  <img src="/img/material/kirjoitusharjoittelu.png" />
+
+  <p>&nbsp;</p>
+
+  <p>
+    Mieti minkälaista toiminnallisuutta sovellus vielä kaipaisi ja toteuta keksimäsi toiminnallisuus. Kirjoita kuvaus toteuttamastasi ominaisuudesta luokan kirjoitusHarjoitteluSovellus metodin <code>public static String toteutettuOminaisuus()</code> palauttamaan merkkijonoon.
+  </p>
+
+  <p>
+    Tehtävä on kahden tehtäväpisteen arvoinen.
+  </p>
+
+
+<% end %>
+
+
+<% partial 'partials/exercise', locals: { name: 'Planeettajärjestelmä' } do %>
+
+  <p>
+    Isaac Newton julkaisi 1600-luvun loppupuolella kirjan <a href="https://fi.wikipedia.org/wiki/Philosophiae_Naturalis_Principia_Mathematica" target="_blank" rel="noopener">luonnonfilosofian matemaattiset perusteet</a>. Kirja sisälsi muunmuassa yleisen painovoimalain, jonka mukaan kahden hiukkasen toisiinsa aiheuttama vetovoima on suoraan verrannollinen niiden massojen tuloille ja kääntäen verrannollinen niiden etäisyyden neliöön.
+  </p>
+
+  <p>
+    Käytännössä siis, kun tiedossamme on kaksi planeettaa, joiden massat ovat <code>massa1</code> ja <code>massa2</code>, ja joiden etäisyys on <code>etaisyys</code>, hiukkasten toisiinsa aiheuttama vetovoima voidaan laskea seuraavalla kaavalla.
+  </p>
+
+  <pre>
+Vetovoima = 6.67384E-11 * (massa1 * massa2) / (etaisyys * etaisyys)</pre>
+
+  <p>
+    Tietojenkäsittelytieteilijä huomaa nopeasti, että tämähän on jotain, jonka konekin voisi laskea. Rakennetaan tässä tehtävässä sovellus, jota voidaan käyttää planeettajärjestelmän simulointiin -- englanniksi järjestelmä tunnetaan nimellä <a href="https://en.wikipedia.org/wiki/N-body_simulation" target="_blank" rel="noopener">N-body simulation</a>. Alla olevassa kuvassa on esimerkki ohjelman lopullisesta toiminnasta -- kuvassa hyörii aurinko, merkurius, venus, maa, ja mars.
+  </p>
+
+  <img src="/img/material/gui-planeetat.gif" />
+
+  <p>&nbsp;</p>
+
+  <p>
+    Simulaatiot jaetaan tyypillisesti useampaan osaan, missä ensin lasketaan muutokset kappaleiden liikkeeseen, jonka jälkeen kappaleiden liikettä päivitetään. Tämän jälkeen simulaatio piirretään -- jos näin halutaan.
+  </p>
+
+  <p>
+    Tehtävä on jaettu useampaan osaan. Rakennamme ensin luokan Planeetalle, jonka jälkeen hahmottelemme planeettajärjestelmää ja siihen liittyvää simulaatiota. Lopulta teemme planeettajärjestelmälle visualisaation. Jokaiselle osalle poislukien visualisaatio kirjoitetaan myös testit -- testaat siis sovelluksen toiminnan itse.
+  </p>
+
+
+  <h2>Planeetta</h2>
+
+  <p>
+    Luo pakkaukseen planeettajarjestelma luokka Planeetta. Luokalla planeetta on viisi oliomuuttujaa: x-sijainti, y-sijainti, x-liike, y-liike ja massa. Esitä jokainen muuttuja double-tyyppisenä. Tee luokalle konstruktori, joka on muotoa <code>public Planeetta(double xSijainti, double ySijainti, double xNopeus, double yNopeus, double massa)</code>, ja lisää luokalle "getterit ja setterit", eli oliomuuttujien asettamiseen tarvittavat metodit.
+  </p>
+
+  <p>
+    Tyypillisesti oliomuuttujien asettamiseen käytetyt get- ja set- metodit luodaan automaattisesti. Automaattisesti luotaville metodeille kirjoitetaan harvemmin yksikkötestejä.
+  </p>
+
+  <p>
+    Toteuta tämän jälkeen metodi etäisyyden laskemiseen. Metodi on muotoa <code>public double etaisyys(Planeetta toinen)</code>. Metodi laskee kahden planeetan välisen etäisyyden <a href="https://fi.wikipedia.org/wiki/Pythagoraan_lause" target="_blank" rel="noopener">Pythagoraan lauseen</a> avulla.
+  </p>
+
+  <p>
+    Lisää testiluokkaan PlaneettaTest muutama etäisyyden laskemisen tarkastamiseen käytettävä testimetodi. Alla on muutamia planeettoja sekä niiden odotettuja etäisyyksiä, joita voit käyttää testimetodien kirjoittamisessa.
+  </p>
+
+  <% partial 'partials/code_highlight' do %>
+Planeetta yksi = new Planeetta(10, 20, 0, 0, 0);
+Planeetta kaksi = new Planeetta(45.5, 13.5, 0, 0, 0);
+
+System.out.println(yksi.etaisyys(kaksi)); // tulostaa 36.09016486523718
+System.out.println(kaksi.etaisyys(yksi)); // tulostaa 36.09016486523718
+  <% end %>
+
+  <% partial 'partials/code_highlight' do %>
+Planeetta yksi = new Planeetta(2.1186364423281863E11, 8.355224423792712E10, 0, 0, 0);
+Planeetta kaksi = new Planeetta(-5.7077501653213165E10, 9.730727456803318E9, 0, 0, 0);
+
+System.out.println(yksi.etaisyys(kaksi)); // tulostaa 2.788887883912826E11
+System.out.println(kaksi.etaisyys(yksi)); // tulostaa 2.788887883912826E11
+  <% end %>
+
+  <p>
+    Kuten huomaat, double-muuttujan arvon voi esittää myös <a href="https://fi.wikipedia.org/wiki/Kymmenpotenssimuoto" target="_blank" rel="noopener">kymmenpotenssimuodossa</a>.
+  </p>
+
+  <p>
+    Kun vertailet double-tyyppisiä muuttujia JUnit-luokan assertEquals-metodin avulla, käytä metodin <a href="http://junit.org/junit4/javadoc/latest/org/junit/Assert.html#assertArrayEquals(double[], double[], double)" target="_blank" rel="noopener">kolmiparametrista versiota</a>. Tällöin voit antaa kolmanneksi parametriksi hyväksyttävän mittavirheen, esim.
+  </p>
+
+  <% partial 'partials/code_highlight' do %>
+Planeetta yksi = new Planeetta(2.1186364423281863E11, 8.355224423792712E10, 0, 0, 0);
+Planeetta kaksi = new Planeetta(-5.7077501653213165E10, 9.730727456803318E9, 0, 0, 0);
+assertEquals(2.788887883912826E11, yksi.etaisyys(kaksi), 1000);
+  <% end %>
+
+  <p>
+    Yllä olevassa esimerkissä kutsun yksi.etaisyys(kaksi) hyväksytään kunhan sen etäisyys luvusta <code>2.788887883912826E11</code> on pienempi kuin 1000.
+  </p>
+
+
+  <h2>Planeetta, osa 2</h2>
+
+  <p>
+    Luodaan seuraavaksi toiminnallisuus planeettaan kohdistuvien voimien selvittämiseksi. Kahden planeetan välisen vetovoiman voi laskea kaavalla:
+  </p>
+
+  <pre>
+Vetovoima = 6.67384E-11 * (massa1 * massa2) / (etaisyys * etaisyys)</pre>
+
+  <p>
+    Koska planeettamme sijatsevat kaksiulotteisessa koordinaatistossa, ja niiden sijaintia ja liikettä kuvataan desimaalilukuina, on mielekästä toteuttaa toiminnallisuus myös suuntakohtaisen (x- ja y-suunnan) vetovoiman laskemiseen. Kaavat näille ovat seuraavat:
+  </p>
+
+  <pre>
+Vetovoima<sub>x</sub> = Vetovoima * etaisyys<sub>x</sub> / etaisyys
+Vetovoima<sub>y</sub> = Vetovoima * etaisyys<sub>y</sub> / etaisyys</pre>
+
+  <p>
+    Yllä merkintä etaisyys<sub>x</sub> tarkoittaa kahden planeetan välistä etäisyyttä x-akselilla, ja etaisyys<sub>y</sub> kahden planeetan välistä etäisyyttä y-akselilla. Käytännössä siis planeettaan vaikuttava voima normalisoidaan planeettojen etäisyyksien suhteen.
+  </p>
+
+  <p>
+    Lisää planeetalle metodit <code>public double vetovoima(Planeetta toinen)</code>, <code>public double vetovoimaX(Planeetta toinen)</code> ja <code>public double vetovoimaY(Planeetta toinen)</code>.
+  </p>
+
+  <p>
+    Kirjoita avuksesi testejä voimiin liittyvien laskujen tarkastamiseksi. Alla muutamia valmiiksi laskettuja arvoja.
+  </p>
+
+  <% partial 'partials/code_highlight' do %>
+Planeetta yksi = new Planeetta(10, 20, 0, 0, 100000.0);
+Planeetta kaksi = new Planeetta(45.5, 13.5, 0, 0, 200000.0);
+System.out.println(yksi.vetovoima(kaksi)); // 0.001024773896353167
+System.out.println(kaksi.vetovoima(yksi)); // 0.001024773896353167
+  <% end %>
+
+
+  <% partial 'partials/code_highlight' do %>
+Planeetta yksi = new Planeetta(2.1186364423281863E11, 8.355224423792712E10, 0, 0, 4.0e+24);
+Planeetta kaksi = new Planeetta(-5.7077501653213165E10, 9.730727456803318E9, 0, 0, 3.0e+23);
+System.out.println(yksi.vetovoima(kaksi)); // 1.029662569667683E15
+System.out.println(kaksi.vetovoima(yksi)); // 1.029662569667683E15
+  <% end %>
+
+  <% partial 'partials/code_highlight' do %>
+Planeetta yksi = new Planeetta(2.1186364423281863E11, 8.355224423792712E10, 0, 0, 4.0e+24);
+Planeetta kaksi = new Planeetta(-5.7077501653213165E10, 9.730727456803318E9, 0, 0, 3.0e+23);
+System.out.println(yksi.vetovoimaX(kaksi)); // -9.929356893826232E14
+System.out.println(kaksi.vetovoimaY(yksi)); // 2.7255040657630772E14
+  <% end %>
+
+  <% partial 'partials/code_highlight' do %>
+Planeetta yksi = new Planeetta(10, 20, 0, 0, 100000.0);
+Planeetta kaksi = new Planeetta(45.5, 13.5, 0, 0, 200000.0);
+System.out.println(yksi.vetovoimaY(kaksi)); // -1.8456635903904204E-4
+System.out.println(kaksi.vetovoimaX(yksi)); // -0.001008016268597845
+  <% end %>
+
+  <p>
+    Kun toteuttamasi testit menevät läpi, planeettoihin liittyvä perustoiminnallisuus on kohdallaan. Tiedämme nyt minkä verran kukin planeetta vaikuttaa muihin planeettoihin.
+  </p>
+
+
+
+  <h2>Planeettajarjestelma</h2>
+
+  <p>
+    Luodaan seuraavaksi järjestelmä, jonka avulla simuloidaan planeettojen liikettä. Luo pakkaukseen planeettajarjestelma luokka Planeettajarjestelma. Luokka planeettajarjestelma sisältää listan planeettoja, sekä tiedon planeettajärjestelmän halkaisijasta. Luo luokalle Planeettajarjestelma konstruktori <code>public Planeettajarjestelma(List&lt;Planeetta&gt; planeetat, double halkaisija)</code>.
+  </p>
+
+  <p>
+    Lisää tämän jälkeen luokalle Planeettajarjestelma metodi <code>public List&lt;Planeetta&gt; getPlaneetat()</code>, joka palauttaa listan järjestelmässä olevista planeetoista, sekä metodi <code>public void paivita(double ajanmuutos)</code>, jota käytetään planeettojen liikuttamiseen ajan yli. Ajanmuutos mahdollistaa päivityksen planeettojen liikkeiden tarkemman tarkastelun niin haluttaessa.
+  </p>
+
+  <p>
+    Toteutetaan planeettojen liikuttaminen seuraavaksi -- <em>tämä osa on kahden pisteen arvoinen</em>.
+  </p>
+
+  <ol>
+    <li>
+      Ensin lasketaan jokaiselle planeetalle niihin vaikuttavien voimien summa. Voimien summa lasketaan tarkastelemalla planeettaa jokaisen muun planeettajärjestelmässä olevan planeetan suhteen. Voimien summa lasketaan sekä x- että y-koordinaatille.
+    </li>
+    <li>
+      Tämän jälkeen päivitetään jokaisen planeetan sijaintia ja liikettä. Tämä tapahtuu seuraavasti:
+      <ol>
+	<li>Planeettaan kohdistuva kiihdytys lasketaan voimien summasta. Kiihdytys x-akselin suuntaan on x-akseliin kohdistuvien voimien summa jaettuna planeetan massalla. Vastaavasti kiihdytys y-akselin suuntaan on y-akseliin kohdistuvien voimien summa jaettuna kappaleen massalla.</li>
+	<li>Planeetan uusi nopeus lasketaan vanhan nopeuden sekä kiihdytyksen avulla. Uusi x-akselin suuntainen nopeus on vanha x-akselin suuntainen nopeus + ajanmuutos * x-akseliin kohdistuva kiihdytys. Uusi y-akselin suuntainen nopeus on vanha y-akselin suuntainen nopeus + ajanmuutos * x-akseliin kohdistuva kiihdytys.</li>
+	<li>Planeetan uusi sijainti lasketaan vanhan sijainnin sekä nopeuden avulla. Uusi x-sijainti saadaan laskemalla vanha x-sijainti + ajanmuutos * x-akselin suuntainen nopeus. Vastaavasti uusi y-sijainti saadaan laskemalla vanha y-sijainti + ajanmuutos * y-akselin suuntainen nopeus.</li>
+      </ol>
+    </li>
+  </ol>
+
+  <p>
+    Toteuta edellä mainittu toiminnallisuus metodiin paivita. Tee toiminnallisuudet edellä kuvatussa järjestyksessä (jos yhdistät planeettoihin vaikuttavien voimien summan laskemisen sijaintien päivittämiseen, osa kappaleista käyttää uusia sijainteja ja osa vanhoja -- lopputulos ei ole kovin hyvä).
+  </p>
+
+  <p>
+    Kirjoita myös planeettajärjestelmän paivita-metodin toiminnallisuuden tarkastamiseen liittyviä testejä testiluokkaan PlaneettajarjestelmaTest. Alla muutamia esimerkkejä, joista voi olla hyötyä testien laatimisessa.
+  </p>
+
+  <% partial 'partials/code_highlight' do %>
+Planeetta yksi = new Planeetta(10, 20, 0, 0, 100000.0);
+Planeetta kaksi = new Planeetta(45.5, 13.5, 0, 0, 200000.0);
+
+System.out.println(yksi.getSijaintiX() + ", " + yksi.getSijaintiY());
+System.out.println(yksi.getNopeusX() + ", " + yksi.getNopeusY());
+System.out.println("");
+System.out.println(kaksi.getSijaintiX() + ", " + kaksi.getSijaintiY());
+System.out.println(kaksi.getNopeusX() + ", " + kaksi.getNopeusY());
+System.out.println("");
+
+List&lt;Planeetta&gt; planeetat = new ArrayList&lt;&gt;();
+
+planeetat.add(yksi);
+planeetat.add(kaksi);
+
+Planeettajarjestelma jarjestelma = new Planeettajarjestelma(planeetat, 0);
+jarjestelma.paivita(25000);
+
+System.out.println(yksi.getSijaintiX() + ", " + yksi.getSijaintiY());
+System.out.println(yksi.getNopeusX() + ", " + yksi.getNopeusY());
+System.out.println("");
+System.out.println(kaksi.getSijaintiX() + ", " + kaksi.getSijaintiY());
+System.out.println(kaksi.getNopeusX() + ", " + kaksi.getNopeusY());
+  <% end %>
+
+  <% partial 'partials/sample_output' do %>
+10.0, 20.0
+0.0, 0.0
+
+45.5, 13.5
+0.0, 0.0
+
+16.30010167873653, 18.846460256005987
+2.5200406714946124E-4, -4.614158975976051E-5
+
+42.34994916063174, 14.076769871997007
+-1.2600203357473062E-4, 2.3070794879880254E-5
+  <% end %>
+
+  <% partial 'partials/code_highlight' do %>
+Planeetta yksi = new Planeetta(10, 20, 0, 0, 100000.0);
+Planeetta kaksi = new Planeetta(45.5, 13.5, 0, 0, 200000.0);
+
+System.out.println(yksi.getSijaintiX() + ", " + yksi.getSijaintiY());
+System.out.println(yksi.getNopeusX() + ", " + yksi.getNopeusY());
+System.out.println("");
+System.out.println(kaksi.getSijaintiX() + ", " + kaksi.getSijaintiY());
+System.out.println(kaksi.getNopeusX() + ", " + kaksi.getNopeusY());
+System.out.println("");
+
+List&lt;Planeetta&gt; planeetat = new ArrayList&lt;&gt;();
+
+planeetat.add(yksi);
+planeetat.add(kaksi);
+
+Planeettajarjestelma jarjestelma = new Planeettajarjestelma(planeetat, 0);
+jarjestelma.paivita(25000);
+
+System.out.println(yksi.getSijaintiX() + ", " + yksi.getSijaintiY());
+System.out.println(yksi.getNopeusX() + ", " + yksi.getNopeusY());
+System.out.println("");
+System.out.println(kaksi.getSijaintiX() + ", " + kaksi.getSijaintiY());
+System.out.println(kaksi.getNopeusX() + ", " + kaksi.getNopeusY());
+  <% end %>
+
+  <% partial 'partials/sample_output' do %>
+10.0, 20.0
+0.0, 0.0
+
+45.5, 13.5
+0.0, 0.0
+
+10.000000010080162, 19.999999998154337
+1.008016268597845E-8, -1.8456635903904204E-9
+
+45.49999999495992, 13.500000000922832
+-5.040081342989225E-9, 9.228317951952102E-10
+  <% end %>
+
+
+  <% partial 'partials/code_highlight' do %>
+Planeetta aurinko = new Planeetta(538771.2647179796, 311728.01914265234, 0.15944610708562912, 0.15099663888466472, 1.989E30);
+Planeetta merkurius = new Planeetta(-2.3423738558153862E10, -5.363391883276512E10, 43168.9924212314, -19555.612648233368, 3.302E23);
+Planeetta venus = new Planeetta(-1.2257733349672739E10, 1.0688994731967513E11, -34980.88986158969, -3903.1360711941647, 4.869E24);
+Planeetta maa = new Planeetta(7.649815710400691E10, 1.2825871174194992E11, -25608.972746907584, 15340.707015973465, 5.974E24);
+Planeetta mars = new Planeetta(1.9433739848583844E11, 1.1855926503806793E11, -12591.918312354934, 20580.315270396313, 6.419E23);
+
+List&lt;Planeetta&gt; planeetat = new ArrayList&lt;&gt;();
+planeetat.add(aurinko);
+planeetat.add(merkurius);
+planeetat.add(venus);
+planeetat.add(maa);
+planeetat.add(mars);
+
+
+planeetat.forEach(p -&gt; {
+    System.out.println(p.getSijaintiX() + ", " + p.getSijaintiY());
+    System.out.println(p.getNopeusX() + ", " + p.getNopeusY());
+    System.out.println("");
+});
+System.out.println("");
+
+Planeettajarjestelma jarjestelma = new Planeettajarjestelma(planeetat, 0);
+jarjestelma.paivita(50000);
+
+planeetat.forEach(p -&gt; {
+    System.out.println(p.getSijaintiX() + ", " + p.getSijaintiY());
+    System.out.println(p.getNopeusX() + ", " + p.getNopeusY());
+    System.out.println("");
+});
+System.out.println("");
+
+jarjestelma.paivita(10000);
+
+planeetat.forEach(p -&gt; {
+    System.out.println(p.getSijaintiX() + ", " + p.getSijaintiY());
+    System.out.println(p.getNopeusX() + ", " + p.getNopeusY());
+    System.out.println("");
+});
+System.out.println("");
+  <% end %>
+
+
+  <% partial 'partials/sample_output' do %>
+538771.2647179796, 311728.01914265234
+0.15944610708562912, 0.15099663888466472
+
+-2.3423738558153862E10, -5.363391883276512E10
+43168.9924212314, -19555.612648233368
+
+-1.2257733349672739E10, 1.0688994731967513E11
+-34980.88986158969, -3903.1360711941647
+
+7.649815710400691E10, 1.2825871174194992E11
+-25608.972746907584, 15340.707015973465
+
+1.9433739848583844E11, 1.1855926503806793E11
+-12591.918312354934, 20580.315270396313
+
+
+546753.7944816214, 319372.29416968033
+0.15965059527283532, 0.15288550054056047
+
+-2.122651286614097E10, -5.452291443432985E10
+43944.513840257874, -17779.91203129461
+
+-1.400351138533523E10, 1.0666630873327432E11
+-34915.560713249826, -4472.771728016184
+
+7.521008618879851E10, 1.2901296745582213E11
+-25761.418304167997, 15085.114277444087
+
+1.9370233582765106E11, 1.1958494576932034E11
+-12701.253163747268, 20513.61462504828
+
+
+548350.6721603925, 320904.92101260496
+0.15968776787711067, 0.15326268429246453
+
+-2.0785660969037113E10, -5.469710019270493E10
+44085.189710385515, -17418.57583750844
+
+-1.4352517689966866E10, 1.0662044384660854E11
+-34900.63046316362, -4586.4886665782915
+
+7.49521722209357E10, 1.2916330435978476E11
+-25791.396786281566, 15033.69039626289
+
+1.9357510532720624E11, 1.1978994735171835E11
+-12723.050044481151, 20500.15823980136
+  <% end %>
+
+
+  <h2>Piirtäminen</h2>
+
+  <p>
+    Luo pakkauksessa planeettajarjestelma olevaan luokkaan PlaneettajarjestelmaSovellus graafinen käyttöliittymä, joka piirtää planeetat ja kutsuu sovelluksen päivitä metodia. Planeettoina voi käyttää -- esimerkiksi -- aurinkokuntamme seuraavia planeettoja.
+  </p>
+
+  <% partial 'partials/code_highlight' do %>
+Planeetta aurinko = new Planeetta(538771.2647179796, 311728.01914265234, 0.15944610708562912, 0.15099663888466472, 1.989E30);
+Planeetta merkurius = new Planeetta(-2.3423738558153862E10, -5.363391883276512E10, 43168.9924212314, -19555.612648233368, 3.302E23);
+Planeetta venus = new Planeetta(-1.2257733349672739E10, 1.0688994731967513E11, -34980.88986158969, -3903.1360711941647, 4.869E24);
+Planeetta maa = new Planeetta(7.649815710400691E10, 1.2825871174194992E11, -25608.972746907584, 15340.707015973465, 5.974E24);
+Planeetta mars = new Planeetta(1.9433739848583844E11, 1.1855926503806793E11, -12591.918312354934, 20580.315270396313, 6.419E23);
+  <% end %>
+
+  <p>
+    Aseta planeettajärjestelmää luotaessa sen halkaisijaksi <code>5.0E11</code>. Piirtäminen ja päivittäminen voidaan toteuttaa erillisissä AnimationTimer-luokan ilmentymissä. Piirtäminen kannattaa tehdä noin 60 kertaa sekunnissa, ja päivittäminen noin 30 kertaa sekunnissa. Hyödynnä planeettoja piirtäessä tietoa piirtoalustan koosta (saat päättää sen itse), aurinkokunnan halkaisijasta, sekä planeetan sijainnista. Tehtävän alussa näytetyn esimerkin piirtämisessä käytettiin seuraavaa fillOval-komentoa.
+  </p>
+
+  <% partial 'partials/code_highlight' do %>
+piirturi.fillOval(leveys / 2 + leveys * p.getSijaintiX() / halkaisija, korkeus / 2 + korkeus * p.getSijaintiY() / halkaisija, 10, 10);
+  <% end %>
+
+  <p>
+    Kun animaatio toimii, palauta tehtävä. Voit halutessasi myös lisätä sovellukseen enemmän kappaleita tai tarkastella miten sovellus toimii erilaisissa tilanteissa. Olemme esimerkiksi erittäin onnellisia siitä, ettei aurinko ole kovin paljoa painavampi -- alla olevassa animaatiossa auringon massa on <code>5e30</code> <code>1.9890e+30</code> sijaan.
+  </p>
+
+  <img src="/img/material/gui-planeetat-painava-aurinko.gif" />
+
+  <p>&nbsp;</p>
+
+  <p>
+    Alla olevassa esimerkissä taas auringon massa on 1e31.
+  </p>
+
+  <img src="/img/material/gui-planeetat-painavampi-aurinko.gif" />
+
+  <p>
+    Huomaat todennäköisesti myös, että päivitysmetodin kutsussa käytettävä aikaväli vaikuttaa simulaation toimintaan. Tämä johtuu sijaintien arviointiin käytetystä päivitystavasta -- mitä lyhyempi aikaväli, sitä tarkempi arviosta saadaan. Sovelluksessa käytetty sijaintien arviointi perustuu numeerisiin menetelmiin -- myös näihin löytyy Kumpulasta sopivia kursseja.
+  </p>
+
+
+  <p>
+    <em>Alkuperäinen tehtäväidea, Robert Sedgewick ja Kevin Wayne, Princeton</em>
+  </p>
+
+<% end %>
+
+<%= partial 'partials/quiz', locals: { id: '58f4de17abb24400043532de' } %>
+
+
+<% partial 'partials/hint', locals: { name: 'Mitä seuraavaksi?' } do %>
+
+  <p>
+    Tämän kurssin jälkeen on hyvä ottaa kurssit Tietokantojen perusteet sekä Ohjelmistotekniikan menetelmät. Jos kurssia Tietokoneen toiminta ei ole vielä suorittanut, myös sen ottaminen on suositeltavaa. Kun kurssi Johdatus yliopistomatematiikkaan on käyty, kannattaa osallistua myös kurssille Tietorakenteet ja algoritmit.
+  </p>
+
+<% end %>
+
+
