@@ -56,11 +56,11 @@ class LoginModal {
   }
 
   getLoginText() {
-    return 'Kirjaudu sisään';
+    return 'Log in';
   }
 
   getLogOutText({ username }) {
-    return `Kirjaa ulos ${username}`;
+    return `Log out ${username}`;
   }
 
   showError(message) {
@@ -107,9 +107,9 @@ class LoginModal {
     const courseNode = this.loginFormNode.find('input[name="tmcLoginCourse"]:checked');
 
     if(courseNode.length === 0) {
-      this.showError('Et valinnut kurssia');
+      this.showError('You did not select a course.');
     } else if(!username || !password) {
-      this.showError('Käyttäjätunnus tai salasana puuttuu');
+      this.showError('Username or password missing');
     } else {
       const course = courseNode.val();
 
@@ -126,9 +126,9 @@ class LoginModal {
         })
         .catch(() => {
           if(username.indexOf('@') > 0) {
-            this.showError('Käyttäjätunnus tai salasana on virheellinen. Huomaathan, että sinun tulee kirjautua sisään käyttäjätunnuksellasi, eikä sähköpostiosoitteellasi')
+            this.showError("Username or password was incorrect. Please remember that you're supposed to login with your username, NOT your email.")
           } else {
-            this.showError('Käyttäjätunnus tai salasana on virheellinen');
+            this.showError('Username or password was incorrect');
           }
         });
     }

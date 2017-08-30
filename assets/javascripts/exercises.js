@@ -60,7 +60,7 @@ class Exercises {
 
       headingNode.prepend(`
         <small class="text-muted">
-          Tehtävä ${indices.join('.')}:
+          Exercise ${indices.join('.')}:
         </small>
       `);
     });
@@ -79,7 +79,7 @@ class Exercises {
       .map((exercise, index) => `
         <div class="exercise-list__item col col-lg-4 col-md-6 col-sm-12">
           <a data-toggle="collapse" class="exercise-list__link" href="${exercise.href}">
-            Tehtävä ${index + 1}: ${exercise.name}
+            Exercise ${index + 1}: ${exercise.name}
           </a>
         </div>
       `)
