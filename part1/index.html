@@ -172,22 +172,22 @@ AI" (GOFAI) and modern AI approaches
 </p>
 
 <p>
-  As computers begun to develop to the level that it was feasible to
-  implement practical AI methods in the 1940s and 1950s, the most
-  distinctive AI problems were games. Games provide a convenient
-  restricted domain that can be formalized easily. Board games such
+  As computers developed to the level where it was feasible to
+  experiment with practical AI algorithms in the 1940s and 1950s, the most
+  distinctive AI problems were games. Games provided a convenient
+  restricted domain that could be formalized easily. Board games such
   as checkers, chess, and (recently quite prominently) Go, have
   inspired countless researchers,  and continue to do so.
 </p>
 
 <p>
   Closely related to games, search and planning algorithms were an
-  area where AI lead to great advances in the 1960s: we will admire
-  the beauty of, for example,
+  area where AI lead to great advances in the 1960s: in a little
+  while, we will be able to admire the beauty of, for example,
   the <a href="https://en.wikipedia.org/wiki/A*_search_algorithm">A*
-  (''A star'') search algorithm</a> and
+  search algorithm</a> and
   <a href="https://en.wikipedia.org/wiki/Alpha%E2%80%93beta_pruning">alpha-beta
-  pruning</a>.</p>
+  pruning</a>, and apply them to solve AI problems.</p>
 
 <div class="hint">
   <div class="hint__header">
@@ -268,13 +268,15 @@ AI" (GOFAI) and modern AI approaches
 </p>
 
 <p>
-  No wonder that you have decided to learn more about AI! Being able
-  to contribute to what kind of AI solutions we have in the future is 
-  a great way to change the world. And even if you wouldn't aspire to 
-  become an AI developer, it is almost your duty as a citizen to
-  understand at least the fundamentals of AI so that you can better
-  use it: be aware of its limitations and enjoy all the goodies it
-  can provide.
+  No wonder that you have decided to learn more about AI!
+</p>
+
+<p> Being able to apply AI methods and thus to be part of the progress
+  of AI is a great way to change the world for the better. And even if
+  you wouldn't aspire to become an AI researcher or developer, it is
+  almost your duty as a citizen to understand at least the
+  fundamentals of AI so that you can better use it: be aware of its
+  limitations and enjoy all the goodies it can provide.
 </p>
 
 <h2 class="material-heading">
@@ -286,7 +288,7 @@ AI" (GOFAI) and modern AI approaches
 
 <p>
   The best known contribution to AI by Turing is his <i>imitation
-  game</i>, which later became known as the <b>Turing test</b>.  In the
+  game</i>, which later became known as the <a href="https://en.wikipedia.org/wiki/Turing_test">Turing test</a>.  In the
   test, a human interrogator interacts with two players, A and B, by
   exchanging written messages (in a ''chat''). If the interrogator
   cannot determine which player, A or B, is a computer and which is a
@@ -300,12 +302,13 @@ AI" (GOFAI) and modern AI approaches
   Turing's argument that whether a being is intelligent or not can be
   decided based on the behavior it exhibits has been challenged by
   some. The best known opponent of the argument is John Searle's
-  <b>Chinese Room</b> though experiment. Searle descibes an experiment
-  where a person who doesn't know Chinese is locked in a room. Outside
-  the room is a person who can slip notes written in Chinese inside
-  the room through a mail slot. The person inside the room is given a
-  large manual where she can find detailed instructions for responding
-  to the notes she receives from the outside.
+  <a href="http://www.iep.utm.edu/chineser/">Chinese Room</a> thought
+  experiment. Searle descibes an experiment where a person who doesn't
+  know Chinese is locked in a room. Outside the room is a person who
+  can slip notes written in Chinese inside the room through a mail
+  slot. The person inside the room is given a large manual where she
+  can find detailed instructions for responding to the notes she
+  receives from the outside.
 </p>
 
 <p>
@@ -355,14 +358,14 @@ AI" (GOFAI) and modern AI approaches
 <p>
   Good places to start your search are, e.g., the proceedings of
   <a href="http://www.aaai.org">AAAI</a>,
-  <a href="http://www.ijcai.org">IJCAI</>, and 
+  <a href="http://www.ijcai.org">IJCAI</a>, and 
   <a href="https://www.eurai.org/activities/ECAI_conferences">ECAI</a>
   conferences or magazine-style publications that may be somewhat less
   technical and intended for broader audiences, such
   as <a href="http://ai-magazine.com/">AI Magazine</a>. However,
   please try to avoid articles that are overly polemic and
-  superficial -- the idea is to take a look at <i>academic</i> AI
-  instead of the BS on my Facebook feed...
+  superficial -- the idea is to take a look at <i>academic</i> AI,
+  and ignore the BS on my Facebook feed...
 </p>
 
 <p>
@@ -446,6 +449,105 @@ AI" (GOFAI) and modern AI approaches
 
 </h2>
 
+
+<div class="exercise">
+  <div class="exercise__header">
+    <a data-toggle="collapse" class="exercise__toggle">
+      <i class="fa fa-pencil exercise__icon"></i>
+      <h1 class="exercise__heading">Breadth-first and depth-first search</h1>
+
+      <i class="fa fa-caret-down exercise__arrow"></i>
+    </a>
+  </div>
+
+  <div class="collapse">
+    <div class="exercise__body">
+      
+<p>
+  <img src=img/exercises/ex1/Drawing.png align=right>
+  Consider the network on the right.
+</p>
+
+<p>
+  <ol>
+    <li> Simulate (on pen-and-paper) breadth-first search starting from
+      node A when the goal node is H.
+    <li> Do the same with depth-first search.
+  </ol>
+  In each case, present the contents of the node list (queue or stack)
+  at each step of the search. To ensure that everyone gets the same
+  result, let's agree that nodes are added to the list in alphabetical
+  order.
+</p>
+
+
+    </div>
+  </div>
+</div>
+
+<div class="exercise">
+  <div class="exercise__header">
+    <a data-toggle="collapse" class="exercise__toggle">
+      <i class="fa fa-pencil exercise__icon"></i>
+      <h1 class="exercise__heading">Towers of Hanoi</h1>
+
+      <i class="fa fa-caret-down exercise__arrow"></i>
+    </a>
+  </div>
+
+  <div class="collapse">
+    <div class="exercise__body">
+      
+<p>
+  Let's solve the well-known
+puzzle <a href="https://www.britannica.com/topic/Tower-of-Hanoi">Towers
+of Hanoi</a>. The puzzle involves three pegs, and three discs: one
+large, one medium-sized, and one small.  (Actually, there can be any
+number of discs but for the pen-and-paper exercise, three is plenty.)
+</p>
+
+<p>In the initial state, all three discs are stacked in the first
+  (leftmost) peg. The goal is to move the discs to the third peg.
+  You can only move one disc at a time, and it is not allowed to
+  put a larger disc on top of a smaller disc.</p>
+
+<p>This pretty picture shows the initial state and the goal state:
+<pre>
+initial  |     |     |          goal    |     |     |          
+state:  ---    |     |          state:  |     |    ---  
+       -----   |     |                  |     |   -----     
+      =====================         ====================
+</pre>
+</p>
+
+<p>
+  <ol>
+    <li> Draw a network diagram where the nodes are all the states
+      that can be achieved from the initial state, and the edges
+      represent allowed transitions (moves) between them.
+    <li> Simulate breadth-first search in the state space.
+      <b>Note:</b>You don't have to explicitly specify the
+      contents of the queue at each step. It is enough to provide
+      the traversal order.
+    <li> Do the same with depth-first search.
+    <li> Compare the search methods on two accounts: <i>a)</i>
+      what is the length of the path that each algorithm finds,
+      <i>b)</i> what is the number of states visited during the
+      search. <b>Note:</b> It is important to note that these are
+      two different things (the length of the path, and the number
+      of visited states.)
+    <li> Does the result depend on the order in which the neighbors
+      of each node are added into the list?
+  </ol>
+</p>
+
+<p>A bonus exercise: Try to see the symmetry in the state diagram,
+  and generalize to <i>n>3</i> discs.
+
+
+    </div>
+  </div>
+</div>
 
 
         </div>
