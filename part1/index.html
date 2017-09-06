@@ -191,7 +191,7 @@ AI" (GOFAI) and modern AI approaches
 
 <div class="hint">
   <div class="hint__header">
-    <i class="fa fa-info-circle hint__icon"></i>Definition of AI
+    <i class="fa fa-info-circle hint__icon"></i>The Elusive Definition of AI
   </div>
 
   <div class="hint__body">
@@ -321,28 +321,127 @@ AI" (GOFAI) and modern AI approaches
 </p>
 
 <p>
-  The definition of intelligence, natural or artificial, and 
-  consciousness appears to be extremely evasive and leads to apparently
-  never-ending discourse. In an intellectual company, with plenty of
-  good Burgundy (Bordeaux will also do), this discussion can be quite
-  enjoyable. On this course, however, we need to put our wine glasses
-  aside, roll our sleeves, and turn our minds toward more practical
-  considerations.
+  The definition of intelligence, natural or artificial, and
+  consciousness appears to be extremely evasive and leads to
+  apparently never-ending discourse. In an intellectual company, with
+  plenty of good Burgundy (Bordeaux will also do), this discussion can
+  be quite enjoyable. However, as John
+  McCarthy <a href="http://www-formal.stanford.edu/jmc/aiphil/node2.html#SECTION00020000000000000000">pointed
+  out</a>, the philosophy of AI is ''unlikely to have any more effect
+  on the practice of AI research than philosophy of science generally
+  has on the practice of science.''
+</p>
+
+<div class="exercise">
+  <div class="exercise__header">
+    <a data-toggle="collapse" class="exercise__toggle">
+      <i class="fa fa-pencil exercise__icon"></i>
+      <h1 class="exercise__heading">What is AI, really?</h1>
+
+      <i class="fa fa-caret-down exercise__arrow"></i>
+    </a>
+  </div>
+
+  <div class="collapse">
+    <div class="exercise__body">
+      
+<p>
+  Your first exercise will be to take a look into current AI research.
+  Find an AI-related scientific article from recent years. Pick one
+  that you can understand, by and large: try to see what the problem
+  statement, methodology, and conclusions are, roughly.
 </p>
 
 <p>
-  With these words, let's jump to our first technical topic: 
-  problem-solving and search.
+  Good places to start your search are, e.g., the proceedings of AAAI,
+  IJCAI, and ECAI conferences or magazine-style publications that may
+  be somewhat less technical and intended for broader audiences, such
+  as <a href="http://ai-magazine.com/">AI Magazine</a>. However, please
+  try to avoid articles that are overly polemic and superficial --
+  the idea is to take a look at <i>academic</i> AI instead of the
+  BS on my Facebook feed...
+</p>
+
+<p>
+  Read the article through and answer the following questions:
+  <ol>
+    <li> What is the research problem?
+    <li> Is the topic related to the topics of this course?
+    <li> Generally speaking, what impression does the article give
+      about modern AI research? Reflect on the history and philosophy of
+      AI discussed above.
+    <li> What studies would be needed to undertand the article in detail?
+    <li> Bonus question: Considering the article you chose, how relevant
+      is the ''Terminator'' scenario where AI becomes self-conscious and
+      turns against the humankind?
+  </ol>
+</p>
+
+
+    </div>
+  </div>
+</div>
+
+<div class="hint">
+  <div class="hint__header">
+    <i class="fa fa-info-circle hint__icon"></i>How do I return my solutions?
+  </div>
+
+  <div class="hint__body">
+    
+<p>
+  Solutions to ''pen-and-paper'' exercises such as this one 
+  are turned in at the exercise sessions where you should make sure
+  to mark completed exercises on the sheet that is circulated in
+  the beginning.
+</p>
+
+<p>
+  For programming exercises, you will be able to use the TMC system
+  which helps you see whether the solution is correct. However,
+  even the TMC exercises are marked at the exercise session.
+  In other words, <b>it is not enough to upload the programming
+    exercises on TMC to get the points</b>.
+</p>
+
+
+  </div>
+</div>
+
+
+
+<p>
+  We will now put our wine glasses aside, roll our sleeves, and turn
+  our minds toward more practical considerations.
+  Let's jump to our first technical topic: 
+  search and problem-solving.
 </p>
 
 <h1 class="material-heading">
-    Ohjelma ja lähdekoodi
+    Search and Problem-Solving
 
 </h1>
 
 <p>
-  <strong>Ohjelma</strong> on järjestetty joukko käskyjä, joita tietokone noudattaa yksi kerrallaan.
+  Many problems can be phrased as search problems. Formulating the
+  search space and choosing an appropriate search algorithm often
+  requires careful thinking and is an important skill for an AI
+  developer.
 </p>
+
+<p>
+  Basic tree and network traversal algorithms belong to the
+  course prerequisites, and you should already be familiar with 
+  breadth-first, depth-first, and best-first search (including its
+  special case, the A* algorithm). If you forgot the details right
+  after taking the exam, no need to worry: we will revisit them
+  below.
+</p>
+
+<h2 class="material-heading">
+    Breadth-First and Depth-First Search
+
+</h2>
 
 <p>
   Nykypäivänä ohjelmoijat eivät ohjelmoi tietokoneen noudattamaksi tarkoitettuja käskyjä käyttäen. Ohjelmoinnissa käytetään ihmisen kirjoitettavaksi ja luettavaksi tarkoitettua ohjelmointikieltä, kuten tällä kurssilla käytettyä <a href="https://en.wikipedia.org/wiki/Java_(programming_language)" target="_blank" rel="noopener">Java</a>a. Ohjelmoijan kirjoittamaa ohjelmakoodia kutsutaan <strong>lähdekoodiksi</strong>. Lähdekoodi käännetään ohjelmointikielen- ja ohjelmointiympäristön tarjoamien työvälineiden avulla konekieliseksi ohjelmaksi, jonka käskyjä tietokone noudattaa.
