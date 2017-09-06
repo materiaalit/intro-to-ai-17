@@ -93,32 +93,56 @@
 
           
 <h1 class="material-heading">
-    Johdanto
+    What is AI?
 
 </h1>
 
-- missä kakkialla ohjelmointia tehdään
+In this first part, we will discuss what we mean when we talk about AI.
+It turns out that there is no exact definition at all, but that the
+field is rather being redefined at all times.
 
-- mihin ohjelmistoja käytetään
-
-- historiaa
-
-- ketkä ohjelmoivat
-
-
+We will also briefly discuss the philosophical aspects of AI: whether
+intelligent behavior implies or requires the existence of a ''mind'', and
+in what extent is consciousness replicable as a computational process.
+However, this course is first and foremost focused on building 
+practically useful AI tools, and we will quickly push considerations 
+about consciousness aside as they tend to be only in the way when 
+designing working solutions to real problems.
 
 <div class="hint">
   <div class="hint__header">
-    <i class="fa fa-info-circle hint__icon"></i>Ensimmäisen osan tavoitteet
+    <i class="fa fa-info-circle hint__icon"></i>Learning objectives of Part 1
   </div>
 
   <div class="hint__body">
     
-  <p>
-    Tutustumme neljää...
-
-    Muuttujat ja ongelman osa-alueiden sanoittaminen. Tiedon lukeminen. Vertaileminen. Toistaminen.
-  </p>
+<table class="table">
+  <tr>
+    <th>
+      Theme
+    </th>
+    <th>
+      Objectives (after the course, you ...)
+    </th>
+  </tr>
+  <tr>
+    <td>
+      Philosophy and history of AI
+    </td>
+    <td>
+      <ul>
+	<li>can express the basic philosophical problems related to AI
+(the difficulty in defining AI and consciousness, acting vs thinking,
+Turing test) 
+	<li>can distinguish between realistic and unrealistic AI in
+science-fiction 
+	<li>can describe the contrast between "Good Old Fashioned
+AI" (GOFAI) and modern AI approaches 
+	<li>know the main-stream developments in the history of AI
+      </ul>
+    </td>
+  </tr>
+</table>
 
 
   </div>
@@ -126,18 +150,146 @@
 
 
 <h2 class="material-heading">
-    Ohjelmointi ja leipominen
+    A (Very) Brief History of AI
 
 </h2>
 
 <p>
-  Tietokoneohjelmia verrataan usein leipomiseen. Tietokone on aloitteleva leipuri, tietokone-ohjelma kokkikirjasta saatu resepti, ja tietokoneen resurssit -- esimerkiksi näyttö, tietokoneelle tallennettu tiedosto ja verkkokortti -- leipomiseen käytettäviä raaka-aineita. Tietokone noudattaa sille annettua reseptiä säntillisesti askel kerrallaan ilman ymmärrystä tai tietoa hamaan ikuisuuteen asti. Jos reseptissä on kirjoitusvirhe, ei tietokone tiedä miten sen tulee toimia. Tietokone ei myöskään osaa reagoida vaikkapa rikkinäiseen uuniin, ellei resepti kerro täsmällisesti miten rikkinäinen uuni tunnistetaan ja mitä uunin rikkoutuessa tulee tehdä.
+  Artificial Intelligence (AI) is a subdiscipline of Computer
+  Science. Indeed, it is arguably as old as Computer Science itself:
+  <a href="https://en.wikipedia.org/wiki/Alan_Turing">Alan Turing</a>
+  (1912-1954) proposed the Turing machine -- the formal model
+  underlying the theory of computation -- as a model with equivalent
+  capacity to carry out calculations as a human being (ignoring
+  resource constraints on either side).
 </p>
 
 <p>
-  Aloittelevalla leipurilla ja tietokoneella on kuitenkin todellisuudessa muutamia merkittäviä eroja. Tietokone pystyy suorittamaan miljoonia käskyjä sekunnissa, kun aloittelevalla leipurilla voi mennä yhteen reseptissä olevan käskyn noudattamiseen minuutteja. Toisaalta, aloitteleva leipuri oppii ja kehittyy leipoessaan. Hän voi luovasti kokeilla uusia raaka-aineita ja reseptejä, sekä kehitellä itselleen paremmin sopivia työskentelytapoja. Tietokoneella ei tällaista kehittymiskykyä ole, ellei sitä erikseen -- askel askeleelta -- ole sille annettuun reseptiin kirjoitettu. Tällä kurssilla opit kirjoittamaan tietokoneelle tarkoitettuja reseptejä.
+  The term AI was proposed by John McCarthy (1927-2011) -- often
+  referred to as the Father of AI -- as the topic of a summer seminar,
+  known as <a href="https://en.wikipedia.org/wiki/Dartmouth_workshop">the
+    Dartmouth conference</a> held in 1956 at Dartmouth College.
 </p>
 
+<p>
+  The history of AI, just like many other fields of science, has
+  witnessed the coming and going (and coming back and going again,
+  etc.) of various different paradigms. Typically, a particular
+  paradigm is adopted by most of the research community and
+  ultra-optimistic estimates of progress in the near-future are
+  provided. All such scenarios so far have ended up running into
+  unsurmountable, unexpected problems and the interest has died
+  out. For example, in the 1960s <b>artificial neural networks</b>
+  were widely believed to solve all AI problems by imitating the
+  learning mechanisms in the nature (such as the human central nervous
+  system and the brain, in particular). However, certain negative
+  results about the expressibility of certain neural computation
+  models quickly lead to pessimism and an <b>AI winter</b> followed.
+</p>
+
+<p> 
+  The 1980s brought a new wave of AI methods based on logic-based
+  methods. So called <b>expert systems</b>, manipulating knowledge
+  elicited from domain experts, such as medical doctors, showed
+  great promise by solving nicely contained, well-defined 
+  ''toy problems'', but turned out to fail every time when they
+  were deployed in more complex, real-world problems. The second
+  (or the third, depending on the counting) AI winter lasted from the
+  late 1980s until the mid-1990s.
+</p>
+ 
+<p>
+  Currently, since the turn of the millennium, AI has been on the rise
+  again. In the late 1990s, the ''classical'' or <b>''Good
+  Old-Fashioned AI'' (GOFAI)</b> that addressed crisp, clearly
+  defined, and isolated problems begun to be replaced by so called
+  <b>''modern AI''</b> (in lack of a better name). Modern AI
+  introduced methods that were able to handle uncertain and imprecise
+  information, most notably by probabilistic methods, and which had
+  the great advantage that it was designed to work in the real world.
+  The rise of modern AI has continued until present day, further
+  boosted by the come-back of neural networks under the label <b>Deep
+  Learning</b>.
+</p>
+
+<p>
+  Whether the history repeats itself, and the current boom will be
+  once again followed by an AI winter, is a matter that only time can
+  tell. Even if it does, the significance of AI in the society is
+  going to stay. Today, we live our life surrounded by AI, most of the
+  time happily unaware of it: the music that we listen, the products
+  that we buy online, the movies and series that we watch, our routes
+  of transportation, and the information that we have available, are
+  all influenced more and more by AI.
+</p>
+
+<p>
+  No wonder that you have decided to learn more about AI! Being able
+  to contribute to what kind of AI solutions we have in the future is 
+  a great way to change the world. And even if you wouldn't aspire to 
+  become an AI developer, it is almost your duty as a citizen to
+  understand at least the fundamentals of AI so that you can better
+  use it: be aware of its limitations and enjoy all the goodies it
+  can provide.
+</p>
+
+<h2 class="material-heading">
+    On the Philosophy of AI
+
+</h2>
+
+
+
+<p>
+  The best known contribution to AI by Turing is his <i>imitation
+  game</i>, which later became known as the <b>Turing test</b>.  In the
+  test, a human interrogator interacts with two players, A and B, by
+  exchanging written messages (in a ''chat''). If the interrogator
+  cannot determine which player, A or B, is a computer and which is a
+  human, the computer is said to pass the test.  The argument is that
+  if a computer is indistinguishable from a human in a general
+  natural language conversation, then it must have reached human-level
+  intelligence.
+</p>
+
+<p>
+  Turing's argument that whether a being is intelligent or not can be
+  decided based on the behavior it exhibits has been challenged by
+  some. The best known opponent of the argument is John Searle's
+  <b>Chinese Room</b> though experiment. Searle descibes an experiment
+  where a person who doesn't know Chinese is locked in a room. Outside
+  the room is a person who can slip notes written in Chinese inside
+  the room through a mail slot. The person inside the room is given a
+  large manual where she can find detailed instructions for responding
+  to the notes she receives from the outside.
+</p>
+
+<p>
+  Searle argued that that even if the person outside the room gets the
+  impression that he is in a conversation with another
+  Chinese-speaking person, the person inside the room does <i>not
+  understand</i> Chinese. Likewise, his argument continues, a
+  machine that behaves in an intelligent manner, for example, by
+  passing the Turing test, it doesn't follow that it <i>is</i>
+  intelligent or that it has a ''mind'' in the way that a human
+  has. The word ''intelligent'' can also be replaced by the word
+  ''conscious'' and a similar argument can be made.
+</p>
+
+<p>
+  The definition of intelligence, natural or artificial, and 
+  consciousness appears to be extremely evasive and leads to apparently
+  never-ending discourse. In an intellectual company, with plenty of
+  good Burgundy (Bordeaux will also do), this discussion can be quite
+  enjoyable. On this course, however, we need to put our wine glasses
+  aside, roll our sleeves, and turn our minds toward more practical
+  considerations.
+</p>
+
+<p>
+  With these words, let's jump to our first technical topic: 
+  problem-solving and search.
+</p>
 
 <h1 class="material-heading">
     Ohjelma ja lähdekoodi
