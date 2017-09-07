@@ -833,11 +833,11 @@ state:  ---    |     |          state:  |     |    --- 
 
 <p>
   This is understandable since the choice of the next node to expand
-  has nothing to do with the goal. However, if we do have some
+  has nothing to do with the goal. However, if we have some
   way of measuring, even approximately, which nodes are nearer
-  to the goal, we can use them to <b>inform</b> the search and
+  to the goal, we can use it to guide the search and
   save a lot of effort by never having to explore unpromising
-  paths.
+  paths. This is the idea behind <b>informed search</b>.
 </p>
 
 
@@ -845,8 +845,7 @@ state:  ---    |     |          state:  |     |    --- 
 </div>
 
 <p>
-  In order to push the search towards the goal, we can use so called
-  <b>informed search</b> methods. They rely on having access to a
+  Informed search relies on having access to a
   <b>heuristic</b> that associates with each node an estimate of the
   remaining cost from the node to the goal. This can be, for example,
   the distance between the node and the goal measured as the crow
@@ -865,10 +864,14 @@ state:  ---    |     |          state:  |     |    --- 
   <pre>
            f(node, cost) = cost + h(node),
   </pre>
-  where <code>cost</code> is the value associated with the node
-  when it is added to the priority queue, and <code>h(node)</code>
-  is the heuristic value, i.e., an estimate of the remaining cost
-  from <code>node</code> to the goal.
+  where <code>cost</code> is the value associated with the node when
+  it is added to the priority queue, and <code>h(node)</code> is the
+  heuristic value, i.e., an estimate of the remaining cost
+  from <code>node</code> to the goal. This is the A* search.  If you
+  try it on
+  the <a href="qiao.github.io/PathFinding.js/visual/">PathFinding
+  applet</a>, you will immediately see that it wipes the floor with
+  other, uninformed search methods.
 </p>  
 
 
