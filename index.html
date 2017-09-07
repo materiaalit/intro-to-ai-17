@@ -360,183 +360,98 @@ AI" (GOFAI) and modern AI approaches
 </div>
 
 <h1 class="material-heading">
-    Tunnukset ja työvälineet
+    Accounts and tools
 
 </h1>
 
 
 
 <h2 class="material-heading">
-    Käyttäjätunnuksen luominen
+    Creating a user account
 
 </h2>
 
 <p>
-  Kurssilla tarvitaan käyttäjätunnus Test My Code (TMC) -järjestelmään, jota käytetään tehtävien automaattiseen arviointiin. Käyttäjätunnuksella voit myös kirjautua tähän materiaaliin, jolloin pääset vastaamaan materiaalissa oleviin kyselyihin.
+  You'll need a user account to the Test My Code (TMC) system that will be used to automatically assess some parts of the programming exercises.
+  You should also log in to the course material with the same account.
 </p>
 
 <p>
-  <strong>Huom!</strong> Jos olet Helsingin yliopiston opiskelija, aseta käyttäjätunnukseksesi opiskelijanumerosi. Näin opintopisteiden liittäminen kurssisuoritukseen helpottuu merkittävästi. Jos taas et ole Helsingin yliopiston opiskelija, keksi itsellesi sopiva käyttäjätunnus. Kun jatkossa kysymme TMC-tunnustasi, tarkoitamme sillä tätä käyttäjätunnusta.
+ <strong>NOTE:</strong> your username <i>needs</i> to be your student number. This helps us to associate your submissions to you.
 </p>
 
 <p>
-  Käyttäjätunnuksen luominen onnistuu sivulla <a href="https://tmc.mooc.fi/user/new" target="_blank" rel="noopener">https://tmc.mooc.fi/user/new</a>.
-</p>
-
-<p>
-  Kun olet luonut käyttäjätunnuksen, voit kirjautua tähän materiaaliin materiaalin oikeassa ylälaidassa olevan "Kirjaudu sisään"-napin kautta.
+  Account can be created here: <a href="https://tmc.mooc.fi/user/new" target="_blank" rel="noopener">https://tmc.mooc.fi/user/new</a>.
 </p>
 
 <h2 class="material-heading">
-    Ohjelmointiympäristön asentaminen
+    Installing the programming environment
 
 </h2>
 
-
 <p>
-  Kurssin ohjelmointiympäristönä käytetään NetBeans-nimistä ohjelmointiympäristöä, johon lisätään TMC-niminen liitännäinen. Nämä työvälineet löytyvät Kumpulan kampuksen Exactumin mikroluokista B221 ja BK107 asennettuna nimellä "TMCBeans".
+  We recommend that you use the Netbeans IDE with the TMC plugin. The plugin makes it easy to return the exercises. These tools are installed in computer labs B221 and BK107 under the name 'TMCBeans'.
 </p>
 
 <p>
-  Jos teet kurssia kotoa, tulee sinun asentaa koneellesi sekä tuki Java-ohjelmien kehittämiselle, että ohjelmien kehittämiseen käytettävä NetBeans with TMC-ympäristö.
+  If you're doing the course on your own computer you'll need to install the Java JDK 8 and and the NetBeans with TMC-environment.
 </p>
+
 
 <ul>
 
   <li>
-    <strong>Javan asentaminen (* linux, kts. alla!)</strong>: lataa uusin Javan kehitysympäristö (Java SE Development Kit 8u112) osoitteesta <a href="http://www.oracle.com/technetwork/java/javase/downloads/jdk8-downloads-2133151.html" target="_blank" rel="noopener">http://www.oracle.com/technetwork/java/javase/downloads/jdk8-downloads-2133151.html</a>. Lataamasi versio riippuu käytössäsi olevasta käyttöjärjestelmästä, esimerkiksi Macintosh-käyttäjät lataavat tiedoston <code>jdk-8u112-macosx-x64.dmg</code> ja 64-bittisen Windows-käyttöjärjestelmän käyttäjät lataavat tiedoston <code>jdk-8u112-windows-x64.exe</code>. Kun olet ladannut tiedoston, asenna se koneellesi.
+    <strong>Installing Java (* linux, check below!)</strong>: install JDK (Java SE Development Kit 8u144) from <a href="http://www.oracle.com/technetwork/java/javase/downloads/jdk8-downloads-2133151.html" target="_blank" rel="noopener">http://www.oracle.com/technetwork/java/javase/downloads/jdk8-downloads-2133151.html</a>.
   </li>
 
   <li>
-    <strong>NetBeans with TMC:n asentaminen</strong>: Mene osoitteeseen <a href="http://update.testmycode.net/installers/tmc-netbeans_org_mooc/" target="_blank" rel="noopener">http://update.testmycode.net/installers/tmc-netbeans_org_mooc/</a>. Osoitteessa on listattuna eri asennusohjelmat eri käyttöjärjestelmille -- valitse listalla olevista sopivin ja lataa se. Esimerkiksi Windows-käyttäjät lataavat tiedoston <code>http://update.testmycode.net/installers/tmc-netbeans_org_mooc/tmc-netbeans_org_mooc_tmcbeans-windows.exe</code> ja Linuxilla <code>http://update.testmycode.net/installers/tmc-netbeans_org_mooc/tmc-netbeans_org_mooc_tmcbeans-windows.sh</code> jne. Kun tiedoston lataaminen on valmis, asenna sovellus koneellesi.
+    <strong>Installing NetBeans with TMC</strong>: Go to <a href="http://update.testmycode.net/installers/tmc-netbeans_hy/" target="_blank" rel="noopener">http://update.testmycode.net/installers/tmc-netbeans_hy/</a>. Choose the right installer for your operating system (eg. for windows .exe, for linux .sh and for macOS .tgz) Once you have downloaded the installer, install the program.
   </li>
 </ul>
 
 
 <p>
-  <strong>(*)</strong> Linux-koneilla OpenJDK:n asentaminen on todennäköisesti helpompaa kuin yllämainitun Oraclen Java-version. OpenJDK:n asennus tapahtuu Ubuntussa komentoriviltä seuraavalla komennolla:
+  <strong>(*)</strong> If you're on linux installing openjdk is probably easier. If you're on Ubuntu you can install it with:
 </p>
 
 <pre>
-sudo apt-get install openjdk-8-jdk
+sudo apt install openjdk-8-jdk
 </pre>
 
 <p>
-  Asenna tämän jälkeen vielä OpenJFX, jota käytetään käyttöliittymien tekemiseen ja käsittelyyn. Tämän asentaminen onnistuu Ubuntussa (komentoriviltä) komennolla:
-</p>
-
-<pre>
-sudo apt-get install openjfx
-</pre>
-
-<p>
-  Joissain Linux-koneissa tulee lisäksi NetBeans with TMC:n asennuksen yhteydessä asettaa ensiksi ladatulle asennuspaketille suoritusoikeudet. Tämä tapahtuu klikkaamalla asennuspakettia oikealla hiirennapilla ja valitsemalla Properties. Valitse tämän jälkeen Permissions, ja aseta Allow executing file as a program -ruutuun ruksi. Ohjelman asennuksen pitäisi tämän jälkeen käynnistyä kun tuplaklikkaat tiedostoa ja valitset Run.
-</p>
-
-<p>
-  Kun olet saanut kurssin työvälineet asennettua, seuraava askel on kurssin valinta ohjelmointiympäristössä.
+  Next select the right course in the programming environment.
 </p>
 
 
 
 <h3 class="material-heading">
-    Oikean kurssin valinta ohjelmointiympäristössä
+    Selecting the right course in the programming environment
 
 </h3>
 
 <p>
-  Kurssimateriaalia käytetään kahdella kurssilla.
+Open the tmc settings and make sure that the server address is: 'https://tmc.mooc.fi/org/hy'. Then log in and select 'hy-intro-to-ai-17' as your course.
 </p>
-
-<ul>
-  <li>
-    <strong>Helsingin yliopiston syksyn 2017 kurssi Ohjelmoinnin perusteet</strong> (kurssi <a href="https://courses.helsinki.fi/fi/TKT10002/119284736" target="_blank" rel="noopener">https://courses.helsinki.fi/fi/TKT10002/119284736</a>). Jos teet kurssia Helsingin yliopistolla, valitse TMC:n asetuksista palvelimen osoitteeksi (server address) <code>(julkaistaan myöhemmin)</code>. Kurssin nimi on tällöin <code>(julkaistaan myöhemmin)</code>.
-  </li>
-  <li>
-    <strong>Helsingin yliopiston syksyn 2017 kurssi Ohjelmoinnin jatkokurssi</strong> (kurssi <a href="https://courses.helsinki.fi/fi/TKT10003/119284733" target="_blank" rel="noopener">https://courses.helsinki.fi/fi/TKT10003/119284733</a>). Jos teet kurssia Helsingin yliopistolla, valitse TMC:n asetuksista palvelimen osoitteeksi (server address) <code>https://tmc.mooc.fi/org/hy/courses/208</code>. Kurssin nimi on tällöin <code>hy-ohja-k2017</code>.
-  </li>
-</ul>
-
-<p>
-  Ylläolevat asetukset saa asetettua NetBeans with TMC:n valikosta TMC -> Settings. TMC:hen asetettava käyttäjätunnus on aiemmin luomasi TMC-tunnus, ja salasana on luomallesi tunnuksellesi asettamasi salasana.
-</p>
-
-
-<h3 class="material-heading">
-    Analytiikkadatan kerääminen ja arvostelu
-
-</h3>
-
-<p>
-  Varmista että TMC:n asetuksissa (Valikko TMC -> Settings) kohdassa "Send snapshots of your progress for study" on ruksi.  MOOC-suorituksia tai Helsingin yliopiston avoimen yliopiston suorituksia ei arvostella ilman tätä. Jos olet opiskelijana Helsingin yliopistolla ja et halua että työstämistäsi tehtävistä kerätään ajoittaista dataa kurssiarvostelua varten, voit suorittaa kurssin Kumpulassa järjestettävällä erilliskokeella. Analytiikkadataa kerätään vain kurssiin liittyvistä harjoitustehtävistä, ei muista projekteistasi tai muualta koneeltasi.
-</p>
-
-
-<div class="quiznator-plugin" data-quiz-id="587bc4a71b527d0004a7971b"></div>
-
-
 
 <h2 class="material-heading">
-    Ensimmäisen ohjelman palauttaminen
+    Research participation
 
 </h2>
 
 
-<p>
-  Seuraavalla videolla näytetään miten tehtävien tekeminen ja palauttaminen NetBeansilla ja TMC:llä tapahtuu. Video perustuu hieman aiempaan kurssiin, joten tehtävä ei ole täysin identtinen nykyisen kurssin ensimmäisen tehtävän kanssa.
-</p>
-
-<iframe width="420" height="315" src="//www.youtube.com/embed/sQYq2LISMRU" frameborder="0" allowfullscreen=""></iframe>
-
-
-
-<h2 class="material-heading">
-    Kurssimateriaalin tekijät ja lisenssi
-
-</h2>
-
-<p>
-  Kurssimateriaalin ovat tehneet Arto Hellas (né Vihavainen) ja Matti Luukkainen. Kurssin sisältöön ovat vaikuttaneet myös Matti Paksula, Antti Laaksonen, Pekka Mikkola, Juhana Laurinharju, Martin Pärtel, Joel Kaasinen ja Mikael Nousiainen.
-</p>
-
-<p>
-  Tämä materiaali on lisensoitu Creative Commons BY-NC-SA-lisenssillä, joten voit käyttää ja levittää sitä vapaasti, kunhan alkuperäisten tekijöiden nimiä ei poisteta. Jos teet muutoksia materiaaliin ja haluat levittää muunneltua versiota, se täytyy lisensoida samanlaisella vapaalla lisenssillä. Materiaalien käyttö kaupalliseen tarkoitukseen on ilman erillistä lupaa kielletty.
-</p>
-
-
-<h2 class="material-heading">
-    Kurssilla tehtävästä tutkimuksesta
-
-</h2>
-
-
-<p>
-  Kurssilla tehdään oppimiseen liittyvää tutkimusta. Tällä tutkimuksella on useampia tavoitteita: (1) lähestyä tilannetta, missä oppimateriaali ja tehtävät osaavat ottaa oppijoiden yksilölliset erot paremmin huomioon ja reagoida niihin tarjoten kohdennetumpaa opetusta, (2) kehittää digitaalisissa ympäristöissä tapahtuvaan oppimiseen liittyvää ymmärrystä ja tietoa, sekä (3) tukea tutkimustiedon kautta muita oppimaterialien kehittäjiä ja oppimisen tutkijoita.
-</p>
-
-<p>
-  Tutkimusdatan hallinnasta vastaa Helsingin yliopiston tietojenkäsittelytieteen laitoksen Agile Education Research -ryhmän Arto Hellas. Anonymisoimattomaan tutkimusdataan eivät pääse käsiksi muut tutkijat.
-</p>
-
-
-<div class="quiznator-plugin" data-quiz-id="5877e97fd095c40004e4b1a9"></div>
-
-
-
+<div class="quiznator-plugin" data-quiz-id="59b10051714bcf0004c283bd"></div>
 
 
 
 <div class="hint">
   <div class="hint__header">
-    <i class="fa fa-info-circle hint__icon"></i>Sitten materiaaliin...
+    <i class="fa fa-info-circle hint__icon"></i>Then to the material...
   </div>
 
   <div class="hint__body">
     
   <p>
-    Löydät tämän sivun ylälaidasta linkin "Osa 1", jolla pääset ensimmäiseen osaan käsiksi. Siirtyminen onnistuu myös 
-<a href="part1/">tästä</a>
- painamalla. Ohjelmoinnin jatkokurssi alkaa materiaalin osasta 8.
+    Click 'Part 1' from the top of this page.
   </p>
 
 
