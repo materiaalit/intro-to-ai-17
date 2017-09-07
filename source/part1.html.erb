@@ -354,26 +354,26 @@ AI" (GOFAI) and modern AI approaches
 
 <p>
   To set the scene for discussing more advanced search algorithms,
-  such as A*, we begin by defining a generic templace for search algorithms.
+  such as A*, we begin by defining a generic templace for search
+  algorithms.
 </p>
 
 <% partial 'partials/code_highlight' do %>
-search(start_node):
-   node_list = list()          # empty list (queue/stack/...)
-   visited = set()             # empty set
-   add start_node to node_list
-
-   while list is not empty:
-      node = node_list.first() # pick the next node to visit
-      remove node from node_list
-      if node not in visited:
-         visited.add(node)
-         if goal_node(node):
-            return node        # goal found
-         add node.neighbors() to node_list
-      end if
-   end while
-return None                    # no goal found
+1:  search(start_node):
+2:     node_list = list()                # empty list (queue/stack/...)
+3:     visited = set()                   # empty set
+4:     add start_node to node_list
+5:     while list is not empty:
+6:        node = node_list.first()       # pick the next node to visit
+7:        remove node from node_list
+8:        if node not in visited:
+9:           visited.add(node)
+10:          if goal_node(node):
+11:             return node              # goal found
+12:          add node.neighbors() to node_list
+13:       end if
+14:    end while
+15:    return None                       # no goal found
 <% end %>
 
 <p>
@@ -403,6 +403,23 @@ return None                    # no goal found
   network (or tree) completely in a particular order, and there is no
   goal node. In that case, <code>goal_node</code> simply always returns
   <code>False</code>.
+</p>
+
+<p>
+  It is quite straighforward to see that BFS will always return the
+  path with the fewest transitions to a goal node: if node A is nearer
+  to the starting node than node B, the search is expanded to node A
+  earlier than to B. You can think of the BFS search as
+  a <i>frontier</i> of nodes that gradually progresses outwards from 
+  the starting node, so that all nodes at a certain number of 
+  steps away are expanded before moving one step ahead.
+</p>
+
+<p>
+  DFS doesn't guarantee that the shortest path be found, but in some
+  cases it doesn't matter. See the lecture slides for an example of
+  solving Sudoku puzzles using DFS. Can you think of a reason by
+  DFS is a better choice in that problem that BFS?
 </p>
 
 <% partial 'partials/hint', locals: { name: 'But this isn&rsquo;t how Granma taught it to me!' } do %>
@@ -574,6 +591,88 @@ state:  ---    |     |          state:  |     |    --- 
 -> 1250425(Kimmontie) -> 1250427(Käpylänaukio) ->1250429(Metsolantie)[START]
 </pre>
 </p>
+
+<p>
+  Alright. So far, we've refreshed BFS and DFS in our memory and
+  applied them to solve some pretty cool applications. To go to the
+  next level, we'll bring out the big guns, and talk about best-first
+  search (which is <b>not</b> abbreviated in order to avoid confusing
+  it with breadth-first search) and the A* algorithm.
+</p>
+
+<p>
+  
+</p>
+
+<% partial 'partials/material_sub_heading' do %>
+  Informed Search and A*
+<% end %>
+
+<p>
+  Often, the cost of different transitions in the state space is
+  different. For example, doing a task could take any time between
+  a few seconds and several hours. Or the distance between any two
+  tram stops could be between a hundred meters or half a kilometer.
+  Thus, just counting the <i>number</i> of transitions is not
+  enough.
+</p>
+
+<p>
+  To be able to take into account different costs, we can apply
+  <b>best-first search</b>, where the node list is ordered by a given
+  criterion. For instance, we can choose to always prefer to expand a
+  node that has the minimal distance from the starting point. This
+  is known as <b>Dijkstra's algorithm</b>. In the special case
+  where the cost of all transitions is constant, Dijkstra's
+  algorithm is equivalent to BFS.
+</p>
+
+<p>
+  The generic search algorithm template above still applies, but in
+  best-first search, the data structure that holds the nodes on the
+  node list is a <b>priority queue</b>. When adding nodes to the
+  priority queue on line 14, they are given a cost or a value that is
+  then used to order the nodes in the queue.  (Depending on the
+  application and whether the aim is to minimize or maximize the
+  value, the queue can be a min-priority queue or a max-priority
+  queue.)
+</p>
+
+<p>
+  If you play around with 
+  the <a href="qiao.github.io/PathFinding.js/visual/">PathFinding
+    applet</a> for a while, using BFS or Dijkstra's algorithm, you
+  will quickly notice a problem. The search spreads out to all 
+  directions symmetrically without any preference towards the 
+  goal.
+</p>
+
+<p>
+  In order to push the search towards the goal, we can use so called
+  <b>informed search</b> methods. They rely on having access to a
+  <b>heuristic</b> that associates with each node an estimate of the
+  remaining cost from the node to the goal. This can be, for example,
+  the distance between the node and the goal measured as the crow
+  flies (Euclidean or geodesic distance -- or in plain words, a
+  straight-line distance).
+</p>
+
+<p>
+  Using the heuristic as the criterion for ordering the nodes in
+  the (min-)priority queue will always expand nodes that appear to
+  be nearer to the goal according to the heuristic. However, this
+  may lead the search astray because the incurred cost of the path
+  is not taken into account. A balanced search that takes both the
+  incurred cost as well as the estimated remaining cost into account
+  is obtained by ordering the (min-)priority queue by
+  <pre>
+           f(node, cost) = cost + h(node),
+  </pre>
+  where <code>cost</code> is the value associated with the node
+  when it is added to the priority queue, and <code>h(node)</code>
+  is the heuristic value, i.e., an estimate of the remaining cost
+  from <code>node</code> to the goal.
+</p>  
 
 <% end %>
 
