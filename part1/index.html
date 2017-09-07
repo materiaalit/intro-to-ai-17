@@ -695,12 +695,15 @@ state:  ---    |     |          state:  |     |    --- 
       environment (e.g., Netbeans).
     <li>
       Implement the search algorithm in
-      class <code>TravelPlanner</code>.  To extract the resulting
-      route, construct a backward-linked list of <code>Stop</code>
-      objects, each of which has a pointer to the previous stop from
-      which the search arrived at the stop in question. This way,
-      once you arrive at the destination, you can start backtracking
-      along the shortest path until the beginning.
+      class <code>TravelPlanner</code>.  
+    <li>
+      In order to be able to
+      extract the resulting route after the search ends, construct a
+      backward-linked list of <code>Stop</code> objects as the stops
+      are added into the queue, each of which has a pointer to the
+      previous stop from which the search arrived at the stop in
+      question. This way, once you arrive at the destination, you can
+      start backtracking along the shortest path until the beginning.
     <li>
       Test your solution on TMC to see that your TravelPlanner works
       as it should and doesn't send you on a detour.
@@ -710,8 +713,8 @@ state:  ---    |     |          state:  |     |    --- 
 <p>
   If you don't use TMC, you can test by setting the starting stop as
   <code>1250429(Metsolantie)</code> and the destination as
-  <code>1121480(Urheilutalo)</code>. The path with the fewest stops
-  is as follows:
+  <code>1121480(Urheilutalo)</code>. The path (listed backwards) with
+  the fewest stops is as follows:
 <pre>
 1121480(Urheilutalo)[DESTINATION] -> 1121438(Brahenkatu) -> 1220414(Roineentie)
 -> 1220416(Hattulantie) -> 1220418(Rautalammintie) -> 1220420(Mäkelänrinne)
