@@ -97,18 +97,27 @@
 
 </h1>
 
-In this first part, we will discuss what we mean when we talk about AI.
-It turns out that there is no exact definition at all, but that the
-field is rather being redefined at all times.
+<p>
+  In this first part, we will discuss what we mean when we talk about AI.
+  It turns out that there is no exact definition at all, but that the
+  field is rather being redefined at all times.
+</p>
 
-We will also briefly discuss the philosophical aspects of AI: whether
-intelligent behavior implies or requires the existence of a ''mind'', and
-in what extent is consciousness replicable as a computational process.
-However, this course is first and foremost focused on building 
-practically useful AI tools, and we will quickly push considerations 
-about consciousness aside as they tend to be only in the way when 
-designing working solutions to real problems.
+<p>
+  We will also briefly discuss the philosophical aspects of AI: whether
+  intelligent behavior implies or requires the existence of a ''mind'', and
+  in what extent is consciousness replicable as a computational process.
+  However, this course is first and foremost focused on building 
+  practically useful AI tools, and we will quickly push considerations 
+  about consciousness aside as they tend to be only in the way when 
+  designing working solutions to real problems.
+</p>
 
+<p>
+  The first technical topic, also covered in Part 1, is 
+  problem-solving by search, and games.
+</p>
+  
 <div class="hint">
   <div class="hint__header">
     <i class="fa fa-info-circle hint__icon"></i>Learning objectives of Part 1
@@ -455,28 +464,29 @@ AI" (GOFAI) and modern AI approaches
 </p>
 
 <pre class="sh_java code-highlight"><code>search(start_node):
-   node_list = list()         # empty list (queue/stack/...)
-   visited = set()            # empty set
+   node_list = list()          # empty list (queue/stack/...)
+   visited = set()             # empty set
    add start_node to node_list
    while list is not empty:
-      node = node_list[1]     # pick the next node to visit
+      node = node_list.first() # pick the next node to visit
       remove node from node_list
       if node not in visited:
          visited.add(node)
          if goal_node(node):
-            return node       # goal found
+            return node        # goal found
          add node.neighbors() to node_list
       end if
    end while
-return None                   # no goal found
+return None                    # no goal found
 </code></pre>
 
 <p>
   In the above pseudo-code, <code>node_list</code> holds the nodes to
   be visited. The order in which nodes are taken from the list
-  determines the behavior of the search: a queue (first-in, first-out)
-  results in <b>breadth-first search (BFS)</b> and a stack (last-in,
-  first-out) results in <b>depth-first search (DFS)</b>.
+  by <code>node_list.first()</code> determines the behavior of the
+  search: a queue (first-in, first-out) results in <b>breadth-first
+  search (BFS)</b> and a stack (last-in, first-out) results
+  in <b>depth-first search (DFS)</b>.
 </p>
 
 <p>
@@ -563,7 +573,7 @@ Here's a simple exercise to make sure BFS and DFS are clear enough.
 <p>
   As we discussed above, when drinking red wine, search algorithms don't
   necessarily feel like being very cool AI methods. However, as the
-  next exercise demonstrates, they can actually be used to solve
+  next two exercises demonstrate, they can actually be used to solve
   tasks that -- most of us would say -- require intelligence.
 </p>
 
@@ -624,12 +634,97 @@ state:  ---    |     |          state:  |     |    --- 
 </p>
 
 <p>A bonus exercise: Try to see the symmetry in the state diagram,
-  and generalize to <i>n>3</i> discs.
+  and generalize to <i>n > 3</i> discs.
+</p>
 
 
     </div>
   </div>
 </div>
+
+<div class="exercise">
+  <div class="exercise__header">
+    <a data-toggle="collapse" class="exercise__toggle">
+      <i class="fa fa-pencil exercise__icon"></i>
+      <h1 class="exercise__heading">Travel Planner</h1>
+
+      <i class="fa fa-caret-down exercise__arrow"></i>
+    </a>
+  </div>
+
+  <div class="collapse">
+    <div class="exercise__body">
+      
+<p>
+  Now it's time for this week's highlight: implementing a real AI
+  application. It will require some effort, and programming can often
+  be slow and frustrating, but stay focused, don't hesitate to ask for
+  help, and you'll be ok. Next week, we'll continue working on the
+  same application, so your hard work now will make your life easier
+  next week.
+</p>
+
+<p>
+  The task is to read Helsinki tram network -- outdated, we're afraid
+  so it's not going to be super useful -- data from a file that we give.
+  Implement a program that takes as input the starting point A and
+  the destination B, and finds the route from A to B with the
+  <i>fewest stops</i> between them. It is quite straightforward to 
+  show that such a route can be found by BFS.
+</p>
+
+<p>
+  We provide a Java template that includes a <code>Stop</code> class
+  which can retrieve the neighboring stops. These are the valid
+  transitions in the state space.
+</p>
+
+<p>
+  You can also start from scratch and implement your solution in
+  your favorite programming language. In that case, simply take the
+  <code>network.json</code> file, which is pretty self-explanatory.
+  A hint to python programmers: <code>import json</code>.
+</p>
+
+<p>
+  If using the Java template (others may find these instructions
+  useful too):
+  <ol>
+    <li>
+      Download and open the Maven project in a suitable development
+      environment (e.g., Netbeans).
+    <li>
+      Implement the search algorithm in
+      class <code>TravelPlanner</code>.  To extract the resulting
+      route, construct a backward-linked list of <code>Stop</code>
+      objects, each of which has a pointer to the previous stop from
+      which the search arrived at the stop in question. This way,
+      once you arrive at the destination, you can start backtracking
+      along the shortest path until the beginning.
+    <li>
+      Test your solution on TMC to see that your TravelPlanner works
+      as it should and doesn't send you on a detour.
+  </ol>
+</p>
+
+<p>
+  If you don't use TMC, you can test by setting the starting stop as
+  <code>1250429(Metsolantie)</code> and the destination as
+  <code>1121480(Urheilutalo)</code>. The path with the fewest stops
+  is as follows:
+<pre>
+1121480(Urheilutalo)[DESTINATION] -> 1121438(Brahenkatu) -> 1220414(Roineentie)
+-> 1220416(Hattulantie) -> 1220418(Rautalammintie) -> 1220420(Mäkelänrinne)
+-> 1220426(Uintikeskus) -> 1173416(Pyöräilystadion) -> 1173423(Koskelantie)
+-> 1250425(Kimmontie) -> 1250427(Käpylänaukio) ->1250429(Metsolantie)[START]
+</pre>
+</p>
+
+
+    </div>
+  </div>
+</div>
+
 
 
         </div>
