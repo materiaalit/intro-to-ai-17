@@ -405,23 +405,6 @@ AI" (GOFAI) and modern AI approaches
   <code>False</code>.
 </p>
 
-<p>
-  It is quite straighforward to see that BFS will always return the
-  path with the fewest transitions to a goal node: if node A is nearer
-  to the starting node than node B, the search is expanded to node A
-  earlier than to B. You can think of the BFS search as
-  a <i>frontier</i> of nodes that gradually progresses outwards from 
-  the starting node, so that all nodes at a certain number of 
-  steps away are expanded before moving one step ahead.
-</p>
-
-<p>
-  DFS doesn't guarantee that the shortest path be found, but in some
-  cases it doesn't matter. See the lecture slides for an example of
-  solving Sudoku puzzles using DFS. Can you think of a reason by
-  DFS is a better choice in that problem that BFS?
-</p>
-
 <% partial 'partials/hint', locals: { name: 'But this isn&rsquo;t how Granma taught it to me!' } do %>
 <p>
   You may have seen different versions of search algorithms and wonder why
@@ -438,6 +421,23 @@ AI" (GOFAI) and modern AI approaches
   state from the stack just like our non-recursive version above.
 </p>
 <% end %>
+
+<p>
+  It is quite straighforward to see that BFS will always return the
+  path with the fewest transitions to a goal node: if node A is nearer
+  to the starting node than node B, the search is expanded to node A
+  earlier than to B. You can think of the BFS search as
+  a <i>frontier</i> of nodes that gradually progresses outwards from 
+  the starting node, so that all nodes at a certain number of 
+  steps away are expanded before moving one step ahead.
+</p>
+
+<p>
+  DFS doesn't guarantee that the shortest path be found, but in some
+  cases it doesn't matter. See the lecture slides for an example of
+  solving Sudoku puzzles using DFS. Can you think of a reason by
+  DFS is a better choice in that problem that BFS?
+</p>
 
 <p>
   Here's a simple exercise to make sure BFS and DFS are clear enough.
