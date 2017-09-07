@@ -106,9 +106,9 @@ AI" (GOFAI) and modern AI approaches
 <p>
   However, there is an element of truth in the definition in the sense
   that fifty years ago, for instance, search and planning algorithms
-  were considered to belong to the domain of AI but nowadays algorithms
-  such as breadth-first and depth-first search, and A*, are treated
-  under Data Structures and Algorithms.
+  were considered to belong to the domain of AI. Nowadays algorithms
+  such as breadth-first and depth-first search, and A*, are thought 
+  (and taught) as belonging to Data Structures and Algorithms.
 </p>
 
 <% end %>
@@ -323,12 +323,82 @@ AI" (GOFAI) and modern AI approaches
   Breadth-First and Depth-First Search
 <% end %>
 
+<p>
+  To set the scene for discussing more advanced search algorithms,
+  such as A*, we begin by defining a generic templace for search algorithms.
+</p>
+
+<% partial 'partials/code_highlight' do %>
+search(start_node):
+   node_list = list()         # empty list (queue/stack/...)
+   visited = set()            # empty set
+   add start_node to node_list
+
+   while list is not empty:
+      node = node_list[1]     # pick the next node to visit
+      remove node from node_list
+      if node not in visited:
+         visited.add(node)
+         if goal_node(node):
+            return node       # goal found
+         add node.neighbors() to node_list
+      end if
+   end while
+return None                   # no goal found
+<% end %>
+
+<p>
+  In the above pseudo-code, <code>node_list</code> holds the nodes to
+  be visited. The order in which nodes are taken from the list
+  determines the behavior of the search: a queue (first-in, first-out)
+  results in <b>breadth-first search (BFS)</b> and a stack (last-in,
+  first-out) results in <b>depth-first search (DFS)</b>.
+</p>
+
+<p>
+  In case of BFS, the operation of adding a node to the list (queue)
+  is <i>enqueue</i> and the operation of removing the node that was
+  added first is <i>dequeue</i>.
+</p>
+
+<p>
+  In the case of DFS, the operation of adding a node to the list (stack)
+  is <i>push</i>, and the operation of removing the node that was
+  added last is <i>pop</i>.
+</p>
+
+<p>
+  The test <code>goal_node</code> tests whether the goal or target node
+  of the search is found. Sometimes the problem is simply to traverse the
+  network (or tree) completely in a particular order, and there is no
+  goal node. In that case, <code>goal_node</code> simply always returns
+  <code>False</code>.
+</p>
+
+<% partial 'partials/hint', locals: { name: 'But this isn't how Granma taught it to me!' } do %>
+<p>
+  You may have seen different versions of search algorithms and wonder why
+  this isn't exactly like them. In particular, many students have been
+  taught the recursive version of DFS, which indeed is very simple
+  and elegant.
+</p>
+
+<p>
+  You need not worry about the difference too much. Here we simply wanted
+  to use the same template for all search methods. The behavior is 
+  always the same: for example, the recursive version of DFS actually
+  uses a stack to store the state of the search and pops the next
+  state from the stack just like our non-recursive version above.
+</p>
+<% end %>
+
+Here's a simple exercise to make sure BFS and DFS are clear enough.
 
 <% partial 'partials/exercise', locals: { name: 'Breadth-first and depth-first search' } do %>
 
 <p>
-  <img width=40% src="/img/exercises/ex1/Drawing.png" align=right>
-  Consider the network on the right.
+  <img width=30% src="/img/exercises/ex1/Drawing.png" align=right>
+  Consider the (cute) network on the right.
 </p>
 
 <p>
@@ -345,14 +415,21 @@ AI" (GOFAI) and modern AI approaches
 
 <% end %>
 
+<p>
+  As we discussed above, when drinking red wine, search algorithms don't
+  necessarily feel like being very cool AI methods. However, as the
+  next exercise demonstrates, they can actually be used to solve
+  tasks that -- most of us would say -- require intelligence.
+</p>
+
 <% partial 'partials/exercise', locals: { name: 'Towers of Hanoi' } do %>
 
 <p>
-  Let's solve the well-known
-puzzle <a href="https://www.britannica.com/topic/Tower-of-Hanoi">Towers
-of Hanoi</a>. The puzzle involves three pegs, and three discs: one
-large, one medium-sized, and one small.  (Actually, there can be any
-number of discs but for the pen-and-paper exercise, three is plenty.)
+  Let's play. Solve the well-known
+  puzzle <a href="https://www.britannica.com/topic/Tower-of-Hanoi">Towers
+    of Hanoi</a>. The puzzle involves three pegs, and three discs: one
+  large, one medium-sized, and one small.  (Actually, there can be any
+  number of discs but for the pen-and-paper exercise, three is plenty.)
 </p>
 
 <p>In the initial state, all three discs are stacked in the first
