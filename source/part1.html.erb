@@ -611,12 +611,12 @@ state:  ---    |     |          state:  |     |    --- 
 <% end %>
 
 <p>
-  Often, the cost of different transitions in the state space is
-  different. For example, doing a task could take any time between
-  a few seconds and several hours. Or the distance between any two
-  tram stops could be between a hundred meters or half a kilometer.
-  Thus, just counting the <i>number</i> of transitions is not
-  enough.
+  Often, different transitions in the state space are associated with
+  different costs.  For example, doing a task could take
+  any time between a few seconds and several hours. Or the distance
+  between any two tram stops could be between a hundred meters and half
+  a kilometer.  Thus, just counting the <i>number</i> of transitions
+  is not enough.
 </p>
 
 <p>
@@ -640,6 +640,8 @@ state:  ---    |     |          state:  |     |    --- 
   queue.)
 </p>
 
+<% partial 'partials/hint', locals: { name: 'Alice, Where Art Thou Going?' } do %>
+
 <p>
   If you play around with 
   the <a href="qiao.github.io/PathFinding.js/visual/">PathFinding
@@ -648,6 +650,17 @@ state:  ---    |     |          state:  |     |    --- 
   directions symmetrically without any preference towards the 
   goal.
 </p>
+
+<p>
+  This is understandable since the choice of the next node to expand
+  has nothing to do with the goal. However, if we do have some
+  way of measuring, even approximately, which nodes are nearer
+  to the goal, we can use them to <b>inform</b> the search and
+  save a lot of effort by never having to explore unpromising
+  paths.
+</p>
+
+<% end %>
 
 <p>
   In order to push the search towards the goal, we can use so called
