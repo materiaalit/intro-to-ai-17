@@ -798,9 +798,9 @@ state:  ---    |     |          state:  |     |    --- 
   To be able to take into account different costs, we can apply
   <b>best-first search</b>, where the node list is ordered by a given
   criterion. For instance, we can choose to always prefer to expand a
-  node that has the minimal distance from the starting point. This
-  is known as <b>Dijkstra's algorithm</b>. In the special case
-  where the cost of all transitions is constant, Dijkstra's
+  path with the minimal incurred total cost counting from the starting
+  node. This is known as <b>Dijkstra's algorithm</b>. In the special
+  case where the cost of all transitions is constant, Dijkstra's
   algorithm is equivalent to BFS.
 </p>
 
@@ -849,7 +849,7 @@ state:  ---    |     |          state:  |     |    --- 
   <b>heuristic</b> that associates with each node an estimate of the
   remaining cost from the node to the goal. This can be, for example,
   the distance between the node and the goal measured as the crow
-  flies (Euclidean or geodesic distance -- or in plain words, a
+  flies (i.e., Euclidean or geodesic distance -- or in plain words, a
   straight-line distance).
 </p>
 
