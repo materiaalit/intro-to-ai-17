@@ -726,7 +726,7 @@ state:  ---    |     |          state:  |     |    --- 
 </p>
 
 <% partial 'partials/material_sub_heading' do %>
-  Game Trees and the Minimax Algorithm
+  Game Trees 
 <% end %>
 
 <p>
@@ -818,4 +818,57 @@ state:  ---    |     |          state:  |     |    --- 
   <br>
 </p>
 
+<p>
+  The fact that the value of the root node, which is said to be
+  the <b>value of the game</b> tells us who wins (and how much,
+  if the outcome is not just plain win or lose): Max wins if the
+  value of the game is +1,  Min if the value is -1, and if the
+  value is 0, then the game will end in a draw, assuming that
+  both players choose what is best for them.
+</p>
+
+<p>
+  The optimal play can also be deduced once the values of each of the
+  nodes are established: at any <b>Min node</b>, i.e., node where
+  it is Min's turn, the optimal choices are given by those children
+  whose value is minimal, and conversely, at any <b>Max node</b>,
+  where it is Max's turn, the optimal choices are given the the
+  children whose value is maximal.
+</p>
+
+<% partial 'partials/material_sub_heading' do %>
+  Minimax Algorithm
+<% end %>
+
+<p>
+  We can exploit the above concept of the value of the game to obtain
+  an algorithm with optimal game play in, theoretically speaking, any
+  two-person, zero-sum game. Given a state of the game, the algorithm
+  simply computes the values of the children of the given state and
+  chooses the one that has the maximum value if it is Max's turn, and
+  the one that has the minimum value if it is Min's turn.
+</p>
+
+<p>
+  The algorithm can be implemented using the following neat recursive
+  functions for Max and Min nodes respectively.
+</p>
+
+<% partial 'partials/code_highlight' do %>
+1:  max_value(node):
+2:     if end_state(node): return value(node)
+3:     v = -Inf
+4:     for each child in node.children():
+5:        v = max(v, min_value(child))
+6:     return v  
+<% end %>
+
+<% partial 'partials/code_highlight' do %>
+1:  min_value(node):
+2:     if end_state(node): return value(node)
+3:     v = +Inf
+4:     for each child in node.children():
+5:        v = min(v, max_value(child))
+6:     return v  
+<% end %>
 
