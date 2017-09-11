@@ -916,33 +916,34 @@ state:  ---    |     |          state:  |     |    --- 
 <p>
   To analyse games and optimal strategies, we will introduce the
   concept of a <b>game tree</b>. The game tree is similar to a search
-  tree, such as the Sudoku example discussed at the lecture.
-  (Remember that you should also study the lecture slides in addition
-  to this material. Some material may be discussed in one but not the
-  other.) So we consider different states of the game and let them
-  be the nodes in the game tree, so that the "children" of each 
-  node N are the possible states that can be achieved from the 
-  state corresponding to N. In board games, the state of the game
-  is defined by the board position and whose turn it is.
+  tree, such as the one in the Sudoku example discussed at the
+  lecture.  (Remember that you should also study the lecture slides in
+  addition to this material. Some material may be discussed in one but
+  not the other.) The different states of the game are represented by
+  nodes in the game tree. The "children" of each node N are the
+  possible states that can be achieved from the state corresponding to
+  N. In board games, the state of the game is defined by the board
+  position and whose turn it is.
 </p>
 
 <p>
   Consider, for example, the following game tree which begins
   not at the root but in the middle of the game (because otherwise,
   the tree would be way too big to display).
-  
-  <img width=70% src="../img/diagrams/tictactoe-tree-905ef5b4.png" align=middle>
-
+  <br>
+  <img width=80% src="../img/diagrams/tictactoe-tree-905ef5b4.png">
+  <br>
   The game continues at the board position shown in the root node,
-  numbered as (1), at the top with Min's turn to place O at any of the
-  three vacant cells. Nodes (2)--(4) show the resulting board
-  positions, respectively, and have two possible choices for
-  Max to play X each.
+  numbered as (1) at the top, with Min's turn to place O at any of the
+  three vacant cells. Nodes (2)--(4) show the board positions
+  resulting from each of the three choices respectively. In the next
+  step, each node has two possible choices for Max to play X each,
+  and so the tree branches again.
 </p>
 
 <p>
   The game ends when either player gets a row of three, or when there
-  are no more vacant cell. When starting from the above starting
+  are no more vacant cells. When starting from the above starting
   position, the game always ends in a row of three.
 </p>
 
@@ -961,15 +962,14 @@ state:  ---    |     |          state:  |     |    --- 
 
 <p>
   More interestingly, let's now consider the next level of nodes
-  towards the root, nodes (2)--(4). Since we decided that both
-  children of (2), i.e., nodes (5) and (6), lead to Min's victory,
-  we can without hesitation attach the value -1 to node (2) as well.
-  For node (3), the left child (7) leads to Max's victory, +1,
-  but the right child (8) leads to Min winning, -1. However, it
-  is Max's turn to play, and she will of course choose the left
-  child node without hesitation. Thus, every time we reach the
-  state in node (3), which includes the fact that it is Max's turn,
-  Max wins, and we can attach the value +1 to such a state.
+  towards the root, nodes (2)--(4). Since we decided that both of the
+  children of (2), i.e., nodes (5) and (6), lead to Min's victory, we
+  can without hesitation attach the value -1 to node (2) as well.  For
+  node (3), the left child (7) leads to Max's victory, +1, but the
+  right child (8) leads to Min winning, -1. However, it is Max's turn
+  to play, and she will of course choose the left child without
+  hesitation. Thus, every time we reach the state in node (3), Max
+  wins. Thus we can attach the value +1 to node (3).
 </p>
 
 <p>
@@ -991,6 +991,15 @@ state:  ---    |     |          state:  |     |    --- 
   can reach the same conclusion, and thus she only has one real
   option: give Max an impish grin and play the O in the middle of the
   board.
+</p>
+
+<p>
+  In the diagram below, we have included the value of each node as
+  well as the optimal game play starting at Min's turn in the root
+  node.
+  <br>
+  <img width=80% src="../img/diagrams/tictactoe-values-71fdd825.png">
+  <br>
 </p>
 
 
