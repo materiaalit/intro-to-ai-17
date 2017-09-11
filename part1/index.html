@@ -999,7 +999,6 @@ state:  ---    |     |          state:  |     |    --- 
   node.
   <br>
   <img width=80% src="../img/diagrams/tictactoe-values-71fdd825.png">
-  <br>
 </p>
 
 <p>
@@ -1012,12 +1011,11 @@ state:  ---    |     |          state:  |     |    --- 
 </p>
 
 <p>
-  The optimal play can also be deduced once the values of each of the
-  nodes are established: at any <b>Min node</b>, i.e., node where
-  it is Min's turn, the optimal choices are given by those children
-  whose value is minimal, and conversely, at any <b>Max node</b>,
-  where it is Max's turn, the optimal choices are given the the
-  children whose value is maximal.
+  The optimal play can also be deduced from the values of the nodes:
+  at any <b>Min node</b>, i.e., node where it is Min's turn, the
+  optimal choices are given by those children whose value is minimal,
+  and conversely, at any <b>Max node</b>, where it is Max's turn, the
+  optimal choices are given the the children whose value is maximal.
 </p>
 
 <h2 class="material-heading">
@@ -1054,6 +1052,40 @@ state:  ---    |     |          state:  |     |    --- 
 5:        v = min(v, max_value(child))
 6:     return v  
 </code></pre>
+
+<div class="exercise">
+  <div class="exercise__header">
+    <a data-toggle="collapse" class="exercise__toggle">
+      <i class="fa fa-pencil exercise__icon"></i>
+      <h1 class="exercise__heading">Minimax tic-tac-toe (1p)</h1>
+
+      <i class="fa fa-caret-down exercise__arrow"></i>
+    </a>
+  </div>
+
+  <div class="collapse">
+    <div class="exercise__body">
+      
+<p>
+  Let's return to the tic-tac-toe game described in the beginning
+  of this section. We can see that Max must clearly place an X on
+  the top row to avoid imminent defeat:
+  <pre>
+       O|X|O
+       -+-+-
+       X| |
+       -+-+-
+       X|O|
+  </pre>
+  Now it's Min's turn to play an O. Evaluate the value of this state
+  of the game as well as the other states in the game tree where the
+  above position is the root, using the Minimax algorithm.
+</p>
+
+
+    </div>
+  </div>
+</div>
 
 
         </div>
