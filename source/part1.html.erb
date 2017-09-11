@@ -693,3 +693,120 @@ state:  ---    |     |          state:  |     |    --- 
 </p>  
 
 
+<% partial 'partials/material_heading' do %>
+  Games
+<% end %>
+
+<p>
+  Maxine and Minnie are true game enthusiasts. They just love games.
+  Especially two-person, perfect information games such as tic-tac-toe
+  or chess.
+</p>
+
+<p>
+  One day they were playing tic-tac-toe. Maxine, or Max as her
+  friends call her, was playing with X and Minnie, or Min as her
+  friends call her, had the Os. The situation was
+<pre>
+       O| |O
+       -+-+-
+       X| |
+       -+-+-
+       X|O|
+</pre>
+  Max was looking at the board and contemplating her next move, as it
+  was her turn, when she suddenly buried her face in her hands in
+  despair, looking quite like Garry Kasparov playing Deep Blue in
+  1997.
+</p>
+
+<p>
+  Yes, Min was close to getting three Os on the top row, but Max could
+  easily put a stop to that plan. So why was Max so pessimistic?
+</p>
+
+<% partial 'partials/material_sub_heading' do %>
+  Game Trees and Minimax Algorithm
+<% end %>
+
+<p>
+  To analyse games and optimal strategies, we will introduce the
+  concept of a <b>game tree</b>. The game tree is similar to a search
+  tree, such as the Sudoku example discussed at the lecture.
+  (Remember that you should also study the lecture slides in addition
+  to this material. Some material may be discussed in one but not the
+  other.) So we consider different states of the game and let them
+  be the nodes in the game tree, so that the "children" of each 
+  node N are the possible states that can be achieved from the 
+  state corresponding to N. In board games, the state of the game
+  is defined by the board position and whose turn it is.
+</p>
+
+<p>
+  Consider, for example, the following game tree which begins
+  not at the root but in the middle of the game (because otherwise,
+  the tree would be way too big to display).
+  
+  <img width=70% src="/img/drawings/tictactoe-treeg.png" align=middle>
+
+  The game continues at the board position shown in the root node,
+  numbered as (1), at the top with Min's turn to place O at any of the
+  three vacant cells. Nodes (2)--(4) show the resulting board
+  positions, respectively, and have two possible choices for
+  Max to play X each.
+</p>
+
+<p>
+  The game ends when either player gets a row of three, or when there
+  are no more vacant cell. When starting from the above starting
+  position,§ the game always ends in a row of three.
+</p>
+
+<p>
+  Now consider nodes (5)--(10) on the second layer from the bottom.
+  In nodes (7) and (9), the game is over, and Max wins with three X's
+  in a row. In the remaining nodes, (5), (6), (8), and (10), the game
+  is also practically over, since Min only needs to place her O
+  in the only remaining cell to win. We can thus decide that the
+  end result, or the <b>value</b> of the game in each of the nodes
+  on the second level from the bottom is determined. For the
+  nodes that end in Max's victory, we'll say that the value 
+  equals +1, and for the nodes that end in Min's victory, we'll say
+  that the value is -1.
+</p>
+
+<p>
+  More interestingly, let's now consider the next level of nodes
+  towards the root, nodes (2)--(4). Since we decided that both
+  children of (2), i.e., nodes (5) and (6), lead to Min's victory,
+  we can without hesitation attach the value -1 to node (2) as well.
+  For node (3), the left child (7) leads to Max's victory, +1,
+  but the right child (8) leads to Min winning, -1. However, it
+  is Max's turn to play, and she will of course choose the left
+  child node without hesitation. Thus, every time we reach the
+  state in node (3), which includes the fact that it is Max's turn,
+  Max wins, and we can attach the value +1 to such a state.
+</p>
+
+<p>
+  The same holds for node (4): again, since Max can choose where to
+  put her X, she can always ensure victory, and we attach the value
+  +1 to node (4).
+</p>
+
+<p>
+  So far, we have decided that the value of node (2) is -1, which
+  means that if we end up in such a board position, Min can ensure
+  winning, and that the reverse holds for nodes (3) and (4): their
+  value is +1, which means that Max can be sure to win if she only
+  plays her own turn wisely.
+</p>
+
+<p>
+  Finally, we can deduce that since Min is an experienced player, she
+  can reach the same conclusion, and thus she only has one real
+  option: give Max an impish grin and play the O in the middle of the
+  board.
+</p>
+
+
