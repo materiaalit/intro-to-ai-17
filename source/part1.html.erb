@@ -818,12 +818,12 @@ state:  ---    |     |          state:  |     |    --- 
 </p>
 
 <p>
-  The fact that the value of the root node, which is said to be
-  the <b>value of the game</b> tells us who wins (and how much,
-  if the outcome is not just plain win or lose): Max wins if the
-  value of the game is +1,  Min if the value is -1, and if the
-  value is 0, then the game will end in a draw, assuming that
-  both players choose what is best for them.
+  The value of the root node, which is said to be the <b>value of the
+  game</b>, tells us who wins (and how much, if the outcome is not
+  just plain win or lose): Max wins if the value of the game is +1,
+  Min if the value is -1, and if the value is 0, then the game will
+  end in a draw. This all is based on the assumption that both players
+  choose what is best for them.
 </p>
 
 <p>
@@ -841,15 +841,17 @@ state:  ---    |     |          state:  |     |    --- 
 <p>
   We can exploit the above concept of the value of the game to obtain
   an algorithm with optimal game play in, theoretically speaking, any
-  two-person, zero-sum game. Given a state of the game, the algorithm
-  simply computes the values of the children of the given state and
-  chooses the one that has the maximum value if it is Max's turn, and
-  the one that has the minimum value if it is Min's turn.
+  deterministic, two-person, perfect-information game. Given a state
+  of the game, the algorithm simply computes the values of the
+  children of the given state and chooses the one that has the maximum
+  value if it is Max's turn, and the one that has the minimum value if
+  it is Min's turn.
 </p>
 
 <p>
-  The algorithm can be implemented using the following neat recursive
-  functions for Max and Min nodes respectively.
+  The algorithm can be implemented using the neat recursive
+  functions below for Max and Min nodes respectively. This is 
+  known as the <b>Minimax algorithm</b> (see <a href="https://en.wikipedia.org/wiki/Minimax">Wikipedia: Minimax</a>).
 </p>
 
 <% partial 'partials/code_highlight' do %>
@@ -874,7 +876,8 @@ state:  ---    |     |          state:  |     |    --- 
 
 <p>
   Let's return to the tic-tac-toe game described in the beginning
-  of this section. We can see that Max must clearly place an X on
+  of this section. To narrow down the space of possible end-games
+  to consider, we can observe that Max must clearly place an X on
   the top row to avoid imminent defeat:
   <pre>
        O|X|O
@@ -889,4 +892,48 @@ state:  ---    |     |          state:  |     |    --- 
 </p>
 
 <% end %>
+
+<% partial 'partials/hint', locals: { name: 'Sounds good, can I go home now?' } do %>
+
+<p>
+  As stated above, the Minimax algorithm can be used to implement
+  optimal game play in any deterministic, two-player,
+  perfect-information game. Such games include tic-tac-toe, connect
+  four, chess, Go, etc. (Rock-paper-scissors is not in this class of
+  games since it involves information hidden from the other player;
+  nor are Monopoly or backgammon which are not deterministic.) So as
+  far as this topic is concerned, is that all folks, can we go home
+  now?
+</p>
+
+<p>
+  The answer is that in theory, yes, but in practice, no. In many
+  games, the game tree is simply way too big to traverse in full.  For
+  example, in chess the average branching factor, i.e., the average
+  number of children (available moves) per node is about 35.  That
+  means that to explore all the possible scenarios up to only two
+  moves ahead, we need to visit approximately 35 x 35 = 1225 nodes
+  -- probably not your favorite pen-and-paper homework exercise...  A
+  look-ahead of three moves requires visiting 42875 nodes; four moves
+  ahead 1500625; and ten moves ahead 2758547353515625 (that's about
+  2.7 quadrillion) nodes.
+</p>
+
+<p>
+  In Go, the average branching factor is estimated to be about 250.
+  Go is definitely a no-go for Minimax.
+</p>
+
+<p>
+  Next, we will learn a few more tricks that help us manage massive
+  game trees, and that were crucial elements in IBM's Deep Blue
+  computer defeating the chess world champion, Garry Kasparov, in 
+  1997.
+</p>
+
+<% end %>
+
+<p>
+
+
 
