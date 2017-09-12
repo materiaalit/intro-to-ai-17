@@ -1,0 +1,765 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <title>Introduction to Artificial Intelligence 2017 | Part 2</title>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <link href="https://fonts.googleapis.com/css?family=Roboto" rel="stylesheet">
+
+    <link href="../stylesheets/styles-5628e745.css" rel="stylesheet" />
+
+    <link rel="stylesheet" href="//cdnjs.cloudflare.com/ajax/libs/highlight.js/9.7.0/styles/xcode.min.css">
+
+    <link rel="stylesheet" type="text/css" href="//cdnjs.cloudflare.com/ajax/libs/cookieconsent2/3.0.1/cookieconsent.min.css" />
+
+    <link rel="stylesheet" href="//2017-ohjelmointi.github.io/cdn/code-states-visualizer.css" />
+    <link rel="stylesheet" href="https://materiaalit.github.io/typonator-cdn/app.css" />
+
+      <script>
+  (function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
+  (i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
+  m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
+  })(window,document,'script','https://www.google-analytics.com/analytics.js','ga');
+  ga('create', 'UA-47575342-7', 'auto');
+  ga('send', 'pageview');
+</script>
+
+  </head>
+  <body>
+    <div class="main-wrapper">
+      <div class="header-wrapper">
+        <div class="browser-support-warning" id="browser-support-warning" style="display: none;">
+  Kaikki tämän materiaalin osat eivät välttämättä tuo nykyistä selaintasi. Voisitko harkita vaihtamista <a href="https://www.google.com/chrome/browser/desktop/" target="_blank" rel="noopener">Chrome</a> tai <a href="https://www.mozilla.org/en-US/firefox/new/" target="_blank" rel="noopener">Firefox</a> selaimeen?
+  <span class="browser-support-warning__close">Selvä!</span>
+</div>
+
+
+        <nav class="navbar navbar-light bg-white">
+  <a class="navbar-brand" href="http://mooc.fi" alt="MOOC" target="_blank" rel="noopener">
+    <span class="icon-mooc"></span>
+  </a>
+
+  <ul class="nav navbar-nav hidden-md-down">
+      <li class="nav-item ">
+        <a href="../" class="nav-link" onclick="ga('send', 'event', 'navigation_topic_link', 'click', '#&lt;Middleman::Sitemap::Resource path=index.html&gt;')">Introduction</a>
+      </li>
+      <li class="nav-item ">
+        <a href="../part1/" class="nav-link" onclick="ga('send', 'event', 'navigation_topic_link', 'click', '#&lt;Middleman::Sitemap::Resource path=part1.html&gt;')">Part 1</a>
+      </li>
+      <li class="nav-item active">
+        <a href="./" class="nav-link" onclick="ga('send', 'event', 'navigation_topic_link', 'click', '#&lt;Middleman::Sitemap::Resource path=part2.html&gt;')">Part 2</a>
+      </li>
+  </ul>
+
+  <div class="float-xs-right navbar__buttons">
+    <div class="dropdown" id="mobile-nav-dropdown">
+      <button class="btn btn-secondary dropdown-toggle navbar__mobile-nav-toggle" data-toggle="dropdown">
+        <i class="fa fa-bars"></i>
+      </button>
+
+      <div class="dropdown-menu">
+      </div>
+    </div>
+
+    <a href="https://riot.im/app/#/room/#_ircnet_#iai:irc.snt.utwente.nl" target="_blank" rel="noopener" class="btn btn-secondary">
+      <span class="hidden-md-down">Chat</span>
+      <i class="fa fa-commenting-o hidden-lg-up"></i>
+    </a>
+
+    <button class="btn btn-secondary" id="table-of-contents-toggle">
+      <span class="hidden-md-down">Table of contents</span>
+      <i class="fa fa-ellipsis-h hidden-lg-up"></i>
+    </button>
+
+    <button class="btn btn-primary" id="tmc-login-toggle">Log in</button>
+  </div>
+</nav>
+
+      </div>
+
+      <div class="content-wrapper">
+        <div class="container material" id="material">
+            <div class="exercise-list">
+  <div class="exercise-list__header">
+    Exercises
+  </div>
+
+  <div class="exercise-list__content" id="exercise-list"></div>
+
+    <div class="exercise-list__quiznator">
+      <div class="quiznator-dashboard"></div>
+
+    </div>
+</div>
+
+
+          <p>
+  Alright. So far, we've refreshed BFS and DFS in our memory and
+  applied them to solve some pretty cool applications. To go to the
+  next level, we'll bring out the big guns, and talk about best-first
+  search (which is <b>not</b> abbreviated in order to avoid confusing
+  it with breadth-first search) and the A* algorithm.
+</p>
+
+<p>
+
+</p>
+
+<h2 class="material-heading">
+    Informed Search and A*
+
+</h2>
+
+<p>
+  Often, different transitions in the state space are associated with
+  different costs.  For example, doing a task could take
+  any time between a few seconds and several hours. Or the distance
+  between any two tram stops could be between a hundred meters and half
+  a kilometer.  Thus, just counting the <i>number</i> of transitions
+  is not enough.
+</p>
+
+<p>
+  To be able to take into account different costs, we can apply
+  <b>best-first search</b>, where the node list is ordered by a given
+  criterion. For instance, we can choose to always prefer to expand a
+  path with the minimal incurred total cost counting from the starting
+  node. This is known as <b>Dijkstra's algorithm</b>. In the special
+  case where the cost of all transitions is constant, Dijkstra's
+  algorithm is equivalent to BFS.
+</p>
+
+<p>
+  The generic search algorithm template above still applies, but in
+  best-first search, the data structure that holds the nodes on the
+  node list is a <b>priority queue</b>. When adding nodes to the
+  priority queue on line 14, they are given a cost or a value that is
+  then used to order the nodes in the queue.  (Depending on the
+  application and whether the aim is to minimize or maximize the
+  value, the queue can be a min-priority queue or a max-priority
+  queue.)
+</p>
+
+<div class="hint">
+  <div class="hint__header">
+    <i class="fa fa-info-circle hint__icon"></i>Alice, Where Art Thou Going?
+  </div>
+
+  <div class="hint__body">
+    
+<p>
+  If you play around with
+  the <a href="http://qiao.github.io/PathFinding.js/visual/">PathFinding
+    applet</a> for a while, using BFS or Dijkstra's algorithm, you
+  will quickly notice a problem. The search spreads out to all
+  directions symmetrically without any preference towards the
+  goal.
+</p>
+
+<p>
+  This is understandable since the choice of the next node to expand
+  has nothing to do with the goal. However, if we have some
+  way of measuring, even approximately, which nodes are nearer
+  to the goal, we can use it to guide the search and
+  save a lot of effort by never having to explore unpromising
+  paths. This is the idea behind <b>informed search</b>.
+</p>
+
+
+  </div>
+</div>
+
+<p>
+  Informed search relies on having access to a
+  <b>heuristic</b> that associates with each node an estimate of the
+  remaining cost from the node to the goal. This can be, for example,
+  the distance between the node and the goal measured as the crow
+  flies (i.e., Euclidean or geodesic distance -- or in plain words, a
+  straight-line distance).
+</p>
+
+<p>
+  Using the heuristic as the criterion for ordering the nodes in
+  the (min-)priority queue will always expand nodes that appear to
+  be nearer to the goal according to the heuristic. However, this
+  may lead the search astray because the incurred cost of the path
+  is not taken into account. A balanced search that takes both the
+  incurred cost as well as the estimated remaining cost into account
+  is obtained by ordering the (min-)priority queue by
+  <pre>
+           f(node, cost) = cost + h(node),
+  </pre>
+  where <code>cost</code> is the value associated with the node when
+  it is added to the priority queue, and <code>h(node)</code> is the
+  heuristic value, i.e., an estimate of the remaining cost
+  from <code>node</code> to the goal. This is the <b>A* search</b>.
+  If you try it on
+  the <a href="http://qiao.github.io/PathFinding.js/visual/">PathFinding
+  applet</a>, you will immediately see that it wipes the floor with
+  other, uninformed search methods.
+</p>
+
+
+<h1 class="material-heading">
+    Games
+
+</h1>
+
+<p>
+  Maxine and Minnie are true game enthusiasts. They just love games.
+  Especially two-person, perfect information games such as tic-tac-toe
+  or chess.
+</p>
+
+<p>
+  One day they were playing tic-tac-toe. Maxine, or Max as her
+  friends call her, was playing with X. Minnie, or Min as her
+  friends call her, had the Os. The situation was
+<pre>
+       O| |O
+       -+-+-
+       X| |
+       -+-+-
+       X|O|
+</pre>
+  Max was looking at the board and contemplating her next move, as it
+  was her turn, when she suddenly buried her face in her hands in
+  despair, looking quite like Garry Kasparov playing Deep Blue in
+  1997.
+</p>
+
+<p>
+  Yes, Min was close to getting three Os on the top row, but Max could
+  easily put a stop to that plan. So why was Max so pessimistic?
+</p>
+
+<h2 class="material-heading">
+    Game Trees
+
+</h2>
+
+<p>
+  To analyse games and optimal strategies, we will introduce the
+  concept of a <b>game tree</b>. The game tree is similar to a search
+  tree, such as the one in the Sudoku example discussed at the
+  lecture.  (Remember that you should also study the lecture slides in
+  addition to this material. Some material may be discussed in one but
+  not the other.) The different states of the game are represented by
+  nodes in the game tree. The "children" of each node N are the
+  possible states that can be achieved from the state corresponding to
+  N. In board games, the state of the game is defined by the board
+  position and whose turn it is.
+</p>
+
+<p>
+  Consider, for example, the following game tree which begins
+  not at the root but in the middle of the game (because otherwise,
+  the tree would be way too big to display).
+  <br>
+  <img width=80% src="../img/diagrams/tictactoe-tree-905ef5b4.png">
+  <br>
+  The game continues at the board position shown in the root node,
+  numbered as (1) at the top, with Min's turn to place O at any of the
+  three vacant cells. Nodes (2)--(4) show the board positions
+  resulting from each of the three choices respectively. In the next
+  step, each node has two possible choices for Max to play X each,
+  and so the tree branches again.
+</p>
+
+<p>
+  The game ends when either player gets a row of three, or when there
+  are no more vacant cells. When starting from the above starting
+  position, the game always ends in a row of three.
+</p>
+
+<p>
+  Now consider nodes (5)--(10) on the second layer from the bottom.
+  In nodes (7) and (9), the game is over, and Max wins with three X's
+  in a row. In the remaining nodes, (5), (6), (8), and (10), the game
+  is also practically over, since Min only needs to place her O
+  in the only remaining cell to win. We can thus decide that the
+  end result, or the <b>value</b> of the game in each of the nodes
+  on the second level from the bottom is determined. For the
+  nodes that end in Max's victory, we'll say that the value
+  equals +1, and for the nodes that end in Min's victory, we'll say
+  that the value is -1.
+</p>
+
+<p>
+  More interestingly, let's now consider the next level of nodes
+  towards the root, nodes (2)--(4). Since we decided that both of the
+  children of (2), i.e., nodes (5) and (6), lead to Min's victory, we
+  can without hesitation attach the value -1 to node (2) as well.  For
+  node (3), the left child (7) leads to Max's victory, +1, but the
+  right child (8) leads to Min winning, -1. However, it is Max's turn
+  to play, and she will of course choose the left child without
+  hesitation. Thus, every time we reach the state in node (3), Max
+  wins. Thus we can attach the value +1 to node (3).
+</p>
+
+<p>
+  The same holds for node (4): again, since Max can choose where to
+  put her X, she can always ensure victory, and we attach the value
+  +1 to node (4).
+</p>
+
+<p>
+  So far, we have decided that the value of node (2) is -1, which
+  means that if we end up in such a board position, Min can ensure
+  winning, and that the reverse holds for nodes (3) and (4): their
+  value is +1, which means that Max can be sure to win if she only
+  plays her own turn wisely.
+</p>
+
+<p>
+  Finally, we can deduce that since Min is an experienced player, she
+  can reach the same conclusion, and thus she only has one real
+  option: give Max an impish grin and play the O in the middle of the
+  board.
+</p>
+
+<p>
+  In the diagram below, we have included the value of each node as
+  well as the optimal game play starting at Min's turn in the root
+  node.
+  <br>
+  <img width=80% src="../img/diagrams/tictactoe-values-71fdd825.png">
+</p>
+
+<p>
+  The value of the root node, which is said to be the <b>value of the
+  game</b>, tells us who wins (and how much, if the outcome is not
+  just plain win or lose): Max wins if the value of the game is +1,
+  Min if the value is -1, and if the value is 0, then the game will
+  end in a draw. This all is based on the assumption that both players
+  choose what is best for them.
+</p>
+
+<p>
+  The optimal play can also be deduced from the values of the nodes:
+  at any <b>Min node</b>, i.e., node where it is Min's turn, the
+  optimal choices are given by those children whose value is minimal,
+  and conversely, at any <b>Max node</b>, where it is Max's turn, the
+  optimal choices are given the the children whose value is maximal.
+</p>
+
+<h2 class="material-heading">
+    Minimax Algorithm
+
+</h2>
+
+<p>
+  We can exploit the above concept of the value of the game to obtain
+  an algorithm with optimal game play in, theoretically speaking, any
+  deterministic, two-person, perfect-information game. Given a state
+  of the game, the algorithm simply computes the values of the
+  children of the given state and chooses the one that has the maximum
+  value if it is Max's turn, and the one that has the minimum value if
+  it is Min's turn.
+</p>
+
+<p>
+  The algorithm can be implemented using the neat recursive
+  functions below for Max and Min nodes respectively. This is
+  known as the <b>Minimax algorithm</b> (see <a href="https://en.wikipedia.org/wiki/Minimax">Wikipedia: Minimax</a>).
+</p>
+
+<pre class="sh_java code-highlight"><code>1:  max_value(node):
+2:     if end_state(node): return value(node)
+3:     v = -Inf
+4:     for each child in node.children():
+5:        v = max(v, min_value(child))
+6:     return v
+</code></pre>
+
+<pre class="sh_java code-highlight"><code>1:  min_value(node):
+2:     if end_state(node): return value(node)
+3:     v = +Inf
+4:     for each child in node.children():
+5:        v = min(v, max_value(child))
+6:     return v
+</code></pre>
+
+<div class="exercise">
+  <div class="exercise__header">
+    <a data-toggle="collapse" class="exercise__toggle">
+      <i class="fa fa-pencil exercise__icon"></i>
+      <h1 class="exercise__heading">Minimax tic-tac-toe (1p)</h1>
+
+      <i class="fa fa-caret-down exercise__arrow"></i>
+    </a>
+  </div>
+
+  <div class="collapse">
+    <div class="exercise__body">
+      
+<p>
+  Let's return to the tic-tac-toe game described in the beginning
+  of this section. To narrow down the space of possible end-games
+  to consider, we can observe that Max must clearly place an X on
+  the top row to avoid imminent defeat:
+  <pre>
+       O|X|O
+       -+-+-
+       X| |
+       -+-+-
+       X|O|
+  </pre>
+  Now it's Min's turn to play an O. Evaluate the value of this state
+  of the game as well as the other states in the game tree where the
+  above position is the root, using the Minimax algorithm.
+</p>
+
+
+    </div>
+  </div>
+</div>
+
+<div class="hint">
+  <div class="hint__header">
+    <i class="fa fa-info-circle hint__icon"></i>Sounds good, can I go home now?
+  </div>
+
+  <div class="hint__body">
+    
+<p>
+  As stated above, the Minimax algorithm can be used to implement
+  optimal game play in any deterministic, two-player,
+  perfect-information game. Such games include tic-tac-toe, connect
+  four, chess, Go, etc. (Rock-paper-scissors is not in this class of
+  games since it involves information hidden from the other player;
+  nor are Monopoly or backgammon which are not deterministic.) So as
+  far as this topic is concerned, is that all folks, can we go home
+  now?
+</p>
+
+<p>
+  The answer is that in theory, yes, but in practice, no. In many
+  games, the game tree is simply way too big to traverse in full.  For
+  example, in chess the average branching factor, i.e., the average
+  number of children (available moves) per node is about 35.  That
+  means that to explore all the possible scenarios up to only two
+  moves ahead, we need to visit approximately 35 x 35 = 1225 nodes
+  -- probably not your favorite pen-and-paper homework exercise...  A
+  look-ahead of three moves requires visiting 42875 nodes; four moves
+  1500625; and ten moves 2758547353515625 (that's about
+  2.7 quadrillion) nodes.
+</p>
+
+<p>
+  In Go, the average branching factor is estimated to be about 250.
+  Go means no-go for Minimax.
+</p>
+
+
+  </div>
+</div>
+
+<p>
+  Next, we will learn a few more tricks that help us manage massive
+  game trees, and that were crucial elements in IBM's Deep Blue
+  computer defeating the chess world champion, Garry Kasparov, in
+  1997.
+</p>
+
+<h2 class="material-heading">
+    Depth-limited minimax and heuristic evalution criteria
+
+</h2>
+
+<p>
+  If we can afford to explore only a small part of the game tree,
+  we need a way to stop the minimax recursion before reaching an
+  end-node, i.e., a node where the game is over and the winner
+  is known. This is achieved by using a <b>heuristic
+    evaluation function</b> that takes as input a board position,
+  including the information about which player's turn is next,
+  and returns a score that should be an estimate of the likely
+  outcome of the game continuing from the given board position.
+</p>
+
+<p>
+  Good heuristics for chess, for example, typically count the amount
+  of material (pieces) weighted by their type: the queen is usually
+  considered worth about two times as much as a rook, three times a
+  knight or a bishop, and nine times as much as a pawn. The king is of
+  course worth more than all other things combined since losing it
+  amounts to losing the game. Further, occupying the strategically
+  important positions, e.g., near the middle of the board, is
+  considered an advantage.
+</p>
+
+<p>
+  The minimax algorithm presented above requires minimal changes
+  to obtain a <b>depth-limited</b> version where the heuristic
+  is returned at all nodes at a given depth limit.
+</p>
+
+<h2 class="material-heading">
+    Alpha-beta pruning
+
+</h2>
+
+<p>
+  Another breakthrough in game AI, proposed independently by several
+  researchers including John McCarthy in and around 1960,
+  is <a href="https://en.wikipedia.org/wiki/Alpha%E2%80%93beta_pruning">alpha-beta
+  pruning</a>. For small game trees, it can be used independently of
+  the heuristic evaluation method, and for large trees, the two can be
+  combined into a powerful method that has dominated the area of game
+  AI for decades.
+</p>
+
+<p>
+  A good example of the idea behind alpha-beta-pruning can be seen
+  in the tic-tac-toe game tree that we discussed above -- scroll
+  up and let the image of the root node burn into your retina.
+</p>
+
+<p>
+  Now simulate the Minimax algorithm at the stage where the value of
+  the left child node, -1, has been computed and returned to the
+  <code>min_value</code> function. The next step would be to
+  call <code>max_value</code> to compute the value of the middle
+  child. But hold on! If the left child guarantees victory for Minnie,
+  what does it matter how the game ends if she chooses to play any
+  other way? As soon as the algorithm finds a child node with the best
+  possible outcome for the player whose turn it is, it can make a
+  choice and avoid computing the values of all the other child nodes.
+</p>
+
+<p>
+  To implement this in a similar fashion as the Minimax algorithm
+  requires small changes in the <code>min_value</code> and
+  <code>max_value</code> functions. Understanding the connection
+  between these changes and the principle illustrated by the above
+  pruning example is not as easy as it may sound, so please pay
+  close attention to this topic and work out the examples and
+  exercises with care.
+</p>
+
+<pre class="sh_java code-highlight"><code>1:  max_value(node, alpha, beta):
+2:     if end_state(node): return value(node)
+3:     v = -Inf
+4:     for each child in node.children():
+5:        v = max(v, min_value(child, alpha, beta))
+6:        alpha = max(alpha, v)
+7:        if alpha >= beta: return v
+8:     return v
+</code></pre>
+
+<pre class="sh_java code-highlight"><code>1:  min_value(node, alpha, beta):
+2:     if end_state(node): return value(node)
+3:     v = +Inf
+4:     for each child in node.children():
+5:        v = min(v, max_value(child, alpha, beta))
+6:        beta = min(beta, v)
+7:        if alpha >= beta: return v
+8:     return v
+</code></pre>
+
+<p>
+  An important thing to remember is that the <code>alpha</code> value
+  is updated only at the Max nodes, and the <code>beta</code> value is
+  updated only at the Min nodes. The updated values are passed as
+  arguments down to the children, but not up to the calling parent
+  node. (That is, the arguments are passed <i>as values</i>, not <i>as
+  references</i> in programming lingo.)
+</p>
+
+<p>
+  The interpretation <code>alpha</code> and <code>beta</code> is that
+  they provide the interval of possible values of the game at the node
+  that is being processed:
+  <code>alpha</code> &le; value &le; <code>beta</code>. This interval
+  is updated during the algorithm, and if at some point, the interval
+  shrinks so that <code>alpha = beta</code>, we know the value and
+  can return it to the parent node without processing any more
+  child nodes. It can also happen that <code>alpha > beta</code>,
+  which implies that the current node will never be visited in
+  optimal game play, and its processing can likewise be aborted.
+</p>
+
+<p>
+  When starting the recursion at the root node, we initialize their
+  respective values as the minimum and maximum result of the game. For
+  tic-tac-toe and chess, where the outcome is plain win/loss, this
+  is <code>alpha = -1</code> and <code>beta = 1</code>. If the
+  range of possible values is not specified in advance, we
+  initialize as <code>alpha = -&infin;</code> and <code>beta =
+    &infin;</code>.
+</p>
+
+<p>
+  It is useful to work out a few examples to really understand the
+  beauty of alpha-beta pruning. Here's another tic-tac-toe
+  example.
+  <br>
+  <img width=80% src="../img/diagrams/tictactoe-alphabeta-e8cb918f.png">
+  <br>
+</p>
+
+<p>
+  You should simulate the algorithm to see that the two branches
+  that are grayed out  indeed get pruned -- therefore, it is
+  actually a bit misleading to even show their minimax values
+  since the algorithm never computes them.
+</p>
+
+<p>
+  Remember that the Max nodes (such as the root node) only update
+  the <code>alpha</code> value and pass it down to the next
+  child node. Check that you reach a situation where
+  <code>alpha=0</code> and  <code>beta=-1</code> in a
+  Min node. Actually you should reach such a situation twice.
+</p>
+
+<p>
+  Another good example (except for the choice of colors) can be
+  found from Bruce Rosen's lecture notes for <i>Fundamentals of
+  Artificial Intelligence - CS161</i> at
+  UCLA: <a href="http://web.cs.ucla.edu/~rosen/161/notes/alphabeta.html">here</a>.  Note in particular how he emphasizes the fact that the
+  tree is only expanded node by node as the algorithm runs,
+  instead of running the algorithm on a full tree as is often
+  suggested by diagrams such as the ones we use in this material.
+  Rosen's example also illustrates a scenario where the value of
+  the game is not constrained to be -1,0, or +1, and the algorithm
+  starts at the root with <code>alpha = -&infin;</code> and
+  <code>beta = &infin;</code>..
+</p>
+
+        </div>
+      </div>
+
+      <div class="footer-wrapper">
+        <footer class="footer">
+  <div>
+    This material is licensed under a <a rel="license" href="https://creativecommons.org/licenses/by-nc-sa/4.0/">Creative Commons BY-NC-SA 4.0 License</a>.
+
+  </div>
+  <div class="improvement">
+    <a href="https://github.com/materiaalit/intro-to-ai-17/issues/new"  target="_blank" rel="noopener">
+  <button class='btn btn-primary'>
+    <i class="fa fa-exclamation-triangle" aria-hidden="true"></i> Report an error
+  </button>
+</a>
+<a href="https://github.com/materiaalit/intro-to-ai-17/edit/master/source/part2.html.erb" target="_blank" rel="noopener">
+  <button class='btn btn-primary'>
+    <i class="fa fa-pencil" aria-hidden="true"></i>
+ Edit this page
+  </button>
+</a>
+     <a href="https://github.com/materiaalit/intro-to-ai-17" class="footer__github-link" target="_blank" rel="noopener">
+      <i class="fa fa-github"></i>
+    </a>
+  </div>
+</footer>
+
+      </div>
+    </div>
+
+    <div class="modal fade" id="tmc-login-modal" tabindex="-1" role="dialog">
+  <div class="modal-dialog" role="document">
+    <div class="modal-content">
+      <form id="tmc-login-form">
+        <div class="modal-header">
+          <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+          <h4 class="modal-title">Log in with your Test My Code Account</h4>
+        </div>
+        <div class="modal-body">
+          <div class="alert alert-info">
+            Don't have an account yet? <a href="https://tmc.mooc.fi/user/new" class="alert-link" target="_blank" rel="noopener">Create one!</a>
+          </div>
+
+          <div class="alert alert-danger" id="tmc-login-error" style="display: none;"></div>
+
+          <div class="form-group">
+            <label>Username</label>
+            <input type="text" id="tmc-login-username" class="form-control" placeholder="Username"/>
+          </div>
+
+          <div class="form-group">
+            <label>Password</label>
+            <input type="password" id="tmc-login-password" class="form-control" placeholder="Password"/>
+          </div>
+
+          <div class="form-group">
+            <label>Course</label>
+
+            <div class="form-check">
+              <label class="form-check-label">
+                <input type="radio" class="form-check-input" name="tmcLoginCourse" value="intro-to-ai-17" checked>
+                 Introduction to Artificial Intelligence 2017 (intro-to-ai-17)
+              </label>
+            </div>
+
+            <small class="form-text text-muted">
+              Course selection may affect the contents of the material.
+            </small>
+          </div>
+        </div>
+        <div class="modal-footer">
+          <a class="btn btn-secondary" data-dismiss="modal">Close</a>
+          <button type="submit" class="btn btn-primary">Log in</button>
+        </div>
+      </form>
+    </div>
+  </div>
+</div>
+
+
+    <div class="table-of-contents-layer" id="table-of-contents-layer">
+</div>
+
+<div class="table-of-contents" id="table-of-contents">
+  <h1 class="table-of-contents__heading">
+    Table of Contents
+  </h1>
+
+  <div class="table-of-contents__content">
+    <ul id="table-of-contents-list"></ul>
+  </div>
+</div>
+
+
+    <script>
+  window._QUIZNATOR_ENABLED = true;
+</script>
+
+<script src="https://quiznator.herokuapp.com/javascripts/plugin-loader.min.js"></script>
+
+
+    <script src="https://code.jquery.com/jquery-3.1.1.min.js"
+	    integrity="sha256-hVVnYaiADRTO2PzUGmuLJr8BLUSjGIZsDYGmIJLv2b8="
+	    crossorigin="anonymous"></script>
+
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js" integrity="sha384-Tc5IQib027qvyjSMfHjOMaLkfuWVxZxUPnCJA7l2mCWNIpG9mGCD8wGNIcPD7Txa" crossorigin="anonymous"></script>
+
+    <script>
+      window.SD_SHOW_SURVEY = ['part6', 'part7'].indexOf(window.location.pathname.replace(/\//g,'')) >= 0;
+    </script>
+
+    <script src="../javascripts/scripts-7d23afc3.js"></script>
+
+    <script src="https://use.fontawesome.com/ed2f73836b.js"></script>
+
+    <script src="//cdnjs.cloudflare.com/ajax/libs/highlight.js/9.7.0/highlight.min.js"></script>
+
+    <script>hljs.initHighlightingOnLoad();</script>
+
+    <script src="//cdnjs.cloudflare.com/ajax/libs/cookieconsent2/3.0.1/cookieconsent.min.js"></script>
+    <script src='//cdnjs.cloudflare.com/ajax/libs/diff_match_patch/20121119/diff_match_patch.js'></script>
+
+    <script>window.cookieconsent.initialise({"palette":{"popup":{"background":"#000"},"button":{"background":"#f1d600"}}});</script>
+
+    <script src='//2017-ohjelmointi.github.io/cdn/code-states-visualizer.js'></script>
+    <script src='https://materiaalit.github.io/typonator-cdn/app.js'></script>
+    <script>
+      document.addEventListener("DOMContentLoaded", function() {
+        window.initCodeStatesVisualizer();
+        window.initTyponator();
+      });
+    </script>
+  </body>
+</html>
