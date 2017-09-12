@@ -915,14 +915,16 @@ state:  ---    |     |          state:  |     |    --- 
   moves ahead, we need to visit approximately 35 x 35 = 1225 nodes
   -- probably not your favorite pen-and-paper homework exercise...  A
   look-ahead of three moves requires visiting 42875 nodes; four moves
-  ahead 1500625; and ten moves ahead 2758547353515625 (that's about
+  1500625; and ten moves 2758547353515625 (that's about
   2.7 quadrillion) nodes.
 </p>
 
 <p>
   In Go, the average branching factor is estimated to be about 250.
-  Go is definitely a no-go for Minimax.
+  Go means no-go for Minimax.
 </p>
+
+<% end %>
 
 <p>
   Next, we will learn a few more tricks that help us manage massive
@@ -931,9 +933,150 @@ state:  ---    |     |          state:  |     |    --- 
   1997.
 </p>
 
+<% partial 'partials/material_sub_heading' do %>
+  Depth-limited minimax and heuristic evalution criteria
 <% end %>
 
 <p>
+  If we can afford to explore only a small part of the game tree,
+  we need a way to stop the minimax recursion before reaching an
+  end-node, i.e., a node where the game is over and the winner
+  is known. This is achieved by using a <b>heuristic 
+    evaluation function</b> that takes as input a board position,
+  including the information about which player's turn is next,
+  and returns a score that should be an estimate of the likely
+  outcome of the game continuing from the given board position.
+</p>
 
+<p>
+  Good heuristics for chess, for example, typically count the amount
+  of material (pieces) weighted by their type: the queen is usually
+  considered worth about two times as much as a rook, three times a
+  knight or a bishop, and nine times as much as a pawn. The king is of
+  course worth more than all other things combined since losing it
+  amounts to losing the game. Further, occupying the strategically
+  important positions, e.g., near the middle of the board, is
+  considered an advantage.
+</p>
 
+<p>
+  The minimax algorithm presented above requires minimal changes 
+  to obtain a <b>depth-limited</b> version where the heuristic
+  is returned at all nodes at a given depth limit.
+</p>
+
+<% partial 'partials/material_sub_heading' do %>
+  Alpha-beta pruning
+<% end %>
+
+<p>
+  Another breakthrough in game AI, proposed independently by several
+  researchers including John McCarthy in and around 1960,
+  is <a href="https://en.wikipedia.org/wiki/Alpha%E2%80%93beta_pruning">alpha-beta
+  pruning</a>. For small game trees, it can be used independently of
+  the heuristic evaluation method, and for large trees, the two can be
+  combined into a powerful method that has dominated the area of game
+  AI for decades.
+</p>
+
+<p>
+  A good example of the power of alpha-beta-pruning can be seen
+  in the tic-tac-toe game tree that we discussed above -- scroll
+  up and let the image of the root node burn into your retina.
+</p>
+
+<p>
+  Now simulate the Minimax algorithm at the stage where the value of
+  the left child node, -1, has been computed and returned to the
+  <code>min_value</code> function. The next step would be to
+  call <code>max_value</code> to compute the value of the middle
+  child. But hold on! If the left child guarantees victory for Minnie,
+  what does it matter how the game ends if she chooses to play any
+  other way? As soon as the algorithm finds a child node with the best
+  possible outcome for the player whose turn it is, it can make a
+  choice and avoid computing the values of all the other child nodes.
+</p>
+
+<p>
+  To implement this in a similar fashion as the Minimax algorithm
+  requires small changes in the <code>min_value</code> and 
+  <code>max_value</code> functions. Understanding the connection
+  between these changes and the principle illustrated by above the
+  pruning example is not as easy as it may sound, so please pay
+  close attention to this topic and work out the example and
+  exercises with care.
+</p>
+
+<% partial 'partials/code_highlight' do %>
+1:  max_value(node, alpha, beta):
+2:     if end_state(node): return value(node)
+3:     v = -Inf
+4:     for each child in node.children():
+5:        v = max(v, min_value(child, alpha, beta))
+6:        alpha = max(alpha, v)
+7:        if alpha >= beta: return v
+8:     return v  
+<% end %>
+
+<% partial 'partials/code_highlight' do %>
+1:  min_value(node, alpha, beta):
+2:     if end_state(node): return value(node)
+3:     v = +Inf
+4:     for each child in node.children():
+5:        v = min(v, max_value(child, alpha, beta))
+6:        beta = min(beta, v)
+7:        if alpha >= beta: return v
+8:     return v  
+<% end %>
+
+<p>
+  An important thing to remember is that the <code>alpha</code> value
+  is updated only at the Max nodes, and the <code>beta</code> value is
+  updated only at the Min nodes. The updated values are passed as
+  arguments down to the children, but not up to the calling parent
+  node.
+</p>
+
+<p>
+  The interpretation <code>alpha</code> and <code>beta</code> is that
+  they provide the interval of possible values of the game at the node
+  that is being processed:
+  <code>alpha</code> &le; value &le; <code>beta</code>. This interval
+  is updated during the algorithm, and if at some point, the interval
+  shrinks so that <code>alpha = beta</code>, we know the value and
+  can return it to the parent node without processing any more
+  child nodes. It can also happen that <code>alpha > beta</code>,
+  which implies that the current node will never be visited in
+  optimal game play.
+</p>
+
+<p>
+  When starting the recursion at the root node, we initialize their
+  respective values as the minimum and maximum result of the game. For
+  tic-tac-toe and chess, where the outcome is plain win/loss, this
+  is <code>alpha = -1</code> and <code>beta = 1</code>.
+</p>
+
+<p>
+  It is useful to work out a few examples to really understand the
+  beauty of alpha-beta pruning. Here's another tic-tac-toe
+  example.
+  <br>
+  <img width=80% src="/img/diagrams/tictactoe-alphabeta.png">
+  <br>
+</p>
+
+<p>
+  You should simulate the algorithm to see that the two branches
+  that are grayed out are indeed pruned away -- therefore, it is
+  actually a bit misleading to even show their minimax values
+  since the algorithm never computes them.
+</p>
+
+<p>
+  Remember that the Max nodes (such as the root node) only update
+  the <code>alpha</code> value and pass it down to the next
+  child node. Check that you reach a situation in a Min node where 
+  <code>alpha=0</code> and  <code>beta=-1</code>.
+</p>
 
