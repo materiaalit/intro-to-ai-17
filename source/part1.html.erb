@@ -1080,7 +1080,21 @@ state:  ---    |     |          state:  |     |    --- 
 <p>
   Remember that the Max nodes (such as the root node) only update
   the <code>alpha</code> value and pass it down to the next
-  child node. Check that you reach a situation in a Min node where 
-  <code>alpha=0</code> and  <code>beta=-1</code>.
+  child node. Check that you reach a situation where 
+  <code>alpha=0</code> and  <code>beta=-1</code> in a 
+  Min node. Actually you should reach such a situation twice.
 </p>
 
+<p>
+  Another good example (except for the choice of colors) can be
+  found from Bruce Rosen's lecture notes for <i>Fundamentals of
+  Artificial Intelligence - CS161</i> at
+  UCLA: <a href="http://web.cs.ucla.edu/~rosen/161/notes/alphabeta.html">here</a>.  Note in particular how he emphasizes the fact that the
+  tree is only expanded node by node as the algorithm runs, 
+  instead of running the algorithm on a full tree as is often
+  suggested by diagrams such as the ones we use in this material.
+  Rosen's example also illustrates a scenario where the value of
+  the game is not constrained to be -1,0, or +1, and the algorithm
+  starts at the root with <code>alpha = -&infin;</code> and
+  <code>beta = &infin;</code>..
+</p>
