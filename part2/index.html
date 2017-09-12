@@ -393,7 +393,7 @@
   number of children (available moves) per node is about 35.  That
   means that to explore all the possible scenarios up to only two
   moves ahead, we need to visit approximately 35 x 35 = 1225 nodes
-  -- probably not your favorite pen-and-paper homework exercise...  A
+  -- probably not your favorite pencil-and-paper homework exercise...  A
   look-ahead of three moves requires visiting 42875 nodes; four moves
   1500625; and ten moves 2758547353515625 (that's about
   2.7 quadrillion) nodes.
@@ -628,6 +628,66 @@
   loop on lines 4--7, is arbitrary, it can have significant impact
   on which branches are pruned.
 </p>
+
+<div class="exercise">
+  <div class="exercise__header">
+    <a data-toggle="collapse" class="exercise__toggle">
+      <i class="fa fa-pencil exercise__icon"></i>
+      <h1 class="exercise__heading">Alpha-beta programming exercise (1p)</h1>
+
+      <i class="fa fa-caret-down exercise__arrow"></i>
+    </a>
+  </div>
+
+  <div class="collapse">
+    <div class="exercise__body">
+      
+<p>
+  Now we feel confident enough about concepts and ideas behind the
+  Minimax algorithm and alpha-beta pruning that we can start
+  programming. We'll implement a tic-tac-toe bot.
+</p>
+
+<p>
+  (We'll give instructions for checking your solution on TMC later.
+  For now, you can start from scratch since this problem will not
+  use a template to begin with.)
+</p>
+
+<p>
+  <ol>
+    <li> First implement the basic framework for the game, including
+      an object (or another data structure) for board positions,
+      the functions for checking whether either player has a row
+      of three, and a function for producing the list of children
+      for a given board position.
+    <li> Then implement the Minimax algorithm according to the pseudo-code
+      given above. The algorithm should return for any given board
+      position, the value of the game: -1, 0, or 1.
+    <li> Using the previous step, modify the program so that it also
+      outputs the optimal move for the player whose turn it is (which
+      is given as an input, of course). You can do this by keeping
+      record of the child node that yields the highest (lowest) value
+      in a Max (Min) node.
+    <li> You can test the solution at this stage by using it to solve
+      the above pencil-and-paper exercises.
+    <li> As the culmination of this exercise, modify the algorithm to
+      implement alpha-beta pruning as detailed in the pseudo-code
+      above. To see whether you gain any speed-up, you can see how
+      long the algorithm runs (or how many recursive function calls
+      are performed) with or without alpha-beta pruning -- simply
+      comment out line 7 with the test <code>alpha >= beta</code> to
+      revert back to vanilla Minimax.
+  </ol>
+
+  As a bonus question, you can think about how to order the child
+  nodes so that as much pruning is done as possible.
+
+
+    </div>
+  </div>
+</div>
+
 
 
 
