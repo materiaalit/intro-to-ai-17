@@ -9,6 +9,7 @@ import * as store from 'store';
 import '../stylesheets/index.scss';
 
 import Exercises from './exercises';
+import Solutions from './solutions';
 import TableOfContents from './table-of-contents';
 import LoginModal from './login-modal';
 import Navigation from './navigation';
@@ -25,6 +26,7 @@ $(() => {
   loginReset();
 
   (new Exercises()).mount();
+  (new Solutions()).mount();
   (new TableOfContents()).mount();
   (new LoginModal()).mount();
   (new Navigation()).mount();
