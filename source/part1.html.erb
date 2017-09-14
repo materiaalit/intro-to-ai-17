@@ -521,6 +521,26 @@ AI" (GOFAI) and modern AI approaches
 
 <% end %>
 
+<% partial 'partials/solution', locals: { name: 'Example solution' } do %>
+
+<p>
+  Here's the traversal order in the format <code>node: [node list]</code>:
+<pre>
+      BFS            DFS
+      a: [b]         a: [b]
+      b: [c,f]       b: [f,c]
+      c: [f,e,i]     f: [g,d,c]
+      f: [e,i,d,g]   g: [h,d,c]
+      e: [i,d,g]     h = goal
+      i: [d,g]
+      d: [g]
+      g: [h]
+      h = goal
+</pre>         
+</p>
+
+<% end %>
+
 <p>
   As we discussed above while drinking red wine, search algorithms don't
   necessarily feel like being very cool AI methods. However, as the
