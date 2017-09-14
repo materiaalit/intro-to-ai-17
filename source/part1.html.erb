@@ -605,9 +605,11 @@ state:  ---    |     |          state:  |     |    --- 
   <ol>
     <li>
       Here's the state diagram (from <a href="https://en.wikipedia.org/wiki/Tower_of_Hanoi">Wikipedia: Towers of Hanoi</a>):<br><br>
-      <img src="/img/diagrams/880px-Tower_of_Hanoi-3.svg.png" width=65%><br><br>
-      The encoding is such that the first letter a/b/c encodes the
-      position of the smallest disk, the second letter encodes the
+      <img src="/img/diagrams/880px-Tower_of_Hanoi-3.svg.png" width=62%><br><br>
+      The encoding is such that the first letter in a three-letter
+      sequenceencodes the position of the smallest disk
+      (<code>a</code> = left, <code>b</code> = middle,
+      <code>c</code> = right), the second letter encodes the
       position of the middle disk, and the third letter encodes the
       position of the largest disk. Thus, there is a transition from the
       starting state <code>aaa</code> to states <code>baa</code> and
@@ -726,7 +728,7 @@ state:  ---    |     |          state:  |     |    --- 
 <% partial 'partials/solution', locals: { name: 'Example solution' } do %>
 
 <p>
-  You can download a working solution <a href="/files/TravelPlanner.java">here</a>.
+  You can download a working solution <a href="https://materiaalit.github.io/intro-to-ai-17/files/TravelPlanner.java">here</a>.
 </p>
 
 <% end %>
