@@ -666,7 +666,72 @@
 <% partial 'partials/exercise', locals: { name: 'Rolling the Dice (1p)' } do %>
 
 <p>
+  The lecturer has two dice in his office (true story). One of them is
+  an ordinary die and will yield any result from one to six with equal
+  probability.  However, the other die is loaded (true story, again).
+  It will yield a six with probability 1/2 and any other outcome with
+  probability 1/10. He will roll the ordinary die first, and then
+  the loaded one. Calculate the following probabilities. Recall
+  that <i>P(A|B)</i> means the conditional probability of <i>A</i>
+  given <i>B</i>.
+</p>
 
+<p>
+  <ol>
+    <li> <i>P("both outcomes are 6")</i>
+    <li> <i>P("neither outcome is 6")</i>
+    <li> <i>P("the sum of the outcomes equals 9")</i>
+    <li> <i>P("the sum of the outcomes equals 9" | "at least one outcome is 6")</i>
+    <li> <i>P("at least one outcome is 6" | "the sum of the outcomes equals 9")</i>
+  </ol>
+</p>
+
+<p>
+  <i>Hint:</i> We know that probability calculus can be confusing, but
+  keep calm and carry on, you'll get the hang of it!
+</p>
+
+<% end %>
+
+
+
+<% partial 'partials/exercise', locals: { name: 'Bayes rule (1p)' } do %>
+
+<p>
+  Let's use the same dice as in the previous exercise.
+</p>
+
+<p>
+  <ol>
+    <li> What is the distribution of the sum of the outcomes when
+      rolling the ordinary die twice?
+    <li> What is the distribution of the sum of the outcomes when
+      rolling the loaded die twice?
+    <li> Assume that either die (ordinary or loaded) is selected 
+      at random with probability 1/2 each. The selected die is
+      rolled twice. Calculate the probability<br>
+      <i>P("the die is loaded" | "the sum of the outcomes is 10")</i><br>
+      Calculate the probability that the die is ordinary as well to
+      make sure that the sum of the two probabilities is one.
+    <li> Again, either die is selected with equal probability.
+      We notice that every time the die is rolled, the outcome is six.
+      After how many rolls can we be at least 99% sure that the
+      die is loaded. <i>Hint:</i> Calculate the ratio of the
+      posterior probabilities of each die being selected after <i>k</i>
+      rolls. If the posterior probability of the loaded die is over
+      99%, then the ratio of the posterior probabilities is over
+      0.99/0.01 = 99.
+  </ol>
+</p>
+
+<p>
+  If you have trouble with these exercises, you may wish to study
+  additional material on Bayes rule (aka Bayes theorem).
+  Here's a couple of good starting points:
+  <ul>
+    <li><a hfre="http://en.wikipedia.org/wiki/Bayes%27_theorem#Drug_testing">Wikipedia: Bayes theorem (Section <i>Drug testing</i>)</a>
+    <li><a href="http://www.youtube.com/watch?v=tRE6mKAIkno">Maths Doctor: A Level Statistics 1.5 Bayes' Theorem and medical testing</a>
+  </ul>
 </p>
 
 <% end %>
