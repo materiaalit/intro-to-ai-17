@@ -95,7 +95,7 @@
   <div class="exercise__header">
     <a data-toggle="collapse" class="exercise__toggle">
       <i class="fa fa-pencil exercise__icon"></i>
-      <h1 class="exercise__heading">TravelPlanner v2.0 (2p)</h1>
+      <h1 class="exercise__heading">TravelPlanner v2.0 (AStar) (2p)</h1>
 
       <i class="fa fa-caret-down exercise__arrow"></i>
     </a>
@@ -134,7 +134,7 @@
   directly to Java but the general idea is the same in other
   languages):
   <ol>
-    <li> Implement a <code>Comparator</code> class (the Java package
+    <li> Implement a <code>StateComparator</code> class (the Java package
       already has a template for this) with
       method <code>heuristic(Stop s)</code>, which calculates a
       lower bound on the time required to reach the destination
@@ -143,14 +143,14 @@
       the maximum speed of the tram which you can assume to be 260
       coordinate points per minute.
     <li> Also implement method <code>compare(State s1, State s2)</code>
-      in class <code>Comparator</code> so that it can be used to
+      in class <code>StateComparator</code> so that it can be used to
       order the nodes in the priotity queue based on <code>cost 
 	+ h(node)</code> as described in Part 1. Here the nodes are
       states that are defined by the stop and the time since 
       departure.
     <li> Implement the A* search in class <code>TravelPlanner</code>.
       The <code>PriorityQueue</code> data structure comes in handy. An
-      instance of the <code>Comparator</code> class should be given as
+      instance of the <code>StateComparator</code> class should be given as
       an argument to the <code>PriorityQueue</code> constructor.
   </ol>
 </p>
@@ -781,8 +781,68 @@
 </h1>
 
 <p>
+  In this section, we'll study methods that can cope with
+  uncertainty. The history of AI has seen various competing approaches
+  to handling uncertain and imprecise information: fuzzy logic,
+  non-monotonic logic, the theory of plausible reasoning <i> et
+  cetera</i>. In most cases, probability theory has turned out to be
+  the most principled and consistent paradigm for reasoning under
+  uncertainty.
+</p>
+
+<p>
+  If you want an objective and diplomatic view on the matter, don't
+  ask me. I'll just repeat a counter-argument made by a proponent of
+  fuzzy logic when he tried to get around a rigorous formal proof
+  showing that any method of inference where degrees of plausibility
+  are represented as real numbers, other than probability theory, is
+  inconsistent: the response of the fuzzy logic proponent was that
+  since the proof is based on <i>ordinary (two-valued) logic, it
+    doesn't apply to fuzzy logic.</i> Now that is a counter-argument
+  that is hard to refute!
+</p>
+
+<h2 class="material-heading">
+    Probability Fundamentals
+
+</h2>
+
+<p>
+  We are working to add material about the basic concepts of
+  probability theory: probabilistic model, events, joint
+  probability, conditional probability, etc.
+</p>
+
+<p>
+  Feel free to refresh these concepts from your favorite source.
+  Two great examples are:
+  <ul>
+    <li>Ian Goodfellow, Yoshua Bengio & Aaron Courville: <a href="Ian Goodfellow and Yoshua Bengio and Aaron Courville">Deep Learning</a> (Section 3)
+    <li>Charles Grinstead & J. Laurie Snell: <a href="http://www.dartmouth.edu/~chance/teaching_aids/books_articles/probability_book/amsbook.mac.pdf">Introduction to Probability</a>
+  </ul>
+</p>
+
+<div class="exercise">
+  <div class="exercise__header">
+    <a data-toggle="collapse" class="exercise__toggle">
+      <i class="fa fa-pencil exercise__icon"></i>
+      <h1 class="exercise__heading">Rolling the Dice (1p)</h1>
+
+      <i class="fa fa-caret-down exercise__arrow"></i>
+    </a>
+  </div>
+
+  <div class="collapse">
+    <div class="exercise__body">
+      
+<p>
+
+</p>
 
 
+    </div>
+  </div>
+</div>
 
         </div>
       </div>
