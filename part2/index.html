@@ -95,7 +95,7 @@
   <div class="exercise__header">
     <a data-toggle="collapse" class="exercise__toggle">
       <i class="fa fa-pencil exercise__icon"></i>
-      <h1 class="exercise__heading">TravelPlanner with A* (2p)</h1>
+      <h1 class="exercise__heading">TravelPlanner v2.0 (2p)</h1>
 
       <i class="fa fa-caret-down exercise__arrow"></i>
     </a>
@@ -106,7 +106,7 @@
       
 <p>
   This week's first exercise is a continuation of the TravelPlanner
-  from last week. The only difference is the change algorihtm:
+  from last week. The only difference is the change of algorithm:
   instead of breadth-first search, you should now implement A*
   search.
 </p>
@@ -114,7 +114,7 @@
 <p>
   The cost associated with each transition from one stop to the next
   is the time required for the transition. This includes both the time
-  spent waiting for the tram and the travel time. In our imaginary
+  spent waiting for the tram and the actual travel time. In our imaginary
   scenario, all trams leave at regular 10 minute intervals from their
   first stop (each line is given both ways, so another tram will leave
   at the same time from the other end).
@@ -135,39 +135,41 @@
   languages):
   <ol>
     <li> Implement a <code>Comparator</code> class (the Java package
-      already has a template for this) with method <code>heuristic(
-	Stop stop)</code>, which calculates a lower bound on the
-      time required to reach the destination from <code>stop</code>.
-      A lower bound can be obtained by computing the distance between
-      the two stops, and dividing it by the maximum speed of the tram
-      which you can assume to be 260 coordinate points per minute.
+      already has a template for this) with
+      method <code>heuristic(Stop s)</code>, which calculates a
+      lower bound on the time required to reach the destination
+      from stop <code>s</code>.  A lower bound can be obtained by
+      computing the distance between the two stops, and dividing it by
+      the maximum speed of the tram which you can assume to be 260
+      coordinate points per minute.
     <li> Also implement method <code>compare(State s1, State s2)</code>
       in class <code>Comparator</code> so that it can be used to
       order the nodes in the priotity queue based on <code>cost 
-	+ h(node)</code> as described in Part 1.
-    <li> Implement the A* search in class <code>TravelPlanner</code>
-      using the <code>PriorityQueue</code> data structure. An instance
-      of the <code>Comparator</code> class is given as an argument to
-      the <code>PriorityQueue</code> constructor.
+	+ h(node)</code> as described in Part 1. Here the nodes are
+      states that are defined by the stop and the time since 
+      departure.
+    <li> Implement the A* search in class <code>TravelPlanner</code>.
+      The <code>PriorityQueue</code> data structure comes in handy. An
+      instance of the <code>Comparator</code> class should be given as
+      an argument to the <code>PriorityQueue</code> constructor.
   </ol>
 </p>
 
 <p>
   As before, you should return the obtained route as a backward-linked
-  list of states, including the current stop and the total time from
-  the departure stop.</p>
+  list of states.</p>
 
 <p>
   The <code>Stop</code> class in the Java package provides
-  functionality for listing the neighboring stops and getting the
+  functionality for listing the neighboring stops and for getting the
   minimum time required to get there (including the waiting time).
 </p>
 
 <p>
-  If you prefer to not use the Java package and TMC, you are welcome
-  to do so.  You'll find the stop information
-  in <code>network.json</code> and the route descriptions
-  in <code>lines.json</code>, both of which are self-explanatory.
+  If you prefer to not use the Java package and TMC, that's totally
+  fine.  You'll find the stop information in <code>network.json</code>
+  and the route descriptions in <code>lines.json</code>, both of which
+  are self-explanatory.
 </p>
 
 
