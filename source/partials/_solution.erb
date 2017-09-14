@@ -1,15 +1,15 @@
 <div class="solution">
-  <div class="solution__header">
-    <a data-toggle="collapse" class="solution__toggle">
-      <i class="fa fa-pencil hint__icon"></i>
-      <h1 class="solution__heading"></h1>
+  <div class="exercise__header">
+    <a data-toggle="collapse" class="exercise__toggle">
+      <i class="fa fa-pencil exercise__icon"></i>
+      <h1 class="exercise__heading"><%= name %></h1>
 
-      <i class="fa fa-info-circle hint__icon"></i>
+      <i class="fa fa-caret-down exercise__arrow"></i>
     </a>
   </div>
 
   <div class="collapse">
-    <div class="solution__body">
+    <div class="exercise__body">
       <%= yield %>
     </div>
   </div>
