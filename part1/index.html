@@ -415,7 +415,7 @@ AI" (GOFAI) and modern AI approaches
   <div class="solution__header">
     <a data-toggle="collapse" class="solution__toggle">
       <i class="fa fa-magic solution__icon"></i>
-      <h1 class="solution__heading">Solution X</h1>
+      <h1 class="solution__heading">Example solution</h1>
 
       <i class="fa fa-caret-down solution__arrow"></i>
     </a>
@@ -779,6 +779,68 @@ state:  ---    |     |          state:  |     |    --- 
 
 <p>A bonus exercise: Try to see the symmetry in the state diagram,
   and generalize to <i>n > 3</i> discs.
+</p>
+
+
+    </div>
+  </div>
+</div>
+
+<div class="solution" data-target='collapse'>
+  <div class="solution__header">
+    <a data-toggle="collapse" class="solution__toggle">
+      <i class="fa fa-magic solution__icon"></i>
+      <h1 class="solution__heading">Example solution</h1>
+
+      <i class="fa fa-caret-down solution__arrow"></i>
+    </a>
+  </div>
+
+  <div class="collapse">
+    <div class="solution__body">
+      
+<p>
+  <ol>
+    <li>
+      Here's the state diagram (from <a href="https://en.wikipedia.org/wiki/Tower_of_Hanoi">Wikipedia: Towers of Hanoi</a>):<br>
+      <img src="img/diagrams/880px-Tower_of_Hanoi-3.svg.png" width=80%><br>
+      The encoding is such that the first letter a/b/c encodes the
+      position of the smallest disk, the second letter encodes the
+      position of the middle disk, and the third letter encodes the
+      position of the largest disk. Thus, there is a transition from the
+      starting state <code>aaa</code> to states <code>baa</code> and
+      <code>caa</code>, where the smallest disk is move to the middle
+      or the right-most peg respectively.
+    <li>
+      BFS visits the states in the following order:
+      <code>aaa [start], baa, caa, bca, cba, aca, cca, aba, bba,
+	ccb, bbc, acb, bcb, abc, cbc, abb, bab, acc, cac,
+	bbb, cbb, aab, cab, bcc, ccc [goal]</code>.
+      Minor differences are possible due to different ordering of
+      the neighbors of each node.
+    <li>
+      DFS visits the states in the following order:
+      <code>aaa [start], caa, cba, bba, bbc, cbc, cac, bac, bcc, ccc
+	[goal]</code>.
+      Here the order in which the neighbors are considered can have a
+      significant effect on the result. In the worst case, all other
+      nodes are visited before expanding the goal node.
+    <li>
+      <i>a)</i> The path produced by BFS is the one with the least
+      possible transitions, seven. The path produced by DFS, on the
+      other hand, is the same as the sequence of states visited by
+      DFS, which is ten transitions in length.
+      <i>b)</i> BFS visited 25 states altogether while DFS only visited
+      11 states. So BFS visits much more states but produces a shorter
+      path.
+    <li>
+      The number of states visited by BFS varies only slightly, and
+      the path that it produces is always the same (since the shortest
+      path is unique). However, DFS can either go straight to the
+      goal by visiting only the states that are on the shortest path,
+      or it can visit almost all states in the state space, and
+      produce the maximally long path from the start to the goal.
+  </ol>
 </p>
 
 
