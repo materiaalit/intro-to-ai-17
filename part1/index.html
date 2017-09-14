@@ -435,6 +435,47 @@ AI" (GOFAI) and modern AI approaches
   topics such as algorithms and data structures.
 </p>
 
+<p>
+  To take a concrete example, we can take a look at the article
+  <a href="https://www.aaai.org/ocs/index.php/AAAI/AAAI17/paper/viewFile/15001/14466">Polynomial Optimization Methods for Matrix Factorization</a>
+  by P.-W. Wang, C.-L. Li, and J.Z. Kolter, which appeared in the
+  AAAI-17 conference.
+</p>
+
+<p>
+  <ol>
+    <li>
+      The article presents new algorithms for factorizing matrices 
+      (representing big matrices as products of smaller matrices)
+      that are based on certain optimization techniques. Matrix 
+      factorization can be used in various machine learning scenarios.
+      For example, many state-of-the-art recommender systems that
+      predict user ratings of items such as movies or music include
+      matrix factorization as a key component. Improving matrix
+      factorization algorithms will thus eventually lead to better
+      movie and music recommendations.
+    <li>
+      The article is clearly relevant to the course topics
+      (machine learning and recommendation systems in particular).
+    <li>
+      Based on this article alone, AI research would appear to
+      differ only slightly from mathematics research. The emphasis
+      on practical solutions and empirical evaluation is a feature 
+      characteristic to AI and ML research.
+    <li>
+      The paper uses advanced multivariate calculus tools. From an
+      algorithmic point of view, there is actually nothing intricate
+      (basically a few loops), and the maths background is the area
+      where further studies would be required to get the details.
+    <li>
+      The article doesn't mention consciousness or any other
+      "philosophical" issues at all. The problem is clearly 
+      constrained as that of minimizing a function. The progress
+      in AI that this paper makes is quantitative, not 
+      qualitative.
+  </ol>
+</p>
+
 
     </div>
   </div>
@@ -632,6 +673,40 @@ AI" (GOFAI) and modern AI approaches
   at each step of the search. To ensure that everyone gets the same
   result, let's agree that nodes are added to the list in alphabetical
   order.
+</p>
+
+
+    </div>
+  </div>
+</div>
+
+<div class="solution" data-target='collapse'>
+  <div class="solution__header">
+    <a data-toggle="collapse" class="solution__toggle">
+      <i class="fa fa-magic solution__icon"></i>
+      <h1 class="solution__heading">Example solution</h1>
+
+      <i class="fa fa-caret-down solution__arrow"></i>
+    </a>
+  </div>
+
+  <div class="collapse">
+    <div class="solution__body">
+      
+<p>
+  Here's the traversal order in the format <code>node: [node list]</code>:
+<pre>
+      BFS            DFS
+      a: [b]         a: [b]
+      b: [c,f]       b: [f,c]
+      c: [f,e,i]     f: [g,d,c]
+      f: [e,i,d,g]   g: [h,d,c]
+      e: [i,d,g]     h = goal
+      i: [d,g]
+      d: [g]
+      g: [h]
+      h = goal
+</pre>         
 </p>
 
 
