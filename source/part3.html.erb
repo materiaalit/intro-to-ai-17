@@ -6,7 +6,7 @@
 ---
 
 
-<% partial 'partials/exercise', locals: { name: 'Check & Mate!' } do %>
+<% partial 'partials/exercise', locals: { name: 'Check & Mate! (2p)' } do %>
 
 <p>
   Last week we practiced game algorithms, Minimax and alpha-beta
@@ -78,7 +78,7 @@ les/Chesspackage.zip"></a>here.
   AI problems.
 </p>
 
-<% partial 'partials/material_heading' do %>
+<% partial 'partials/material_sub_heading' do %>
   Bayes rule and probabilistic inference
 <% end %>
 
@@ -125,8 +125,9 @@ les/Chesspackage.zip"></a>here.
      R = P(State=1 | obs) / P(State=2 | obs)
 </pre>
 <p>
-  where <code>obs</code> is an abbreviation for observation. When
-  calculating the above ratio, the denominator <code>P(obs)</code>
+  where <code>obs</code> is an abbreviation for observation. 
+  Applying Bayes rule to both the numerator and the denominator
+  in the ratio, we'll notice that the denominator <code>P(obs)</code>
   cancels:
 </p>
 <pre>
@@ -151,7 +152,7 @@ R =  ------------------------------------ = ---------------------------
 
 <% end %>
 
-<% partial 'partials/material_heading' do %>
+<% partial 'partials/material_sub_heading' do %>
   Naive Bayes classification
 <% end %>
 
@@ -205,8 +206,94 @@ R =  ------------------------------------ = ---------------------------
   The word distributions for the two classes are best estimated from
   actual training data, i.e., a corpus of spam messages and a corpus
   of legitimate messages. The simplest way is to count how many times
-  each word, <code>aardvark, aardwolf,</code>
-  ..., <code>Zyzzogeton</code>, appears in the corpus and dividing
+  each word, <code>aardvark, aardwolf,
+  ..., Zyzzogeton</code>, appears in the corpus and dividing
   the number by the total number of words in the corpus.
 </p>
 
+<p>
+  To illustrate the idea, let's assume that we have at our disposal
+  both a spam corpus and a ham corpus. You can easily obtain one
+  by saving a batch of your emails in two files.
+</p>
+
+<p>
+  Assume that we have calculated the number of occurrences of the
+  following words in the two classes of messages:
+</p>
+<pre>
+        word    spam     ham
+ ----------- ------- -------
+ million         156      98
+ dollars          29     119
+ adclick          51       0
+ conferences       0      12
+ ----------- ------- -------
+       total   95791  306438
+</pre>
+
+<p>
+  One problem with estimating the probabilities directly from the
+  counts is that the zero counts lead to zero estimates. This can
+  be quite harmful for the performance of the classifier -- it
+  easily leads to situations where the ratio of the posterior
+  probabilities obtained as 0/0. To rectify the problem, the
+  simplest solution is to use a small lower bound for all
+  probability estimates. The value 0.000001, for instance, does
+  the job.
+</p>
+
+<p>
+  We can now estimate that the probability that a word in a spam
+  message is <code>million</code>, for example, is about 156/95791
+  &asymp; 0.0016285. In other words, on the average, roughly every
+  614th word in a spam message is <code>million</code>. Likewise, we
+  get the estimate 0.0003198 for the probability that a word in a ham
+  message is <code>million</code>. Both of these probability estimates
+  are small but more importantly, the former is higher than the
+  latter. This turns out to be a sign that the word in question hints
+  towards the message being spam -- which sounds logical. Words for
+  which the ratio of the probabilities is the other way around, hint
+  towards the message being ham.
+</p>
+
+<p>
+  The following exercise will demonstrate the use of the naive Bayes
+  model.
+</p>
+
+<% partial 'partials/exercise', locals: { name: 'Naive Bayes and Spam (Pencil-and-paper) (2p)' } do %>
+
+<p>
+  Consider the word counts in the above table.
+</p>
+<ol>
+  <li>
+    Estimate the remaining word probabilities for both classes.
+  <li>
+    Use the obtained estimates to calculate the probability
+    <code>P(Word &ne; million)</code>, i.e., the probability that
+    a single word in a message is <i>not</i> <code>million</code> when
+    the class of the message is unknown. <i>Hint:</i> You should recall
+    the rule for calculating the <b>marginal probability</b>
+    (see, for example, the references given under Section 3.1
+    Probability Fundamentals).
+  <li>
+    Calculate <code>P(spam | million)</code>, i.e., the probability
+    that the message is spam given that its first word (or in fact,
+    any particular word) is <code>million</code>.
+  <li>
+    Calculate <code>P(spam | million, dollars, adclick, conferences)</code>,
+    i.e., the probability that the message is spam when its first four
+    words are as stated.
+</ol>
+<p>
+  Use the prior probability <code>P(spam) = 0.5</code>.
+</p>
+<p>
+  <i>Additional hints:</i> In item 2, remember Bayes. In item 3, remember
+  to use a lower bound on the estimates. Also recall the trick about
+  not calculating the annoying denominator.
+</p>
+
+<% end %>
