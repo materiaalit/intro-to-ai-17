@@ -344,16 +344,27 @@ R =  ------------------------------------ = ---------------------------
        total   95791  306438
 </pre>
 
+<div class="hint">
+  <div class="hint__header">
+    <i class="fa fa-info-circle hint__icon"></i>Watch out for the Singularity!
+  </div>
+
+  <div class="hint__body">
+    
 <p>
   One problem with estimating the probabilities directly from the
-  counts is that the zero counts lead to zero estimates. This can
-  be quite harmful for the performance of the classifier -- it
-  easily leads to situations where the ratio of the posterior
-  probabilities obtained as 0/0. To rectify the problem, the
-  simplest solution is to use a small lower bound for all
-  probability estimates. The value 0.000001, for instance, does
-  the job.
+  counts is that the zero counts lead to zero estimates. This can be
+  quite harmful for the performance of the classifier -- it easily
+  leads to situations where the ratio of the posterior probabilities
+  obtained as 0/0. That sounds dangerously close to the Singularity,
+  so we'd better find a better way. The simplest solution is to use a
+  small lower bound for all probability estimates. The value 0.000001,
+  for instance, does the job.
 </p>
+
+
+  </div>
+</div>
 
 <p>
   We can now estimate that the probability that a word in a spam
@@ -414,7 +425,7 @@ R =  ------------------------------------ = ---------------------------
   Use the prior probability <code>P(spam) = 0.5</code>.
 </p>
 <p>
-  <i>Additional hints:</i> In item 2, remember Bayes. In item 3, remember
+  <i>Additional hints:</i> In item 3, remember Bayes. In item 4, remember
   to use a lower bound on the estimates. Also recall the trick about
   not calculating the annoying denominator.
 </p>
