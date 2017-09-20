@@ -298,6 +298,11 @@ R =  ------------------------------------ = ---------------------------
   is determined by the length of the message.
 </p>
 
+<h3 class="material-heading">
+    Estimating parameters
+
+</h3>
+
 <p>
   To define the naive Bayes model, we need to specify the distribution
   of each variable. For the class variable, this is the distribution
@@ -315,11 +320,11 @@ R =  ------------------------------------ = ---------------------------
 </p>
 
 <p>
-  The word distributions for the two classes are best estimated from
-  actual training data, i.e., a corpus of spam messages and a corpus
-  of legitimate messages. The simplest way is to count how many times
-  each word, <code>aardvark, aardwolf,
-  ..., Zyzzogeton</code>, appears in the corpus and dividing
+  The word distributions for the two classes are
+  best <strong>estimated</strong> from actual training data, i.e., a
+  corpus of spam messages and a corpus of legitimate messages. The
+  simplest way is to count how many times each word, <code>aardvark,
+  aardwolf, ..., Zyzzogeton</code>, appears in the corpus and dividing
   the number by the total number of words in the corpus.
 </p>
 
@@ -380,8 +385,87 @@ R =  ------------------------------------ = ---------------------------
   towards the message being ham.
 </p>
 
+<h3 class="material-heading">
+    Classifying new data
+
+</h3>
+
 <p>
-  The following exercise will demonstrate the use of the naive Bayes
+  After the parameters of the model have been estimated, the
+  classifier is ready for use! When we are given a new message, we
+  will compute the posterior probability <code>P(spam |
+  message)</code>, where <code>message</code> is a place-holder for
+  the words in the message, for example, <code>P(spam | million,
+  conferences)</code> (which would be a really short message).
+</p>
+
+<p>
+  Let's compute the posterior probability
+</p>
+<pre>
+     P(spam | Word1 = 'million', Word2 = 'conferences')
+</pre>
+<p>
+  which is abbreviated without a great risk of confusion as
+</p>
+<pre>
+     P(spam | million, conferences)
+</pre>
+<p>
+  By Bayes rule, we have
+</p>
+<pre>
+                                     P(spam) P(million, conferences | spam)
+     P(spam | million, conference) = --------------------------------------
+                                            P(million, conferences)
+</pre>
+<p>
+  The numerator on the right side is the likelihood term and its meaning
+  is the probability that the first two words are <code>million</code>
+  and <code>conferences</code> given that the message is spam. The
+  denominator on the right side -- it's the annoying one -- is the
+  probability that the first two words are as stated when the spam/ham
+  status of the message is <strong>not</strong> given.
+</p>
+
+<p>
+  Let's look at the likelihood term first. The conditional independence
+  assumption, i.e., the naive Bayes assumption, implies that the
+  likelihood can be "factorized" as follows
+</p>
+<pre>
+     P(million, conferences | spam) = P(million | spam) P(conferences | spam)
+</pre>
+<p>
+  This is very useful since these are the kind of probabilities we
+  have estimated from the data. The same factorization rule can be
+  applied no matter how many words there are in the message.
+</p>
+
+<p>
+  Next up is the annoying denominator. However, we'll use the hint above
+  and avoid calculating the denominator (at least explicitly). To achieve
+  this, we consider the ratio of posteriors:
+</p>
+<pre>
+   P(spam | million, conferences)   P(spam) P(million, conferences | spam) / Z
+   ------------------------------ = ------------------------------------------
+    P(ham | million, conferences)    P(ham) P(million, conferences | ham) / Z
+</pre>
+<p>
+  where <code>Z = P(million, conferences)</code> is the annoying denominator
+  which, as promised, cancels out.
+</p>
+
+<p>
+  The term <code>P(million, conferences | ham)</code> is treated in the exact
+  same manner as the term corresponding term for spam (see above), and the
+  numbers required to calculate its value are available since we have
+  estimated them from the training data.
+</p>
+
+<p>
+  The following exercises will demonstrate the use of the naive Bayes
   model.
 </p>
 
@@ -435,6 +519,18 @@ R =  ------------------------------------ = ---------------------------
   </div>
 </div>
 
+<h3 class="material-heading">
+    Implementation details
+
+</h3>
+
+<p>
+  The above exercise should make it relatively straightforward to see
+  how the filter can be implemented by programming: the key insight is
+  the routine nature of the word-by-word calculations.
+</p>
+
+
 <div class="exercise">
   <div class="exercise__header">
     <a data-toggle="collapse" class="exercise__toggle">
@@ -449,9 +545,60 @@ R =  ------------------------------------ = ---------------------------
     <div class="exercise__body">
       
 <p>
-  We will shortly release the third and last exercise for this week. Here you
-  get to implement a naive Bayes spam filter by programming.
+  Next you get to implement a naive Bayes spam filter by
+  programming. The Java template is available on TMC. (In case you
+  prefer to use another programming language, feel free to. You can
+  find the ready-made spam and ham word count
+  files, <code>spamcount.txt</code> and <code>hamcount.txt</code> in
+  the template.)
 </p>
+
+<p>
+  <ol>
+    <li>
+      Download the template and take a look at the word count files,
+      which come from the development team of
+      the <a href="http://spamassassin.apache.org/">SpamAssassin</a>
+      spam filter. The common "stop-words" that are uninteresting for
+      out present purpose, such as <i>the, a, to, ...</i> have been
+      removed, as have words that occur only once. The files are
+      sorted so that the most common words in the respective class
+      come first:
+      <pre>
+	top 10 spam words: top 10 ham words:
+        ------------------ -----------------
+         624 free          1776 list
+         465 email         1263 lists
+         414 money         1204 use
+         410 please        1007 exmh
+         410 mail           987 like
+         383 list           952 some
+         360 click          919 wrote
+         358 content        909 linux
+         339 business       895 listinfo
+         306 information    893 rpm
+      </pre>
+      The total number of unique words in the spam messages is 6245, and the
+      total word count is 75268. The ham messages have 16207 unique words and
+      the total word count is 290673.
+    <lI>
+      Estimate the conditional probabilities <code>P(Word=s | spam)</code>
+      and <code>P(Word=s | ham)</code> for all words <code>s</code> that occur
+      in the files. For example, you should get the estimate <code>P(free | spam)</code>
+      &asymp; 0.00829.
+    <li>
+      Now implement a filter that reads a new message and calculates the probability
+      that it is spam using the naive Bayes model, following the instructions
+      above.
+  </ol>
+</p>
+
+<p>
+  <i>Hints:</i> In item 3, you may encounter words that you haven't 
+  encountered in the training data at all. You can use the small constant
+  lower bound for them.
+</p>
+
 
     </div>
   </div>
