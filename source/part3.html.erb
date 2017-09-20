@@ -400,7 +400,7 @@ R =  ------------------------------------ = ---------------------------
 <p>
   A convenient way to group the computations is obtained by slight
   reshuffling of the terms. Consider still our example two-word message,
-  and following formula for the ratio of the posterior probabilities
+  and the following formula for the ratio of the posterior probabilities
 </p>
 <pre>
      P(spam | 'million', 'conferences') 
@@ -412,8 +412,8 @@ R =  ------------------------------------ = ---------------------------
        P(ham) P('million' | ham) P('conferences' | ham)
 </pre>
 <p>
-  Since the ratio of products is equal to the product of ratios, i.e.,
-  (ABC)/(DEF) = (A/D)(B/E)(C/F), we can group the above terms as
+  Since the ratio of products is equal to the product of ratios -- i.e.,
+  for example, (ABC)/(DEF) = (A/D)(B/E)(C/F) -- we can group the above terms as
 </p>
 <pre>
      P(spam)  P('million' | spam)  P('conferences' | spam)
@@ -424,13 +424,13 @@ R =  ------------------------------------ = ---------------------------
   More generally, the formula is
 </p>
 <pre>
-       P(spam)  N   P(word_i | spam)
-   R = ------- &Pi; ----------------
-       P(ham)  i=1  P(word_i | ham)
+       P(spam)  N  P(word_i | spam)
+   R = -------  &Pi;  ----------------
+       P(ham)  i=1 P(word_i | ham)
 </pre>
 <p>
   where N is the number of words in the message, and <code>word_i</code> is the
-  <i>i</i>th word in the message.
+  i'th word in the message.
 </p>
 
 <p>
@@ -442,13 +442,13 @@ R =  ------------------------------------ = ---------------------------
   given by
 </p>
 <pre>
-    P(word_1 | spam)   P('million' | spam)         0.0016285
+    P(word_1 | spam)   P('million' | spam)   0.0016285
     ---------------- = ------------------- &asymp; --------- &asymp; 5.1 
-    P(word_1 | ham)    P('million' | ham)          0.0003198
+    P(word_1 | ham)    P('million' | ham)    0.0003198
 </pre>
 <p>
   Thus, each occurrence of the word <code>'million'</code> in the message
-  leads to a 5x increase in the posterior probability ratio.
+  leads to roughly a five-fold increase in the posterior probability ratio.
 </p>
 
 <% partial 'partials/hint', locals: { name: 'Avoiding under- and overflows' } do %>
