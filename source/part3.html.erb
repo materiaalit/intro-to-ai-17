@@ -449,6 +449,29 @@ R =  ------------------------------------ = ---------------------------
   leads to roughly a five-fold increase in the posterior probability ratio.
 </p>
 
+<p>
+  Putting things together, here's a pseudocode sketch of the classification
+  stage where we assume that the probability estimates have already been
+  calculated from training data.
+</p>
+
+<% partial 'partials/code_highlight' do %>
+1:  spamicity(words, estimates):
+2:     R = estimates.prior_spam / estimates.prior_ham
+3:     for each w in words:
+4:        R = R * estimates.spam_prob(w) / estimates.ham_prob(w)
+5:     return R
+<% end %>
+
+<p>
+  Here <code>estimates</code> is an object that stores the estimated
+  probabilities: <code>estimates.prior_spam</code> is the probability that
+  a message is spam, P(spam), <code>estimates.prior_ham</code> the same
+  for ham; <code>estimates.spam_prob(w)</code> is the probability
+  <code>P(Word = w | spam)</code>, and <code>estimates.ham_prob(w)</code>
+  the same for ham.
+</p>
+
 <% partial 'partials/hint', locals: { name: 'Avoiding under- and overflows' } do %>
 
 <p>
