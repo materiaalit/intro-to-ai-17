@@ -395,8 +395,8 @@ R =  ------------------------------------ = ---------------------------
   classifier is ready for use! When we are given a new message, we
   will compute the posterior probability <code>P(spam |
   message)</code>, where <code>message</code> is a place-holder for
-  the words in the message, for example, <code>P(spam | million,
-  conferences)</code> (which would be a really short message).
+  the words in the message, for example, <code>P(spam | 'million',
+  'conferences')</code> (which would be a really short message).
 </p>
 
 <p>
@@ -406,18 +406,22 @@ R =  ------------------------------------ = ---------------------------
      P(spam | Word1 = 'million', Word2 = 'conferences')
 </pre>
 <p>
-  which is abbreviated without a great risk of confusion as
+  which is abbreviated without a great risk of confusion -- but please
+  note that unlike <code>million</code> and <code>conferences</code>,
+  which are hyphenated ('') to indicate that they are words that occur
+  in the message, the term <code>spam</code> indicates
+  the <i>class</i> of the message, not the word "spam" -- as
 </p>
 <pre>
-     P(spam | million, conferences)
+     P(spam | 'million', 'conferences')
 </pre>
 <p>
   By Bayes rule, we have
 </p>
 <pre>
-                                     P(spam) P(million, conferences | spam)
-     P(spam | million, conference) = --------------------------------------
-                                            P(million, conferences)
+                                      P(spam) P('million', 'conferences' | spam)
+ P(spam | 'million', 'conferences') = ------------------------------------------
+                                            P('million', 'conferences')
 </pre>
 <p>
   The numerator on the right side is the likelihood term and its meaning
@@ -434,7 +438,7 @@ R =  ------------------------------------ = ---------------------------
   likelihood can be "factorized" as follows
 </p>
 <pre>
-     P(million, conferences | spam) = P(million | spam) P(conferences | spam)
+  P('million', 'conferences' | spam) = P('million' | spam) P('conferences' | spam)
 </pre>
 <p>
   This is very useful since these are the kind of probabilities we
@@ -448,17 +452,17 @@ R =  ------------------------------------ = ---------------------------
   this, we consider the ratio of posteriors:
 </p>
 <pre>
-   P(spam | million, conferences)   P(spam) P(million, conferences | spam) / Z
-   ------------------------------ = ------------------------------------------
-    P(ham | million, conferences)    P(ham) P(million, conferences | ham) / Z
+ P(spam | 'million', 'conferences')   P(spam) P('million', 'conferences' | spam) / Z
+ ---------------------------------- = ----------------------------------------------
+  P(ham | 'million', 'conferences')    P(ham) P('million', 'conferences' | ham) / Z
 </pre>
 <p>
-  where <code>Z = P(million, conferences)</code> is the annoying denominator
+  where <code>Z = P('million', 'conferences')</code> is the annoying denominator
   which, as promised, cancels out.
 </p>
 
 <p>
-  The term <code>P(million, conferences | ham)</code> is treated in the exact
+  The term <code>P('million', 'conferences' | ham)</code> is treated in the exact
   same manner as the term corresponding term for spam (see above), and the
   numbers required to calculate its value are available since we have
   estimated them from the training data.
@@ -490,18 +494,18 @@ R =  ------------------------------------ = ---------------------------
     Estimate the remaining word probabilities for both classes.
   <li>
     Use the obtained estimates to calculate the probability
-    <code>P(Word &ne; million)</code>, i.e., the probability that
+    <code>P(Word &ne; 'million')</code>, i.e., the probability that
     a single word in a message is <i>not</i> <code>million</code> when
     the class of the message is unknown. <i>Hint:</i> You should recall
     the rule for calculating the <b>marginal probability</b>
     (see, for example, the references given under Section 3.1
     Probability Fundamentals of Part 2).
   <li>
-    Calculate <code>P(spam | million)</code>, i.e., the probability
+    Calculate <code>P(spam | 'million')</code>, i.e., the probability
     that the message is spam given that its first word (or in fact,
     any particular word) is <code>million</code>.
   <li>
-    Calculate <code>P(spam | million, dollars, adclick, conferences)</code>,
+    Calculate <code>P(spam | 'million', 'dollars', 'adclick', 'conferences')</code>,
     i.e., the probability that the message is spam when its first four
     words are as stated.
 </ol>
@@ -584,7 +588,7 @@ R =  ------------------------------------ = ---------------------------
     <lI>
       Estimate the conditional probabilities <code>P(Word=s | spam)</code>
       and <code>P(Word=s | ham)</code> for all words <code>s</code> that occur
-      in the files. For example, you should get the estimate <code>P(free | spam)</code>
+      in the files. For example, you should get the estimate <code>P('free' | spam)</code>
       &asymp; 0.00829.
     <li>
       Now implement a filter that reads a new message and calculates the probability
