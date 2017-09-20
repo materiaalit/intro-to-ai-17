@@ -197,6 +197,7 @@
 <pre>
   P(state | observation) = P(state) P(observation | state) / P(observation)
 </pre>
+<img src="../img/drawings/posterior_prior_likelihood-b18ed703.png" width=70%>
 <p>
   The left side of the equation is called the <strong>posterior
   probability</strong> (probability after the observation).
@@ -605,18 +606,19 @@ R =  ------------------------------------ = ---------------------------
   In order to reduce the risk of under- and overflows in the floating
   point arithmetics, it is a good idea to carry out the computations
   in log-scale.  That is, instead of computing the ratio, R, you
-  should compute its logarithm, log(R).
+  should compute its logarithm, log(R). (Store the log-ratio in a variable
+  like <code>logR</code>.)
 </p>
 
 <p>
   The important thing to recall about logarithms is that they convert
   multiplication into addition: log(AB) = log(A) + log(B); and similarly,
-  division becomes subtraction: log(A/B) = log(A) - log(B). Using these,
+  division becomes subtraction: log(A/B) = log(A) &ndash; log(B). Using these,
   we can write the log-ratio as
 </p>
 <pre>
                                          N
-   log(R) = log(P(spam)) - log(P(ham)) + &Sigma; log(P(word_i | spam)) - log(P(word_i | ham))
+   log(R) = log(P(spam)) - log(P(ham)) + &Sigma; [log(P(word_i | spam)) - log(P(word_i | ham))]
                                         i=1
 </pre>
 <p>
