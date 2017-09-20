@@ -636,16 +636,16 @@ R =  ------------------------------------ = ---------------------------
   we can write the log-ratio as
 </p>
 <pre>
-                                         N
-   log(R) = log(P(spam)) - log(P(ham)) + &Sigma; [log(P(word_i | spam)) - log(P(word_i | ham))]
-                                        i=1
+                                       N
+   logR = log(P(spam)) - log(P(ham)) + &Sigma; [log(P(word_i | spam)) - log(P(word_i | ham))]
+                                      i=1
 </pre>
 <p>
   The base of the logarithm (natural, 2, 10, ...) is not
   consequential. The important thing is to map the end result back to
   the ratio by exponentiating the log-ratio with the same base. So if
   you use natural logarithms, for instance, then you should
-  exponentiate the log-ratio by <code>exp(log(R))</code> to get R.
+  exponentiate the log-ratio by <code>exp(logR)</code> to get R.
 </p>
 
 
