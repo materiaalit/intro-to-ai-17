@@ -335,8 +335,8 @@ R =  ------------------------------------ = ---------------------------
   P(ham | 'million', 'conferences')    P(ham) P('million', 'conferences' | ham) / Z
 </pre>
 <p>
-  where <code>Z = P('million', 'conferences')</code> is the annoying denominator
-  which, as promised, cancels out.
+  where Z, defined as <code>Z = P('million', 'conferences')</code>,
+  is the annoying denominator which cancels out just as promised in the hint.
 </p>
 
 <p>
@@ -354,7 +354,7 @@ R =  ------------------------------------ = ---------------------------
 <% partial 'partials/exercise', locals: { name: 'Naive Bayes and Spam (pencil-and-paper) (2p)' } do %>
 
 <p>
-  Consider the word counts in the above table.
+  Consider the word counts given in the table above (million, dollars, <i>etc</i>).
 </p>
 <ol>
   <li>
@@ -397,6 +397,89 @@ R =  ------------------------------------ = ---------------------------
   the routine nature of the word-by-word calculations.
 </p>
 
+<p>
+  A convenient way to group the computations is obtained by slight
+  reshuffling of the terms. Consider still our example two-word message,
+  and following formula for the ratio of the posterior probabilities
+</p>
+<pre>
+     P(spam | 'million', 'conferences') 
+ R = ----------------------------------  
+      P(ham | 'million', 'conferences')
+
+     P(spam) P('million' | spam) P('conferences' | spam)
+   = ---------------------------------------------------
+       P(ham) P('million' | ham) P('conferences' | ham)
+</pre>
+<p>
+  Since the ratio of products is equal to the product of ratios, i.e.,
+  (ABC)/(DEF) = (A/D)(B/E)(C/F), we can group the above terms as
+</p>
+<pre>
+     P(spam)  P('million' | spam)  P('conferences' | spam)
+ R = -------  -------------------  -----------------------
+     P(ham)   P('million' | ham)   P('conferences' | ham)
+</pre>
+<p>
+  More generally, the formula is
+</p>
+<pre>
+       P(spam)  N   P(word_i | spam)
+   R = ------- &Pi; ----------------
+       P(ham)  i=1  P(word_i | ham)
+</pre>
+<p>
+  where N is the number of words in the message, and <code>word_i</code> is the
+  <i>i</i>th word in the message.
+</p>
+
+<p>
+  Intuitively, the above formula encodes the rule that any word whose
+  probability is higher in spam messages than in ham messages will
+  increase the ratio R, and vice versa. For example, in our two-word
+  message, for <i>i</i>=1, we have <code>word_i =
+  'million'</code>, and the ratio of the word probabilities is
+  given by
+</p>
+<pre>
+    P(word_1 | spam)   P('million' | spam)         0.0016285
+    ---------------- = ------------------- &asymp; --------- &asymp; 5.1 
+    P(word_1 | ham)    P('million' | ham)          0.0003198
+</pre>
+<p>
+  Thus, each occurrence of the word <code>'million'</code> in the message
+  leads to a 5x increase in the posterior probability ratio.
+</p>
+
+<% partial 'partials/hint', locals: { name: 'Avoiding under- and overflows' } do %>
+
+<p>
+  When dealing with long messages, the posterior probability ratio becomes
+  a product with very many terms. This can easily lead to trouble because
+  products are creatures that easily grow very very large or very very small
+  (close to zero); the mathematical term is 'exponential rate'.
+</p>
+
+<p>
+  In order to reduce the risk of under- and overflows in the floating
+  point arithmetics, it is a good idea to carry out the computations
+  in log-scale.  That is, instead of computing the ratio, R, you
+  should compute its logarithm, log(R).
+</p>
+
+<p>
+  The important thing to recall about logarithms is that they convert
+  multiplication into addition: log(AB) = log(A) + log(B); and similarly,
+  division becomes subtraction: log(A/B) = log(A) - log(B). Using these,
+  we can write the log-ratio as
+</p>
+<pre>
+                                         N=1
+   log(R) = log(P(spam)) - log(P(ham)) + &Sigma; log(P(word_i | spam)) - log(P(word_i | ham))
+                                         i=1
+</pre>
+
+<% end %>
 
 <% partial 'partials/exercise', locals: { name: 'Naive Bayes and Spam (programming) (2p)' } do %>
 
@@ -412,15 +495,16 @@ R =  ------------------------------------ = ---------------------------
 <p>
   <ol>
     <li>
-      Download the template and take a look at the word count files,
-      which come from the development team of
+      Download the template and take a look at the word count files in
+      the template, which originally come from the development team of
       the <a href="http://spamassassin.apache.org/">SpamAssassin</a>
       spam filter. The common "stop-words" that are uninteresting for
-      out present purpose, such as <i>the, a, to, ...</i> have been
+      our present purpose, such as <i>the, a, to, ...</i> have been
       removed, as have words that occur only once. The files are
       sorted so that the most common words in the respective class
       come first:
       <pre>
+
 	top 10 spam words: top 10 ham words:
         ------------------ -----------------
          624 free          1776 list
