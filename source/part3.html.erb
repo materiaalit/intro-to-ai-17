@@ -79,6 +79,35 @@
   AI problems.
 </p>
 
+<% partial 'partials/hint', locals: { name: 'Learning objectives of Part 2' } do %>
+
+<table class="table">
+  <tr>
+    <th>
+      Theme
+    </th>
+    <th>
+      Objectives (after the course, you ...)
+    </th>
+  </tr>
+  <tr>
+    <td>
+      Reasoning under uncertainty (continued from last week)
+    </td>
+    <td>
+      <ul>
+	<li>can express uncertain knowledge in a simple situation using a probabilistic model
+	<li>can apply the Bayes theorem to calculate posterior probabilities given evidence in a simple scenario
+	<li>can estimate probability values from a sample
+	<li>can represent a problem solving situation as a Bayesian network
+	<li>can apply an approximate (Monte Carlo) technique to perform inference in a Bayesian network
+      </ul>
+    </td>
+  </tr>
+</table>
+
+<% end %>
+
 <% partial 'partials/material_sub_heading' do %>
   Bayes rule and probabilistic inference
 <% end %>
@@ -185,7 +214,9 @@ R =  ------------------------------------ = ---------------------------
   is determined by the length of the message.
 </p>
 
-<img src="/img/diagrams/nbmodel.png" width=80%>
+<p>
+  <img src="/img/diagrams/nbmodel.png" width=65%>
+</p>
 
 <p>
   The naive Bayes model can be represented as a <strong>Bayesian
@@ -596,4 +627,17 @@ R =  ------------------------------------ = ---------------------------
 <% end %>
 
 <p>
-  The 
+  As we mentioned above, the naive Bayes model is a kind of a Bayesian
+  network, with an associated graph structure where the class variable
+  is the root and the only "parent" of all the feature variables.
+</p>
+
+<p>
+  Bayesian networks are a model family which belong to the still more
+  general category
+  of <a href="https://en.wikipedia.org/wiki/Graphical_model">(probabilistic)
+  graphical models</a>, which are a modeling "language" for
+  probabilistic models. The power of graphical models is mainly due to
+  the efficient inference procedures that exploit the structure of the
+  models.
+</p>
