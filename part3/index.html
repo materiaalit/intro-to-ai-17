@@ -297,6 +297,16 @@ R =  ------------------------------------ = ---------------------------
   is determined by the length of the message.
 </p>
 
+<img src="../img/diagrams/nbmodel-e74b4b40.png" width=80%>
+
+<p>
+  The naive Bayes model can be represented as a <strong>Bayesian
+    network</strong>, which encodes the conditional independence
+  between the feature variables (in this case, the words of the
+  email message) given the class variable as in the above diagram.
+  We'll return to Bayesian networks in the next section below.
+</p>
+
 <h3 class="material-heading">
     Estimating parameters
 
@@ -718,7 +728,7 @@ R =  ------------------------------------ = ---------------------------
 </p>
 
 <p>
-  <i>Hints:</i> In item 3, you may encounter words that you haven't 
+  <i>Hint:</i> In item 3, you may encounter words that you haven't 
   encountered in the training data at all. You can use the small constant
   lower bound for them.
 </p>
@@ -727,6 +737,23 @@ R =  ------------------------------------ = ---------------------------
     </div>
   </div>
 </div>
+
+<p>
+  Here is some additional material on naive Bayes spam filtering that you
+  may like to take a look at:
+  <ul>
+    <li>Dr Dobbs Journal: <a href="http://drdobbs.com/architecture-and-design/184406064">Naive Bayesian text classification</a>
+    <li>M. Sahami, S. Dumais, D. Heckerman, E. Horvitz (1998). <a href="http://robotics.stanford.edu/users/sahami/papers-dir/spam.pdf">"A Bayesian approach to filtering junk e-mail"</a>. AAAI'98 Workshop on Learning for Text Categorization.
+  </ul>
+</p>
+
+<h2 class="material-heading">
+    Bayesian networks
+
+</h2>
+
+<p>
+  The 
 
         </div>
       </div>
