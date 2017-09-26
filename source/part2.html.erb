@@ -341,9 +341,11 @@
 <img src="/img/exercises/ex2/tree_Ex2_2.png" width=80%>
 
 <p>
-  As you can see, Max has all the reason to be serious since by playing
-  in the bottom-right corner, Min can guarantee a win. That can be seen
-  from the value of the game at the root node which is &ndash;1.
+  As you can see, Max has all the reason to be serious since by
+  playing in the bottom-right corner (Node (4)), Min can guarantee a
+  win (just follow the orange arrows). The inevitble victory of Min
+  can also be seen from the value of the game at the root node which
+  is &ndash;1.
 </p>
 
 <% end %>
@@ -584,43 +586,50 @@
 <% partial 'partials/solution', locals: { name: 'Example solution' } do %>
 
 <p>
-  Here's the game tree. As was stated in the exercise, the recursion
+  As was stated in the exercise, the recursion
   is started by calling
-  <code>min-value</code> for the root node with arguments
-  <code>alpha=-1, beta=1</code>. These values are then passed down
-  to the child nodes, starting with the leftmost child
-  (marked by (2) in the diagram), and from them further all the
-  way to the leaf node (5). The return value is &ndash;1.
-  Strictly speaking, this already causes pruning to occur in
-  node (3): the MIN node updates the beta value as &ndash;1, and
-  the test <code>alpha =-1 &le; beta=-1</code> triggers the
-  return condition. However, the effect is null since there
-  wouldn't have been any other children of node (3) anyway.
+  <code>min-value</code> for the root node (Node (1) below) with
+  arguments
+  <code>alpha=-1, beta=1</code>. These values are then passed to the
+  child nodes, starting with the leftmost child (Node (2)), and from
+  it further down all the way to the leaf node (5). The return value,
+  which is passed up the parent node (3), is &ndash;1 since in this
+  case, Min wins with three Os in a row.  Strictly speaking, this
+  already causes pruning to occur in Node (3): it is a Min node, and
+  thus it updates its beta value, and the beta value becomes
+  &ndash;1. The test <code>alpha =-1 &le; beta=-1</code> (line 7
+  in the pseudocode) triggers the return condition. However, the
+  effect is null since there wouldn't have been any other children of
+  Node (3) anyway.
 </p>
 
-<img src="/img/exercises/ex2/alphabeta_Ex2_3.png" width=80%>
+<img src="/img/exercises/ex2/alphabeta_Ex2_3.png" width=60%>
 
 <p>
   Next, node (3) returns the value &ndash;1 to its parent, node (2).
   The MAX node would update its alpha value but since the value
-  returned by the child is &ndash;1, no updates occur. The
-  processing of nodes (4) and (6) is analogous to that of
-  nodes (3) and (5) respectively.
+  returned by the child is &ndash;1, and the alpha value is 1, the
+  maximum values remains the same, and no update occurs. The
+  processing of nodes (4) and (6) is analogous to that of nodes (3)
+  and (5) respectively.
 </p>
 
 <p>
-  Interesting things start to happen in the root node when the 
-  value &ndash;1 is returned from node (2). The MIN node updates the
-  beta value to be <code>beta=-1</code>, and therefore, the
-  test <code>alpha=-1 &le; beta=-1</code> again triggers pruning
-  and the other branches of the tree need not be traversed at all!
+  Interesting things start to happen in the root node when the value
+  &ndash;1 is returned from Node (2). The root node is a Min node nad
+  it updates its beta value to be <code>beta=-1</code> (line 6 in the
+  pseudocode), and therefore, the test <code>alpha=-1 &le;
+  beta=-1</code> again triggers pruning and the other branches of the
+  tree need not be traversed at all!
 </p>
 
 <p>
   The optimal game play can now be obtained by always choosing the
-  child node with the minimum/maximum value in MIN/MAX nodes among
-  the child nodes that were visited. For Max this is bad news:
-  it's Min's victory even best-out-of-three...
+  child node with the minimum (maximum) value in Min (Max)
+  nodes <i>among the child nodes that were visited</i>. The result is
+  guaranteed to be the same as that of the Minimax algorithm, i.e.,
+  optimal play for both players. For Max this is bad news: it's Min's
+  victory even best-out-of-three...
 </p>
 
 
