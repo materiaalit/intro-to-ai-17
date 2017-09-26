@@ -581,6 +581,51 @@
 
 <% end %>
 
+<% partial 'partials/solution', locals: { name: 'Example solution' } do %>
+
+<p>
+  Here's the game tree. As was stated in the exercise, the recursion
+  is started by calling
+  <code>min-value</code> for the root node with arguments
+  <code>alpha=-1, beta=1</code>. These values are then passed down
+  to the child nodes, starting with the leftmost child
+  (marked by (2) in the diagram), and from them further all the
+  way to the leaf node (5). The return value is &ndash;1.
+  Strictly speaking, this already causes pruning to occur in
+  node (3): the MIN node updates the beta value as &ndash;1, and
+  the test <code>alpha =-1 &le; beta=-1</code> triggers the
+  return condition. However, the effect is null since there
+  wouldn't have been any other children of node (3) anyway.
+</p>
+
+<img src="/img/exercises/ex2/alphabeta_Ex2_3.png" width=80%>
+
+<p>
+  Next, node (3) returns the value &ndash;1 to its parent, node (2).
+  The MAX node would update its alpha value but since the value
+  returned by the child is &ndash;1, no updates occur. The
+  processing of nodes (4) and (6) is analogous to that of
+  nodes (3) and (5) respectively.
+</p>
+
+<p>
+  Interesting things start to happen in the root node when the 
+  value &ndash;1 is returned from node (2). The MIN node updates the
+  beta value to be <code>beta=-1</code>, and therefore, the
+  test <code>alpha=-1 &le; beta=-1</code> again triggers pruning
+  and the other branches of the tree need not be traversed at all!
+</p>
+
+<p>
+  The optimal game play can now be obtained by always choosing the
+  child node with the minimum/maximum value in MIN/MAX nodes among
+  the child nodes that were visited. For Max this is bad news:
+  it's Min's victory even best-out-of-three...
+</p>
+
+
+<% end %>
+
 <p>
   Notice that while the left-to-right order of the children of each
   node, i.e., the order in which the children are processed in the
