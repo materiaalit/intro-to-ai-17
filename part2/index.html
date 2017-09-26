@@ -787,7 +787,7 @@
 
 <p>
   Interesting things start to happen in the root node when the value
-  &ndash;1 is returned from Node (2). The root node is a Min node nad
+  &ndash;1 is returned from Node (2). The root node is a Min node and
   it updates its beta value to be <code>beta=-1</code> (line 6 in the
   pseudocode), and therefore, the test <code>alpha=-1 &le;
   beta=-1</code> again triggers pruning and the other branches of the
@@ -972,7 +972,68 @@
   </div>
 </div>
 
+<div class="solution" data-target='collapse'>
+  <div class="solution__header">
+    <a data-toggle="collapse" class="solution__toggle">
+      <i class="fa fa-magic solution__icon"></i>
+      <h1 class="solution__heading">Example solution</h1>
 
+      <i class="fa fa-caret-down solution__arrow"></i>
+    </a>
+  </div>
+
+  <div class="collapse">
+    <div class="solution__body">
+      
+<p>
+  <ol>
+    <li> Because the outcomes are independent, we can use the product rule to
+      obtain<br>
+      <i>P("both outcomes are 6") = P("first outcome is 6") &times; P("second outcome is 6")<br>
+	= 1/6 &times; 1/2 = 1/12 &asymp; 0.083</i>
+    <li>
+      <i>P("neither outcome is 6") = P("first is not 6") &times; P("second is not 6")<br>
+	= 5/6 &times; 1/2 = 5/12 &asymp; 0.417</i>
+    <li>
+      <i>P("the sum of the outcomes equals 9")</i><br>
+      Let's denote the result of the two dice with the pair (m,n), where m is the
+      outcome of the first (fair) die, and n is the outcome of the second (loaded) die.
+      Together the outcomes define the elementary event. The sum equals nine in the
+      following elementary events: (3,6), (4,5), (5,4), (6,3). Note that the results
+      (3,6) and (6,3) are distinct elementary events.<br><br>
+
+      The result is obtained by summing up the probabilities of the aforementioned
+      elementary events:<br>
+      <i>P((3,6)) + P((4,5)) + P((5,4)) + P((6,3)) = 
+	1/6 &times; 1/2 + 1/6 &times; 1/10 + 1/6 &times; 1/10 + 1/6 &times; 1/10
+	= 8/60 &asymp; 0.133.</i>
+    <li>
+      <i>P("the sum of the outcomes equals 9" | "at least one outcome is 6")</i><br>
+      Denote by A the event "the sum of the outcomes equals 9", and by B the event
+      "at least one outcome is 6". Since the conditional probability is given by
+      <i>P(A | B) = P(A, B) / P(B)</i>, we start by calculating <i>P(A, B)</i> and
+      <i>P(B)</i>.<br><br>
+
+      The elementary events (see the previous item) where both A and B occur are
+      (3,6) and (6,3). Thus, <i>P(A,B) = 1/6 &times; 1/2 + 1/6 &times; 1/10 = 
+	6/60.</i> Event B, on the other hand, is the complement of event
+      "neither outcome is 6" from item (b) above, so we can get its probability
+      easiest by applying the rule <i>P(B) = 1 - P(&not;B)</i>, to get
+      <i>P(B) = 1 - 5/12 = 7/12</i>.<br><br>
+
+      Thus we get the conditional probability by substituting into the formula
+      <i>P(A | B) = P(A, B) / P(B) = 6/60 / (7/12) = 6/35 &asymp; 0.171.</i>
+    <li>
+      With the notation of the previous item, we get
+      <i>P(B | A) = P(A, B) / P(A) = 6/60 / (8/60) = 6/8 &asymp; 0.75,</i> where
+      <i>P(A) = 8/60</i> was calculated in item (c) above.
+  </ol>
+</p>
+
+
+    </div>
+  </div>
+</div>
 
 <div class="exercise">
   <div class="exercise__header">
