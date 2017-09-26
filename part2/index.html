@@ -1139,7 +1139,7 @@
          P("the sum is 10" | "loaded die") &times P("loaded die")
          ---------------------------------------------------
                           P("the sum is 10")
-      </pre><br>
+      </pre>
 
       The first term in the numerator was calculated in the previous item, and
       the other term is known to be 1/2 by assumption. However, we'll have to 
@@ -1173,16 +1173,15 @@
       which die was chosen: before the observation, our prior probability
       for the loaded die was 0.5, and after the observation, our posterior
       probability is 0.497. You can think about what outcome would have
-      changed our belief the most.
+      changed our belief the most.<br><br>
 
     <li>
-      Following the hint, it'll be enough to check whether 
+      Following the hint, it'll be enough to check whether<br>
       <pre>
 	  P("loaded die" | "k times 6")
           ----------------------------- > 99
            P("fair die" | "k times 6")
       </pre>
-      <br>
       The posterior probability ratio can be obtained by applying the
       Bayes rule to both the numerator and the denominator:
       <pre>
@@ -1193,7 +1192,7 @@
 	    P("k times 6" | "fair die") &times P("fair die")
             -------------------------------------------
                           P("k times 6")
-      </pre><br>
+      </pre>
       where the annoying denominator cancels. Since the prior probabilities
       are the same (0.5), they too cancel (which doesn't happen generally).
       What is left is the ratio of the likelihood terms:<br><br>
