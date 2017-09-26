@@ -990,9 +990,9 @@
     <li> Because the outcomes are independent, we can use the product rule to
       obtain<br><br>
       P("both outcomes are 6") = P("first outcome is 6") &times; P("second outcome is 6")<br>
-	&nbsp;&nbsp;&nbsp;= 1/6 &times; 1/2 = 1/12 &asymp; 0.083<br>
+	&nbsp;&nbsp;&nbsp;= 1/6 &times; 1/2 = 1/12 &asymp; 0.083<br><br>
     <li>
-      P("neither outcome is 6") = P("first is not 6") &times; P("second is not 6") = 5/6 &times; 1/2 = 5/12 &asymp; 0.417<br>
+      P("neither outcome is 6") = P("first is not 6") &times; P("second is not 6") = 5/6 &times; 1/2 = 5/12 &asymp; 0.417<br><br>
     <li>
       Let's denote the result of the two dice with the pair (m,n), where m is the
       outcome of the first (fair) die, and n is the outcome of the second (loaded) die.
@@ -1004,7 +1004,7 @@
       elementary events:<br><br>
       P((3,6)) + P((4,5)) + P((5,4)) + P((6,3)) = 
 	1/6 &times; 1/2 + 1/6 &times; 1/10 + 1/6 &times; 1/10 + 1/6 &times; 1/10
-	= 8/60 &asymp; 0.133.<br>
+	= 8/60 &asymp; 0.133.<br><br>
     <li>
       Denote by A the event "the sum of the outcomes equals 9", and by B the event
       "at least one outcome is 6". Since the conditional probability is given by
@@ -1019,7 +1019,7 @@
       P(B) = 1 &ndash; 5/12 = 7/12.<br><br>
 
       Thus we get the conditional probability by substituting into the formula
-      P(A | B) = P(A, B) / P(B) = 6/60 / (7/12) = 6/35 &asymp; 0.171.<br>
+      P(A | B) = P(A, B) / P(B) = 6/60 / (7/12) = 6/35 &asymp; 0.171.<br><br>
     <li>
       With the notation of the previous item, we get
       P(B | A) = P(A, B) / P(A) = 6/60 / (8/60) = 6/8 &asymp; 0.75, where
@@ -1082,6 +1082,133 @@
   </div>
 </div>
 
+
+<div class="solution" data-target='collapse'>
+  <div class="solution__header">
+    <a data-toggle="collapse" class="solution__toggle">
+      <i class="fa fa-magic solution__icon"></i>
+      <h1 class="solution__heading">Example solution</h1>
+
+      <i class="fa fa-caret-down solution__arrow"></i>
+    </a>
+  </div>
+
+  <div class="collapse">
+    <div class="solution__body">
+      
+<p>
+  <ol>
+    <li>
+      The "distribution of the outcomes" means a list of probabilities for
+      each possible outcome (here: sums of the two dice). The sum can take
+      any value between 2, ..., 12. With a fair die, each elementary event
+      (m,n) has probability 1/6 &times; 1/6 = 1/36, so the distribution is
+      obtained by counting how many elementary events correspond to each
+      possible sum and multiplying this by 1/36.<br><br>
+
+      [P("sum is 2"), ..., P("sum is 12")] = [1/36, 2/36, 3/36, 4/36, 5/36,
+      6/36, 5/36, 4/36, 3/36, 2/46, 1/36]<br><br>
+      
+    <li>
+      With the loaded die, the elementary events have different
+      probabilities, so a simple counting and multiplication won't do.
+      Every event (m,n) where m&lt;6 and n&lt;6 has probability 1/10 &times;
+      1/10 = 1/100. Every event (m,n) where m&lt;6 and n=6, or m=6 and n&lt;6,
+      has probability 1/10 &times; 1/2 = 1/20. And finally, the event
+      (6,6) has probability 1/2 &times 1/2 = 1/4.<br><br>
+									   
+      We now get, for example, the probability that the sum is 9 from
+      <br><br>
+      
+      P((3,6)) + P((4,5)) + P((5,4)) + P((6,3)) = 1/20 + 1/100 + 1/100 + 1/20
+      = 12/100 = 0.12<br><br>
+
+      The complete distribution is given by<br><br>
+
+      [P("sum is 2", ..., P("sum is 12")] =
+      [1/100, 2/100, 3/100, 4/100, 5/100, 14/100, 13/100, 12/100, 11/100, 10/100, 25/100]<br><br>
+
+      To make sure we haven't messed up (who, me?), we can sum up the
+      probabilities to check that the total is 1.0; i.e., 
+      1+2+3+4+5+14+13+12+11+10+25=100. Yes!<br><br>
+
+    <li>
+      Here we can apply the Bayes formula:<br><br>
+      <pre>
+      P("loaded die" | "the sum is 10")
+         P("the sum is 10" | "loaded die") &times P("loaded die")
+         ---------------------------------------------------
+                          P("the sum is 10")
+      </pre><br>
+
+      The first term in the numerator was calculated in the previous item, and
+      the other term is known to be 1/2 by assumption. However, we'll have to 
+      calculate the annoying denominator by splitting it into two alternative
+      ways to get the sum 10.<br><br>
+
+      P("sum is 10" | "fair die") &times; P("fair die") + P("sum is 10" | "loaded die") 
+      &times; P("loaded die") <br>
+      = 4/36 &times; 1/2 + 11/100 &times 1/2 = 199/1800 &asymp; 0.111.<br><br>
+
+      Note that both of the conditional probabilities in the above expression come
+      from the two distributions we calculated in items 1 & 2.<br><br>
+
+      Substituting these values into the Bayes rule we get
+      <br><br>
+      P("loaded die" | "sum is 10") = 11/100 &times 1/2 / (199/1800) = 99/199 &asymp; 0.497.
+      <br><br>
+
+      When calculating the conditional probability P("fair die" | "sum is 10")
+      by the Bayes rule, we'll end up with the exact same denominator whose
+      value we already calculated to be 199/1800, and thus, we obtain:
+      <br><br>
+      P("fair die" | "sum is 10") = 4/36 &times; 1/2 / (199/1800) = 
+      100/199.<br><br>
+
+      The sum of the probabilities of the loaded and the fair die is
+      99/100 + 100/199 = 1  as it should!<br><br>
+     
+      <i>Note:</i> The interpretation of the above calculation is that
+      observing that the sum is 10 has almost no effect on our belief about
+      which die was chosen: before the observation, our prior probability
+      for the loaded die was 0.5, and after the observation, our posterior
+      probability is 0.497. You can think about what outcome would have
+      changed our belief the most.
+
+    <li>
+      Following the hint, it'll be enough to check whether 
+      <pre>
+	  P("loaded die" | "k times 6")
+          ----------------------------- > 99
+           P("fair die" | "k times 6")
+      </pre>
+      <br>
+      The posterior probability ratio can be obtained by applying the
+      Bayes rule to both the numerator and the denominator:
+      <pre>
+	  P("k times 6" | "loaded die") &times P("loaded die")
+          -----------------------------------------------
+                          P("k times 6")
+        --------------------------------------------------
+	    P("k times 6" | "fair die") &times P("fair die")
+            -------------------------------------------
+                          P("k times 6")
+      </pre><br>
+      where the annoying denominator cancels. Since the prior probabilities
+      are the same (0.5), they too cancel (which doesn't happen generally).
+      What is left is the ratio of the likelihood terms:<br><br>
+      P("k times 6" | "loaded die") / P("k times 6" | "fair die")
+      = (1/2)<sup>k</sup> / (1/6)<sup>k</sup> = 3<sup>k</sup>.<br><br>
+      The smallest k for which 3<sup>k</sup> &gt; 99 is k=5. Thus, five
+      rolls are required until the posterior probability of the loaded die
+      is greater than 99%.
+  </ol>
+</p>
+
+
+    </div>
+  </div>
+</div>
 
 <div class="hint">
   <div class="hint__header">
