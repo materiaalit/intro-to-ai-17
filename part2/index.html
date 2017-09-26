@@ -777,12 +777,12 @@
 <img src="../img/exercises/ex2/alphabeta_Ex2_3-3ed29945.png" width=60%>
 
 <p>
-  Next, node (3) returns the value &ndash;1 to its parent, node (2).
-  The MAX node would update its alpha value but since the value
-  returned by the child is &ndash;1, and the alpha value is 1, the
-  maximum values remains the same, and no update occurs. The
-  processing of nodes (4) and (6) is analogous to that of nodes (3)
-  and (5) respectively.
+  Next, Node (3) returns the value &ndash;1 to its parent, Node (2).
+  As a Max node, Node (2) would update its alpha value but since the
+  value returned by the child is &ndash;1 which is less than the
+  current alpha value, 1, no update occurs (line 6 in the
+  pseudocode). The processing of nodes (4) and (6) is analogous to
+  that of nodes (3) and (5) respectively.
 </p>
 
 <p>
@@ -1175,14 +1175,14 @@
       changed our belief the most.<br><br>
 
     <li>
-      Following the hint, it'll be enough to check whether<br>
+      Following the hint, it'll be enough to check whether<br><br>
       <pre>
 	  P("loaded die" | "k times 6")
           ----------------------------- > 99
            P("fair die" | "k times 6")
       </pre>
       The posterior probability ratio can be obtained by applying the
-      Bayes rule to both the numerator and the denominator:
+      Bayes rule to both the numerator and the denominator:<br><br>
       <pre>
 	  P("k times 6" | "loaded die") &times P("loaded die")
           -----------------------------------------------
