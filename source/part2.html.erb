@@ -753,11 +753,11 @@
 
 <p>
   <ol>
-    <li> <i>P("both outcomes are 6")</i>
-    <li> <i>P("neither outcome is 6")</i>
-    <li> <i>P("the sum of the outcomes equals 9")</i>
-    <li> <i>P("the sum of the outcomes equals 9" | "at least one outcome is 6")</i>
-    <li> <i>P("at least one outcome is 6" | "the sum of the outcomes equals 9")</i>
+    <li> P("both outcomes are 6")
+    <li> P("neither outcome is 6")
+    <li> P("the sum of the outcomes equals 9")
+    <li> P("the sum of the outcomes equals 9" | "at least one outcome is 6")
+    <li> P("at least one outcome is 6" | "the sum of the outcomes equals 9")
   </ol>
 </p>
 
@@ -773,14 +773,12 @@
 <p>
   <ol>
     <li> Because the outcomes are independent, we can use the product rule to
-      obtain<br>
-      <i>P("both outcomes are 6") = P("first outcome is 6") &times; P("second outcome is 6")<br>
-	= 1/6 &times; 1/2 = 1/12 &asymp; 0.083</i>
+      obtain<br><br>
+      P("both outcomes are 6") = P("first outcome is 6") &times; P("second outcome is 6")<br>
+	&nbsp;&nbsp;&nbsp;= 1/6 &times; 1/2 = 1/12 &asymp; 0.083<br>
     <li>
-      <i>P("neither outcome is 6") = P("first is not 6") &times; P("second is not 6")<br>
-	= 5/6 &times; 1/2 = 5/12 &asymp; 0.417</i>
+      P("neither outcome is 6") = P("first is not 6") &times; P("second is not 6") = 5/6 &times; 1/2 = 5/12 &asymp; 0.417<br>
     <li>
-      <i>P("the sum of the outcomes equals 9")</i><br>
       Let's denote the result of the two dice with the pair (m,n), where m is the
       outcome of the first (fair) die, and n is the outcome of the second (loaded) die.
       Together the outcomes define the elementary event. The sum equals nine in the
@@ -788,30 +786,29 @@
       (3,6) and (6,3) are distinct elementary events.<br><br>
 
       The result is obtained by summing up the probabilities of the aforementioned
-      elementary events:<br>
-      <i>P((3,6)) + P((4,5)) + P((5,4)) + P((6,3)) = 
+      elementary events:<br><br>
+      P((3,6)) + P((4,5)) + P((5,4)) + P((6,3)) = 
 	1/6 &times; 1/2 + 1/6 &times; 1/10 + 1/6 &times; 1/10 + 1/6 &times; 1/10
-	= 8/60 &asymp; 0.133.</i>
+	= 8/60 &asymp; 0.133.<br>
     <li>
-      <i>P("the sum of the outcomes equals 9" | "at least one outcome is 6")</i><br>
       Denote by A the event "the sum of the outcomes equals 9", and by B the event
       "at least one outcome is 6". Since the conditional probability is given by
-      <i>P(A | B) = P(A, B) / P(B)</i>, we start by calculating <i>P(A, B)</i> and
-      <i>P(B)</i>.<br><br>
+      P(A | B) = P(A, B) / P(B), we start by calculating P(A, B) and
+      P(B).<br><br>
 
-      The elementary events (see the previous item) where both A and B occur are
-      (3,6) and (6,3). Thus, <i>P(A,B) = 1/6 &times; 1/2 + 1/6 &times; 1/10 = 
-	6/60.</i> Event B, on the other hand, is the complement of event
+      The elementary events where both A and B occur are
+      (3,6) and (6,3). Thus, P(A,B) = 1/6 &times; 1/2 + 1/6 &times; 1/10 = 
+	6/60. Event B, on the other hand, is the complement of event
       "neither outcome is 6" from item (b) above, so we can get its probability
-      easiest by applying the rule <i>P(B) = 1 - P(&not;B)</i>, to get
-      <i>P(B) = 1 - 5/12 = 7/12</i>.<br><br>
+      easiest by applying the rule P(B) = 1 &ndash; P(&not;B), to get
+      P(B) = 1 &ndash; 5/12 = 7/12.<br><br>
 
       Thus we get the conditional probability by substituting into the formula
-      <i>P(A | B) = P(A, B) / P(B) = 6/60 / (7/12) = 6/35 &asymp; 0.171.</i>
+      P(A | B) = P(A, B) / P(B) = 6/60 / (7/12) = 6/35 &asymp; 0.171.<br>
     <li>
       With the notation of the previous item, we get
-      <i>P(B | A) = P(A, B) / P(A) = 6/60 / (8/60) = 6/8 &asymp; 0.75,</i> where
-      <i>P(A) = 8/60</i> was calculated in item (c) above.
+      P(B | A) = P(A, B) / P(A) = 6/60 / (8/60) = 6/8 &asymp; 0.75, where
+      P(A) = 8/60 was calculated in item (c) above.
   </ol>
 </p>
 
