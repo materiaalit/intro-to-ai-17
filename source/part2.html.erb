@@ -343,7 +343,7 @@
 <p>
   As you can see, Max has all the reason to be serious since by
   playing in the bottom-right corner (Node (4)), Min can guarantee a
-  win (just follow the orange arrows). The inevitble victory of Min
+  win (just follow the orange arrows). The inevitable victory of Min
   can also be seen from the value of the game at the root node which
   is &ndash;1.
 </p>
@@ -895,8 +895,7 @@
       P("loaded die" | "the sum is 10")
          P("the sum is 10" | "loaded die") &times P("loaded die")
          ---------------------------------------------------
-                          P("the sum is 10")
-      </pre>
+                          P("the sum is 10")</pre>
 
       The first term in the numerator was calculated in the previous item, and
       the other term is known to be 1/2 by assumption. However, we'll have to 
@@ -948,8 +947,7 @@
         --------------------------------------------------
 	    P("k times 6" | "fair die") &times P("fair die")
             -------------------------------------------
-                          P("k times 6")
-      </pre>
+                          P("k times 6") </pre>
       where the annoying denominator cancels. Since the prior probabilities
       are the same (0.5), they too cancel (which doesn't happen generally).
       What is left is the ratio of the likelihood terms:<br><br>
