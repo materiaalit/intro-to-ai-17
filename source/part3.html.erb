@@ -1055,4 +1055,107 @@ R =  ------------------------------------ = ---------------------------
     approximate inference</strong>, which is our next topic.
 </p>
 
+<% partial 'partials/material_sub_sub_heading' do %>
+  Generating data from a Bayesian network
+<% end %>
+
+<p>
+  In order to do approximate inference, we need to be able to generate
+  (or sample) data from the joint distribution defined by a
+  Bayesian network. The data will consist of <b>tuples</b>, each of
+  which is essentially a list of values for each of the random
+  variables in the domain. Thus, each tuple corresponds one-to-one
+  to an elementary event &omega;.
+</p>
+
+<p>
+  The algorithm to generate tuples is quite simple. We first choose
+  values for any variables that have no parents. The choice is
+  done randomly according to the distribution defined by the CPT.
+  For example, to choose the value for the Battery variable in the
+  car model, we use the distribution (0.1, 0.9). Similarly, the
+  value of variable Gas is drawn from the distribution (0.05, 0.95).
+</p>
+
+<% partial 'partials/hint', locals: { name: 'Random sampling from a distribution' } do %>
+
+<p>
+  You have probably generated numbers from a pseudorandom number
+  generator in your favorite programming language. In python, you may
+  have used <code>random.random()</code>, and in Java, <code>Math.random()</code>.
+  Both of these return pseudorandom floating point values in the range
+  [0.0, 1.0). Other functions exist for generating random integers,
+  Booleans, etc.</p>
+
+<p>
+  Some languages also have functions to generate categorical values
+  (values in a finite set) from a given distribution. If your favorite
+  language doesn't provide such functions, it is easy to apply the
+  existing functions to implement them.
+</p>
+
+<p>
+  For binary variables, the method works as follows. Let the
+  probability of zero in the distribution you wish to sample from be
+  some P(X=0). Generate a random floating point value <code>r</code>
+  by the aforementioned functions. If <code>r</code> &lt; P(X=0), then
+  output the value 0, and otherwise 1. Clearly a uniformly distributed
+  value between 0 and 1 is less than P(X=0) with probability P(X=0), so
+  our method produces value 0 with probability P(X=0), as it should.
+</p>
+
+<p>
+  In the following, we will only need the binary case, but just in
+  case you are interested: For categorical variables with more than
+  two values, the method works in a similar fashion. The value 0 is
+  produced if <code>r</code> is less than P(X=0). The value 1 is
+  produced if <code>r</code> is between P(X=0) and P(X=0)+P(X=1). And
+  generally, the value x is produced if
+  <code>r</code> is between Sigma;<sub>i=0</sub><sup>x-1</sup> P(X=i).
+</p>
   
+<% end %>
+
+<p>
+  To choose values for the remaining variables, we proceed in such an
+  order that when dealing with a variable, we have already chosen the
+  value(s) for its parent(s). After choosing the value for Battery, we
+  can thus move on to variable Radio. The distribution from which we
+  choose the value of a child variable (such as Radio) is determined
+  by the configuration of its parents (such as Battery). If B=1, then
+  we draw the value of R from distribution (0.1, 0.9). Whereas if B=0,
+  then we draw the value of R from distribution (1.0, 0.0) and the
+  outcome is always R=0. No battery, no music.
+</p>
+
+<p>
+  Note that when choosing the value of Starts, we need to chosen the
+  values of both Ignition and Gas.
+</p>
+
+<p>
+  Pseudocode for a generating N random tuples from a Bayesian network
+  is as follows.
+</p>
+  
+<% partial 'partials/code_highlight' do %>
+1: generate_tuples(N, model):
+2:    for i = 1 to N:
+3:       v = empty array
+4:       for V in model.variables:
+5:          pa = v[V.Pa]    # parents of V
+6:          v.append(sample(V.CPT(pa)))
+7:       output v 
+<% end %>
+
+<p>
+  In the pseudocode, <code>model</code> is an object that defines the
+  Bayesian network model by giving for each variable V a set of 
+  parents (in the form of a set of indices that can be used to
+  select variables in the array v), and the corresponding CPTs.
+  The selection operator v[V.Pa] extracts from the array v the
+  elements that define the values of the parents of V. These
+  are used on line 6 to choose the correct row from the CPT of V.
+</p>
+
+
