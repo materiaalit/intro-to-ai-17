@@ -686,15 +686,54 @@ R =  ------------------------------------ = ---------------------------
   the <i>absence</i> of an edge between any two variables means that
   the variables are conditionally independent given some (possibly
   empty) set of other variables. The details of this are slightly too
-  complicated to discuss here, so we'll not go into them.
+  complicated to discuss here, so we'll not go into them. For now, it
+  is enough to remember that the edges are a way to encode the 
+  dependency structure in the domain.
 </p>
 
 <p>
   In addition to the structure encoded as the DAG, a Bayesian network
-  comes with a set of parameters quantifying the conditional distributions
-  of the variables. These are given in the form P(V=v | Pa<sub>V</sub>
-  = pa<sub>V</sub>), where V is a random variable and v is a value, and
-  Pa<sub>V</sub> denotes the <strong>parents</strong> of node V in the
-  graph. For example, in the above DAG, we have Pa<sub>Z</sub> = {X,Y}, and
-  Pa<sub>Y</sub> = &empty;
+  comes with a set of parameters quantifying the conditional
+  distributions of the variables. These are given in the form P(V=v |
+  Pa<sub>V</sub> = pa<sub>V</sub>), where V is a random variable and v
+  is a value, and Pa<sub>V</sub> denotes the <strong>parents</strong>
+  of node V in the graph: i.e., the nodes from which there is an edge
+  to V. For example, in the above DAG, we have Pa<sub>Z</sub> = {X,Y},
+  and Pa<sub>Y</sub> = &empty; because node Y has no parents at all.
+</p>
+
+<p>
+  When the variables are categorical, i.e., they take values in a finite
+  set, the conditional distributions can be specified as 
+  <strong>conditional probability tables</strong> (CPTs). A CPT for
+  variable V includes the distribution of V for each possible
+  combination of the values of V's parents. We call such combinations
+  <strong>parent configurations</strong>. For example, if in the above
+  example network, all variables are binary, then the parent configurations
+  of Z are (X=0, Y=0), (X=0, Y=1), (X=1, Y=0), (X=1, Y=1), and the CPT
+  of Z will have four rows, each containing a conditional distribution
+  for Z. A concrete example is as follows
+</p>
+
+<p>
+  <table>
+    <tr>
+      <th colspan=2>parent cfg</th><th colspan=2>Z</th>
+    </tr>
+    <tr>
+      <th>X</th><th>Y</th><th>0</th><th>1</th>
+    </tr>
+    <tr>
+      <td>0</td><td>0</td><td>0.1</td><td>0.9</td>
+    </tr>
+    <tr>
+      <td>0</td><td>1</td><td>0.2</td><td>0.8</td>
+    </tr>
+    <tr>
+      <td>1</td><td>0</td><td>0.5</td><td>0.5</td>
+    </tr>
+    <tr>
+      <td>1</td><td>1</td><td>0.0</td><td>1.0</td>
+    </tr>
+  </table>
 </p>
