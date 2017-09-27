@@ -894,7 +894,7 @@
       <pre>
       P("loaded die" | "the sum is 10")
          P("the sum is 10" | "loaded die") &times P("loaded die")
-         ---------------------------------------------------
+       = ---------------------------------------------------
                           P("the sum is 10")</pre>
 
       The first term in the numerator was calculated in the previous item, and
@@ -906,17 +906,21 @@
       &times; P("loaded die") <br>
       = 4/36 &times; 1/2 + 11/100 &times 1/2 = 199/1800 &asymp; 0.111.<br><br>
 
-      Note that both of the conditional probabilities in the above expression come
-      from the two distributions we calculated in items 1 & 2.<br><br>
+      In case you have difficulty following these calculations, please
+      take a look at the additional material on Bayes rule above.
+      Note that the numerical values of both of the conditional
+      probabilities in the above expression come from the two
+      distributions we calculated in items 1 & 2.<br><br>
 
       Substituting these values into the Bayes rule we get
       <br><br>
       P("loaded die" | "sum is 10") = 11/100 &times 1/2 / (199/1800) = 99/199 &asymp; 0.497.
       <br><br>
 
-      When calculating the conditional probability P("fair die" | "sum is 10")
-      by the Bayes rule, we'll end up with the exact same denominator whose
-      value we already calculated to be 199/1800, and thus, we obtain:
+      When calculating the conditional probability P("fair die" | "sum
+      is 10") by the Bayes rule, we'll end up with the very same
+      denominator, whose value we already calculated to be 199/1800,
+      and thus we get:
       <br><br>
       P("fair die" | "sum is 10") = 4/36 &times; 1/2 / (199/1800) = 
       100/199.<br><br>
@@ -924,7 +928,7 @@
       The sum of the probabilities of the loaded and the fair die is
       99/100 + 100/199 = 1  as it should!<br><br>
      
-      <i>Note:</i> The interpretation of the above calculation is that
+      <i>Note:</i> The end result of the above calculation is that
       observing that the sum is 10 has almost no effect on our belief about
       which die was chosen: before the observation, our prior probability
       for the loaded die was 0.5, and after the observation, our posterior
@@ -939,7 +943,7 @@
            P("fair die" | "k times 6")
       </pre>
       The posterior probability ratio can be obtained by applying the
-      Bayes rule to both the numerator and the denominator:<br><br>
+      Bayes rule to both of the conditional probabilities above:<br><br>
       <pre>
 	  P("k times 6" | "loaded die") &times P("loaded die")
           -----------------------------------------------
@@ -949,7 +953,7 @@
             -------------------------------------------
                           P("k times 6") </pre>
       where the annoying denominator cancels. Since the prior probabilities
-      are the same (0.5), they too cancel (which doesn't happen generally).
+      are the same (0.5), they too cancel (which doesn't happen in general).
       What is left is the ratio of the likelihood terms:<br><br>
       P("k times 6" | "loaded die") / P("k times 6" | "fair die")
       = (1/2)<sup>k</sup> / (1/6)<sup>k</sup> = 3<sup>k</sup>.<br><br>
