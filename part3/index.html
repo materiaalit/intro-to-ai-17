@@ -933,9 +933,9 @@ R =  ------------------------------------ = ---------------------------
 
 <p>
   The CPTs are as follows:
-  <table style="background-color: #7fb3d5; text-align: center; float: left;">
+  <table style="background-color: #7fb3d5; text-align: center; display: inline-block;">
     <tr>
-      <th colspan=2 align=center>B</td>
+      <td colspan=2 align=center>B</td>
     </tr>
     <tr>
       <td>0</td><td>1</td>
@@ -946,9 +946,9 @@ R =  ------------------------------------ = ---------------------------
   </table>
   &nbsp;&nbsp;
 
-  <table style="background-color: #7fb3d5; text-align: center; float: left;">
+  <table style="background-color: #7fb3d5; text-align: center; display: inline-block;">
     <tr>
-      <th colspan=1></td><th colspan=2>R</td>
+      <td colspan=1></td><td colspan=2>R</td>
     </tr>
     <tr>
       <td>B</td><td>0</td><td>1</td>
@@ -962,9 +962,9 @@ R =  ------------------------------------ = ---------------------------
   </table>
   &nbsp;&nbsp;
 
-  <table style="background-color: #7fb3d5; text-align: center; float: left;">
+  <table style="background-color: #7fb3d5; text-align: center; display: inline-block;">
     <tr>
-      <th colspan=1></td><th colspan=2>I</td>
+      <td colspan=1></td><td colspan=2>I</td>
     </tr>
     <tr>
       <td>B</td><td>0</td><td>1</td>
@@ -978,9 +978,9 @@ R =  ------------------------------------ = ---------------------------
   </table>
   &nbsp;&nbsp;
 
-  <table style="background-color: #7fb3d5; text-align: center; float: left;">
+  <table style="background-color: #7fb3d5; text-align: center; display: inline-block;">
     <tr>
-      <th colspan=2 align=center>G</td>
+      <td colspan=2 align=center>G</td>
     </tr>
     <tr>
       <td>0</td><td>1</td>
@@ -991,9 +991,9 @@ R =  ------------------------------------ = ---------------------------
   </table>
   &nbsp;&nbsp;
 
-  <table style="background-color: #7fb3d5; text-align: center; float: left;">
+  <table style="background-color: #7fb3d5; text-align: center; display: inline-block;">
     <tr>
-      <th colspan=2></td><th colspan=2>S</td>
+      <td colspan=2></td><td colspan=2>S</td>
     </tr>
     <tr>
       <td>I</td><td>G</td><td>0</td><td>1</td>
@@ -1013,9 +1013,9 @@ R =  ------------------------------------ = ---------------------------
   </table>
   &nbsp;&nbsp;
 
-  <table style="background-color: #7fb3d5; text-align: center; float: left;">
+  <table style="background-color: #7fb3d5; text-align: center; display: inline-block;">
     <tr>
-      <th colspan=1></td><th colspan=2>M</td>
+      <td colspan=1></td><td colspan=2>M</td>
     </tr>
     <tr>
       <td>S</td><td>0</td><td>1</td>
@@ -1068,8 +1068,12 @@ R =  ------------------------------------ = ---------------------------
   refers to the parent set of V. In the car domain, the product is
   thus of the form:<br><br>
   P(B=b,R=r,I=i,G=g,S=s,M=m) =
-  P(B=b) P(R=r | B=b) P(I=i | B=b) P(G=g) P (S=s | I=i,G=g) P(M=m | S=s)
+  P(B=b) P(R=r | B=b) P(I=i | B=b) P(G=g) P (S=s | I=i,G=g) P(M=m | S=s),<br><br>
+  where b,r,i,g,s, and m denote values of the respective random
+  variables.
 </p>
+
+
 
 <div class="hint">
   <div class="hint__header">
@@ -1080,13 +1084,13 @@ R =  ------------------------------------ = ---------------------------
     
 <p>
   To make it easier to interpret the events we won't use the rather
-  long notation B=1,R=1,I=1,G=1,S=1,M=1 or even the shorter notation
-  1,1,1,1,1,1 to denote events in the car domain. Rather, we'll have a
-  different label for the values of each of the random variables. For
-  the variable Battery, we denote the good case (battery is alive) by
-  B and the bad case by &neg;B.  Similarly, for Radio, we denote the
-  good case (music is played) by R, and the bad case by &neg;R, and so
-  on.
+  long notation like B=1,R=1,I=1,G=1,S=1,M=1 or even the shorter
+  notation like 1,1,1,1,1,1 to denote events in the car
+  domain. Rather, we'll have a different label for the values of each
+  of the random variables. For the variable Battery, we denote the
+  good case (battery is alive) by B and the bad case by &not;B.
+  Similarly, for Radio, we denote the good case (music is played) by
+  R, and the bad case by &not;R, and so on.
 </p>
 
 <p>
@@ -1108,10 +1112,10 @@ R =  ------------------------------------ = ---------------------------
 
 <p>
   Or, some days are fine except the radio may not work, which is
-  denoted as &neg;R. The probability of the elementary event where
+  denoted as &not;R. The probability of the elementary event where
   everything else is good but the radio is out is obtained similarly:
   <br><br>
-  P(B) P(&neg;R|B) P(I|B) P(G) P(S|I,G) P(M|S)
+  P(B) P(&not;R|B) P(I|B) P(G) P(S|I,G) P(M|S)
   = 0.9 &times; 0.1 &times; 0.95 &times; 0.95 &times; 0.99 &times 99
   &asymp; 0.080.
 </p>
