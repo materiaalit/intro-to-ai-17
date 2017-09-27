@@ -1332,12 +1332,15 @@ R =  ------------------------------------ = ---------------------------
 
 <p>
   In the pseudocode, <code>model</code> is an object that defines the
-  Bayesian network model by giving for each variable V a set of 
-  parents (in the form of a set of indices that can be used to
-  select variables in the array v), and the corresponding CPTs.
-  The selection operator v[V.Pa] extracts from the array v the
-  elements that define the values of the parents of V. These
-  are used on line 6 to choose the correct row from the CPT of V.
+  Bayesian network model by giving for each variable V a set of
+  parents (in the form of a set of indices that can be used to select
+  variables in the array v), and the corresponding CPTs.  The
+  selection operator v[V.Pa] extracts from the array v the elements
+  that define the values of the parents of V. These are used on line 6
+  to choose the correct row from the CPT of V. Note that here it is
+  important that the variables be processed in such an order that the
+  parent values are added into the array before they are needed for
+  generating the children.
 </p>
 
 <h3 class="material-heading">
@@ -1374,7 +1377,7 @@ R =  ------------------------------------ = ---------------------------
   of chance in obtaining the results. The downside is that the
   result is not exact. The variance that is caused by the random
   nature of the process can sometimes make the obtained probabilities
-  quite inaccurate. The more bigger the number of tuples, however, the
+  quite inaccurate. The bigger the number of tuples, however, the
   better the accuracy, and in the limit as N &rarr; &infin; the
   approximation converges to the exact value.
 </p>
