@@ -1291,7 +1291,8 @@ R =  ------------------------------------ = ---------------------------
   produced if <code>r</code> is less than P(X=0). The value 1 is
   produced if <code>r</code> is between P(X=0) and P(X=0)+P(X=1). And
   generally, the value x is produced if
-  <code>r</code> is between Sigma;<sub>i=0</sub><sup>x-1</sup> P(X=i).
+  <code>r</code> is between &Sigma;<sub>i=0</sub><sup>x-1</sup> P(X=i)
+  = P(X=0) + ... + P(X=i-1).
 </p>
   
 
@@ -1339,6 +1340,44 @@ R =  ------------------------------------ = ---------------------------
   are used on line 6 to choose the correct row from the CPT of V.
 </p>
 
+<h3 class="material-heading">
+    Approximate inference (Monte Carlo)
+
+</h3>
+
+<p>
+  The simplest approximate inference method is based on using the
+  tuples sampled from a Bayesian network to estimate probilities
+  directly as relative frequencies. To estimate the probability of an
+  event, we simply draw a large number N of tuples, and count in how
+  many of them the event occurs. The number of occurrences divided by
+  N is then an estimate of the probability of the event.
+</p>
+
+<p>
+  Thus, we get
+  <pre>
+                    #{tuples where B=0, R=0, M=0}
+    P(&not;B, &not;R, &not;M) &asymp; -----------------------------
+                                  N</pre>
+</p>
+
+<p>
+  To approximate conditional probabilities, we simply write them as
+  ratios, P(A | B) = P(A, B) / (B), and apply the same estimator to
+  both the numerator and the denominator.
+</p>
+
+<p>
+  This is a very simple and general technique, which belongs to the
+  category of <strong>Monte Carlo</strong> techniques due to the use
+  of chance in obtaining the results. The downside is that the
+  result is not exact. The variance that is caused by the random
+  nature of the process can sometimes make the obtained probabilities
+  quite inaccurate. The more bigger the number of tuples, however, the
+  better the accuracy, and in the limit as N &rarr; &infin; the
+  approximation converges to the exact value.
+</p>
 
 
         </div>
