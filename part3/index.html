@@ -807,8 +807,61 @@ R =  ------------------------------------ = ---------------------------
   of <a href="https://en.wikipedia.org/wiki/Graphical_model">(probabilistic)
   graphical models</a>, which are a modeling "language" for
   probabilistic models. The power of graphical models is mainly due to
-  the efficient inference procedures that exploit the structure of the
-  models.
+  i) their ability to compactly represent multivariate domains with
+  complex dependencies, and ii) efficient inference procedures that
+  exploit the structure of the models.
+</p>
+
+<h3 class="material-heading">
+    Building blocks of a Bayesian network
+
+</h3>
+
+<p>
+  A Bayesian network will represent a joint distribution over a number
+  of random variables. Depending on the complexity of the network
+  (which depends on the number of placement of the edges in the
+  graph), the Bayesian network representation may require
+  significantly fewer numerical parameters than the number of
+  elementary events in the domain.
+</p>
+
+<p>
+  The structure of the network is encoded as a graph where each random
+  variable is represented as a node, and the dependency structure is
+  characterized by a set of directed edges between the nodes. The
+  graph must be a <strong>directed acyclic graph</strong> (DAG), which
+  means that it is impossible to start from a node follow a path in
+  the direction of the edges to arrive at the same node. 
+</p>
+
+
+<p>
+  Here's an example DAG:<br>
+<img src="/img/diagrams/BNexample.png" width=45%>
+</p>
+
+<p>
+  The random variables in the model are X,Y,Z, and &Aring;. (For the
+  non-Scandi students, the last one is what we call the "Swedish O" in
+  Finland;
+  see <a href="https://en.wikipedia.org/wiki/%C3%85">Wikipedia:&Aring;</a>.
+  It conveniently comes after X, Y, and Z in our alphabet.) The edges
+  correspond to <strong>direct</strong> dependency, so that
+  the <i>absence</i> of an edge between any two variables means that
+  the variables are conditionally independent given some (possibly
+  empty) set of other variables. The details of this are slightly too
+  complicated to discuss here, so we'll not go into them.
+</p>
+
+<p>
+  In addition to the structure encoded as the DAG, a Bayesian network
+  comes with a set of parameters quantifying the conditional distributions
+  of the variables. These are given in the form P(V=v | Pa<sub>V</sub>
+  = pa<sub>V</sub>), where V is a random variable and v is a value, and
+  Pa<sub>V</sub> denotes the <strong>parents</strong> of node V in the
+  graph. For example, in the above DAG, we have Pa<sub>Z</sub> = {X,Y}, and
+  Pa<sub>Y</sub> = &empty;
 </p>
 
         </div>
