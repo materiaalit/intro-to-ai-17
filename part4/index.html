@@ -1,0 +1,488 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <title>Introduction to Artificial Intelligence 2017 | Part 4</title>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <link href="https://fonts.googleapis.com/css?family=Roboto" rel="stylesheet">
+
+    <link href="../stylesheets/styles-8493e20a.css" rel="stylesheet" />
+
+    <link rel="stylesheet" href="//cdnjs.cloudflare.com/ajax/libs/highlight.js/9.7.0/styles/xcode.min.css">
+
+    <link rel="stylesheet" type="text/css" href="//cdnjs.cloudflare.com/ajax/libs/cookieconsent2/3.0.1/cookieconsent.min.css" />
+
+    <link rel="stylesheet" href="//2017-ohjelmointi.github.io/cdn/code-states-visualizer.css" />
+    <link rel="stylesheet" href="https://materiaalit.github.io/typonator-cdn/app.css" />
+
+      <script>
+  (function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
+  (i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
+  m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
+  })(window,document,'script','https://www.google-analytics.com/analytics.js','ga');
+  ga('create', 'UA-47575342-7', 'auto');
+  ga('send', 'pageview');
+</script>
+
+  </head>
+  <body>
+    <div class="main-wrapper">
+      <div class="header-wrapper">
+        <div class="browser-support-warning" id="browser-support-warning" style="display: none;">
+  Kaikki tämän materiaalin osat eivät välttämättä tuo nykyistä selaintasi. Voisitko harkita vaihtamista <a href="https://www.google.com/chrome/browser/desktop/" target="_blank" rel="noopener">Chrome</a> tai <a href="https://www.mozilla.org/en-US/firefox/new/" target="_blank" rel="noopener">Firefox</a> selaimeen?
+  <span class="browser-support-warning__close">Selvä!</span>
+</div>
+
+
+        <nav class="navbar navbar-light bg-white">
+  <a class="navbar-brand" href="http://mooc.fi" alt="MOOC" target="_blank" rel="noopener">
+    <span class="icon-mooc"></span>
+  </a>
+
+  <ul class="nav navbar-nav hidden-md-down">
+      <li class="nav-item ">
+        <a href="../" class="nav-link" onclick="ga('send', 'event', 'navigation_topic_link', 'click', '#&lt;Middleman::Sitemap::Resource path=index.html&gt;')">Introduction</a>
+      </li>
+      <li class="nav-item ">
+        <a href="../part1/" class="nav-link" onclick="ga('send', 'event', 'navigation_topic_link', 'click', '#&lt;Middleman::Sitemap::Resource path=part1.html&gt;')">Part 1</a>
+      </li>
+      <li class="nav-item ">
+        <a href="../part2/" class="nav-link" onclick="ga('send', 'event', 'navigation_topic_link', 'click', '#&lt;Middleman::Sitemap::Resource path=part2.html&gt;')">Part 2</a>
+      </li>
+      <li class="nav-item ">
+        <a href="../part3/" class="nav-link" onclick="ga('send', 'event', 'navigation_topic_link', 'click', '#&lt;Middleman::Sitemap::Resource path=part3.html&gt;')">Part 3</a>
+      </li>
+      <li class="nav-item active">
+        <a href="./" class="nav-link" onclick="ga('send', 'event', 'navigation_topic_link', 'click', '#&lt;Middleman::Sitemap::Resource path=part4.html&gt;')">Part 4</a>
+      </li>
+  </ul>
+
+  <div class="float-xs-right navbar__buttons">
+    <div class="dropdown" id="mobile-nav-dropdown">
+      <button class="btn btn-secondary dropdown-toggle navbar__mobile-nav-toggle" data-toggle="dropdown">
+        <i class="fa fa-bars"></i>
+      </button>
+
+      <div class="dropdown-menu">
+      </div>
+    </div>
+
+    <a href="https://riot.im/app/#/room/#_ircnet_#iai:irc.snt.utwente.nl" target="_blank" rel="noopener" class="btn btn-secondary">
+      <span class="hidden-md-down">Chat</span>
+      <i class="fa fa-commenting-o hidden-lg-up"></i>
+    </a>
+
+    <button class="btn btn-secondary" id="table-of-contents-toggle">
+      <span class="hidden-md-down">Table of contents</span>
+      <i class="fa fa-ellipsis-h hidden-lg-up"></i>
+    </button>
+
+    <button class="btn btn-primary" id="tmc-login-toggle">Log in</button>
+  </div>
+</nav>
+
+      </div>
+
+      <div class="content-wrapper">
+        <div class="container material" id="material">
+            <div class="exercise-list">
+  <div class="exercise-list__header">
+    Exercises
+  </div>
+
+  <div class="exercise-list__content" id="exercise-list"></div>
+
+</div>
+
+
+          
+
+
+<div class="exercise">
+  <div class="exercise__header">
+    <a data-toggle="collapse" class="exercise__toggle">
+      <i class="fa fa-pencil exercise__icon"></i>
+      <h1 class="exercise__heading">Bayesian networks (pencil-and-paper) (1p)</h1>
+
+      <i class="fa fa-caret-down exercise__arrow"></i>
+    </a>
+  </div>
+
+  <div class="collapse">
+    <div class="exercise__body">
+      
+<p>
+  In Part 3, we briefly discussed how Baesian networks lead to compact
+  representation of probabilistic models.
+  <ol>
+    <li>
+      Consider a model with N=4 variables, each of which has k possible
+      values (0,1,...,k&ndash;1). How many different elementary events are there
+      in the domain? One less is the number of probabilities that we'd have
+      to determine in order to fully specify the model. (For example, in the
+      Car model of Part 3, with N=6 and k=2, this number was 63.)
+    <li> 
+      How many parameters would we have to define to specify the model using
+      an "empty" Bayesian network, i.e, a network with no edges at all?
+    <li>
+      What is the maximum number of parameters we'd have to define in a
+      Bayesian network in this domain (N variables with k values each)?
+      Remember that the graph has to be a DAG, i.e., no directed cycles are
+      allowed.
+    <li>
+      <i>Optional:</i> Generalize to arbitrary values of N. It may be helpful to
+      recall the sum of a geometric series 1+k+k<sup>2</sup>+...+k<sup>N&ndash;1</sup> =
+      (k<sup>N</sup>&ndash;1)/(k&ndash;1), where k&neq;1.
+  </ol>
+</p>
+
+
+    </div>
+  </div>
+</div>
+
+<div class="exercise">
+  <div class="exercise__header">
+    <a data-toggle="collapse" class="exercise__toggle">
+      <i class="fa fa-pencil exercise__icon"></i>
+      <h1 class="exercise__heading">Bayesian networks: Car (programming) (1p)</h1>
+
+      <i class="fa fa-caret-down exercise__arrow"></i>
+    </a>
+  </div>
+
+  <div class="collapse">
+    <div class="exercise__body">
+      
+<p>
+  Implement an algorithm for generating data from the Car network
+  discussed in Part 3.  You should generate n tuples, each of which is
+  a six element list of bits (or Boolean values). You should start by
+  choosing the value of B so that it takes value 1
+  (or <code>True</code>) with probability 0.9. After choosing the
+  value of B, choose the value of R. If B=0, then R=0 with probability
+  1. If B=1, then R=0 with probability 0.1. Continue this way,
+  choosing the probabilities from the CPTs, until you have chosen the
+  values for each of the variables.
+</p>
+
+<p>
+  Generate a sample of n=100 000 tuples. Use it to approximate the following
+  conditional probabilities:
+  <ol>
+    <li>
+      P(B | R,G,&not;S)
+    <li>
+      P(S | R,I,G)
+    <li>
+      P(S | &not;R,I,G)
+  </ol>
+  <strong>
+    and (don't forget this part):
+  </strong>
+  <ol start=4>
+    <li>
+      give an interpretation to the above probabilities. Are they in line with
+      your intuition? In other words, do they make sense?
+  </ol>
+</p>
+
+
+    </div>
+  </div>
+</div>
+
+<div class="exercise">
+  <div class="exercise__header">
+    <a data-toggle="collapse" class="exercise__toggle">
+      <i class="fa fa-pencil exercise__icon"></i>
+      <h1 class="exercise__heading">Bayesian networks: Earthquake (programming) (1p)</h1>
+
+      <i class="fa fa-caret-down exercise__arrow"></i>
+    </a>
+  </div>
+
+  <div class="collapse">
+    <div class="exercise__body">
+      
+<p>
+  Consider the following scenario. You live in an area where
+  earthquakes happen on the average every 111th day. Another annoying
+  thing is that a burglar breaks into your home on the average once a
+  year. Both events occur independently of each other and uniformly
+  throughout the year (so any day is like another).
+</p>
+
+<p>
+  In case of an earthquake, your home alarm goes off with probability 0.81.
+  If your home of broken into, the alarm goes off with probability 0.92.
+  If these both should occur at the same time, the alarm goes off with
+  probability 0.97. If nothing special is going on, the alarm goes off
+  with probability 0.0095.
+</p>
+
+<p>
+  Now modify the algorithm from the previous exercise so that you can generate
+  data from variables [E]arthquake, [B]urglar, [A]larm. Generate a sample of 
+  n=100 000 tuples (days).
+  <ol>
+    <li>
+      Among the tuples with A=1, what is the fraction where B=1?
+    <li>
+      Among the tuples with A=1 and E=1, what is the fraction where B=1?
+  </ol>
+  <strong>
+    and (don't forget these):
+  </strong>
+  <ol start=3>
+    <li>
+      give an interpretation to the above probabilities. Are they in line with
+      your intuition? In other words, do they make sense? In particular:
+      which of the fractions is bigger and why?
+    </li>
+    <li>
+      Repeat the experiment a couple of times to get a feeling of how much
+      the results change just by chance. (This is the nature of the Monte
+      Carlo approximation.) Experiment with different values of n. How does
+      it affect the variability?
+  </ol>
+</p>
+
+
+    </div>
+  </div>
+</div>
+
+
+<h1 class="material-heading">
+    Machine Learning
+
+</h1>
+
+<p>
+</p>
+
+<div class="hint">
+  <div class="hint__header">
+    <i class="fa fa-info-circle hint__icon"></i>Learning objectives of Part 4
+  </div>
+
+  <div class="hint__body">
+    
+<table class="table">
+  <tr>
+    <td>
+      Theme
+    </td>
+    <td>
+      Objectives (after the course, you ...)
+    </td>
+  </tr>
+    <td>
+      Machine learning
+    </td>
+    <td>
+      <ul>
+	<li>can distinguish between unsupervised and supervised machine learning scenarios
+	<li>can implement at least two supervised classification methods (e.g., naive Bayes, nearest neighbour classifier)
+	<li>know the main types of neural networks (feed-forward, recurrent, self-organizing map) and their main principles
+	<li>can implement the perceptron algorithm in a simple binary classification problem
+      </ul>
+    </td>
+  </tr>
+</table>
+
+
+  </div>
+</div>
+
+<h2 class="material-heading">
+    Kinds of Machine Learning
+
+</h2>
+
+<p>
+  <ol>
+    <li>Supervised learning
+    <li>Unsupervised learning
+    <li>Reinforcement learning
+  </ol>
+</p>
+
+<h2 class="material-heading">
+    k-Nearest Neighbor (k-NN) Classifier
+
+</h2>
+
+<h2 class="material-heading">
+    Naive Bayes Classifier
+
+</h2>
+
+
+<h1 class="material-heading">
+    Neural Networks
+
+</h1>
+
+<h2 class="material-heading">
+    What is Special About Neural Networks?
+
+</h2>
+
+<h2 class="material-heading">
+    Weights and Activation
+
+</h2>
+
+<h2 class="material-heading">
+    The Perceptron Algorithm
+
+</h2>
+
+<h2 class="material-heading">
+    Recurrent Neural Networks
+
+</h2>
+
+<h2 class="material-heading">
+    The Self-Organizing Map (SOM)
+
+</h2>
+
+
+        </div>
+      </div>
+
+      <div class="footer-wrapper">
+        <footer class="footer">
+  <div>
+    This material is licensed under a <a rel="license" href="https://creativecommons.org/licenses/by-nc-sa/4.0/">Creative Commons BY-NC-SA 4.0 License</a>.
+
+  </div>
+  <div class="improvement">
+    <a href="https://github.com/materiaalit/intro-to-ai-17/issues/new"  target="_blank" rel="noopener">
+  <button class='btn btn-primary'>
+    <i class="fa fa-exclamation-triangle" aria-hidden="true"></i> Report an error
+  </button>
+</a>
+<a href="https://github.com/materiaalit/intro-to-ai-17/edit/master/source/part4.html.erb" target="_blank" rel="noopener">
+  <button class='btn btn-primary'>
+    <i class="fa fa-pencil" aria-hidden="true"></i>
+ Edit this page
+  </button>
+</a>
+     <a href="https://github.com/materiaalit/intro-to-ai-17" class="footer__github-link" target="_blank" rel="noopener">
+      <i class="fa fa-github"></i>
+    </a>
+  </div>
+</footer>
+
+      </div>
+    </div>
+
+    <div class="modal fade" id="tmc-login-modal" tabindex="-1" role="dialog">
+  <div class="modal-dialog" role="document">
+    <div class="modal-content">
+      <form id="tmc-login-form">
+        <div class="modal-header">
+          <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+          <h4 class="modal-title">Log in with your Test My Code Account</h4>
+        </div>
+        <div class="modal-body">
+          <div class="alert alert-info">
+            Don't have an account yet? <a href="https://tmc.mooc.fi/user/new" class="alert-link" target="_blank" rel="noopener">Create one!</a>
+          </div>
+
+          <div class="alert alert-danger" id="tmc-login-error" style="display: none;"></div>
+
+          <div class="form-group">
+            <label>Username</label>
+            <input type="text" id="tmc-login-username" class="form-control" placeholder="Username"/>
+          </div>
+
+          <div class="form-group">
+            <label>Password</label>
+            <input type="password" id="tmc-login-password" class="form-control" placeholder="Password"/>
+          </div>
+
+          <div class="form-group">
+            <label>Course</label>
+
+            <div class="form-check">
+              <label class="form-check-label">
+                <input type="radio" class="form-check-input" name="tmcLoginCourse" value="intro-to-ai-17" checked>
+                 Introduction to Artificial Intelligence 2017 (intro-to-ai-17)
+              </label>
+            </div>
+
+            <small class="form-text text-muted">
+              Course selection may affect the contents of the material.
+            </small>
+          </div>
+        </div>
+        <div class="modal-footer">
+          <a class="btn btn-secondary" data-dismiss="modal">Close</a>
+          <button type="submit" class="btn btn-primary">Log in</button>
+        </div>
+      </form>
+    </div>
+  </div>
+</div>
+
+
+    <div class="table-of-contents-layer" id="table-of-contents-layer">
+</div>
+
+<div class="table-of-contents" id="table-of-contents">
+  <h1 class="table-of-contents__heading">
+    Table of Contents
+  </h1>
+
+  <div class="table-of-contents__content">
+    <ul id="table-of-contents-list"></ul>
+  </div>
+</div>
+
+
+    <script>
+  window._QUIZNATOR_ENABLED = true;
+</script>
+
+<script src="https://quiznator.herokuapp.com/javascripts/plugin-loader.min.js"></script>
+
+
+    <script src="https://code.jquery.com/jquery-3.1.1.min.js"
+	    integrity="sha256-hVVnYaiADRTO2PzUGmuLJr8BLUSjGIZsDYGmIJLv2b8="
+	    crossorigin="anonymous"></script>
+
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js" integrity="sha384-Tc5IQib027qvyjSMfHjOMaLkfuWVxZxUPnCJA7l2mCWNIpG9mGCD8wGNIcPD7Txa" crossorigin="anonymous"></script>
+
+    <script>
+      window.SD_SHOW_SURVEY = ['part6', 'part7'].indexOf(window.location.pathname.replace(/\//g,'')) >= 0;
+    </script>
+
+    <script src="../javascripts/scripts-ad1d43f0.js"></script>
+
+    <script src="https://use.fontawesome.com/ed2f73836b.js"></script>
+
+    <script src="//cdnjs.cloudflare.com/ajax/libs/highlight.js/9.7.0/highlight.min.js"></script>
+
+    <script>hljs.initHighlightingOnLoad();</script>
+
+    <script src="//cdnjs.cloudflare.com/ajax/libs/cookieconsent2/3.0.1/cookieconsent.min.js"></script>
+    <script src='//cdnjs.cloudflare.com/ajax/libs/diff_match_patch/20121119/diff_match_patch.js'></script>
+
+    <script>window.cookieconsent.initialise({"palette":{"popup":{"background":"#000"},"button":{"background":"#f1d600"}}});</script>
+
+    <script src='//2017-ohjelmointi.github.io/cdn/code-states-visualizer.js'></script>
+    <script src='https://materiaalit.github.io/typonator-cdn/app.js'></script>
+    <script>
+      document.addEventListener("DOMContentLoaded", function() {
+        window.initCodeStatesVisualizer();
+        window.initTyponator();
+      });
+    </script>
+  </body>
+</html>
