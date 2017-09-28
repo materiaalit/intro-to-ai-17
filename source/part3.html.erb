@@ -79,7 +79,7 @@
   AI problems.
 </p>
 
-<% partial 'partials/hint', locals: { name: 'Learning objectives of Part 2' } do %>
+<% partial 'partials/hint', locals: { name: 'Learning objectives of Part 3' } do %>
 
 <table class="table">
   <tr>
@@ -1135,13 +1135,13 @@ R =  ------------------------------------ = ---------------------------
 </p>
 
 <p>
-  Pseudocode for a generating N random tuples from a Bayesian network
+  Pseudocode for a generating n random tuples from a Bayesian network
   is as follows.
 </p>
   
 <% partial 'partials/code_highlight' do %>
-1: generate_tuples(N, model):
-2:    for i = 1 to N:
+1: generate_tuples(n, model):
+2:    for i = 1 to n:
 3:       v = empty array
 4:       for V in model.variables:
 5:          pa = v[V.Pa]    # parents of V
@@ -1170,9 +1170,9 @@ R =  ------------------------------------ = ---------------------------
   The simplest approximate inference method is based on using the
   tuples sampled from a Bayesian network to estimate probilities
   directly as relative frequencies. To estimate the probability of an
-  event, we simply draw a large number N of tuples, and count in how
+  event, we simply draw a large number n of tuples, and count in how
   many of them the event occurs. The number of occurrences divided by
-  N is then an estimate of the probability of the event.
+  n is then an estimate of the probability of the event.
 </p>
 
 <p>
@@ -1180,7 +1180,7 @@ R =  ------------------------------------ = ---------------------------
   <pre>
                     #{tuples where B=0, R=0, M=0}
     P(&not;B, &not;R, &not;M) &asymp; -----------------------------
-                                  N</pre>
+                                  n</pre>
 </p>
 
 <p>
@@ -1196,7 +1196,7 @@ R =  ------------------------------------ = ---------------------------
   result is not exact. The variance that is caused by the random
   nature of the process can sometimes make the obtained probabilities
   quite inaccurate. The bigger the number of tuples, however, the
-  better the accuracy, and in the limit as N &rarr; &infin; the
+  better the accuracy, and in the limit as n &rarr; &infin; the
   approximation converges to the exact value.
 </p>
 
