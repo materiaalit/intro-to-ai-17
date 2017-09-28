@@ -193,6 +193,73 @@
   The Perceptron Algorithm
 <% end %>
 
+<% partial 'partials/exercise', locals: { name: 'Perceptron (programming) (2p)' } do %>
+
+<p>
+  Use the Perceptron template on TMC. (You can also implement your solution
+  in other languages than Java. You'll find the necessary data files in the
+  TMC template.)
+</p>
+
+<p>
+  The file <code>mnist-x.data</code> contains 6000 images from the popular
+  <a href="http://yann.lecun.com/exdb/mnist/">MNIST dataset</a>, each
+  of which is given on a single line in the file. Each image consists
+  of 28 &times; 28 pixels listed row-by-row, so each line in the file
+  contains 784 values.  Each pixel is either black (&ndash;1) or white
+  (1). The file
+  <code>mnist-y.data</code> contains the correct class value (0-9) of each
+  of the 6000 images.
+</p>
+
+<p>
+  Use the first 5000 images as training data and the last 1000 as test data.
+  <ol>
+    <li>
+      Run the Java template to make sure that the file <code>test100.bmp</code>
+      is created. It should include the first 100 images sorted according to
+      the correct class label. This verifies that reading the file was
+      successful.
+    <li>
+      Adapt the <code>train()</code> method in class <code>Perceptron</code>
+      so that it learns to distinguish number 3 from number 5. (Notice that
+      the variable <code>targetChar</code> can be set to be one of these
+      classes while <code>oppositeChar</code> should be the other. This
+      will relabel the class as 1 and &ndash;1 as is required in the
+      Perceptron algorithm. Other numbers are ignored.) Try to get a
+      classification error around 5&ndash;15 %.
+    <li>
+      Try other pairs of number than 3 vs 5. Which numbers are easiest to
+      classify and which are the hardest?
+  </ol>
+<% end %>
+
+<% partial 'partials/exercise', locals: { name: 'Nearest Neighbor (programming) (1p)' } do %>
+
+<p>
+  Now implement a nearest neighbor classifier for the MNIST data used in
+  the Perceptron exercise.
+</p>
+
+<p>
+  Given a test example, X<sup>(test)</sup>, the classifier will find the nearest
+  training data point, X<sup>(NN)</sup>, and return its class label
+  Y<sup>(NN)</sup>. Notice that unlike the Perceptron, or most other classifiers,
+  the nearest neighbor classifier doesn't really involve a training stage.
+  All the action happens in the classification (testing) stage.
+</p>
+
+<p>
+  Test your classifier using the same train/test split (5000/1000) as before.
+  You can use the same pairs of numbers (3 vs 5), or even try classifying all
+  the classes at the same time because the NN classifier is not restricted
+  to binary classification. (Note that in multiclass classification, the
+  expected accuracy tends to be lower than in binary classification simply
+  because the problem is harder.)
+</p>
+
+<% end %>
+
 <% partial 'partials/material_sub_heading' do %>
   Recurrent Neural Networks
 <% end %>
