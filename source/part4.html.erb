@@ -31,7 +31,7 @@
     <li>
       <i>Optional:</i> Generalize to arbitrary values of N. It may be helpful to
       recall the sum of a geometric series 1+k+k<sup>2</sup>+...+k<sup>N&ndash;1</sup> =
-      (k<sup>N</sup>&ndash;1)/(k&ndash;1), where k&neq;1.
+      (k<sup>N</sup>&ndash;1)/(k&ndash;1), where k&ne;1.
   </ol>
 </p>
 
@@ -47,8 +47,8 @@
   (or <code>True</code>) with probability 0.9. After choosing the
   value of B, choose the value of R. If B=0, then R=0 with probability
   1. If B=1, then R=0 with probability 0.1. Continue this way,
-  choosing the probabilities from the CPTs, until you have chosen the
-  values for each of the variables.
+  choosing the probabilities from the CPTs, until you have generated a
+  complete tuple.
 </p>
 
 <p>
@@ -65,7 +65,7 @@
   <strong>
     and (don't forget this part):
   </strong>
-  <ol start=4>
+  <ol start=4><br>
     <li>
       give an interpretation to the above probabilities. Are they in line with
       your intuition? In other words, do they make sense?
@@ -86,16 +86,16 @@
 
 <p>
   In case of an earthquake, your home alarm goes off with probability 0.81.
-  If your home of broken into, the alarm goes off with probability 0.92.
+  If your home is broken into, the alarm goes off with probability 0.92.
   If these both should occur at the same time, the alarm goes off with
-  probability 0.97. If nothing special is going on, the alarm goes off
+  probability 0.97. If nothing special is going on, there's a false alarm
   with probability 0.0095.
 </p>
 
 <p>
   Now modify the algorithm from the previous exercise so that you can generate
   data from variables [E]arthquake, [B]urglar, [A]larm. Generate a sample of 
-  n=100 000 tuples (days).
+  n=100 000 tuples.
   <ol>
     <li>
       Among the tuples with A=1, what is the fraction where B=1?
@@ -105,7 +105,7 @@
   <strong>
     and (don't forget these):
   </strong>
-  <ol start=3>
+  <ol start=3><br>
     <li>
       give an interpretation to the above probabilities. Are they in line with
       your intuition? In other words, do they make sense? In particular:
