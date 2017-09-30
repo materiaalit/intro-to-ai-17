@@ -342,17 +342,73 @@ under Materials.
 <img src="../img/diagrams/MNISTsamples-80d9261b.png" width=88%>
 
 <p>
-  Above you can see samples of handwritten images from the very
+  <i>Figure:</i>&nbsp; Samples of handwritten images from the very
   commonly used <a href="http://yann.lecun.com/exdb/mnist/">MNIST</a>
-  dataset. The correct label (decided by a human) is shown above
-  each image.
+  dataset. The correct label (decided by a human) is shown above each
+  image. Note that some of the "correct" class labels are questionable:
+  see for example the second image from left: is that really a '7',
+  or actually a '4'?
 </p>
   
+<p>
+  In this section, we'll next study two commonly used classifiers: the
+  nearest neighbor classifier and the naive Bayes classifier (which is
+  already familiar to you from the spam filter in Part 3).
+</p>
 
 <h2 class="material-heading">
     k-Nearest Neighbor (k-NN) Classifier
 
 </h2>
+
+<p>
+  The <b>nearest neighbor</b> (NN) classifier is among the simplest
+  possible classifiers. In the training stage, if you can call it
+  that, all the training data is simply stored. When given a new
+  instance, x<sup>(test)</sup>, we find the training data point
+  x<sup>(NN)</sup> which is closest to x<sup>(test)</sup> and
+  output its class label y<sup>(NN)</sup> as the predicted class
+  label. An example is given in the following diagram (panels a and b).
+</p>
+
+<img src="/img/diagrams/nearestneighbors_diagram.png" width=85%>
+
+<p>
+  In the k-nearest neighbor (k-NN) classifier, the idea is very
+  similar but here it is not only the single nearest point that is
+  used. Instead, we find the k nearest training data points, and
+  choose the majority class among them as the predicted label.
+  This is illustrated in panel c of the above diagram.
+</p>
+
+<div class="hint">
+  <div class="hint__header">
+    <i class="fa fa-info-circle hint__icon"></i>Faraway, So Close!
+  </div>
+
+  <div class="hint__body">
+    
+<p>
+  An interesting question related to (among other things) the NN
+  classifier is the definition of <i>distance</i> or <i>similarity</i>
+  between instances. In the illustration above, we implicitly assumed
+  that the Euclidean distance is used. However, this may not always be
+  reasonable or even possible: the type of the input x may be, e.g.,
+  a string of characters (of possibly different lengths).</p>
+
+<p>
+  You should therefore choose the distance metric on a case-by-case
+  basis. In the MNIST digit recognition case, we discussed the
+  potential problems due to defining image similarity by counting
+  pixel-by-pixel matches -- this was concluded to be sensitive to
+  shifting or scaling the images. Fortunately, the MNIST data has
+  been preprocessed by centering and scaling the images to alleviate
+  some of these issues.
+</p>
+  
+
+  </div>
+</div>
 
 <h2 class="material-heading">
     Naive Bayes Classifier
@@ -381,8 +437,76 @@ under Materials.
 </h2>
 
 <p>
+  One classic neural network method is the Perceptron algorithm
+  introduced by Frank Rosenblatt in 1957.  A <b>perceptron</b> is a
+  feedforward neural "network" that consists of a single basic
+  neuron. It can be used as a simple classifier in binary
+  classification tasks.
 </p>
 
+<p>
+  In the algorithm, for which pseudocode is given below, each
+  misclassification leads to an update in the parameter vector w.  If
+  the predicted output of the neuron is 1 when the correct class is
+  y=&ndash;1, then the input vector x is subtracted from the weight
+  vector.  Similarly, if the predicted output is &ndash;1 when the
+  correct class is y=1, then the input vector x is added to the weight
+  vector. (Recall
+  that <a href="https://www.mathsisfun.com/algebra/vectors.html">vector
+  subtraction and addition</a> simply means the element-wise
+  subtraction or addition of the two vectors.)
+</p>
+
+<pre class="sh_java code-highlight"><code>perceptron(data): 
+1:  w = [0, ...,0]               # array of size p
+2:  while error(data, w) > 0:
+3:     (x,y) = choose_random_item(data)
+4:     z = w[0]x[0] + ... + w[p-1]x[p-1]  
+5:     if z ≥ 0 and y = -1:      # -1 classified as 1 
+6:        w = w − x              # subtract vector x
+7:     if z < 0 and y = 1:       # 1 classified as -1
+8:        w = w + x              # add vector x
+9:  return(w)
+</code></pre>
+
+<p>
+  In practice, it is very impractical to choose random training data
+  points on line 3 of the algorithm because this may lead to choosing
+  correctly labeled examples most of the time, which is a waste of
+  time since they lead to no updates in the weights.  Instead, a
+  better method is to iterate through the training data and as soon as
+  a misclassified item is found, do the required update.
+</p>
+
+<p>
+  It can be theoretically proven that if the data is <b>linearly
+    separable</b>, then the algorithm is guaranteed to stop after a 
+  finite number of steps and produce a weigth vector that correctly
+  classifies all the training instances.
+</p>
+
+<p>
+  After its discovery, the Perceptron algorithm raised a lot of
+  attention, not least because of the optimistic statements made by
+  its inventor, Frank Rosenblatt.  A classic example of AI hyperbole
+  is a New York Times article published on July 8th, 1958:
+  <blockquote>
+    The Navy revealed the embryo of an electronic computer today
+    that it expects will be able to walk, talk, see, reproduce itself
+    and be conscious of its existence. Later perceptrons will be able
+    to recognize people and call out their names and instantly
+    translate speech in one language to speech and writing in
+    another language, it was predicted.
+  </blockquote>
+  The history of the debate that eventually lead to almost complete
+  abandoning of the neural network approach in the 1960s for more then
+  two decades is extremely fascinating. The
+  article <a href="https://doi.org/10.1177%2F030631296026003005">"A
+    Sociological Study of the Official History of the Perceptrons
+    Controversy"</a> by Mikel Olazaran (Social Studies of Science, 1996).
+  Reading it during the current boom of deep learning is quite
+  thought provoking.
+</p>
 
 <div class="exercise">
   <div class="exercise__header">
@@ -480,6 +604,70 @@ under Materials.
     </div>
   </div>
 </div>
+
+<p>
+  The The main problem with the Perceptron algorithm is the assumption
+  that the data be linearly separable. In practice, this tends not to
+  be the case, and various variants of the algorithm have been
+  proposed to deal with this issue. Two main directions can be
+  separated:
+  <ol>
+    <li>
+      Applying a non-linear transformation on the original input
+      data may produce a representation where the data are 
+      linearly separable. The so called "kernel trick" leads to
+      a class of methods known collectively as <a href="https://en.wikipedia.org/wiki/Kernel_method">kernel methods</a>, among which the
+      support vector machine (SVM) is the best known.
+    <li>
+      The model can be extended by coupling a number of basic
+      neurons together to obtain neural networks that can represent
+      complex, non-linear decision boundaries. A classical example
+      of these is the <b>multilayer perceptron</b> (MLP).
+  </ol>
+</p>
+
+<p>
+  Optimizing the weights of a multilayer perceptron is much harder than
+  optimizing the weigths of a single perceptron neuron. The second
+  coming of neural networks in the late 1980s was largely due to
+  the difficulties faced by the then prevailing logic-based approach
+  (so called expert systems) but also due to the invention of the
+  <b>backpropagation algorithm</b> in the 1970s-1980s.
+</p>
+
+<div class="hint">
+  <div class="hint__header">
+    <i class="fa fa-info-circle hint__icon"></i>Meanwhile in Helsinki (1970)
+  </div>
+
+  <div class="hint__body">
+    
+<p>
+  The path(s) leading to the backpropagation algorithm are rather long
+  and winding. An interesting part of the history is related to the CS
+  department at the University of Helsinki. About three years after
+  the founding of the department in
+  1967, <a href="http://people.idsia.ch/~juergen/linnainmaa1970thesis.pdf">a
+  Master's thesis</a> was written by a student called Seppo
+  Linnainmaa. The topic of the thesis was "Cumulative rounding errors
+  of algorithms as a Taylor approximation of individual rounding
+  errors" (the thesis was written in Finnish, so this is a translation
+  of the actual title "Algorithmin kumulatiivinen py&oumL;ristysvirhe
+  yksitt&auml;isten py&ouml;ristysvirheiden
+  Taylor-kehitelm&auml;n&auml;").
+</p>
+
+<p>
+  The automatic differentiation method developed in the thesis was
+  later applied by other researchers to quantify the sensitivity of
+  the output of a multilayer neural network with respect to the
+  individual weights, which is the key idea in backpropagation.
+</p>
+
+
+  </div>
+</div>
+
 
 <h2 class="material-heading">
     Recurrent Neural Networks
