@@ -316,6 +316,39 @@ under Materials.
   </ol>
 </p>
 
+<p>
+  We will focus primarily on supervised learning, and in particular,
+  <b>classification tasks</b>. In classification, we observe in input,
+  x, and try to infer its "class" y. There can be two or more possible
+  class values. In the standard case, it is assumed that in each case,
+  exactly one class value is "correct". In other words, it is not
+  possible that an instance belongs to multiple classes (or none at
+  all) at the same time. The <b>training data</b> is in the form of a
+  set of (x,y) pairs.
+</p>
+
+<p><b>Classification error</b> means the fraction of incorrect
+  classifications, i.e., cases where our classifier outputs the wrong
+  class. It is important to keep in mind that the classification error
+  can be quite different in the training data and a separate <b>test
+    set</b>. This is related to the so called <a href="https://en.wikipedia.org/wiki/Overfitting">overfitting</a> phenomenon.
+</p>
+
+<p>
+  Good examples of classification tasks include: spam filtering (input
+  is set of words in the message, class is spam/ham) and handwritten
+  digit recognition (input is a bitmap image, class is 0,...,9).
+</p>
+<img src="../img/diagrams/MNISTsamples-80d9261b.png" width=88%>
+
+<p>
+  Above you can see samples of handwritten images from the very
+  commonly used <a href="http://yann.lecun.com/exdb/mnist/">MNIST</a>
+  dataset. The correct label (decided by a human) is shown above
+  each image.
+</p>
+  
+
 <h2 class="material-heading">
     k-Nearest Neighbor (k-NN) Classifier
 
@@ -346,6 +379,10 @@ under Materials.
     The Perceptron Algorithm
 
 </h2>
+
+<p>
+</p>
+
 
 <div class="exercise">
   <div class="exercise__header">
