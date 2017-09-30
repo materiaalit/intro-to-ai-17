@@ -264,6 +264,86 @@ under Materials.
   Naive Bayes Classifier
 <% end %>
 
+<p>
+  The naive Bayes classifier is actually already familiar to you from
+  the spam filter problem in Part 3. Here we will see how the same
+  idea can be applied to handwritten digit recognition. In the
+  spam filter application, the class variable was binary (spam/ham) and
+  the feature variables were the words in the message. In the
+  digit recognition application, the class variable with have ten
+  different values (0,...,9), and the feature variables will be the
+  28 &times 28 = 784 pixel values (binary black/white) in the bitmap
+  image.
+</p>
+
+<p>
+  Here too, the feature variables are assumed to be independent of
+  each other given the class value, i = 0,...,9. In the training
+  stage, the algorithm estimates the conditional probabilities of each
+  pixel being white, X<sub>j</sub>=1, in an image from class i, for each
+  class and each pixel. In the same manner as in the spam filter case,
+  these probabilities can be estimated by empirical frequencies:<br><br> 
+  P(X<sub>j</sub> = 1 | Class = i) = #{X<sub>j</sub>=1, Class=i} / #{Class=i},
+  <br><br>
+  where #{X<sub>j</sub> = 1, Class=i} is the number of training instances
+  of class i where the j'th pixel is white, and #{Class=i} is the 
+  overall number of class i instances.
+</p>
+
+<p>
+  The estimation can be implemented by the following pseudocode:
+</p>
+
+<% partial 'partials/code_highlight' do %>
+train_NB(data):
+1:  for each class i in 0,...,9:
+2:     model.prior[i] = #{class=i} / n
+3:     for each pixel j in 0,...,783: 
+4:        model.cpt[i,j] = #{Xj=1, class=i} / #{class=i}
+5:  return model 
+<% end %>
+
+<p>
+  The estimated values are stored as the array <code>cpt</code> in
+  a <code>model</code> object. The array <code>prior</code> stores
+  the estimates of the probabilities P(Class=i) for all i=0,...,9.
+</p>
+
+<p> Given a new image with pixel values
+  x<sub>1</sub>,...,x<sub>784</sub> (so, for example, 0,0,0,1, if the first
+  three pixels are black and the fourth is white) the classifier computes 
+  the joint probability<br><br> 
+  P(Class=i, X<sub>1</sub>=x<sub>i</sub>,...,X<sub>784</sub>=x<sub>784</sub>) 
+  = P(Class=i) P(X<sub>1</sub>=x<sub>i</sub> | Class=i) &times; ...
+  &times; P(X<sub>784</sub>=x<sub>784</sub> | Class=i)
+  <br><br> 
+  The sum of these probabilities over the ten class values,
+  Z, is the annoying denominator in the Bayes rule, so we can obtain
+  the posterior probabilities by dividing the above joint
+  probabilities by Z.
+</p>
+
+<p>
+  Pseudocode for doing computing the posterior probabilities is
+  below.
+</p>
+
+
+<% partial 'partials/code_highlight' do %>
+test(model, image):
+1:  Z = 0; posterior = empty array 
+2:  for each class i in 0,...,9:
+3:     posterior[i] = model.p[i]
+4:     for each feature j in 0,...,783: 
+5:        if image[j] = 1:
+6:           posterior[i] = posterior[i] * model.cpt[i,j]
+7:        else:
+8:           posterior[i] = posterior[i] * (1-model.cpt[i,j])
+9:     Z = Z + posterior[i]
+10: for each class i in 0,...,9:
+11:    posterior[i] = posterior[i] / Z
+12: return posterior
+<% end %>  
 
 <% partial 'partials/material_heading' do %>
   Neural Networks
