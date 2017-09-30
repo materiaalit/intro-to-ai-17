@@ -336,7 +336,7 @@ train_NB(data):
 
 
 <% partial 'partials/code_highlight' do %>
-test(model, image):
+posterior_NB(model, image):
 1:  Z = 0; posterior = empty array 
 2:  for each class i in 0,...,9:
 3:     posterior[i] = model.p[i]
