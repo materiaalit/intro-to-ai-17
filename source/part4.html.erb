@@ -270,20 +270,22 @@ under Materials.
   idea can be applied to handwritten digit recognition. In the
   spam filter application, the class variable was binary (spam/ham) and
   the feature variables were the words in the message. In the
-  digit recognition application, the class variable with have ten
-  different values (0,...,9), and the feature variables will be the
+  digit recognition application, the class variable has ten
+  different values (0,...,9), and the feature variables are the
   28 &times 28 = 784 pixel values (binary black/white) in the bitmap
-  image.
+  images. We store the pixel values in a single vector and use the 
+  value X<sub>j</sub>=1 to indicate that the j'th pixel is white.
 </p>
 
 <p>
   Here too, the feature variables are assumed to be independent of
   each other given the class value, i = 0,...,9. In the training
   stage, the algorithm estimates the conditional probabilities of each
-  pixel being white, X<sub>j</sub>=1, in an image from class i, for each
-  class and each pixel. In the same manner as in the spam filter case,
-  these probabilities can be estimated by empirical frequencies:<br><br> 
-  P(X<sub>j</sub> = 1 | Class = i) = #{X<sub>j</sub>=1, Class=i} / #{Class=i},
+  pixel being white in an image of class i for each class and each
+  pixel. In the same manner as in the spam filter case, these
+  probabilities can be estimated as empirical frequencies:<br><br>
+  P(X<sub>j</sub> = 1 | Class = i) = #{X<sub>j</sub>=1, Class=i} /
+  #{Class=i},
   <br><br>
   where #{X<sub>j</sub> = 1, Class=i} is the number of training instances
   of class i where the j'th pixel is white, and #{Class=i} is the 
@@ -291,7 +293,7 @@ under Materials.
 </p>
 
 <p>
-  The estimation can be implemented by the following pseudocode:
+  This estimator is implemented by the following pseudocode:
 </p>
 
 <% partial 'partials/code_highlight' do %>
@@ -299,7 +301,7 @@ train_NB(data):
 1:  for each class i in 0,...,9:
 2:     model.prior[i] = #{class=i} / n
 3:     for each pixel j in 0,...,783: 
-4:        model.cpt[i,j] = #{Xj=1, class=i} / #{class=i}
+4:        model.cpt[i,j] = #{X<sub>j</sub>=1, class=i} / #{class=i}
 5:  return model 
 <% end %>
 
@@ -310,17 +312,21 @@ train_NB(data):
 </p>
 
 <p> Given a new image with pixel values
-  x<sub>1</sub>,...,x<sub>784</sub> (so, for example, 0,0,0,1, if the first
+  x<sub>0</sub>,...,x<sub>783</sub> (so, for example, 0,0,0,1,... if the first
   three pixels are black and the fourth is white) the classifier computes 
   the joint probability<br><br> 
-  P(Class=i, X<sub>1</sub>=x<sub>i</sub>,...,X<sub>784</sub>=x<sub>784</sub>) 
-  = P(Class=i) P(X<sub>1</sub>=x<sub>i</sub> | Class=i) &times; ...
-  &times; P(X<sub>784</sub>=x<sub>784</sub> | Class=i)
+  P(Class=i, X<sub>0</sub>=x<sub>0</sub>,...,X<sub>783</sub>=x<sub>783</sub>) 
+  = P(Class=i) P(X<sub>0</sub>=x<sub>0</sub> | Class=i) &times; ...
+  &times; P(X<sub>783</sub>=x<sub>783</sub> | Class=i)
   <br><br> 
+  for all i=0,...,9.
   The sum of these probabilities over the ten class values,
   Z, is the annoying denominator in the Bayes rule, so we can obtain
   the posterior probabilities by dividing the above joint
-  probabilities by Z.
+  probabilities by Z:<br><br>
+  P(Class=i | X<sub>0</sub>=x<sub>0</sub>,...,X<sub>783</sub>=x<sub>783</sub>)
+  = P(Class=i) P(X<sub>0</sub>=x<sub>0</sub> | Class=i) &times; ...
+  &times; P(X<sub>783</sub>=x<sub>783</sub> | Class=i) / Z
 </p>
 
 <p>
@@ -345,6 +351,13 @@ test(model, image):
 12: return posterior
 <% end %>  
 
+<p>
+  Note that since the pixels can only take one of two possible values
+  (white or black), the probability of a pixel being black is obtained
+  as one minus the probability of a white pixel (line 8 in the
+  pseudocode).
+</p>
+
 <% partial 'partials/material_heading' do %>
   Neural Networks
 <% end %>
@@ -363,7 +376,7 @@ test(model, image):
 
 <p>
   One classic neural network method is the Perceptron algorithm
-  introduced by Frank Rosenblatt in 1957.  A <b>perceptron</b> is a
+  introduced by Rosenblatt in 1957.  A <b>perceptron</b> is a
   feedforward neural "network" that consists of a single basic
   neuron. It can be used as a simple classifier in binary
   classification tasks.
@@ -396,7 +409,7 @@ perceptron(data): 
 <% end %>
 
 <p>
-  In practice, it is very impractical to choose random training data
+  In practice, it is impractical to choose random training data
   points on line 3 of the algorithm because this may lead to choosing
   correctly labeled examples most of the time, which is a waste of
   time since they lead to no updates in the weights.  Instead, a
@@ -413,25 +426,33 @@ perceptron(data): 
 
 <p>
   After its discovery, the Perceptron algorithm raised a lot of
-  attention, not least because of the optimistic statements made by
+  attention, not least because of optimistic statements made by
   its inventor, Frank Rosenblatt.  A classic example of AI hyperbole
   is a New York Times article published on July 8th, 1958:
-  <blockquote>
-    <i>The Navy revealed the embryo of an electronic computer today
-    that it expects will be able to walk, talk, see, reproduce itself
-    and be conscious of its existence. Later perceptrons will be able
-    to recognize people and call out their names and instantly
-    translate speech in one language to speech and writing in
-    another language, it was predicted.</i>
+  <blockquote style="margin-left: 40px;">
+    <p>The Navy revealed the embryo of an electronic computer today
+      that it expects will be able to walk, talk, see, reproduce itself
+      and be conscious of its existence. Later perceptrons will be able
+      to recognize people and call out their names and instantly
+      translate speech in one language to speech and writing in
+      another language, it was predicted.</p>
   </blockquote>
   The history of the debate that eventually lead to almost complete
-  abandoning of the neural network approach in the 1960s for more then
+  abandoning of the neural network approach in the 1960s for more than
   two decades is extremely fascinating. The
   article <a href="https://doi.org/10.1177%2F030631296026003005">"A
-    Sociological Study of the Official History of the Perceptrons
-    Controversy"</a> by Mikel Olazaran (Social Studies of Science, 1996).
-  Reading it during the current boom of deep learning is quite
-  thought provoking.
+  Sociological Study of the Official History of the Perceptrons
+  Controversy"</a> by Mikel Olazaran (Social Studies of Science, 1996)
+  reviews the events from a sociology of science point of view.
+  Reading it today is quite thought provoking -- and slightly
+  chilling. Take for example a September 29th
+  2017 <a href="https://www.technologyreview.com/s/608911/is-ai-riding-a-one-trick-pony/">article
+  in the MIT Technology Review</a>, where Jordan Jacobs, co-founder of
+  a multimillion dollar <a href="http://vectorinstitute.ai/">Vector
+  institute for AI</a> compares Geoffrey Hinton (who played a big part
+  in the discovery of the power of the backpropagation algorithm in
+  the 1980s, and is a figure-head of the current deep learning boom)
+  to Einstein. 
 </p>
 
 <% partial 'partials/exercise', locals: { name: 'Perceptron (programming) (2p)' } do %>
