@@ -614,8 +614,8 @@ under Materials.
   Project</a> for modelling the rat brain, and most <i>infamously</i>,
   the <a href="https://www.youtube.com/watch?v=JqMpGrM5ECo">Human
   Brain Project</a>, which promised about 10 years ago that "the
-  mysteries of the mind can be solved -- soon". Such promises turned
-  out to be more based on empty promises with the goal of
+  mysteries of the mind can be solved -- soon". The Human Brain
+  Project turned out to be based more on empty promises with the goal of
   raising <a href="https://www.scientificamerican.com/article/why-the-human-brain-project-went-wrong-and-how-to-fix-it/">a
   billion dollars</a> rather than solid scientific evidence.
 </p>
@@ -623,9 +623,9 @@ under Materials.
 <p>
   Most of the time, however, the goal is not to simulate a natural
   neural network but to implement AI and machine learning solutions.
-  Therefore, it is not essential to try to replicate the details.
-  In practice, we usually build ANNs that differ
-  from natural neural networks in the following ways:
+  To build working solutions, it is not essential to replicate the
+  details.  In practice, we usually build ANNs that differ from
+  natural neural networks in at least the following ways:
   <ol>
     <li>
       computation in ANNs usually <b>synchronous</b>: all neurons complete
@@ -651,7 +651,7 @@ under Materials.
 <p>
   The basic artificial neuron model involves a set of adaptive
   parameters, called  <b>weights</b>. These weights are used as
-  multipliers for <b>inputs</b> of the neuron. We denote the
+  multipliers on the inputs of the neuron. We denote the
   weighted sum of the inputs as:<br><br>
   z = &Sigma;<sub>j=1,...,n</sub> w<sub>j</sub> x<sub>j</sub>,
   <br><br> where n is the number of inputs. The weights are
@@ -680,10 +680,10 @@ under Materials.
 <p>
   <b>Learning</b> or adaptation in the network occurs when the weights
   are adjusted so as to make the network produce the correct
-  ouputs. Optimizing the weights manually is in practice out of the
-  question and learning ANNs is in practice a machine learning
-  problem.  Even as a machine learning problem, the optimization
-  problems in ANNs are among the hardest.
+  ouputs. Optimizing the weights manually is out of the question and
+  learning ANNs is a machine learning problem.  Even as a machine
+  learning problem, the optimization problems in ANNs are among the
+  hardest.
 </p>
 
 <p>
@@ -691,7 +691,7 @@ under Materials.
   <ol>
     <li>
       feedforward networks, where the information always flows in one
-      diretion (from the inputs toward the output layer)
+      diretion (from an input layer toward an output layer)
     <li>
       recurrent networks, which include feedback loops
     <li>
@@ -709,13 +709,13 @@ under Materials.
   theoretical analysis are feedforward networks. Often the network
   architecture is composed of <b>layers</b>. The input layer consists
   of neurons that get their inputs directly from the data. So for
-  example, in an image recognition network, the input layer would use
-  the pixel values of the input image as the inputs of the input
+  example, in an image recognition task, the input layer would use the
+  pixel values of the input image as the inputs of the input
   layer. The network typically also has <b>hidden layers</b> that use
-  the other neurons' outputs are their input, and likewise their
-  output is used as the input to other neurons. Finally, the output
-  layer produces the output of the whole network. All the neurons on a
-  given layer get inputs from neurons on only a single (lower) layer.
+  the other neurons' outputs as their input, and whose output is used
+  as the input to other layers of neurons. Finally, the output layer
+  produces the output of the whole network. All the neurons on a given
+  layer get inputs from neurons on only a single (lower) layer.
 </p>
 
 <p>
@@ -725,16 +725,19 @@ under Materials.
 </p>
 
 <h3 class="material-heading">
-    Feedforward Networks
+    Perceptron: The Mother of all ANNs
 
 </h3>
 
 <p>
-  One classic neural network method is the Perceptron algorithm
-  introduced by Rosenblatt in 1957.  A <b>perceptron</b> is a
-  feedforward neural network that consists of a single basic
-  neuron. It can be used as a simple classifier in binary
-  classification tasks.
+  A <b>perceptron</b> is a feedforward neural network that consists of
+  a single basic neuron. It was among the very first formal models of
+  neural computation and because of its fundamental role in the
+  history of neural networks, it wouldn't be unfair to call it the
+  "Mother of all Artificial Neural Networks". It can be used as a
+  simple classifier in binary classification tasks. A classic neural
+  network method is the Perceptron algorithm, introduced by Rosenblatt
+  in 1957, which can be used to train a perceptron.
 </p>
 
 <p>
