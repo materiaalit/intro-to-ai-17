@@ -984,11 +984,128 @@ under Materials.
 
 </h2>
 
+<p>
+  As stated above, recurrent neural networks involve feedback loops
+  so they cannot be organized in an input layer, a number of hidden
+  layers, and an output layer.
+</p>
+
+<p>
+  A classic example of this class of networks is the <b>Hopfield
+    network</b>. In a Hopfield network, the neurons are binary
+    (&ndash1 or 1) and they are connected to each other by symmetric
+    associative weights w<sub>i,j</sub>, which characterizes the
+    strength of the association between neurons i and j. The
+    association can be either positive or negative.
+</p>
+
+<p>
+  In the learning stage, a number of joint states of all the neurons
+  are used as training data, and the weights are fixed based on the
+  number of times a pair of neurons are in the same state in the
+  training data. The learning rule is given by<br><br>
+  w<sub>i,j</sub> = &Sigma<sub>k=1,...,n</sub> q<sub>ik</sub>
+  q<sub>jk</sub> / n,<br><br>
+  where q<sub>ik</sub>=1 if neuron i is in state 1 in training example
+  i, and q<sub>ik</sub>=&ndash;1 otherwise.
+</p>
+
+<p>
+  The neuron states can be given, for example, by pixels in a 
+  black-and-white image like in the MNIST task.
+</p>
+
+<p>
+  After the learning stage, the network can be initialized by setting
+  the neuron states in specific states. However, the neurons are not
+  fixed to these states, but they are allowed to choose new states
+  according to the current states of the other neurons and the
+  associative weights w<sub>i,j</sub>. The specific learning rule
+  is in fact the very same as the one used in the perceptron neuron,
+  i.e., a linear combination of the other neurons states weighted
+  by the weights passed through a step function. After all neurons
+  have chosen their new state according to this rule, the same
+  process is repeated so that the inputs of the neurons are given
+  by the chosen new states.
+</p>
+
+<p>
+  The above process tends to converge rapidly to a fixed point which
+  can be taken as the output of the network.
+</p>
+
+<p>
+  The Hopfield network can be used to implement an associative memory
+  which retrieves typical patterns appearing in the training data given
+  a partial match in the initial configuration. In practice, the
+  Hopfield model is more significant as a tool to model human memory
+  than an actual method for doing anything practical.
+</p>
+
+<p>
+  A practically more relevant ANN model is the <b>Boltzmann
+  machine</b> which is essentially a stochastic version of the
+  Hopfield network.  The main differences include the fact that the
+  states of only a part of the neurons need to be given in the
+  training data, and the learning and activation rules are 
+  different.
+</p>
+
+<div class="hint">
+  <div class="hint__header">
+    <i class="fa fa-info-circle hint__icon"></i>What Should I Learn about Neural Networks?
+  </div>
+
+  <div class="hint__body">
+    
+<p>
+  The learning objectives related to neural networks are on a
+  relatively high level: you should understand the basic idea (the
+  learning method and the activation principles) in different kinds of
+  ANNs. You should also learn what their main applications are. An
+  exception is the perceptron classifier, which you should study in
+  more detail -- that's why there is an exercise about it.
+</p>
+
+
+  </div>
+</div>
+
+
 <h2 class="material-heading">
     The Self-Organizing Map (SOM)
 
 </h2>
 
+<p>
+  A third category or ANNs is the <b>self-organizing map</b> (SOM). In
+  fact, this "category" is really made of a single method, developed
+  by the Finnish neural network pioneer Teuvo Kohonen in the early
+  1980s.
+</p>
+
+<p>
+  The neurons in a SOM are organized in a regular two-dimensional
+  grid.  Each neuron has a weight or <b>state vector</b>. When an
+  input, which is in the form of the same kind of vector as the state
+  vectors, is presented, the neuron whose state vector is closest (in
+  Euclidean distance) to the input vector is activated. This neuron is
+  called the "winner".  The learning rule modifies the state of the
+  winner so that it becomes even more similar to the input vector. An
+  important feature of the learning procedure is that also the neurons
+  that are next to the winner in the grid, which we call
+  the <b>neighbors</b> of the winner, are modified in a similar
+  fashion.
+</p>
+
+<p>
+  A consequence of the learning procedure is that the state vectors of
+  neurons that are located near each other in the grid tend to become
+  more and more similar. Eventually, the result is a map where similar
+  inputs activate nearby neurons. A typical application of the SOM is
+  data visualization.
+</p>
+  
 
         </div>
       </div>
