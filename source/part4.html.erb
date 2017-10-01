@@ -587,9 +587,14 @@ posterior_NB(model, image):
 </p>
 
 <p>
-  In the algorithm, for which pseudocode is given below, each
-  misclassification leads to an update in the parameter vector w.  If
-  the predicted output of the neuron is 1 when the correct class is
+  The perceptron neuron is simply the above basic neuron model with
+  the step function as the activation function.
+</p>
+
+<p>
+  In the Perceptron algorithm, for which pseudocode is given below,
+  each misclassification leads to an update in the parameter vector w.
+  If the predicted output of the neuron is 1 when the correct class is
   y=&ndash;1, then the input vector x is subtracted from the weight
   vector.  Similarly, if the predicted output is &ndash;1 when the
   correct class is y=1, then the input vector x is added to the weight
@@ -765,7 +770,7 @@ perceptron(data): 
   attention, not least because of optimistic statements made by
   its inventor, Frank Rosenblatt.  A classic example of AI hyperbole
   is a New York Times article published on July 8th, 1958:
-  <blockquote style="margin-left: 40px;">
+  <blockquote style="margin-left: 40px; margin-right: 60px; background-color: #ecf0f1">
     <p>The Navy revealed the embryo of an electronic computer today
       that it expects will be able to walk, talk, see, reproduce itself
       and be conscious of its existence. Later perceptrons will be able
@@ -785,13 +790,27 @@ perceptron(data): 
   2017 <a href="https://www.technologyreview.com/s/608911/is-ai-riding-a-one-trick-pony/">article
   in the MIT Technology Review</a>, where Jordan Jacobs, co-founder of
   a multimillion dollar <a href="http://vectorinstitute.ai/">Vector
-  institute for AI</a> compares Geoffrey Hinton (who played a big part
-  in the discovery of the power of the backpropagation algorithm in
-  the 1980s, and is a figure-head of the current deep learning boom)
-  to Einstein. 
+  institute for AI</a> compares Geoffrey Hinton (a figure-head of the
+  current deep learning boom) to Einstein because of his contributions
+  to the discovery of the power of the backpropagation algorithm in
+  the 1980s and later.
 </p>
 
+<p>
+  According to Hinton and Jacobs, we are on the brink of the final
+  breakthrough. Sound familiar?
+</p>
 
+<p>
+  Please note that neural network enthusiasts are not at all the only
+  ones inclined towards optimism. The rise and fall of the logic-based
+  "expert systems" approach to AI had all the same hallmark features
+  of an AI-hype, including promising results in restricted domains,
+  gullible journalists, clueless investors in their cabinets, and
+  too much speed to notice how "minor obstacles" were piling up and
+  becoming big problems. The outcome both in the early 1960s and late
+  1980s was a collapse in the research funding, "AI Winter".
+</p>
 
 <% partial 'partials/material_sub_heading' do %>
   Recurrent Neural Networks
