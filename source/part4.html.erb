@@ -167,11 +167,35 @@ under Materials.
 <% end %>
 
 <p>
+  It has been long understood that <b>learning</b> is a key element of
+  intelligence. This holds both for natural intelligence -- we all get
+  smarter by learning -- and artificial intelligence. In the latter
+  case, learning is called <b>machine learning</b>.
+</p>
+
+<p>
+  The roots of machine learning are in statistics, which can also be
+  thought of as the art of extracting knowledge from data. Especially
+  methods such as linear regression and Bayesian statistics, which are
+  both already more than two centuries old (!), are even today at the
+  heart of machine learning. For a brief history, see
+  the <a href="https://en.wikipedia.org/wiki/Timeline_of_machine_learning">timeline
+  of machine learning</a> (Wikipedia).
+</p>
+
+<p>
+  The area of machine learning is often divided according to the kinds
+  of problems being attacked. A rough categorisation is as follows:
   <ol>
     <li>Supervised learning
     <li>Unsupervised learning
     <li>Reinforcement learning
+    <li>...
   </ol>
+  The categories are somewhat overlapping or fuzzy (pardon my French),
+  so a particular method can sometimes be hard to label. For example,
+  as the name suggests, so called <i>semisupervised</i> learning is
+  partly supervised and partly unsupervised.
 </p>
 
 <p>
@@ -189,7 +213,9 @@ under Materials.
   classifications, i.e., cases where our classifier outputs the wrong
   class. It is important to keep in mind that the classification error
   can be quite different in the training data and a separate <b>test
-    set</b>. This is related to the so called <a href="https://en.wikipedia.org/wiki/Overfitting">overfitting</a> phenomenon.
+    set</b>. This is related to the so called <a href="https://en.wikipedia.org/wiki/Overfitting">overfitting</a> phenomenon. More about this very
+  important topic on other courses such as <i>Introduction to Machine
+    Learning</i>.
 </p>
 
 <p>
@@ -209,9 +235,11 @@ under Materials.
 </p>
   
 <p>
-  In this section, we'll next study two commonly used classifiers: the
-  nearest neighbor classifier and the naive Bayes classifier (which is
-  already familiar to you from the spam filter in Part 3).
+  In this part, we'll study three classic and commonly used
+  classifiers: first, the nearest neighbor classifier, second, the
+  naive Bayes classifier (which is already familiar to you from the
+  spam filter in Part 3), and third, the perceptron neural network
+  classifier.
 </p>
 
 <% partial 'partials/material_sub_heading' do %>
@@ -257,7 +285,7 @@ under Materials.
   been preprocessed by centering and scaling the images to alleviate
   some of these issues.
 </p>
-  
+
 <% end %>
 
 <% partial 'partials/material_sub_heading' do %>
@@ -275,6 +303,8 @@ under Materials.
   28 &times 28 = 784 pixel values (binary black/white) in the bitmap
   images. We store the pixel values in a single vector and use the 
   value X<sub>j</sub>=1 to indicate that the j'th pixel is white.
+  The value X<sub>j</sub>=&ndash;1 is used for the black color
+  for convenience.
 </p>
 
 <p>
@@ -312,8 +342,8 @@ train_NB(data):
 </p>
 
 <p> Given a new image with pixel values
-  x<sub>0</sub>,...,x<sub>783</sub> (so, for example, 0,0,0,1,... if the first
-  three pixels are black and the fourth is white) the classifier computes 
+  x<sub>0</sub>,...,x<sub>783</sub> (so, for example, &ndash;1,&ndash;1,&ndash;1,1,... if the first
+  three pixels are black and the fourth is white, etc) the classifier computes 
   the joint probability<br><br> 
   P(Class=i, X<sub>0</sub>=x<sub>0</sub>,...,X<sub>783</sub>=x<sub>783</sub>) 
   = P(Class=i) P(X<sub>0</sub>=x<sub>0</sub> | Class=i) &times; ...
@@ -356,6 +386,12 @@ posterior_NB(model, image):
   (white or black), the probability of a pixel being black is obtained
   as one minus the probability of a white pixel (line 8 in the
   pseudocode).
+</p>
+
+<p>
+  To obtain a classifier that outputs a single class value, instead of
+  the full posterior probability, we can pick the <b>maximum a
+  posteriori</b> class value, i.e., the most probable class.
 </p>
 
 <% partial 'partials/material_heading' do %>
@@ -475,11 +511,15 @@ perceptron(data): 
 </p>
 
 <p>
-  Given a test example, X<sup>(test)</sup>, the classifier will find the nearest
-  training data point, X<sup>(NN)</sup>, and return its class label
-  Y<sup>(NN)</sup>. Notice that unlike the Perceptron, or most other classifiers,
-  the nearest neighbor classifier doesn't really involve a training stage.
-  All the action happens in the classification (testing) stage.
+<!--  Given a test example, x<sup>(test)</sup>, the classifier will find
+  the nearest training data point, X<sup>(NN)</sup>, and return its
+  class label Y<sup>(NN)</sup>. -->
+  Recall that unlike the Perceptron, or
+  most other classifiers, the nearest neighbor classifier doesn't
+  really involve a training stage.  All the action happens in the
+  classification (testing) stage. This style of methods are sometimes
+  called "lazy learning": thou shalt not let it be your inspiration in real
+  life!
 </p>
 
 <p>
