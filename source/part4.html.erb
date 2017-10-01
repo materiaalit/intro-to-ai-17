@@ -407,7 +407,7 @@ posterior_NB(model, image):
 </p>
 
 <% partial 'partials/material_sub_heading' do %>
-  What is so Special About Neural Networks?
+  What is so Special about Neural Networks?
 <% end %>
 
 <p>
@@ -472,36 +472,36 @@ posterior_NB(model, image):
 <p>
   Most of the time, however, the goal is not to simulate a natural
   neural network but to implement AI and machine learning solutions.
-  Therefore, it is not essential to try to replica the details.
+  Therefore, it is not essential to try to replicate the details.
   In practice, we usually build ANNs that differ
   from natural neural networks in the following ways:
   <ol>
     <li>
-      computation in ANNs usually synchronous: all neurons complete
+      computation in ANNs usually <b>synchronous</b>: all neurons complete
       their computation cycle before the proceeding to the next
-      iteration
+      iteration, whereas natural systems tend to be asynchronous
     <li>
       signaling in ANNs is usually continuous-valued as opposed to the
       binary (on/off or fire/don't fire) signals between natural neurons
     <li>
-      natural neural networks exhibit complex feedback loops,
-      commonly referred to as <b>recurrent networks</b> -- only 
-      specialized ANNs have this feature (see below)
+      natural neural networks exhibit complex feedback loops
+      -- only specialized ANNs known as <b>recurrent networks</b> have
+      this feature (see below)
     <li>
       ANNs are often much smaller in scale than natural nervous systems
   </ol>
 </p>
 
 <% partial 'partials/material_sub_heading' do %>
-  Weights and Activation
+  Weights, Activation and Adaptation
 <% end %>
 
 <p>
   The basic artificial neuron model involves a set of adaptive
   parameters, called  <b>weights</b>. These weights are used as
-  multipliers for <b>inputs</b> of the neuron. we denote the
+  multipliers for <b>inputs</b> of the neuron. We denote the
   weighted sum of the inputs as:<br><br>
-  z = &Sigma;<sub>j=1</sub><sup>n</sup> w<sub>j</sub> x<sub>j</sub>,
+  z = &Sigma;<sub>j=1,...,n</sub> w<sub>j</sub> x<sub>j</sub>,
   <br><br> where n is the number of inputs. The weights are
   real-valued, and the inputs can be either binary or real-values.</p>
 
@@ -513,25 +513,25 @@ posterior_NB(model, image):
     <li>
       step function: f(z) = &ndash;1, if z &lt; 0, and 1 otherwise
     <li>
-      sigmoid function: f(z) = 1/(1+e<sup>-z</sup>)
+      sigmoid function: f(z) = 1/(1+e<sup>&ndash;z</sup>)
   </ol>
 </p>
 
 <p>
   The output of a neuron can then act as the input of other neurons,
   whose outputs can be the input to yet other neurons, etc. The output
-  of the whole network can then be obtained as the output of a certain
+  of the whole network is obtained as the output of a certain
   subset of the neurons, which are called the <b>output layer</b>,
   although not all neural architectures can be divided in such a way.
 </p>
 
 <p>
-  <b>Learning</b> or adaptation in the network occurs when the
-  weights are adjusted so that the network output is as we like.
-  Optimizing the weights manually is in practice out of the question
-  and learning ANNs is in practice a machine learning problem.
-  Even as a machine learning problem, ANNs are among the hardest
-  optimization tasks.
+  <b>Learning</b> or adaptation in the network occurs when the weights
+  are adjusted so as to make the network produce the correct
+  ouputs. Optimizing the weights manually is in practice out of the
+  question and learning ANNs is in practice a machine learning
+  problem.  Even as a machine learning problem, the optimization
+  problems in ANNs are among the hardest.
 </p>
 
 <p>
@@ -551,6 +551,25 @@ posterior_NB(model, image):
   Feedforward Networks
 <% end %>
 
+<p>
+  The simplest kind of ANNs from the point of view of their
+  theoretical analysis are feedforward networks. Often the network
+  architecture is composed of <b>layers</b>. The input layer consists
+  of neurons that get their inputs directly from the data. So for
+  example, in an image recognition network, the input layer would use
+  the pixel values of the input image as the inputs of the input
+  layer. The network typically also has <b>hidden layers</b> that use
+  the other neurons' outputs are their input, and likewise their
+  output is used as the input to other neurons. Finally, the output
+  layer produces the output of the whole network. All the neurons on a
+  given layer get inputs from neurons on only a single (lower) layer.
+</p>
+
+<p>
+  We will return to multilayer networks in a little while, but first
+  we'll study the simplest possible neural "network" which consists of
+  a single neuron.
+</p>
 
 <% partial 'partials/material_sub_sub_heading' do %>
   Feedforward Networks
@@ -559,7 +578,7 @@ posterior_NB(model, image):
 <p>
   One classic neural network method is the Perceptron algorithm
   introduced by Rosenblatt in 1957.  A <b>perceptron</b> is a
-  feedforward neural "network" that consists of a single basic
+  feedforward neural network that consists of a single basic
   neuron. It can be used as a simple classifier in binary
   classification tasks.
 </p>
