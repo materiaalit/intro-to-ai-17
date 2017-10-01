@@ -731,6 +731,14 @@ perceptron(data): 
 </p>
 
 <p>
+  An illustration of how the second option leads to non-linear
+  decision boundaries is given by the following video:
+  <ul>
+    <li> Vimeo: <a href="vimeo.com/7932084">Two Spirals Problem</a>
+  </ul>
+</p>
+
+<p>
   Optimizing the weights of a multilayer perceptron is much harder than
   optimizing the weigths of a single perceptron neuron. The second
   coming of neural networks in the late 1980s was largely due to
@@ -825,7 +833,7 @@ perceptron(data): 
 <p>
   A classic example of this class of networks is the <b>Hopfield
     network</b>. In a Hopfield network, the neurons are binary
-    (&ndash1 or 1) and they are connected to each other by symmetric
+    (&ndash;1 or 1) and they are connected to each other by symmetric
     associative weights w<sub>i,j</sub>, which characterizes the
     strength of the association between neurons i and j. The
     association can be either positive or negative.
@@ -836,10 +844,10 @@ perceptron(data): 
   are used as training data, and the weights are fixed based on the
   number of times a pair of neurons are in the same state in the
   training data. The learning rule is given by<br><br>
-  w<sub>i,j</sub> = &Sigma<sub>k=1,...,n</sub> q<sub>ik</sub>
+  w<sub>i,j</sub> = &Sigma;<sub>k=1,...,n</sub> q<sub>ik</sub>
   q<sub>jk</sub> / n,<br><br>
   where q<sub>ik</sub>=1 if neuron i is in state 1 in training example
-  i, and q<sub>ik</sub>=&ndash;1 otherwise.
+  k, and q<sub>ik</sub>=&ndash;1 otherwise.
 </p>
 
 <p>
@@ -855,23 +863,24 @@ perceptron(data): 
   associative weights w<sub>i,j</sub>. The specific learning rule
   is in fact the very same as the one used in the perceptron neuron,
   i.e., a linear combination of the other neurons states weighted
-  by the weights passed through a step function. After all neurons
-  have chosen their new state according to this rule, the same
-  process is repeated so that the inputs of the neurons are given
-  by the chosen new states.
+  by the weights passed through a step function.
 </p>
 
 <p>
-  The above process tends to converge rapidly to a fixed point which
-  can be taken as the output of the network.
+  After all neurons have chosen their new state according to this
+  rule, the same process is repeated so that the inputs of the neurons
+  are given by the chosen new states.  The process tends to converge
+  rapidly to a fixed point which can be taken as the output of the
+  network.
 </p>
 
 <p>
   The Hopfield network can be used to implement an associative memory
-  which retrieves typical patterns appearing in the training data given
+  that retrieves typical patterns appearing in the training data given
   a partial match in the initial configuration. In practice, the
-  Hopfield model is more significant as a tool to model human memory
-  than an actual method for doing anything practical.
+  Hopfield network is more significant as a conceptual model of how
+  human or animal memory works than a technical tool for practical
+  tasks.
 </p>
 
 <p>
@@ -881,6 +890,15 @@ perceptron(data): 
   states of only a part of the neurons need to be given in the
   training data, and the learning and activation rules are 
   different.
+</p>
+
+<p>
+  An nice illustration of using the Boltzmann machine to reconstruct
+  incomplete images is given in the following video:
+  <ul>
+    <li>
+      Vimeo: <a href="vimeo.com/38359771">The Shape Boltzmann Machine</a>
+  </ul>
 </p>
 
 <% partial 'partials/hint', locals: { name: 'What Should I Learn about Neural Networks?' } do %>
