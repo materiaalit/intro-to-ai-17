@@ -552,7 +552,7 @@ under Materials.
 <p>
   Our next topic tends to attract more interest than many of the
   other topics on this course. Perhaps it is the hope to understand
-  out own mind, which emerges from neural processing in our brain
+  out own mind, which emerges from neural processing in our brain,
   that makes <b>neural networks</b> so interesting.
 </p>
 
@@ -568,7 +568,7 @@ under Materials.
   intelligence, we need to simulate higher-level thought processes,
   and in particular, manipulation of symbols representing certain
   concrete or abstract concepts using logical rules. The argument for
-  neural computation is that if we simulating the
+  neural computation is that by simulating the
   lower-level, <b>subsymblic</b> data processing on the level of
   neurons and neural networks, intelligence will emerge.
 </p>
@@ -580,33 +580,135 @@ under Materials.
   conventional computing are:
   <ol>
     <li>
-      parallelism: the neurons act simultaneously (and usually
-      asynchronously without a common "clock cycle")
+      <b>parallelism:</b> many neurons act simultaneously
     <li>
-      stochasticity: the behavior of neurons cannot be predicted
+      <b>stochasticity:</b> the behavior of neurons cannot be predicted
       in a deterministic fashion -- the same input can lead to 
       different outputs
     <li>
-      massive scale: neural networks can involve hundreds of billions
-      (10<sup>11</sup>) connections (which is still 10000 times less
-      than the estimated number of connecetions in the brain,
-      10<sup>15</sup>)
+      <b>massive scale:</b> neural networks can involve hundreds of billions
+      (10<sup>11</sup>) connections -- which is still 10000 times less
+      than the estimated number of connections in the brain,
+      10<sup>15</sup>
     <li>
-      adaptivity: the connections have an inherent tendency to adapt
+      <b>adaptivity:</b> the connections have an inherent tendency to adapt
       over time
   </ol>
 </p>
 	
+<p>
+  Artificial neural networks (ANNs) mimic natural neural networks by
+  copying the basic idea of a connected system including a large
+  number of simple processor units (neurons), where processing is
+  carried out by transmitting signals between the neurons. However,
+  the internal mechanism of the neurons is usually ignored and the
+  artificial neurons are often much simpler than their natural
+  counterparts. Likewise, the eletro-chemical signalling mechanisms
+  between natural neurons are mostly ignored in the design of
+  ANNs.
+</p>
+
+<p>
+  There are attempts to simulate natural neural networks.  Perhaps
+  most famously the <a href="http://bluebrain.epfl.ch/">Blue Brain
+  Project</a> for modelling the rat brain, and most <i>infamously</i>,
+  the <a href="https://www.youtube.com/watch?v=JqMpGrM5ECo">Human
+  Brain Project</a>, which promised about 10 years ago that "the
+  mysteries of the mind can be solved -- soon". Such promises turned
+  out to be more based on empty promises with the goal of
+  raising <a href="https://www.scientificamerican.com/article/why-the-human-brain-project-went-wrong-and-how-to-fix-it/">a
+  billion dollars</a> rather than solid scientific evidence.
+</p>
+
+<p>
+  Most of the time, however, the goal is not to simulate a natural
+  neural network but to implement AI and machine learning solutions.
+  Therefore, it is not essential to try to replica the details.
+  In practice, we usually build ANNs that differ
+  from natural neural networks in the following ways:
+  <ol>
+    <li>
+      computation in ANNs usually synchronous: all neurons complete
+      their computation cycle before the proceeding to the next
+      iteration
+    <li>
+      signaling in ANNs is usually continuous-valued as opposed to the
+      binary (on/off or fire/don't fire) signals between natural neurons
+    <li>
+      natural neural networks exhibit complex feedback loops,
+      commonly referred to as <b>recurrent networks</b> -- only 
+      specialized ANNs have this feature (see below)
+    <li>
+      ANNs are often much smaller in scale than natural nervous systems
+  </ol>
+</p>
 
 <h2 class="material-heading">
     Weights and Activation
 
 </h2>
 
+<p>
+  The basic artificial neuron model involves a set of adaptive
+  parameters, called  <b>weights</b>. These weights are used as
+  multipliers for <b>inputs</b> of the neuron. we denote the
+  weighted sum of the inputs as:<br><br>
+  z = &Sigma;<sub>j=1</sub><sup>n</sup> w<sub>j</sub> x<sub>j</sub>,
+  <br><br> where n is the number of inputs. The weights are
+  real-valued, and the inputs can be either binary or real-values.</p>
+
+<p>
+  The output of the neuron is obtained by applying an <b>activation
+    function</b> on the weighted sum z. Typical examples is the
+  activation function include:
+  <ol>
+    <li>
+      step function: f(z) = &ndash;1, if z &lt; 0, and 1 otherwise
+    <li>
+      sigmoid function: f(z) = 1/(1+e<sup>-z</sup>)
+  </ol>
+</p>
+
+<p>
+  The output of a neuron can then act as the input of other neurons,
+  whose outputs can be the input to yet other neurons, etc. The output
+  of the whole network can then be obtained as the output of a certain
+  subset of the neurons, which are called the <b>output layer</b>,
+  although not all neural architectures can be divided in such a way.
+</p>
+
+<p>
+  <b>Learning</b> or adaptation in the network occurs when the
+  weights are adjusted so that the network output is as we like.
+  Optimizing the weights manually is in practice out of the question
+  and learning ANNs is in practice a machine learning problem.
+  Even as a machine learning problem, ANNs are among the hardest
+  optimization tasks.
+</p>
+
+<p>
+  In the following, we will study three different kinds of neural networks:
+  <ol>
+    <li>
+      feedforward networks, where the information always flows in one
+      diretion (from the inputs toward the output layer)
+    <li>
+      recurrent networks, which include feedback loops
+    <li>
+      the self-organizing map
+  </ol>
+</p>
+
 <h2 class="material-heading">
-    The Perceptron Algorithm
+    Feedforward Networks
 
 </h2>
+
+
+<h3 class="material-heading">
+    Feedforward Networks
+
+</h3>
 
 <p>
   One classic neural network method is the Perceptron algorithm
@@ -757,6 +859,11 @@ under Materials.
     </div>
   </div>
 </div>
+
+<h3 class="material-heading">
+    Multilayer perceptrons
+
+</h3>
 
 <p>
   The main problem with the Perceptron algorithm is the assumption
