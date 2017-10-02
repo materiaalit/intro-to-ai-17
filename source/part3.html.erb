@@ -460,13 +460,13 @@ P(Word = 'million')
 = P(spam) P(Word = 'million' | spam) 
 + P(ham) P(Word = 'million' | ham)
 &asymp; 0.5 &times; 0.001629 + 0.5 &times; 0.000320 &asymp; 0.000974</pre>
-      <br><br>
-      Thus, we get <code>P(Word &neq; 'million') &asymp; 1-0.000974
+      Thus, we get <code>P(Word &ne; 'million') &asymp; 1-0.000974
 	= 0.999346</code>.<br><br>
     <li>
       <pre>
 P(spam | 'million') = P(spam) P('million' | spam) / P('million')
-&asymp; 0.5 &times; 0.001629 / 0.000974 &asymp;	0.836</pre><br><br>
+&asymp; 0.5 &times; 0.001629 / 0.000974 &asymp; 0.836
+</pre>
       This is a straightforward application of the Bayes rule where
       the annoying denominator was known from the previous item.
       If you are still uncertain about this, please review the
@@ -481,17 +481,17 @@ P(spam | 'million') = P(spam) P('million' | spam) / P('million')
 R = --------------------------------------------------------
      P(ham | 'million', 'dollars', 'adclick', 'conferences')
 
-    P(spam) P('million'|spam) P('dollars'|spam) p('adclick'|spam) P('conferences'|spam)
+    P(spam) P('million'|spam) P('dollars'|spam) P('adclick'|spam) P('conferences'|spam)
   = -----------------------------------------------------------------------------------
-      P(ham) P('million'|ham) P('dollars'|ham) p('adclick'|ham) P('conferences'|ham)
+      P(ham) P('million'|ham) P('dollars'|ham) P('adclick'|ham) P('conferences'|ham)
 
     0.5 &times; 0.001629 &times; 0.000303 &times; 0.000532 &times; 0.000001
   = ----------------------------------------------- &asymp; 54.23
     0.5 &times; 0.000320 &times; 0.000388 &times; 0.000001 &times; 0.000039</pre>
 
-      Note that this is clearly not the required probability. To get
-      the posterior probability from the ratio R, we use the formula
-      R/(1+R):<br><br>
+      Note that 54.23 is clearly not the required <i>probability</i>. To get
+      the probability from the ratio R, we use the formula
+      Prob = R/(1+R):<br><br>
       <pre>
 P(spam | 'million', 'dollars', 'adclick', 'conferences') &asymp; 54.23 / (1+54.23) &asymp; 0.982</pre>
   </ol>
@@ -743,7 +743,7 @@ P(spam | 'million', 'dollars', 'adclick', 'conferences') &asymp; 54.23 / (1+54.2
 
 <p>
   Here's an example DAG:<br>
-<img src="/img/diagrams/BNexample1.png" width=30%>
+<img src="/img/diagrams/BNexample1.png" width=25% align=middle>
 </p>
 
 <p>
