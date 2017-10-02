@@ -576,6 +576,90 @@ R =  ------------------------------------ = ---------------------------
   </div>
 </div>
 
+<div class="solution" data-target='collapse'>
+  <div class="solution__header">
+    <a data-toggle="collapse" class="solution__toggle">
+      <i class="fa fa-magic solution__icon"></i>
+      <h1 class="solution__heading">Example solution</h1>
+
+      <i class="fa fa-caret-down solution__arrow"></i>
+    </a>
+  </div>
+
+  <div class="collapse">
+    <div class="solution__body">
+      
+<p>
+  <ol>
+    <li>
+      Dividing the occurrence counts by the total number of words
+      in each class gives
+      <pre>
+        word     spam      ham
+ ----------- -------- --------
+ million     0.001629 0.000320
+ dollars     0.000303 0.000388
+ adclick     0.000532 0.000001
+ conferences 0.000001 0.000039</pre>
+      where we used the lower bound 0.000001 in case of zero counts.
+
+    <li>
+      First of all, we can use <code>P(Word &neq; 'million')
+      = 1-P(Word = 'million')</code>. The probability on the right
+      needs to be computed by the same technique as we've applied
+      to obtain the annoying denominator in Bayes rule calculations,
+      i.e., dividing it into the two possible ways to get the word
+      'million':
+      <br><br>
+      <code>P(Word = 'million') = P(spam) P(Word = 'million' | spam) +
+	P(ham) P(Word = 'million' | ham)<br><br>
+	&asymp; 0.5 &times; 0.001629 + 0.5 &times; 0.000320
+	&asymp; 0.000974</code>
+      <br><br>
+      Thus, we get <code>P(Word &neq; 'million') &asymp; 1-0.000974
+	= 0.999346</code>.
+    <li>
+      <code>P(spam | 'million') = P(spam) P('million' | spam) /
+	P('million')
+	\asymp; 0.5 &times; 0.001629 / 0.000974 &asymp;
+	0.836</code><br><br>
+      This was a straightforward application of the Bayes rule where
+      the annoying denominator was known from the previous item.
+      If you are still uncertain about this, please review the
+      material on Bayes rule and the references given in Section 3.1
+      of Part 2.
+    <li>
+      In this case, it is most convenient to use the trick for
+      avoiding the computation of the annoying denominator (see above).
+      Hence, we'll calculate the ratio of posterior probabilities
+      <pre>
+    P(spam | 'million', 'dollars', 'adclick', 'conferences')
+R = --------------------------------------------------------
+     P(ham | 'million', 'dollars', 'adclick', 'conferences')
+
+    P(spam) P('million'|spam) P('dollars'|spam) p('adclick'|spam) P('conferences'|spam)
+  = -----------------------------------------------------------------------------------
+      P(ham) P('million'|ham) P('dollars'|ham) p('adclick'|ham) P('conferences'|ham)
+
+    0.5 &times; 0.001629 &times; 0.000303 &times; 0.000532 &times; 0.000001
+  = ----------------------------------------------------------------------- &asymp; 54.23
+    0.5 &times; 0.000320 &times; 0.000388 &times; 0.000001 &times; 0.000039</pre>
+
+      Note that this is clearly not the required probability. To get
+      the posterior probability from the ratio R, we use the formula
+      R/(1+R):<br><br>
+      <code>
+	P(spam | 'million', 'dollars', 'adclick', 'conferences') &asymp;
+	54.23 / (1+54.23) &asymp; 0.982
+      </code>
+  </ol>
+</p>
+
+
+    </div>
+  </div>
+</div>
+
 <h3 class="material-heading">
     Implementation details
 
