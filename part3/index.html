@@ -612,16 +612,16 @@ R =  ------------------------------------ = ---------------------------
       'million':
       <br><br>
       <pre>
-P(Word = 'million') 
-= P(spam) P(Word = 'million' | spam) 
-+ P(ham) P(Word = 'million' | ham)
-&asymp; 0.5 &times; 0.001629 + 0.5 &times; 0.000320 &asymp; 0.000974</pre>
+   P(Word = 'million') 
+   = P(spam) P(Word = 'million' | spam) 
+   + P(ham) P(Word = 'million' | ham)
+   &asymp; 0.5 &times; 0.001629 + 0.5 &times; 0.000320 &asymp; 0.000974</pre>
       Thus, we get <code>P(Word &ne; 'million') &asymp; 1-0.000974
 	= 0.999346</code>.<br><br>
     <li>
       <pre>
-P(spam | 'million') = P(spam) P('million' | spam) / P('million')
-&asymp; 0.5 &times; 0.001629 / 0.000974 &asymp; 0.836
+   P(spam | 'million') = P(spam) P('million' | spam) / P('million')
+   &asymp; 0.5 &times; 0.001629 / 0.000974 &asymp; 0.836
 </pre>
       This is a straightforward application of the Bayes rule where
       the annoying denominator was known from the previous item.
@@ -1379,7 +1379,7 @@ P(spam | 'million', 'dollars', 'adclick', 'conferences') &asymp; 54.23 / (1+54.2
   produced if <code>r</code> is less than P(X=0). The value 1 is
   produced if <code>r</code> is between P(X=0) and P(X=0)+P(X=1). And
   generally, the value x is produced if
-  <code>r</code> is between A = &Sigma;<sub>i=0</sub><sup>x-1</sup> P(X=i)
+  <code>r</code> is between A = &Sigma;<sub>i=0,...,x-1</sub> P(X=i)
   = P(X=0) + ... + P(X=i-1) and A + P(X=i).
 </p>
   
@@ -1420,14 +1420,15 @@ P(spam | 'million', 'dollars', 'adclick', 'conferences') &asymp; 54.23 / (1+54.2
 
 <p>
   In the pseudocode, <code>model</code> is an object that defines the
-  Bayesian network model by giving for each variable V a set of
-  parents (in the form of a set of indices that can be used to select
-  variables in the array v), and the corresponding CPTs.  The
-  selection operator v[V.Pa] extracts from the array v the elements
-  that define the values of the parents of V. These are used on line 6
-  to choose the correct row from the CPT of V. Note that here it is
-  important that the variables be processed in such an order that the
-  parent values are added into the array before they are needed for
+  Bayesian network model by giving for each variable <code>V</code> a
+  set of parents (in the form of a set of indices that can be used to
+  select variables in array <code>v</code>), and the corresponding
+  CPTs.  The selection operator <code>v[V.Pa]</code> extracts from the
+  array the elements that define the values of the parents
+  of <code>V</code>. These are used on line 6 to choose the correct
+  row from the CPT of <code>V</code>. Note that here it is important
+  that the variables be processed in such an order that the parent
+  values are added into the array before they are needed for
   generating the children.
 </p>
 
