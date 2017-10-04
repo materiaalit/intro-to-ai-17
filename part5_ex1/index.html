@@ -184,8 +184,9 @@
 </h1>
 
 <p>
-  Choose <b>Visualize</b> to get a scatter plot display showing
-  all pairs of variables.
+  You may have heard about the importance of looking at the data
+  before rushing into any data analysis.  Choose <b>Visualize</b> to
+  get a scatter plot display showing all pairs of variables.
 </p>
 <img src="../img/screen/weka4-c95ea9c2.png" width=100%><br><br>
 
@@ -225,9 +226,9 @@
 
 <p>
   In the panel <b>Classifier</b>, click <b>Choose</b>. You can now
-  choose a classifier of your liking. A good choice is the
-  naive Bayes classifier, which you'll find under <b>Bayes</b>
-  with the name <b>NaiveBayes</b>.
+  choose a classifier of your liking. Since we know the naive Bayes
+  classifier already so well, let's use it. You'll find it
+  under <b>Bayes</b> with the name <b>NaiveBayes</b>.
 </p>
 <img src="../img/screen/weka7-8ea55058.png" width=100%><br><br>
 
@@ -246,7 +247,156 @@
   jointly denoted by X. In panel <b>Test options</b>, choose 
   <b>Percentage split</b>. This means that the classifier will be
   trained on a randomly selected subset of 66&nbsp;% of the whole data, while
-  the remaining 34&nbsp;% are used for testing.
+  the remaining 34&nbsp;% are used for testing.</p>
+
+<p>Click <b>Start</b> to start the training and testing of the
+  classifier. Since the data set is so small, and the naive Bayes 
+  classifier is very efficient, it only takes a short while to
+  complete the process.
+</p>
+<img src="../img/screen/weka8-f04f02bd.png" width=100%><br><br>
+
+<p>
+  The output tell us that in the test set (n=51), 48 instances were
+  correctly classified and three were misclassified. The
+  <i>confusion matrix</i> at the bottom shows more specifically
+  that two items in the class <i>iris virginica</i> were incorrectly
+  classified as <i>iris versicolor</i>, and one item in
+  <i>iris versicolor</i> was misclassified as <i>iris virginica</i>.
+  All the 15 <i>iris setosa</i> instances were correctly classified.
+  Can you think why that might be the case? <i>Hint:</i> Recall the
+  scatter plot above.
+</p>
+
+<p>
+  Next you should try out other classifiers such as the nearest
+  neighbor classifier (<b>lazy/IB1</b>), decision tree
+  (<b>trees/J48</b>), and multilayer perceptron (MLP)
+  (<b>functions/MultiLayerPerceptron</b>).  The advantage of the
+  decision tree classifier is its easy interpretation. You can access
+  the classifier after training in the report under the heading <b>J48
+  pruned tree</b>. You can read it directly as
+  an <code>if-then-else</code> statement, where the classification
+  decision is given after a colon <code>:</code>. For example, the
+  following classifier says that if the <i>petal width</i> value is
+  less than 0.6, the classification decision is <i>iris setosa</i>,
+  and so forth.
+<pre>
+  petalwidth <= 0.6: Iris-setosa (50.0)
+petalwidth > 0.6
+|   petalwidth <= 1.7
+|   |   petallength <= 4.9: Iris-versicolor (48.0/1.0)
+|   |   petallength > 4.9
+|   |   |   petalwidth <= 1.5: Iris-virginica (3.0)
+|   |   |   petalwidth > 1.5: Iris-versicolor (3.0/1.0)
+|   petalwidth > 1.7: Iris-virginica (46.0/1.0)
+</pre>
+</p>
+
+<p>
+  In the case of the MLP, it is perhaps most interesting to examine
+  the network architecture (structure). Click on the name of the
+  classifier to view the settings. Set <code>GUI = True</code>. When
+  you click <b>Start</b> after this, you will get a window that
+  represents the network structure (see below). Here you must click
+  <b>Start</b> in panel <b>Controls</b>, to train the classifier.
+  (Unless you do so, and click <b>Accept</b>, the classifier will
+  simply classify all items in class <i>iris virginica</i>.) After
+  training, you can accept the classifier and study the results.
+</p>
+<img src="../img/screen/weka8-f04f02bd.png" width=100%><br><br>
+
+<p>
+  Note that especially if you build a complex network with many
+  neurons or nodes, the training can take a while.
+</p>
+
+<h2 class="material-heading">
+    Visualization of classification results
+
+</h2>
+
+<p>
+  The next step is to take a closer look at the classification results.
+  This way we can focus on the errors, and perhaps get some ideas about
+  how to achieve even better results. Right click <b>Results list</b>
+  for the classifier of your choice (where it says <i>right-click for
+    options</i>), and choose <b>Visualize classifier errors</b>.
+  Add jitter to the scatter plot to distinguish individual data points.
+</p>
+<img src="../img/screen/weka9-872939f2.png" width=100%><br><br>
+
+<p>
+  The y-axis shows the classification decision by the classifier
+  (in the above case, the naive Bayes classifier), while the
+  x-axis shows the actual class. You can see the same misclassified
+  points as shown in the confusion matrix (above).
+</p>
+
+<p>
+  To see what kind of instances were misclassified, we can change the
+  variables on the x- and y-axes to be, e.g., <i>petal length</i>
+  and <i>petal width</i> respectively. You can use the selectors at the
+  top of the window to do this.
+</p>
+<img src="../img/screen/weka10-a161b610.png" width=100%><br><br>
+
+<p>
+  The misclassified instances show up as rectangles (highlighted above
+  by a red circle). As you may have guessed, the misclassified
+  instances are near the edges of the classes, and hence easy to
+  mix up with the wrong class.
+</p>
+
+<h1 class="material-heading">
+    Unsupervised learning: Clustering
+
+</h1>
+
+<p>
+  You should now close the window displaying the classification
+  results, and choose <b>Cluster</b> in the <i>Weka Explorer</i> 
+  dialogue. Since this is unsupervised learning, you should remove
+  the class variable (the species of the flower). This is done by
+  clicking <b>Ignore attributes</b> and choosing <b>class</b> in
+  the resulting dialogue. Click <b>Select</b> to confirm your choice.
+</p>
+
+<p>
+  Use the default clustering method, "EM", or choose another one
+  from the menu -- for example, <b>SimpleKMeans</b> is a good, commonly
+  used technique. Finally, click <b>Start</b> to get a report of the
+  clustering results.
+</p>
+<img src="../img/screen/weka11-e035ec3a.png" width=100%><br><br>
+
+<p>
+  At the end of the report, you'll see among other things, how many
+  clusters the method chose to cluster your data. In this case, the
+  number is five. The first group ('0') contains 28 instances, the
+  second ('1') contains 35, etc.
+</p>
+
+<p>
+  To visualize the clustering results, right click the name of the
+  method in <b>Result list</b>. A window will appear. Again, choose the
+  variables to show on the x- and y-axes to be, e.g., <i>petal length</i>
+  and <i>petal width</i>. A bit of jitter won't hurt.
+</p>
+<img src="../img/screen/weka12-42d07c07.png" width=100%><br><br>
+
+<p>
+  Groups 0 ja 3 (blue and cyan) cover the clearly separated <i>iris
+    setosa</i> class. The other clusters split the remaining data
+  into three parts. Since this is unsupervised learning, there is
+  no guarantee, however, that the clusters would correspond to
+  the class labels at all.
+</p>
+
+<p>
+  Go ahead and try different classification and clustering methods.
+  The exercise can be found in the beginning of
+  <a href="../part5/">Part 5</a>.
 </p>
 
         </div>
