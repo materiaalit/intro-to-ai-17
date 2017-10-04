@@ -294,13 +294,10 @@ under Materials.
   an <a href="https://en.wikipedia.org/wiki/Afghan_Girl">Afghan
   girl</a> by Steve McCurry. She was identified based on the unique
   patterns in the iris of the eye. Here the iris is the invariant
-  feature, which remains unchanged also even if the person grows older
-  and may have otherwise a different appearance.  We used the iris
-  example as a metaphor for invariance with respect to external
-  conditions, but it is actually also a practical personal
-  identification technique
-  (see <a href="https://en.wikipedia.org/wiki/Iris_recognition">Iris
-  recognition</a>, Wikipedia).
+  feature, which remains unchanged when a person grows older even if
+  their appearance may otherwise change.  The iris is an example of
+  invariance, and a metaphor for more general invariance with respect
+  to external conditions.
 </p>
 
 <h2 class="material-heading">
@@ -360,7 +357,30 @@ under Materials.
     <div class="exercise__body">
       
 <p>
-  Coming to TMC soon.
+  The TMC template for the pattern recognition task implements
+  SURF feature extraction and matching. When you run the template,
+  you should get the face example presented at the lecture.
+</p>
+
+<p>
+  The red dots in the images are the locations of the SURF
+  interest points. The lines between points in the two images
+  represent matches, i.e., pairs of features whose descriptor
+  vectors are sufficiently close to each other to be classified as 
+  belonging to the same or similar looking object.
+</p>
+
+<p>
+  Change the files <code>img1.jpg</code> and <code>img2.jpg</code> in
+  the <code>example</code> folder to another pair of images, and
+  rerun the template. <i>Note:</i> The images must be the same
+  height. (Width can be different.)
+</p>
+
+<p>
+  Try at least five different pairs of images, some of which include
+  the same building, person, and/or object. Try to find examples
+  where the feature matching works, and examples where it doesn't.
 </p>
 
 
@@ -383,7 +403,32 @@ under Materials.
     <div class="exercise__body">
       
 <p>
-  Coming to TMC soon.
+  Use the same template as in the previous exercise.
+</p>
+
+<p>
+  Choose one or more images and do the following modifications (one
+  at a time):
+  <ul>
+    <li> change brightness, contrast, and color balance
+    <li> rotate the image
+    <li> crop and rescale
+    <li> add noise or blur
+  </ul>
+  Use your favorite image processing tool (iPhote, GIMP, Photoshop, etc).
+</p>
+
+<p>
+  Does SURF recognize the objects in the image as the same despite
+  the alterations?
+</p>
+
+<p>
+  <i>An alternative (more fun) way:</i> Take multiple photos of the
+  same image from slightly different angles, different distances, 
+  in different lighting conditions, with occlusion, etc.
+  Does SURF recognize the object despite such changes in 
+  external conditions?
 </p>
 
 
