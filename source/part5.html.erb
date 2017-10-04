@@ -266,7 +266,7 @@ under Materials.
   theoretical computer science which are applicable to the study of
   formal languages. A formal language is generally a set of
   strings. For example, the set of valid mathematical expressions is a
-  formal language that include the
+  formal language that includes the
   string <code>(1+2)&times;6&ndash;3</code> but not the string
   <code>1+(+&times;5(</code>.
 </p>
@@ -277,6 +277,14 @@ under Materials.
 
 <% partial 'partials/material_sub_heading' do %>
   CYK algorithm
+<% end %>
+
+<% partial 'partials/exercise', locals: { name: 'NLP: CYK algorithm (pencil-and-paper) (1p)' } do %>
+
+<p>
+  coming soon...
+</p>
+
 <% end %>
 
 <% partial 'partials/material_sub_heading' do %>
@@ -310,7 +318,7 @@ under Materials.
       noun in the NP subtree (see example below). You can identify nouns
       by the POS-tag which should be either NN, NNP, NNPS, or NNS. Use
       breadth-first search to find the noun closest to the root.<br>
-      <img src="/img/exercises/ex5/parse-tree.png" width=35%><br><br>
+      <img src="/img/exercises/ex5/parsetree.png" width=35%><br><br>
       
       The TMC template has tests to verify your solution.
     <li>
