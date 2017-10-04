@@ -1,0 +1,146 @@
+---
+  title: Part 5 Exercise 1
+  exercise_page: true
+  quiz_page: false
+  published: true
+  navigation: false
+---
+
+
+<% partial 'partials/hint', locals: { name: 'Getting started with Weka' } do %>
+
+<p>
+  Here you'll find instructions for installing and getting started with
+  the Weka software. After going through this minitutorial, you'll be
+  able to complete Exercise 5.1.
+</p>
+
+<% end %>
+
+<% partial 'partials/material_heading' do %>
+  Installation
+<% end %>
+
+<p>
+  Download the Weka installation package from
+  <a href="http://www.cs.waikato.ac.nz/~ml/weka/">here</a>, and run it
+  to install Weka on your computer.
+</p>
+
+<p>
+  Start Weka to get the following dialogue:
+</p>
+<img src="/img/screen/weka1.png" width=33%><br><br>
+
+<% partial 'partials/material_heading' do %>
+  Downloading and opening data
+<% end %>
+
+<p>
+  Download the Iris dataset <a href="https://materiaalit.github.io/intro-to-ai-17/files/iris.arff">here</a>. The file contains data about the iris flowers. The actual data comes after the metadata in the lines starting with %.
+</p>
+
+<pre>
+@DATA
+5.1,3.5,1.4,0.2,Iris-setosa
+4.9,3.0,1.4,0.2,Iris-setosa
+4.7,3.2,1.3,0.2,Iris-setosa
+4.6,3.1,1.5,0.2,Iris-setosa
+5.0,3.6,1.4,0.2,Iris-setosa
+...
+</pre>
+
+<p>
+  You can also download other <code>arff</code> files, which you can find
+  by googling.</p>
+
+<p>
+  Now choose the <b>Explorer</b> application in Weka. You should
+  get the following screen:
+</p>
+<img src="/img/screen/weka2.png" width=100%><br><br>
+
+<p>
+  Now click <b>Open file...</b> and choose the <code>iris.arff</code>
+  file that you just downloaded. You'll get the following screen:
+</p>
+<img src="/img/screen/weka3.png" width=100%><br><br>
+
+<p>
+  The <i>Current relation</i> panel says that there are 150 data points,
+  each of which has five attibutes (feature variables). A list of
+  the variables is found in panel <i>Attributes</i>. Variables
+  1&ndash;4 contain the width and length of the sepals and petals 
+  of the flowers. The fifth variable, <i>Class</i>, indicates the
+  species of the flower: <i>iris setosa</i>, <i>iris versicolor</i>,
+  or <i>iris virginica</i>.
+</p>
+
+<% partial 'partials/material_heading' do %>
+  Visualizing the data
+<% end %>
+
+<p>
+  Choose <b>Visualize</b> to get a scatter plot display showing
+  all pairs of variables.
+</p>
+<img src="/img/screen/weka4.png" width=100%><br><br>
+
+<p>
+  Double click for example the middle figure on the second row from
+  the top. This gives you a larger view of the plot showing 
+  variables <i>petal length</i> and <i>petal width</i>. In the
+  plot, each point corresponds to one of the 150 data points in the
+  data. The (x,y) coordinates are determined by the <i>petal length</i>
+  and the <i>petal width</i> respectively. The color is determined
+  by the species, i.e., variable <i>Class</i>.
+</p>
+<img src="/img/screen/weka5.png" width=100%><br><br>
+
+<p>
+  It is useful to add some noise into the (x,y) coordinates so that
+  points that may otherwise be hidden beneath other points located
+  at the exact same coordintes become visible. This is done by 
+  using the <b>Jitter</b> slides.</p>
+
+<p>
+  As you can see above, the class <i>iris setosa</i> (blue) is clearly
+  separated from the others. This is a good sign for classification
+  purposes.
+</p>
+
+<% partial 'partials/material_heading' do %>
+  Supervised learning: Classification
+<% end %>
+
+<p>
+  You can now close the scatter plot window and choose the <b>Classify</b>
+  tab in the top bar.
+</p>
+<img src="/img/screen/weka6.png" width=100%><br><br>
+
+<p>
+  In the panel <b>Classifier</b>, click <b>Choose</b>. You can now
+  choose a classifier of your liking. A good choice is the
+  naive Bayes classifier, which you'll find under <b>Bayes</b>
+  with the name <b>NaiveBayes</b>.
+</p>
+<img src="/img/screen/weka7.png" width=100%><br><br>
+
+<p>
+  Some classifiers have a number of parameters that you can adjust
+  by clicking the name of the classifier in the panel <b>Classifier</b>.
+  However, the naive Bayes classifier doesn't require any specific
+  finetuning.
+</p>
+
+<p>
+  In Weka the default is that the class variable, i.e., the variable
+  that we will try to predict based on the other variables, is the
+  last variable in the data. In other words, the variable <i>Class</i>
+  will be the Y variable in our notation, while the others would be
+  jointly denoted by X. In panel <b>Test options</b>, choose 
+  <b>Percentage split</b>. This means that the classifier will be
+  trained on a randomly selected subset of 66&nbsp;% of the whole data, while
+  the remaining 34&nbsp;% are used for testing.
+</p>
