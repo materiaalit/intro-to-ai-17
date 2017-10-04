@@ -308,31 +308,36 @@ under Materials.
   <ol>
     <li>
       Implement method <code>extractSubject</code> in
-      class <code>Extractor</code> as follows: The input will be a parse
+      class <code>Extractor</code>. The input will be a parse
       tree of a sentence. You should try to identify the <b>subject</b> of
       the sentence (<i>who/what</i> does something). One heuristic method
-      that doesn't always work, but is close enough, is to assume that the
-      root node of the parse tree, S, has children NP (noun phrase) and VP
-      (verb phrase). Choose the child NP. (If it doesn't exist, you can
-      skip the sentence and return null.) The subject can be assumed to a
-      noun in the NP subtree (see example below). You can identify nouns
-      by the POS-tag which should be either NN, NNP, NNPS, or NNS. Use
-      breadth-first search to find the noun closest to the root.<br>
-      <img src="/img/exercises/ex5/parsetree.png" width=35%><br><br>
+      that doesn't always work, but is close enough, is as follows:
+      <ol>
+	<li>Assume that the root node of the parse tree, S, has
+	  children NP (noun phrase) and VP (verb phrase).  If this
+	  is not the case, you can skip the sentence and return null.
+	<li>Choose the child NP.
+	<li>The subject can be assumed to a noun in the NP subtree
+	  (see example below). You can identify nouns by the POS-tag
+	  which should be either NN, NNP, NNPS, or NNS.
+	<li>Use breadth-first search to find the noun closest to the root.
+      </ol>
+      <img src="/img/exercises/ex5/parsetree.png" width=52%><br><br>
       
-      The TMC template has tests to verify your solution.
+      The TMC template has tests to verify your solution.<br><br>
     <li>
       Next, implement the following logic in method <code>main</code>
       in class <code>Main</code> using the tools available in class
       <code>NLPUtils</code>: The template has ready-made functionality
       for iterating through all sentences in Franz Kafka's
       <i>The Metamorphosis</i>. Reject all sentences that don't contain
-      the word "Gregor".
+      the word "Gregor".<br><br>
     <li>
       For all remaining sentences, produce a 
       parsing tree. (If the parsing fails, reject the sentence.) Use the
       method you implemented in item 1 to identify the subject of the
       sentence. Print out all sentences where the subject is "Gregor".
+      <br><br>
     <li>
       Use the output to find out what Gregor does in a similar spirit
       as this <a href="http://hint.fm/seer/#left=google%20is&right=artificial%20intelligence%20is">cool applet</a>. (You don't have to make
