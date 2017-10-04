@@ -4,7 +4,7 @@
   </a>
 
   <ul class="nav navbar-nav hidden-md-down">
-    <% sitemap.resources.select{|resource| resource.data.title && resource.data.published != false }.sort_by {|resource| resource.data.title.split(/(\d+)/).map {|a| a =~ /\d+/ ? a.to_i : a }}.each do |resource| %>
+    <% sitemap.resources.select{|resource| resource.data.title && resource.data.published != false && resource.data.navigation != false }.sort_by {|resource| resource.data.title.split(/(\d+)/).map {|a| a =~ /\d+/ ? a.to_i : a }}.each do |resource| %>
       <li class="nav-item <%= current_resource.destination_path == resource.destination_path ? 'active' : '' %>">
         <%= nav_link_to resource.data.title, resource %>
       </li>
