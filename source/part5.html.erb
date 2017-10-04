@@ -5,6 +5,58 @@
   published: true
 ---
 
+<% partial 'partials/exercise', locals: { name: 'Machine Learning with Weka: MLP (1p)' } do %>
+
+<p>
+  Download and install the Weka system on your computer. We've
+  prepared a set of instructions to get started and a minitutorial.
+  <%= link_to 'Click here', 'part5_ex1.html'%>. You'll also need to
+  download the Two Spirals dataset <a href="https://materiaalit.github.io/intro-to-ai-17/files/spirals.arff">here</a>.
+</p>
+
+<p>
+  Use Weka to train a multilayer perceptron (MLP) to classify the
+  Two Spirals data. The class labels are given in the <code>Class</code>
+  column whereas the variables <code>A1</code> and <code>A2</code> are
+  the x- and y-coordinates which are the input features.</p>
+
+<p>
+  Note that using the default settings gives poor results. When
+  accuracy is measured using the <b>Percentage split % 66</b>
+  setting, the accuracy is 52.9&nbsp;% (36 correct, 32 incorrect
+  instances). Click <b>Visualize classification errors</b> and
+  let the x- and y-axis be the input variables <code>A1</code> and
+  <code>A2</code> respectively. You will be able to see that the
+  decision boundary, which is completely bonkers.
+</p>
+
+<p>
+  Adjust the MLP settings and experiment with different number of
+  hidden layers (the parameter <code>hiddenLayers</code> shows the
+  number of neurons on each hidden layer, separated by
+  colons <code>:</code>), and the number of training iterations
+  (<code>trainingTime</code>). You should get classification error
+  less than 10&nbsp;%.
+</p>
+
+<% end %>
+
+<% partial 'partials/exercise', locals: { name: 'Machine Learning with Weka: more classifiers (1p)' } do %>
+
+<p>
+  <ol>
+    <li>
+      Use Weka to train a nearest neighbor classifier (<b>Lazy/IB1</b>).
+    <li>
+      Do the same with a decision tree (<b>Trees/J48</b>).
+    <li>
+      Visualize the decision boundaries and explain why the MLP, 
+      nearest neighbor, and decision tree classifiers work or don't work
+      in this case.
+  </ol>
+</p>
+
+<% end %>
 
 You will soon find the lecture slides for this part on the <a href="https://courses.helsinki.fi/DATA15001/119123276">course homepage</a>
 under Materials.
