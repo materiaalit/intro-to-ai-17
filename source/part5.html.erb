@@ -210,3 +210,131 @@ under Materials.
   Propulsion Laboratory/University of Arizona. Image from the edge of
   the south polar residual cap on Mars.
 </p>
+
+<% partial 'partials/material_heading' do %>
+  Natural Language Processing
+<% end %>
+
+<p>
+  Language is another example of an area where AI has hard time
+  considering how easy it feels to us, as humans, to understand
+  natural scenes or language. This is probably in part because
+  we don't appreciate the hardness of tasks that even a child
+  can perform without much apparent practice. (Of course, a
+  child actually practices these skills very intensively, and
+  in fact, evolution has trained us for millions of years,
+  preconditioning our "neural networks" to process information
+  in this form.)
+</p>
+
+<p>
+  The features that make language distinctive and different from
+  many other data sources for which we may apply AI techniques 
+  include:
+  <ol>
+    <li>
+      Even though language follows an obvious <b>linear structure</b>
+      where a piece of text has a beginning and an end, and the words
+      inbetween are in a given order, it also has <b>hierarchical</b>
+      structures including, e.g.,
+      text&ndash;paragraph&ndash;sentence&ndash;word relations,
+      where each sentence, for example, forms a separate unit.
+    <li>
+      Grammar constrains the possible (allowed) expressions in natural
+      languages but still leaves room for ambiguity (unlike formal
+      languages such as programming languages which must be 
+      unambiguous).
+    <li>
+      Compared to digital signals such as audio or image, natural
+      language data is much closer to <b>semantics</b>: the idea
+      of a chair has a direct correspondence with the word 'chair'
+      but any particular image of a chair will necessarily carry
+      plenty of additional information such as the color, size,
+      material of the chair and even the lighting conditions, the
+      camera angle, etc, which are completely independent of the
+      chair itself.
+  </ol>
+</p>
+
+<% partial 'partials/material_sub_heading' do %>
+  Formal languages and grammars
+<% end %>
+
+
+<p>
+  Natural language processing (NLP) applies many concepts from
+  theoretical computer science which are applicable to the study of
+  formal languages. A formal language is generally a set of
+  strings. For example, the set of valid mathematical expressions is a
+  formal language that include the
+  string <code>(1+2)&times;6&ndash;3</code> but not the string
+  <code>1+(+&times;5(</code>.
+</p>
+
+<% partial 'partials/material_sub_heading' do %>
+  Parsing
+<% end %>
+
+<% partial 'partials/material_sub_heading' do %>
+  CYK algorithm
+<% end %>
+
+<% partial 'partials/material_sub_heading' do %>
+  Parse trees and ambiguity
+<% end %>
+
+<% partial 'partials/material_sub_heading' do %>
+  Advanced topics in parsing
+<% end %>
+
+<% partial 'partials/material_sub_heading' do %>
+  Applicatins of NLP
+<% end %>
+
+<% partial 'partials/exercise', locals: { name: 'NLP: Knowledge Extraction (1p)' } do %>
+
+<p>
+  See the NLP exercise on TMC.</p>
+
+<p>
+  <ol>
+    <li>
+      Implement method <code>extractSubject</code> in
+      class <code>Extractor</code> as follows: The input will be a parse
+      tree of a sentence. You should try to identify the <b>subject</b> of
+      the sentence (<i>who/what</i> does something). One heuristic method
+      that doesn't always work, but is close enough, is to assume that the
+      root node of the parse tree, S, has children NP (noun phrase) and VP
+      (verb phrase). Choose the child NP. (If it doesn't exist, you can
+      skip the sentence and return null.) The subject can be assumed to a
+      noun in the NP subtree (see example below). You can identify nouns
+      by the POS-tag which should be either NN, NNP, NNPS, or NNS. Use
+      breadth-first search to find the noun closest to the root.<br>
+      <img src="/img/exercises/ex5/parse-tree.png" width=35%><br><br>
+      
+      The TMC template has tests to verify your solution.
+    <li>
+      Next, implement the following logic in method <code>main</code>
+      in class <code>Main</code> using the tools available in class
+      <code>NLPUtils</code>: The template has ready-made functionality
+      for iterating through all sentences in Franz Kafka's
+      <i>The Metamorphosis</i>. Reject all sentences that don't contain
+      the word "Gregor".
+    <li>
+      For all remaining sentences, produce a 
+      parsing tree. (If the parsing fails, reject the sentence.) Use the
+      method you implemented in item 1 to identify the subject of the
+      sentence. Print out all sentences where the subject is "Gregor".
+    <li>
+      Use the output to find out what Gregor does in a similar spirit
+      as this <a href="http://hint.fm/seer/#left=google%20is&right=artificial%20intelligence%20is">cool applet</a>. (You don't have to make
+      the visualization!)
+  </ol>
+</p>
+
+<p>
+  <i>Hint:</i> In item 2, you can use method <code>contains</code>.
+
+</p>  
+
+<% end %>
