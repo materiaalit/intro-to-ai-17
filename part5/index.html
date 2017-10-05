@@ -545,12 +545,13 @@ S &xrarr; [S]
   As another example, the string <code>(())[]</code> also belongs to
   the language. Can you figure out a sequence of rules to generate it
   from the start symbol <code>S</code>. Notice that each application
-  of a rule only applies to a single sentence in the intermediate
+  of a rule only applies to a single symbol in the intermediate
   string. So for example, if you apply the rule <code>S &xrarr; (S)</code>
   to the intermediate string <code>SS</code>, only one of the symbols
   gets parentheses around it (you are free to choose which one):
   <code>S(S)</code> or <code>(S)S</code>. If you want to apply the
-  same rule to both symbols, you can, which gives <code>(S)(S)</code>.
+  same rule to both symbols, you can, you just have to apply the same
+  rule twice, which gives <code>(S)(S)</code>.
 </p>
 
 <p>
