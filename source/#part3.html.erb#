@@ -1,0 +1,1274 @@
+---
+  title: Part 3
+  exercise_page: true
+  quiz_page: false
+  published: true
+---
+
+
+<% partial 'partials/exercise', locals: { name: 'Check & Mate! (2p)' } do %>
+
+<p>
+  Last week we practiced game algorithms, Minimax and alpha-beta
+  pruning, on the simple game of tic-tac-toe. Tic-tac-toe is a good
+  choice for understanding the basic principles and simulating the
+  algorithms step-by-step. However, it is hardly a very cool
+  AI application.
+</p>
+
+<p>
+  Now we'll change gears and go for what used to be thought as a some
+  kind of a "grand challenge" for AI, namely chess! (In fact, that's
+  not exactly true since we'll be playing a variant of chess,
+  called <a href="https://en.wikipedia.org/wiki/Los_Alamos_chess">Los
+    Alamos chess</a> which is played on a 6 x 6 board with no bishops.)
+</p>
+
+<p>
+  Implementing the complete game engine with all the rules is somewhat
+  tedious, so we have done it for you. Also, since you've already
+  implemented alpha-beta pruning last week, you don't have to do it
+  again here. Instead, your task is to implement a <strong>
+    heuristic evaluation function</strong>. The performance of the
+  chess bot is in part determined by the goodness of the evaluation
+  function, so designing a good one is critical for creating a
+  competitive bot.
+</p>
+
+<p>
+  To make things exciting, we'll have a <strong>chess-bot
+  tournament</strong>. You will submit your solution (the heuristic
+  evaluation function) on our server and compete against our own
+  contender, <i>Deep Glue</i> and bots by other students. May the
+  best bot win!
+</p>
+
+<ol>
+  <li>
+    Download the Java template <a href="https://materiaalit.github.io/intro-to-ai-17/files/Chesspackage.zip">here</a>. <strong>NB: There was an error (old version) in the
+      package and it was fixed on Sept 21, 4.20pm. If you have problems
+      uploading to the server, please reload the new package and try again.</strong>
+  <li>
+    Implement the method <code>double eval(Position p)</code> in class
+    <code>YourEvaluator</code>. The method takes as its input a board
+    position <code>p</code> which specifies the positions of all the
+    pieces on the board and which player's turn it is. The return value
+    should be the higher the more likely the white player is to win.
+  <li>
+    You can upload the compiled <code>YourEvaluator</code> class
+    (i.e., the <code>class</code> file) on
+    the <a href="http://ejaasaar.users.cs.helsinki.fi/">tournament
+    server</a>. (If you use multiple classes, you can also upload a JAR
+    file.)
+  <li>
+    Once you have uploaded your bot, you can play it against the other
+    bots. You gain points by winning and lose points by losing. The
+    highest ranked bot will be declared the champion at the end of the
+    course. (One week before the exam.)
+</ol>
+
+<% end %>
+
+You can find the lecture slides for this part on the <a href="https://courses.helsinki.fi/DATA15001/119123276">course homepage</a>
+under Materials.
+
+<% partial 'partials/material_heading' do %>
+  Probabilistic Inference
+<% end %>
+
+<p>
+  Let's now move ahead with the theme Reasoning under Uncertainty,
+  and see how probability can be used for inference in various
+  AI problems.
+</p>
+
+<% partial 'partials/hint', locals: { name: 'Learning objectives of Part 3' } do %>
+
+<table class="table">
+  <tr>
+    <td>
+      Theme
+    </td>
+    <td>
+      Objectives (after the course, you ...)
+    </td>
+  </tr>
+  <tr>
+    <td>
+      Reasoning under uncertainty (continued from last week)
+    </td>
+    <td>
+      <ul>
+	<li>can express uncertain knowledge in a simple situation using a probabilistic model
+	<li>can apply the Bayes theorem to calculate posterior probabilities given evidence in a simple scenario
+	<li>can estimate probability values from a sample
+	<li>can represent a problem solving situation as a Bayesian network
+	<li>can apply an approximate (Monte Carlo) technique to perform inference in a Bayesian network
+      </ul>
+    </td>
+  </tr>
+</table>
+
+<% end %>
+
+<% partial 'partials/material_sub_heading' do %>
+  Bayes rule and probabilistic inference
+<% end %>
+
+<p>
+  Bayes rule has a central role in statistical inference and machine
+  learning. The basis for this is that it can be applied in scenarios
+  where one of the random variables in the model corresponds to an
+  unknown "state" which we are interested to learn. If the model
+  includes other variables that correspond to "observations" that
+  can be made and that are dependent on the unknown state, we
+  can use the Bayes rule as follows
+</p>
+<img src="/img/drawings/posterior_prior_likelihood.png" width=83% alt="P(state | observation) = P(state) P(observation | state) / P(observation)">
+<p>
+  The left side of the equation is called the <strong>posterior
+  probability</strong> (probability after the observation).
+  The first factor on the right is called the <strong>prior
+    probability</strong> (probability prior to the observation),
+  the middle factor is called the <strong>likelihood</strong>
+  (how likely the observation is when the state is given), and
+  the last term on the right has many names, of which 
+  <strong>the annoying denominator</strong> may be the most
+  fitting. (Evidence and marginal likelihood are more
+  common.)
+</p>
+
+<% partial 'partials/hint', locals: { name: 'On (not) calculating the annoying denominator' } do %>
+
+<p>
+  As you may have noticed, when completing last week's exercises,
+  and as you will notice at the latest when completing this week's,
+  calculating the denominator may indeed be annoying.
+</p>
+
+<p>
+  A nice trick that can sometimes save a lot of effort is to
+  calculate the <strong>ratio</strong> of posterior probabilities,
+  instead of the probabilities themselves. For example, consider
+  the following ratio
+</p>
+<pre>
+     R = P(State=1 | obs) / P(State=2 | obs)
+</pre>
+<p>
+  where <code>obs</code> is an abbreviation for observation. 
+  Applying Bayes rule to both the numerator and the denominator
+  in the ratio, we'll notice that the denominator <code>P(obs)</code>
+  cancels:
+</p>
+<pre>
+     P(State=1) P(obs | State=1) / P(obs)   P(State=1) P(obs | State=1)
+R =  ------------------------------------ = ---------------------------
+     P(State=2) P(obs | State=2) / P(obs)   P(State=2) P(obs | State=2)
+</pre>
+<p>
+  In case the two states (1 and 2) are the only possibilities, we
+  have <code>P(State=2|obs) = 1-P(State=1|obs)</code> (because one of
+  the events must happen and both cannot occur at the same time).
+  In this case, after calculating the the above ratio, <code>R</code>,
+  it can be mapped back into the posterior probability of state 1 by
+</p>
+<pre>
+  P(State=1 | obs) = R / (1+R)
+</pre>
+<p>
+  You can check that this is true by assigning and using the
+  fact <code>P(State=2|obs) = 1-P(State=1|obs)</code>.
+</p>
+
+<% end %>
+
+<% partial 'partials/material_sub_heading' do %>
+  Naive Bayes classification
+<% end %>
+
+<p>
+  One of the most useful applications of the Bayes rule is the so
+  called <strong>naive Bayes classifier</strong>. It is a machine
+  learning technique that can be used to <strong> classify</strong>
+  objects such as text documents into two or more classes. The
+  classifier is trained by analysing a set of <strong>training
+  data</strong>, for which the correct classes are given.
+</p>
+
+<p>
+  The naive Bayes model is a probabilistic model that involves a class
+  variable -- this corresponds to the state variable above -- and a
+  number of feature variables. The assumption in the model is that the
+  feature variables are <strong> conditionally independent</strong>
+  given the class.  (We will not discuss the exact meaning of
+  conditional independence on this course. You can find more about it
+  from the literature. For our purposes, it is enough to be able to
+  exploit conditional independence in building the classifier.)
+</p>
+
+<p>
+  We will use a <strong>spam email filter</strong> as a running
+  example for illustrating the idea of the naive Bayes
+  classifier. Thus, the class variable indicates whether a message is
+  spam (or "junk email") or whether it is a legitimate message (also
+  called "ham").  The words in the message correspond to the feature
+  variables, so that the number of feature variables in the model
+  is determined by the length of the message.
+</p>
+
+<p>
+  <img src="/img/diagrams/nbmodel.png" width=65%>
+</p>
+
+<p>
+  The naive Bayes model can be represented as a <strong>Bayesian
+    network</strong>, which encodes the conditional independence
+  between the feature variables (in this case, the words of the
+  email message) given the class variable as in the above diagram.
+  We'll return to Bayesian networks in the next section below.
+</p>
+
+<% partial 'partials/material_sub_sub_heading' do %>
+  Estimating parameters
+<% end %>
+
+<p>
+  To define the naive Bayes model, we need to specify the distribution
+  of each variable. For the class variable, this is the distribution
+  of spam vs ham messages, which we can for simplicity assume to be
+  1:1, i.e., <code>P(spam) = P(ham) = 0.5</code>.
+</p>
+
+<p>
+  For the feature variables, we will define two distributions: one for
+  the spam messages and another one for the ham messages. In each case,
+  we will make the simplifying assumption that each of the words in the
+  message is distributed according to the same distribution. And as we
+  said above, we also assume that the words are independent of each 
+  other given the spam/ham class.
+</p>
+
+<p>
+  The word distributions for the two classes are
+  best <strong>estimated</strong> from actual training data, i.e., a
+  corpus of spam messages and a corpus of legitimate messages. The
+  simplest way is to count how many times each word, <code>aardvark,
+  aardwolf, ..., Zyzzogeton</code>, appears in the corpus and dividing
+  the number by the total number of words in the corpus.
+</p>
+
+<p>
+  To illustrate the idea, let's assume that we have at our disposal
+  both a spam corpus and a ham corpus. You can easily obtain one
+  by saving a batch of your emails in two files.
+</p>
+
+<p>
+  Assume that we have calculated the number of occurrences of the
+  following words in the two classes of messages:
+</p>
+<pre>
+        word    spam     ham
+ ----------- ------- -------
+ million         156      98
+ dollars          29     119
+ adclick          51       0
+ conferences       0      12
+ ----------- ------- -------
+       total   95791  306438
+</pre>
+
+<% partial 'partials/hint', locals: { name: 'Watch out for the Singularity!' } do %>
+
+<p>
+  One problem with estimating the probabilities directly from the
+  counts is that the zero counts lead to zero estimates. This can be
+  quite harmful for the performance of the classifier -- it easily
+  leads to situations where the ratio of the posterior probabilities
+  obtained as 0/0. That sounds dangerously close to the Singularity,
+  so we'd better find a better way. The simplest solution is to use a
+  small lower bound for all probability estimates. The value 0.000001,
+  for instance, does the job.
+</p>
+
+<% end %>
+
+<p>
+  We can now estimate that the probability that a word in a spam
+  message is <code>million</code>, for example, is about 156/95791
+  &asymp; 0.0016285. In other words, on the average, roughly every
+  614th word in a spam message is <code>million</code>. Likewise, we
+  get the estimate 0.0003198 for the probability that a word in a ham
+  message is <code>million</code>. Both of these probability estimates
+  are small but more importantly, the former is higher than the
+  latter. This turns out to be a sign that the word in question hints
+  towards the message being spam -- which sounds logical. Words for
+  which the ratio of the probabilities is the other way around, hint
+  towards the message being ham.
+</p>
+
+<% partial 'partials/material_sub_sub_heading' do %>
+  Classifying new data
+<% end %>
+
+<p>
+  After the parameters of the model have been estimated, the
+  classifier is ready for use! When we are given a new message, we
+  will compute the posterior probability <code>P(spam |
+  message)</code>, where <code>message</code> is a place-holder for
+  the words in the message, for example, <code>P(spam | 'million',
+  'conferences')</code> (which would be a really short message).
+</p>
+
+<p>
+  Let's compute the posterior probability
+</p>
+<pre>
+     P(spam | Word1 = 'million', Word2 = 'conferences')
+</pre>
+<p>
+  which is abbreviated without a great risk of confusion -- but please
+  note that unlike <code>million</code> and <code>conferences</code>,
+  which are hyphenated ('like this') to indicate that they are words that occur
+  in the message, the term <code>spam</code> indicates
+  the <i>class</i> of the message, not the word "spam" -- as
+</p>
+<pre>
+     P(spam | 'million', 'conferences')
+</pre>
+<p>
+  By Bayes rule, we have
+</p>
+<pre>
+                                      P(spam) P('million', 'conferences' | spam)
+ P(spam | 'million', 'conferences') = ------------------------------------------
+                                            P('million', 'conferences')
+</pre>
+<p>
+  The numerator on the right side is the likelihood term and its meaning
+  is the probability that the first two words are <code>million</code>
+  and <code>conferences</code> given that the message is spam. The
+  denominator on the right side -- it's the annoying one -- is the
+  probability that the first two words are as stated when the spam/ham
+  status of the message is <strong>not</strong> given.
+</p>
+
+<p>
+  Let's look at the likelihood term first. The conditional independence
+  assumption, i.e., the naive Bayes assumption, implies that the
+  likelihood can be "factorized" as follows
+</p>
+<pre>
+  P('million', 'conferences' | spam) = P('million' | spam) P('conferences' | spam)
+</pre>
+<p>
+  This is very useful since these are the kind of probabilities we
+  have estimated from the data. The same factorization rule can be
+  applied no matter how many words there are in the message.
+</p>
+
+<p>
+  Next up is the annoying denominator. However, we'll use the hint above
+  and avoid calculating the denominator (at least explicitly). To achieve
+  this, we consider the ratio of posteriors:
+</p>
+<pre>
+ P(spam | 'million', 'conferences')   P(spam) P('million', 'conferences' | spam) / Z
+ ---------------------------------- = ----------------------------------------------
+  P(ham | 'million', 'conferences')    P(ham) P('million', 'conferences' | ham) / Z
+</pre>
+<p>
+  where Z, defined as <code>Z = P('million', 'conferences')</code>,
+  is the annoying denominator which cancels out just as promised in the hint.
+</p>
+
+<p>
+  The term <code>P('million', 'conferences' | ham)</code> is treated in the exact
+  same manner as the term corresponding term for spam (see above), and the
+  numbers required to calculate its value are available since we have
+  estimated them from the training data.
+</p>
+
+<p>
+  The following exercises will demonstrate the use of the naive Bayes
+  model.
+</p>
+
+<% partial 'partials/exercise', locals: { name: 'Naive Bayes and Spam (pencil-and-paper) (2p)' } do %>
+
+<p>
+  Consider the word counts given in the table above (million, dollars, <i>etc</i>).
+</p>
+<ol>
+  <li>
+    Estimate the remaining word probabilities for both classes.
+  <li>
+    Use the obtained estimates to calculate the probability
+    <code>P(Word &ne; 'million')</code>, i.e., the probability that
+    a single word in a message is <i>not</i> <code>million</code> when
+    the class of the message is unknown. <i>Hint:</i> You should recall
+    the rule for calculating the <b>marginal probability</b>
+    (see, for example, the references given under Section 3.1
+    Probability Fundamentals of Part 2).
+  <li>
+    Calculate <code>P(spam | 'million')</code>, i.e., the probability
+    that the message is spam given that its first word (or in fact,
+    any particular word) is <code>million</code>.
+  <li>
+    Calculate <code>P(spam | 'million', 'dollars', 'adclick', 'conferences')</code>,
+    i.e., the probability that the message is spam when its first four
+    words are as stated.
+</ol>
+<p>
+  Use the prior probability <code>P(spam) = 0.5</code>.
+</p>
+<p>
+  <i>Additional hints:</i> In item 3, remember Bayes. In item 4, remember
+  to use a lower bound on the estimates. Also recall the trick about
+  not calculating the annoying denominator.
+</p>
+
+<% end %>
+
+<% partial 'partials/solution', locals: { name: 'Example solution' } do %>
+
+<p>
+  <ol>
+    <li>
+      Dividing the occurrence counts by the total number of words
+      in each class gives
+      <pre>
+        word     spam      ham
+ ----------- -------- --------
+ million     0.001629 0.000320
+ dollars     0.000303 0.000388
+ adclick     0.000532 0.000001
+ conferences 0.000001 0.000039</pre>
+      where we used the lower bound 0.000001 in case of zero counts.<br><br>
+
+    <li>
+      First of all, we can use <code>P(Word &ne; 'million')
+      = 1 - P(Word = 'million')</code>. The probability on the right
+      needs to be computed by the same technique as we've applied
+      to obtain the annoying denominator in Bayes rule calculations,
+      i.e., dividing it into the two possible ways to get the word
+      'million':
+      <br><br>
+      <pre>
+   P(Word = 'million') 
+   = P(spam) P(Word = 'million' | spam) 
+   + P(ham) P(Word = 'million' | ham)
+   &asymp; 0.5 &times; 0.001629 + 0.5 &times; 0.000320 &asymp; 0.000974</pre>
+      Thus, we get <code>P(Word &ne; 'million') &asymp; 1-0.000974
+	= 0.999346</code>.<br><br>
+    <li>
+      <pre>
+   P(spam | 'million') = P(spam) P('million' | spam) / P('million')
+   &asymp; 0.5 &times; 0.001629 / 0.000974 &asymp; 0.836
+</pre>
+      This is a straightforward application of the Bayes rule where
+      the annoying denominator was known from the previous item.
+      If you are still uncertain about this, please review the
+      material on Bayes rule and the references given in Section 3.1
+      of Part 2.<br><br>
+    <li>
+      In this case, it is most convenient to use the trick for
+      avoiding the computation of the annoying denominator (see above).
+      Hence, we'll calculate the ratio of posterior probabilities<br><br>
+      <pre>
+    P(spam | 'million', 'dollars', 'adclick', 'conferences')
+R = --------------------------------------------------------
+     P(ham | 'million', 'dollars', 'adclick', 'conferences')
+
+    P(spam) P('million'|spam) P('dollars'|spam) P('adclick'|spam) P('conferences'|spam)
+  = -----------------------------------------------------------------------------------
+      P(ham) P('million'|ham) P('dollars'|ham) P('adclick'|ham) P('conferences'|ham)
+
+    0.5 &times; 0.001629 &times; 0.000303 &times; 0.000532 &times; 0.000001
+  = ----------------------------------------------- &asymp; 54.23
+    0.5 &times; 0.000320 &times; 0.000388 &times; 0.000001 &times; 0.000039</pre>
+
+      Note that 54.23 is clearly not the required <i>probability</i>. To get
+      the probability from the ratio R, we use the formula
+      Prob = R/(1+R):<br><br>
+      <pre>
+P(spam | 'million', 'dollars', 'adclick', 'conferences') &asymp; 54.23 / (1+54.23) &asymp; 0.982</pre>
+  </ol>
+</p>
+
+<% end %>
+
+<% partial 'partials/material_sub_sub_heading' do %>
+  Implementation details
+<% end %>
+
+<p>
+  The above exercise should make it relatively straightforward to see
+  how the filter can be implemented by programming: the key insight is
+  the routine nature of the word-by-word calculations.
+</p>
+
+<p>
+  A convenient way to group the computations is obtained by slight
+  reshuffling of the terms. Consider still our example two-word message,
+  and the following formula for the ratio of the posterior probabilities
+</p>
+<pre>
+     P(spam | 'million', 'conferences') 
+ R = ----------------------------------  
+      P(ham | 'million', 'conferences')
+
+     P(spam) P('million' | spam) P('conferences' | spam)
+   = ---------------------------------------------------
+       P(ham) P('million' | ham) P('conferences' | ham)
+</pre>
+<p>
+  Since the ratio of products is equal to the product of ratios -- i.e.,
+  for example, (ABC)/(DEF) = (A/D)(B/E)(C/F) -- we can group the above terms as
+</p>
+<pre>
+     P(spam)  P('million' | spam)  P('conferences' | spam)
+ R = -------  -------------------  -----------------------
+     P(ham)   P('million' | ham)   P('conferences' | ham)
+</pre>
+<p>
+  More generally, the formula is
+</p>
+<pre>
+       P(spam)  N  P(word_i | spam)
+   R = -------  &Pi;  ----------------
+       P(ham)  i=1 P(word_i | ham)
+</pre>
+<p>
+  where N is the number of words in the message, and <code>word_i</code> is the
+  i'th word in the message.
+</p>
+
+<p>
+  Intuitively, the above formula encodes the rule that any word whose
+  probability is higher in spam messages than in ham messages will
+  increase the ratio R, and vice versa. For example, in our two-word
+  message, for <i>i</i>=1, we have <code>word_i =
+  'million'</code>, and the ratio of the word probabilities is
+  given by
+</p>
+<pre>
+    P(word_1 | spam)   P('million' | spam)   0.0016285
+    ---------------- = ------------------- &asymp; --------- &asymp; 5.1 
+    P(word_1 | ham)    P('million' | ham)    0.0003198
+</pre>
+<p>
+  Thus, each occurrence of the word <code>'million'</code> in the message
+  leads to roughly a five-fold increase in the posterior probability ratio.
+</p>
+
+<p>
+  Putting things together, here's a pseudocode sketch of the classification
+  stage where we assume that the probability estimates have already been
+  calculated from training data.
+</p>
+
+<% partial 'partials/code_highlight' do %>
+1:  spamicity(words, estimates):
+2:     R = estimates.prior_spam / estimates.prior_ham
+3:     for each w in words:
+4:        R = R * estimates.spam_prob(w) / estimates.ham_prob(w)
+5:     return R
+<% end %>
+
+<p>
+  Here <code>estimates</code> is an object that stores the estimated
+  probabilities: <code>estimates.prior_spam</code> is the probability that
+  a message is spam, P(spam), <code>estimates.prior_ham</code> the same
+  for ham; <code>estimates.spam_prob(w)</code> is the probability
+  <code>P(Word = w | spam)</code>, and <code>estimates.ham_prob(w)</code>
+  the same for ham.
+</p>
+
+<% partial 'partials/hint', locals: { name: 'Avoiding under- and overflows' } do %>
+
+<p>
+  When dealing with long messages, the posterior probability ratio becomes
+  a product with very many terms. This can easily lead to trouble because
+  products are creatures that easily grow very very large or very very small
+  (close to zero); the mathematical term is 'exponential rate'.
+</p>
+
+<p>
+  In order to reduce the risk of under- and overflows in the floating
+  point arithmetics, it is a good idea to carry out the computations
+  in log-scale.  That is, instead of computing the ratio, R, you
+  should compute its logarithm, log(R). (Store the log-ratio in a variable
+  like <code>logR</code>.)
+</p>
+
+<p>
+  The important thing to recall about logarithms is that they convert
+  multiplication into addition: log(AB) = log(A) + log(B); and similarly,
+  division becomes subtraction: log(A/B) = log(A) &ndash; log(B). Using these,
+  we can write the log-ratio as
+</p>
+<pre>
+                                       N
+   logR = log(P(spam)) - log(P(ham)) + &Sigma; [log(P(word_i | spam)) - log(P(word_i | ham))]
+                                      i=1
+</pre>
+<p>
+  The base of the logarithm (natural, 2, 10, ...) is not
+  consequential. The important thing is to map the end result back to
+  the ratio by exponentiating the log-ratio with the same base. So if
+  you use natural logarithms, for instance, then you should
+  exponentiate the log-ratio by <code>exp(logR)</code> to get R.
+</p>
+
+<% end %>
+
+<% partial 'partials/exercise', locals: { name: 'Naive Bayes and Spam (programming) (2p)' } do %>
+
+<p>
+  Next you get to implement a naive Bayes spam filter by
+  programming. The Java template is available on TMC. (In case you
+  prefer to use another programming language, feel free to. You can
+  find the ready-made spam and ham word count
+  files, <code>spamcount.txt</code> and <code>hamcount.txt</code> in
+  the template.)
+</p>
+
+<p>
+  <ol>
+    <li>
+      Download the template and take a look at the word count files in
+      the template, which originally come from the development team of
+      the <a href="http://spamassassin.apache.org/">SpamAssassin</a>
+      spam filter. The common "stop-words" that are uninteresting for
+      our present purpose, such as <i>the, a, to, ...</i> have been
+      removed, as have words that occur only once. The files are
+      sorted so that the most common words in the respective class
+      come first:
+      <pre>
+
+	top 10 spam words: top 10 ham words:
+        ------------------ -----------------
+         624 free          1776 list
+         465 email         1263 lists
+         414 money         1204 use
+         410 please        1007 exmh
+         410 mail           987 like
+         383 list           952 some
+         360 click          919 wrote
+         358 content        909 linux
+         339 business       895 listinfo
+         306 information    893 rpm
+      </pre>
+      The total number of unique words in the spam messages is 6245, and the
+      total word count is 75268. The ham messages have 16207 unique words and
+      the total word count is 290673.
+    <lI>
+      Estimate the conditional probabilities <code>P(Word=s | spam)</code>
+      and <code>P(Word=s | ham)</code> for all words <code>s</code> that occur
+      in the files. For example, you should get the estimate <code>P('free' | spam)</code>
+      &asymp; 0.00829.
+    <li>
+      Now implement a filter that reads a new message and calculates the probability
+      that it is spam using the naive Bayes model, following the instructions
+      above.
+    <li>
+      Test your classifiers by running it on the two example messages that come with
+      the TMC template <code>spamesim.txt</code> (which should classified as spam) and
+      <code>hamesim.txt</code> (which should be classified as ham).
+      You can also try your spam filter on your own email messages.
+  </ol>
+</p>
+
+<p>
+  <i>Hint:</i> In item 3, you may encounter words that you haven't 
+  encountered in the training data at all. You can use the small constant
+  lower bound for them.
+</p>
+
+<% end %>
+
+<p>
+  Here is some additional material on naive Bayes spam filtering that you
+  may like to take a look at:
+  <ul>
+    <li>Dr Dobbs Journal: <a href="http://drdobbs.com/architecture-and-design/184406064">Naive Bayesian text classification</a>
+    <li>M. Sahami, S. Dumais, D. Heckerman, E. Horvitz (1998). <a href="http://robotics.stanford.edu/users/sahami/papers-dir/spam.pdf">"A Bayesian approach to filtering junk e-mail"</a>. AAAI'98 Workshop on Learning for Text Categorization.
+  </ul>
+</p>
+
+<% partial 'partials/material_sub_heading' do %>
+  Bayesian networks
+<% end %>
+
+<p>
+  As we mentioned above, the naive Bayes model is a kind of a Bayesian
+  network, with an associated graph structure where the class variable
+  is the root and the only "parent" of all the feature variables.
+</p>
+
+<p>
+  Bayesian networks are a model family which belong to the still more
+  general category
+  of <a href="https://en.wikipedia.org/wiki/Graphical_model">(probabilistic)
+  graphical models</a>, which are a modeling "language" for
+  probabilistic models. The power of graphical models is mainly due to
+  i) their ability to compactly represent multivariate domains with
+  complex dependencies, and ii) efficient inference procedures that
+  exploit the structure of the models.
+</p>
+
+<% partial 'partials/material_sub_sub_heading' do %>
+  Building blocks of a Bayesian network
+<% end %>
+
+<p>
+  A Bayesian network will represent a joint distribution over a number
+  of random variables. Depending on the complexity of the network
+  (which depends on the number of placement of the edges in the
+  graph), the Bayesian network representation may require
+  significantly fewer numerical parameters than the number of
+  elementary events in the domain.
+</p>
+
+<p>
+  The structure of the network is encoded as a graph where each random
+  variable is represented as a node, and the dependency structure is
+  characterized by a set of directed edges between the nodes. The
+  graph must be a <strong>directed acyclic graph</strong> (DAG), which
+  means that it is impossible to start from a node follow a path in
+  the direction of the edges to arrive at the same node. 
+</p>
+
+<p>
+  Here's an example DAG:<br>
+<img src="/img/diagrams/BNexample1.png" width=25% align=middle>
+</p>
+
+<p>
+  The random variables in the model are X,Y,Z, and &Aring;. (For the
+  non-Scandi students, the last one is what we call the "Swedish O" in
+  Finland;
+  see <a href="https://en.wikipedia.org/wiki/%C3%85">Wikipedia:&Aring;</a>.
+  It conveniently comes after X, Y, and Z in our alphabet.) The edges
+  correspond to <strong>direct</strong> dependency, so that
+  the <i>absence</i> of an edge between any two variables means that
+  the variables are conditionally independent given some (possibly
+  empty) set of other variables. The details of this are slightly too
+  complicated to discuss here, so we'll not go into them. For now, it
+  is enough to remember that the edges are a way to encode the 
+  dependency structure in the domain.
+</p>
+
+<p>
+  In addition to the structure encoded as the DAG, a Bayesian network
+  comes with a set of parameters quantifying the conditional
+  distributions of the variables. These are given in the form P(V=v |
+  Pa<sub>V</sub> = pa<sub>V</sub>), where V is a random variable and v
+  is a value, and Pa<sub>V</sub> denotes the <strong>parents</strong>
+  of node V in the graph: i.e., the nodes from which there is an edge
+  to V. For example, in the above DAG, we have Pa<sub>Z</sub> = {X,Y},
+  and Pa<sub>Y</sub> = &empty; because node Y has no parents at all.
+</p>
+
+<p>
+  When the variables are categorical, i.e., they take values in a finite
+  set, the conditional distributions can be specified as 
+  <strong>conditional probability tables</strong> (CPTs). A CPT for
+  variable V includes the distribution of V for each possible
+  combination of the values of V's parents. We call such combinations
+  <strong>parent configurations</strong>. For example, if in the above
+  example network, all variables are binary, then the parent configurations
+  of Z are (X=0, Y=0), (X=0, Y=1), (X=1, Y=0), (X=1, Y=1), and the CPT
+  of Z will have four rows, each containing a conditional distribution
+  for Z. A concrete example is as follows
+</p>
+
+<p>
+  <table style="background-color: #7fb3d5; text-align: center;">
+    <tr>
+      <td colspan=2></td><td colspan=2>Z</td>
+    </tr>
+    <tr>
+      <td>&nbsp;X&nbsp;</td><td>&nbsp;Y&nbsp;</td><td>0</td><td>1</td>
+    </tr>
+    <tr>
+      <td>0</td><td>0</td><td bgcolor=ecf0f1>&nbsp;0.1&nbsp;</td><td bgcolor=ecf0f1>&nbsp;0.9&nbsp;</td>
+    </tr>
+    <tr>
+      <td>0</td><td>1</td><td bgcolor=ecf0f1>0.2</td><td bgcolor=ecf0f1>0.8</td>
+    </tr>
+    <tr>
+      <td>1</td><td>0</td><td bgcolor=ecf0f1>0.5</td><td bgcolor=ecf0f1>0.5</td>
+    </tr>
+    <tr>
+      <td>1</td><td>1</td><td bgcolor=ecf0f1>0.0</td><td bgcolor=ecf0f1>1.0</td>
+    </tr>
+  </table>
+</p>
+
+<p>
+  So for instance, if X=1 and Y=0, then the conditional probability of Z=1
+  is given by P(Z=1 | X=1, Y=0) = 0.5, and so on.
+</p>
+
+<p>
+  For a variable that has no parents in the network, the CPT is actually
+  just a single distribution, and the CPT has only one row. For variables
+  that have many parents, the CPT may easily become very very large.
+</p>
+
+<p>
+  To make things concrete, we use a running example which is the
+  car Bayesian network discussed at the lecture. Its structure is
+  the following:<br>
+<img src="/img/diagrams/carBN.png" width=50%>
+</p>
+
+<p>
+  The variables in the model are abbreviated as the first letters:
+  <pre>
+    [B]attery
+    [R]adio
+    [I]gnition
+    [G]as
+    [S]tarts
+    [M]oves</pre>
+</p>
+
+<p>
+  The CPTs are as follows:
+  <table style="background-color: #7fb3d5; text-align: center; display: inline-block;">
+    <tr>
+      <td colspan=2 align=center>B</td>
+    </tr>
+    <tr>
+      <td>0</td><td>1</td>
+    </tr>
+    <tr>
+      <td bgcolor=ecf0f1>&nbsp;0.1&nbsp;</td><td bgcolor=ecf0f1>&nbsp;0.9&nbsp;</td>
+    </tr>
+  </table>
+  &nbsp;&nbsp;
+
+  <table style="background-color: #7fb3d5; text-align: center; display: inline-block;">
+    <tr>
+      <td colspan=1></td><td colspan=2>R</td>
+    </tr>
+    <tr>
+      <td>B</td><td>0</td><td>1</td>
+    </tr>
+    <tr>
+      <td>&nbsp;0&nbsp;</td><td bgcolor=ecf0f1>&nbsp;1.0&nbsp;</td><td bgcolor=ecf0f1>&nbsp;0.0&nbsp;</td>
+    </tr>
+    <tr>
+      <td>1</td><td bgcolor=ecf0f1>&nbsp;0.1&nbsp;</td><td bgcolor=ecf0f1>&nbsp;0.9&nbsp;</td>
+    </tr>
+  </table>
+  &nbsp;&nbsp;
+
+  <table style="background-color: #7fb3d5; text-align: center; display: inline-block;">
+    <tr>
+      <td colspan=1></td><td colspan=2>I</td>
+    </tr>
+    <tr>
+      <td>B</td><td>0</td><td>1</td>
+    </tr>
+    <tr>
+      <td>&nbsp;0&nbsp;</td><td bgcolor=ecf0f1>&nbsp;1.0&nbsp;</td><td bgcolor=ecf0f1>&nbsp;0.0&nbsp;</td>
+    </tr>
+    <tr>
+      <td>1</td><td bgcolor=ecf0f1>&nbsp;0.05&nbsp;</td><td bgcolor=ecf0f1>&nbsp;0.95&nbsp;</td>
+    </tr>
+  </table>
+  &nbsp;&nbsp;
+
+  <table style="background-color: #7fb3d5; text-align: center; display: inline-block;">
+    <tr>
+      <td colspan=2 align=center>G</td>
+    </tr>
+    <tr>
+      <td>0</td><td>1</td>
+    </tr>
+    <tr>
+      <td bgcolor=ecf0f1>&nbsp;0.05&nbsp;</td><td bgcolor=ecf0f1>&nbsp;0.95&nbsp;</td>
+    </tr>
+  </table>
+  &nbsp;&nbsp;
+
+  <table style="background-color: #7fb3d5; text-align: center; display: inline-block;">
+    <tr>
+      <td colspan=2></td><td colspan=2>S</td>
+    </tr>
+    <tr>
+      <td>I</td><td>G</td><td>0</td><td>1</td>
+    </tr>
+    <tr>
+      <td>&nbsp;0&nbsp;</td><td>&nbsp;0&nbsp;</td><td bgcolor=ecf0f1>&nbsp;1.0&nbsp;</td><td bgcolor=ecf0f1>&nbsp;0.0&nbsp;</td>
+    </tr>
+    <tr>
+      <td>0</td><td>1</td><td bgcolor=ecf0f1>1.0</td><td bgcolor=ecf0f1>0.0</td>
+    </tr>
+    <tr>
+      <td>1</td><td>0</td><td bgcolor=ecf0f1>1.0</td><td bgcolor=ecf0f1>0.0</td>
+    </tr>
+    <tr>
+      <td>1</td><td>1</td><td bgcolor=ecf0f1>0.01</td><td bgcolor=ecf0f1>0.99</td>
+    </tr>
+  </table>
+  &nbsp;&nbsp;
+
+  <table style="background-color: #7fb3d5; text-align: center; display: inline-block;">
+    <tr>
+      <td colspan=1></td><td colspan=2>M</td>
+    </tr>
+    <tr>
+      <td>S</td><td>0</td><td>1</td>
+    </tr>
+    <tr>
+      <td>&nbsp;0&nbsp;</td><td bgcolor=ecf0f1>&nbsp;1.0&nbsp;</td><td bgcolor=ecf0f1>&nbsp;0.0&nbsp;</td>
+    </tr>
+    <tr>
+      <td>1</td><td bgcolor=ecf0f1>&nbsp;0.01&nbsp;</td><td bgcolor=ecf0f1>&nbsp;0.99&nbsp;</td>
+    </tr>
+  </table>
+</p>
+
+<p>
+  Just to take an example, the car will start (S=1) with probability
+  0.99 in case the ignition works (I=1) and there is gasoline in the tank (G=1).
+  (No Tesla obviously). If there's a problem either with the ignition <i>or</i>
+  the gasoline, then the car won't start for sure, i.e., P(S=1 | I=i, G=g) = 0.0 for
+  all other combinations (i,g) than (1,1).
+</p>
+
+<p>
+  The structure (the DAG) and the parameters in the CPTs are the
+  building blocks of a Bayesian network. Next we dicuss how they
+  represent a joint distribution and how they can be used to 
+  perform inference about the domain.
+</p>
+
+<% partial 'partials/material_sub_sub_heading' do %>
+  Defining a probabilistic model as a Bayesian network
+<% end %>
+
+<p>
+  A probabilistic model is really nothing but a joint distribution
+  over the random variables in the domain. The joint distribution
+  defines the probability of each elementary event, which are
+  equivalent to joint value assignments for the random variables.
+  In the car domain, an elementary event is defined by six bits,
+  B,R,I,G,S,M. For example, the event 1,1,1,1,1,1 would be a good
+  day: the battery is alive, you listen to some good music, the
+  car starts because you remembered to fill the tank yesterday, and
+  you make it to the lecture in time.
+</p>
+
+<p>
+  The joint probability of any elementary event is obtained as the
+  product of the conditional probabilities of the form P(V=v |
+  Pa<sub>V</sub> = pa<sub>V</sub>), where you'll recall Pa<sub>V</sub>
+  refers to the parent set of V. In the car domain, the product is
+  thus of the form:<br><br>
+  P(B=b,R=r,I=i,G=g,S=s,M=m) =
+  P(B=b) P(R=r | B=b) P(I=i | B=b) P(G=g) P (S=s | I=i,G=g) P(M=m | S=s),<br><br>
+  where b,r,i,g,s, and m denote values of the respective random
+  variables. The above formula is called a <strong>factorization</strong>
+  of the joint probability.
+</p>
+
+
+
+<% partial 'partials/hint', locals: { name: 'On short-hand notation' } do %>
+
+<p>
+  To make it easier to interpret the events we won't use the rather
+  long notation like B=1,R=1,I=1,G=1,S=1,M=1 or even the shorter
+  notation like 1,1,1,1,1,1 to denote events in the car
+  domain. Rather, we'll have a different label for the values of each
+  of the random variables. For the variable Battery, we denote the
+  good case (battery is alive) by B and the bad case by &not;B.
+  Similarly, for Radio, we denote the good case (music is played) by
+  R, and the bad case by &not;R, and so on.
+</p>
+
+<p>
+  This is actually slight abuse of notation since we also denote the
+  corresponding variables by the initial letters, B, R, etc, but we
+  hope the meaning is clear enough.
+</p>
+
+<% end %>
+
+<p>
+  The probability of a good day with the car is<br><br>
+  P(B) P(R|B) P(I|B) P(G) P(S|I,G) P(M|S)
+  = 0.9 &times; 0.9 &times; 0.95 &times; 0.95 &times; 0.99 &times 99
+  &asymp; 0.716.<br><br>
+  Pay close attention to the form of the terms, and make sure you could
+  choose the right values from the above CPTs to do the above
+  calculation.
+</p>
+
+<p>
+  Or, some days are fine except the radio may not work, which is
+  denoted as &not;R. The probability of the elementary event where
+  everything else is good but the radio is out is obtained similarly,
+  and the result is:
+  <br><br>
+  P(B) P(&not;R|B) P(I|B) P(G) P(S|I,G) P(M|S)
+  <!--= 0.9 &times; 0.1 &times; 0.95 &times; 0.95 &times; 0.99 &times 99-->
+  &asymp; 0.080.
+  <br><br>
+  Check that you get the same result by substituting the numbers from
+  the CPTs in the correct places. Remember that &not;R means R=0 (see the
+  hint above).
+</p>
+
+<p>
+  You may ask what the point in all this business with the CPTs is:
+  having to come up with all the numbers (parameters) in the CPTs
+  looks like a lot of work. Why not just directly try to come up with
+  the probabilities of the elementary events if that is the end
+  result?  The answer is that we can sometimes save a whole lot of
+  work this way. In the car example, the CPTs contain 2+4+4+2+8+4 = 24
+  numbers, of which half are actually redundant since the numbers on
+  each row must always sum up to one, i.e., there are really only 12
+  numbers to choose.  The number of elementary events, on the other
+  hand, is 2<sup>6</sup>=64, i.e., we would have to come up with 63
+  parameters (the last one could be obtained by subtracting the others
+  from 1.0). This shows how Bayesian networks can lead to <b>compact
+    representation</b> of probabilistic models.
+</p>
+
+<% partial 'partials/material_sub_sub_heading' do %>
+  Exact inference in Bayesian networks
+<% end %>
+
+<p>
+  Compact representation of probabilistic models is only one of the
+  two main advantages of Bayesian networks. The other advantage is
+  efficient inference. Here we will discuss what we mean by inference,
+  but to get to the <i>efficient</i> inference algorithms, you will have
+  to study a bit more than this course.
+</p>
+
+<p>
+  Just like in the above examples where we used Bayes rule and other
+  probability calculus methods to compute posterior probabilities of
+  the kind P(state | observations), we can do the same with Bayesian
+  networks. Continuing with the car example, we can for example
+  compute P(battery dead | radio doesn't work, car won't move), or
+  P(&not;B | &not;R, &not;M), to figure out what is wrong with our car.
+</p>
+
+<p>
+  So, let's get to work. We can start by writing the conditional
+  probability as a ratio of two probabilities
+  <pre>
+                   P(&not;B, &not;R, &not;M)
+  P(&notB | &not;R, &not;M) = -------------
+                      P(&not;R, &not;M)</pre>
+  To obtain these probabilities, we need to use the marginalization
+  rule, which we have used before to write the annoying denominator
+  as a sum of two terms. Here the sum will be composed of many
+  terms instead of only two, but the basic principle is the same.
+  The numerator becomes:<br><br>
+  P(&not;B, &not;R, &not;M) = 
+  &Sigma;<sub>&omega; &isin; (&not;B,&not;R,&not;M)</sub> P(&omega;) <br>
+  = P(&not;B, &not;R, I, G, S, &not;M)<br>
+  + P(&not;B, &not;R, I, G, &not;S, &not;M)<br>
+  + P(&not;B, &not;R, I, &not;G, S, &not;M)<br>
+  + P(&not;B, &not;R, I, &not;G, &not;S, &not;M)<br>
+  + P(&not;B, &not;R, &not;I, G, S, &not;M)<br>
+  + P(&not;B, &not;R, &not;I, G, &not;S, &not;M)<br>
+  + P(&not;B, &not;R, &not;I, &not;G, S, &not;M)<br>
+  + P(&not;B, &not;R, &not;I, &not;G, &not;S, &not;M)<br><br>
+  where &omega; &isin; (&not;B,&not;R,&not;M) denotes the set of
+  elementary events that belong to the event (&not;B,&not;R,&not;M).
+</p>
+
+<p>
+  We can now obtain the probability of each of the above eight
+  elementary events by using the factorization into a product of
+  conditional probabilities, and substituting the appropriate values
+  into the product from the CPTs. Take the first one:<br><br>
+  P(&not;B, &not;R, I, G, S, &not;M)
+  = 0.1 &times; 1.0 &times; 0.0 &times; 0.95 &times; 0.0 &times; 1.0 = 0.0
+  <br><br>
+  which turns out to be equal to zero. Can you see why this makes sense?
+  (Remember the meaning of &not;B and I. Can they happen at the same
+  time?)
+</p>
+
+<p>
+  The denominator in the formula for the posterior probability we wish
+  to compute, P(&not;R, &not;M), can also be evaluated using the
+  same technique. It will involve a sum of 16 terms since there are
+  four variables that we need to sum over when we expand the
+  event into a sum of elementary events. But if we work hard and
+  do the math, we'll get the answer we need.
+</p>
+
+<p>
+  We call this the <strong>brute-force</strong> approach, and it has
+  the advantage that it always leads to exactly the right answer.
+  Implementing the calculations in a computer avoids the tedious task
+  of writing down large sums and manually calculating them.  However,
+  in larger domains than our small car example, the calculations will
+  become infeasible even for a computer. The problem is that the
+  number of terms to be evaluated grows exponentially with respect to
+  the number of variables in the model. That is why the more advanced
+  and efficient inference algorithms that we've alluded to a few times
+  are such an important thing. Another solution is to use <strong>
+    approximate inference</strong>, which is our next topic.
+</p>
+
+<% partial 'partials/material_sub_sub_heading' do %>
+  Generating data from a Bayesian network
+<% end %>
+
+<p>
+  In order to do approximate inference, we need to be able to generate
+  (or sample) data from the joint distribution defined by a
+  Bayesian network. The data will consist of <b>tuples</b>, each of
+  which is essentially a list of values for each of the random
+  variables in the domain. Thus, each tuple corresponds one-to-one
+  to an elementary event &omega;.
+</p>
+
+<p>
+  The algorithm to generate tuples is quite simple. We first choose
+  values for any variables that have no parents. The choice is
+  done randomly according to the distribution defined by the CPT.
+  For example, to choose the value for the Battery variable in the
+  car model, we use the distribution (0.1, 0.9). Similarly, the
+  value of variable Gas is drawn from the distribution (0.05, 0.95).
+</p>
+
+<% partial 'partials/hint', locals: { name: 'Random sampling from a distribution' } do %>
+
+<p>
+  You have probably generated numbers from a pseudorandom number
+  generator in your favorite programming language. In python, you may
+  have used <code>random.random()</code>, and in Java, <code>Math.random()</code>.
+  Both of these return pseudorandom floating point values in the range
+  [0.0, 1.0). Other functions exist for generating random integers,
+  Booleans, etc.</p>
+
+<p>
+  Some languages also have functions to generate categorical values
+  (values in a finite set) from a given distribution. If your favorite
+  language doesn't provide such functions, it is easy to apply the
+  existing functions to implement them.
+</p>
+
+<p>
+  For binary variables, the method works as follows. Let the
+  probability of zero in the distribution you wish to sample from be
+  some P(X=0). Generate a random floating point value <code>r</code>
+  by the aforementioned functions. If <code>r</code> &lt; P(X=0), then
+  output the value 0, and otherwise 1. Clearly a uniformly distributed
+  value between 0 and 1 is less than P(X=0) with probability P(X=0), so
+  our method produces value 0 with probability P(X=0), as it should.
+</p>
+
+<p>
+  In the following, we will only need the binary case, but just in
+  case you are interested: For categorical variables with more than
+  two values, the method works in a similar fashion. The value 0 is
+  produced if <code>r</code> is less than P(X=0). The value 1 is
+  produced if <code>r</code> is between P(X=0) and P(X=0)+P(X=1). And
+  generally, the value x is produced if
+  <code>r</code> is between A = &Sigma;<sub>i=0,...,x-1</sub> P(X=i)
+  = P(X=0) + ... + P(X=i-1) and A + P(X=i).
+</p>
+  
+<% end %>
+
+<p>
+  To choose values for the remaining variables, we proceed in such an
+  order that when dealing with a variable, we have already chosen the
+  value(s) for its parent(s). After choosing the value for Battery, we
+  can thus move on to variable Radio. The distribution from which we
+  choose the value of a child variable (such as Radio) is determined
+  by the configuration of its parents (such as Battery). If B=1, then
+  we draw the value of R from distribution (0.1, 0.9). Whereas if B=0,
+  then we draw the value of R from distribution (1.0, 0.0) and the
+  outcome is always R=0. No battery, no music.
+</p>
+
+<p>
+  Note that when choosing the value of Starts, we need to chosen the
+  values of both Ignition and Gas.
+</p>
+
+<p>
+  Pseudocode for a generating n random tuples from a Bayesian network
+  is as follows.
+</p>
+  
+<% partial 'partials/code_highlight' do %>
+1: generate_tuples(n, model):
+2:τσ¨   for i = 1 to n:
+3:       v = empty array
+4:       for V in model.variables:
+5:          pa = v[V.Pa]    # parents of V
+6:          v.append(sample(V.CPT(pa)))
+7:       output vτσ¨
+<% end %>
+
+<p>
+  In the pseudocode, <code>model</code> is an object that defines the
+  Bayesian network model by giving for each variable <code>V</code> a
+  set of parents (in the form of a set of indices that can be used to
+  select variables in array <code>v</code>), and the corresponding
+  CPTs.  The selection operator <code>v[V.Pa]</code> extracts from the
+  array the elements that define the values of the parents
+  of <code>V</code>. These are used on line 6 to choose the correct
+  row from the CPT of <code>V</code>. Note that here it is important
+  that the variables be processed in such an order that the parent
+  values are added into the array before they are needed for
+  generating the children.
+</p>
+
+<% partial 'partials/material_sub_sub_heading' do %>
+  Approximate inference (Monte Carlo)
+<% end %>
+
+<p>
+  The simplest approximate inference method is based on using the
+  tuples sampled from a Bayesian network to estimate probilities
+  directly as relative frequencies. To estimate the probability of an
+  event, we simply draw a large number n of tuples, and count in how
+  many of them the event occurs. The number of occurrences divided by
+  n is then an estimate of the probability of the event.
+</p>
+
+<p>
+  Thus, we get
+  <pre>
+                    #{tuples where B=0, R=0, M=0}
+    P(&not;B, &not;R, &not;M) &asymp; -----------------------------
+                                  n</pre>
+</p>
+
+<p>
+  To approximate conditional probabilities, we simply write them as
+  ratios, P(A | B) = P(A, B) / (B), and apply the same estimator to
+  both the numerator and the denominator.
+</p>
+
+<p>
+  This is a very simple and general technique, which belongs to the
+  category of <strong>Monte Carlo</strong> techniques due to the use
+  of chance in obtaining the results. The downside is that the
+  result is not exact. The variance that is caused by the random
+  nature of the process can sometimes make the obtained probabilities
+  quite inaccurate. The bigger the number of tuples, however, the
+  better the accuracy, and in the limit as n &rarr; &infin; the
+  approximation converges to the exact value.
+</p>
+
