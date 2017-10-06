@@ -58,7 +58,7 @@
 
 <% end %>
 
-You will soon find the lecture slides for this part on the <a href="https://courses.helsinki.fi/DATA15001/119123276">course homepage</a>
+You can find the lecture slides for this part on the <a href="https://courses.helsinki.fi/DATA15001/119123276">course homepage</a>
 under Materials.
 
 
@@ -495,6 +495,11 @@ after trying on your own)' } do %>
   is both a verb (V) and a noun (N).
 </p>
 
+<% partial 'partials/material_sub_sub_heading' do %>
+  CYK table
+<% end %>
+
+
 <p>
   A fundamental data structure in CYK is a triangular table that is
   usually depicted as a lower-triangular (or upper-triangular) matrix
@@ -536,15 +541,15 @@ after trying on your own)' } do %>
       </td>
       <td  style="background-color: #ecf0f1; border: 1px solid #7fb3d5; width: 120px;">
 	V,N,VP,NP  <sup>(2,2)</sup><br>
-	<i>fish</i>
+	<center><i>fish</i>
       </td>
       <td  style="background-color: #ecf0f1; border: 1px solid #7fb3d5; width: 120px;">
 	V,N,VP,NP  <sup>(3,3)</sup><br>
-	<i>fish</i>
+	<center><i>fish</i>
       </td>
       <td  style="background-color: #ecf0f1; border: 1px solid #7fb3d5; width: 120px;">
 	ADV  &nbsp;&ensp; <sup>(4,4)</sup><br>
-	<i>today</i>
+	<center><i>today</i>
       </td>
     </tr>
   </table>
@@ -562,19 +567,20 @@ after trying on your own)' } do %>
 </p>
 
 <p>
-  The contents of the cells, after the algorithm is completed, 
-  correspond to the possible interpretations (if any) of the words
-  in question in terms of different non-terminals. For example, the
-  words <i>fish fish</i> are seen to have an interpretation as
-  a sentence (S) and a verb-phrase (VP). This is because we can
-  generate these two words by starting either from S or VP.
+  The contents of the cells in the CYK table, after the algorithm is
+  completed, correspond to the possible interpretations (if any) of
+  the words in question in terms of different non-terminals. For
+  example, the words <i>fish fish</i> are seen to have an
+  interpretation as a sentence (S) and a verb-phrase (VP). This is
+  because we can generate these two words by starting either from S or
+  VP.
 </p>
 
 <p>
-  Just to keep you on your toes, let's see if you can generate 
-  <i>fish fish</i> from S and VP. That is, give a list of rules
-  that obtain these two words starting from S, and then do the same
-  starting from VP.
+  Just to keep you on your toes, let's make sure you understand what
+  we mean when we say that <i>fish fish</i> can be generated from S
+  and VP. That is, give a list of rules that obtain these two words
+  starting from S, and then do the same starting from VP.
 </p>
 
 <% partial 'partials/solution', locals: { name: 'Answer (look only
@@ -610,15 +616,20 @@ after trying on your own)' } do %>
 <% end %>
 
 <p>
-  The other elements in the table have similar interpretations.  Note
-  that the above example is somewhat unusual in the sense that all
+  The other elements in the table have similar interpretations.  The
+  above example is actually somewhat unusual in the sense that all
   sub-sentences can be parsed and therefore, all cells in the table
-  contain at least one non-terminal symbol. This is by no means a 
+  contain at least one non-terminal symbol. This is by no means a
   general property. For example, <i>Robots Robots Robots</i> wouldn't
   have an interpretation as a valid sub-sentence in a grammatical
   sentence, and the table for a sentence containing these words
   (consecutively) would have empty cells.
 </p>
+
+<% partial 'partials/material_sub_sub_heading' do %>
+  Operation of the algorithm
+<% end %>
+
 
 <p>
   The CYK algorithm operates by processing one row of the table
@@ -681,14 +692,205 @@ after trying on your own)' } do %>
     8:        if x &xrarr; T[i,i+k] T[i+k+1,i+len] for some k,x:
     9:           add x in T[i,i+len]
 </pre>
-
-<% partial 'partials/exercise', locals: { name: 'NLP: CYK algorithm (pencil-and-paper) (1p)' } do %>
+</p>
 
 <p>
-  coming soon...
+  The variable <code>len</code> refers to the length of the
+  sub-sentence being processed in terms of the distance between
+  its start and end. So for example, in the first iteration of the
+  loop on lines 4&ndash;9, we process individual words in cell
+  (1,1), (2,2), ..., (7,7), and so <code>len = 0</code>.
+</p>
+
+<p>
+  The <code>if</code> statements on lines 6 and 8 check whether there
+  exists a rule where the symbol(s) on the right side are found in the
+  specific cells given in the pseudodode (<code>T[i,i+len]</code> or
+  <code>T[i,i+k]</code> and <code>T[i+k+1,i+len]</code>). If this is
+  the case, then the symbol <code>x</code> on the left side of the
+  rule is added into cell <code>T[i,i+len]</code>. This means that the
+  sub-sentence (i,i+len) can be generated from symbol <code>x</code>.
+</p>
+
+<% partial 'partials/material_sub_sub_heading' do %>
+  Constructing parse trees from the CYK table
+<% end %>
+
+<p>
+  What is not shown in the pseudocode, is that we should also keep
+  track of how we obtained each entry in the CYK table. Each time we
+  apply a rule, we should therefore store the symbol(s) in the other
+  cell(s) where the symbols on the right side of the rule were
+  found. For example, in the very last step of the algorithm in the
+  above example, we would store that the symbol S was obtained because
+  we found NP in cell (1,1) and VP in cell (2,4), etc. Note that it is
+  important to store references not only the cell but also the
+  individual symbols that were used.
+</p>
+
+<p>
+  If there are multiple ways to obtain a given symbol in a given cell,
+  then we store information about each possible way as a separate set
+  of references. These different ways will correspond to different
+  ways to parse the sentence.
+</p>
+
+<p>
+  Having stored the references to the symbols that enabled us to
+  obtain the symbols in the higher rows of the table, we can
+  reconstruct parse trees by traversing the references between the
+  symbols, starting from the symbol S in top node (if one exists; if
+  there is no S in the top node, the sentence is invalid/not
+  grammatical, and it doesn't belong to the language at all).
+</p>
+
+<p>
+  In the above example there should be only one possible parse
+  tree but the lecture slides and the next exercise show cases
+  where there are more than one.
+</p>
+
+<% partial 'partials/exercise', locals: { name: 'NLP: CYK algorithm
+(pencil-and-paper) (1p)' } do %>
+
+<p>
+  Your task is to parse the sentence "Google bought DeepMind for
+  $500M in January" using the CYK algorithm. Use the following
+  grammar rules:<br><br>
+  S &xrarr; NP VP<br>
+  NP &xrarr; NP PP<br>
+  VP &xrarr; VP PP<br>
+  VP &xrarr; V NP<br>
+  VP &xrarr; V<br>
+  PP &xrarr; P NP<br>
+  NP &xrarr; N<br>
+  N &xrarr; <i>Google</i><br>
+  N &xrarr; <i>DeepMind</i><br>
+  N &xrarr; <i>$500M</i><br>
+  N &xrarr; <i>January</i><br>
+  V &xrarr; <i>bought</i><br>
+  P &xrarr; <i>for</i><br>
+  P &xrarr; <i>in</i><br>
+</p>
+
+<p>
+  You should fill in the CYK table, according to the above
+  instructions. The two bottom rows are given to get you started
+  nicely. 
+</p>
+
+<p>
+  <table style="text-align: center; padding: 6px;">
+    <tr>
+      <td  style="background-color: #ecf0f1; border: 1px solid #7fb3d5;">
+      </td>
+    </tr>
+    <tr>
+      <td  style="background-color: #ecf0f1; border: 1px solid #7fb3d5;">
+      </td>
+      <td  style="background-color: #ecf0f1; border: 1px solid #7fb3d5;">
+      </td>
+    </tr>
+    <tr>
+      <td  style="background-color: #ecf0f1; border: 1px solid #7fb3d5;">
+      </td>
+      <td  style="background-color: #ecf0f1; border: 1px solid #7fb3d5;">
+      </td>
+      <td  style="background-color: #ecf0f1; border: 1px solid #7fb3d5;">
+      </td>
+    </tr>
+    <tr>
+      <td  style="background-color: #ecf0f1; border: 1px solid #7fb3d5;">
+      </td>
+      <td  style="background-color: #ecf0f1; border: 1px solid #7fb3d5;">
+      </td>
+      <td  style="background-color: #ecf0f1; border: 1px solid #7fb3d5;">
+      </td>
+      <td  style="background-color: #ecf0f1; border: 1px solid #7fb3d5;">
+      </td>
+    </tr>
+    <tr>
+      <td  style="background-color: #ecf0f1; border: 1px solid #7fb3d5;">
+      </td>
+      <td  style="background-color: #ecf0f1; border: 1px solid #7fb3d5;">
+      </td>
+      <td  style="background-color: #ecf0f1; border: 1px solid #7fb3d5;">
+      </td>
+      <td  style="background-color: #ecf0f1; border: 1px solid #7fb3d5;">
+      </td>
+      <td  style="background-color: #ecf0f1; border: 1px solid #7fb3d5;">
+      </td>
+    </tr>
+    <tr>
+      <td  style="background-color: #ecf0f1; border: 1px solid #7fb3d5;">
+	S
+      </td>
+      <td  style="background-color: #ecf0f1; border: 1px solid #7fb3d5;">
+	VP
+      </td>
+      <td  style="background-color: #ecf0f1; border: 1px solid #7fb3d5;">
+      </td>
+      <td  style="background-color: #ecf0f1; border: 1px solid #7fb3d5;">
+	PP
+      </td>
+      <td  style="background-color: #ecf0f1; border: 1px solid #7fb3d5;">
+      </td>
+      <td  style="background-color: #ecf0f1; border: 1px solid #7fb3d5;">
+	PP
+      </td>
+    </tr>
+    <tr>
+      <td  style="background-color: #ecf0f1; border: 1px solid #7fb3d5; width: 120px;">
+	N,NP<br>
+	<i>Google</i>
+      </td>
+      <td  style="background-color: #ecf0f1; border: 1px solid #7fb3d5; width: 120px;">
+	V,VP<br>
+	<i>bought</i>
+      </td>
+      <td  style="background-color: #ecf0f1; border: 1px solid #7fb3d5; width: 120px;">
+	N,NP<br>
+	<i>DeepMind</i>
+      </td>
+      <td  style="background-color: #ecf0f1; border: 1px solid #7fb3d5; width: 120px;">
+	P<br>
+	<i>for</i>
+      </td>
+      <td  style="background-color: #ecf0f1; border: 1px solid #7fb3d5; width: 120px;">
+	N,NP<br>
+	<i>$500M</i>
+      </td>
+      <td  style="background-color: #ecf0f1; border: 1px solid #7fb3d5; width: 120px;">
+	P<br>
+	<i>in</i>
+      </td>
+      <td  style="background-color: #ecf0f1; border: 1px solid #7fb3d5; width: 120px;">
+	N,NP<br>
+	<i>January</i>
+      </td>
+    </tr>
+  </table>
+</p>
+
+<p>
+  So for example, in the first cell in the third row from the bottom,
+  you should add S due to the rule S &xrarr; NP VP because we have
+  NP in cell (1,1) and VP in cell (2,3).
+</p>
+
+<p>
+  <ol>
+    <li>
+      Complete the CYK table.
+    <li>
+      Construct all the parse trees from the CYK table by keeping
+      track of which nodes we used to obtain each entry in the
+      table.
+  </ol>
 </p>
 
 <% end %>
+
 
 <% partial 'partials/material_sub_heading' do %>
   Applications of NLP
