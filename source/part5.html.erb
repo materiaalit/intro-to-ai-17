@@ -483,13 +483,13 @@ after trying on your own)' } do %>
   ADV &xrarr; today<br><br>
   The starting symbol is again S, which stands for both 'start' as well
   as 'sentence'. NP stands for noun-phrase, VP for verb-phrase, V and N
-  are of course verb and noun, respectively, and finally ADV stands
+  are of course verb and noun respectively, and finally ADV stands
   for adverb (a specifier that says <i>how</i> or <i>when</i> something
   is done).
 </p>
 
 <p>
-  The terminal symbols &mdash; note that indeed we consider words 
+  The terminal symbols &mdash; note that here we consider words 
   as atomic symbols, and not sequences of characters &mdash; are
   'fish', 'Robots', and 'today'. Also note that the word 'fish'
   is both a verb (V) and a noun (N).
@@ -567,19 +567,18 @@ after trying on your own)' } do %>
 </p>
 
 <p>
-  The contents of the cells in the CYK table, after the algorithm is
-  completed, correspond to the possible interpretations (if any) of
-  the words in question in terms of different non-terminals. For
-  example, the words <i>fish fish</i> are seen to have an
-  interpretation as a sentence (S) and a verb-phrase (VP). This is
-  because we can generate these two words by starting either from S or
-  VP.
+  After the algorihtm is completed, the contents of the cells in the
+  CYK table correspond to the possible interpretations (if any) of the
+  words in question in terms of different non-terminals. For example,
+  the words <i>fish fish</i> are seen to have two interpretations: as
+  a sentence (S) and as a verb-phrase (VP). This is because we can
+  generate these two words by starting either from S or VP.
 </p>
 
 <p>
   Just to keep you on your toes, let's make sure you understand what
   we mean when we say that <i>fish fish</i> can be generated from S
-  and VP. That is, give a list of rules that obtain these two words
+  and VP. That is, give a list of rules to generate these two words
   starting from S, and then do the same starting from VP.
 </p>
 
@@ -590,7 +589,7 @@ after trying on your own)' } do %>
   Starting from S, we first apply the only rule that has S on the
   left, i.e., S &xrarr; NP VP. Then apply NP &xrarr; N to obtain
   N VP, and VP &xrarr; V, to obtain N V. Finally, apply N &xrarr; fish
-  and V &xrarr; fish to obtain <i>fish fish</i>.
+  and V &xrarr; fish to obtain "fish fish".
 </p>
 
 <p>
@@ -599,17 +598,17 @@ after trying on your own)' } do %>
 </p>
 
 <p>
-  The interpretations of <i>fish fish</i> as a sentence (S) and a
+  The interpretations of "fish fish" as a sentence (S) and a
   verb-phrase (VP) are quite different. In the former, the first
-  <i>fish</i> is generated through NP and N, i.e., the first word is
-  considered a noun, while the second <i>fish</i> is generated 
-  through VP and V, i.e., it is considered a verb. So there are 
-  some sea creatures that try to catch other sea creatures.
-  On the other hand, in the VP interpretation, the first <i>fish</i>
-  is generated through V, so it is a verb, and the second <i>fish</i>
-  is a noun. This time the interpretation is that what is going on
-  is an attempt to catch some sea creatures but it is not explicated
-  who is fishing since the words only form a verb-phrase that can be
+  'fish' is generated through NP and N, i.e., the first word is
+  considered a noun, while the second 'fish' is generated through
+  VP and V, i.e., it is considered a verb. So there are some sea
+  creatures (the first 'fish') that try to catch other sea creatures.
+  On the other hand, in the VP interpretation, the first 'fish'
+  is generated through V, so it is a verb, and the second 'fish'
+  is a noun. This time the interpretation is that what is going on is
+  an attempt to catch some sea creatures but it is not explicated who
+  is fishing since the words only form a verb-phrase that can be
   combined with a subject noun.
 </p>
 
@@ -620,7 +619,7 @@ after trying on your own)' } do %>
   above example is actually somewhat unusual in the sense that all
   sub-sentences can be parsed and therefore, all cells in the table
   contain at least one non-terminal symbol. This is by no means a
-  general property. For example, <i>Robots Robots Robots</i> wouldn't
+  general property. For example, "Robots Robots Robots" wouldn't
   have an interpretation as a valid sub-sentence in a grammatical
   sentence, and the table for a sentence containing these words
   (consecutively) would have empty cells.
@@ -632,11 +631,12 @@ after trying on your own)' } do %>
 
 
 <p>
-  The CYK algorithm operates by processing one row of the table
-  at a time, starting from the bottom row which corresponds to one-word
-  sub-sentences, to the top node that corresponds to the whole
-  sentence. This shows the dynamic programming nature of the
-  algorithm.
+  The CYK algorithm operates by processing one row of the table at a
+  time, starting from the bottom row which corresponds to one-word
+  sub-sentences, and working its way to the top node that corresponds
+  to the whole sentence. This shows the dynamic programming nature of
+  the algorithm: the short sub-sentences are parsed first and used
+  in parsing the longer sub-sentences and whole sentence.
 </p>
 
 <p>
@@ -647,7 +647,55 @@ after trying on your own)' } do %>
   could have been generated (only) by the rule N &xrarr; Robots, and
   so we add N into the cell (1,1).  Likewise we add both V and N into
   the cells (2,2) and (3,3) because the word 'fish' could have been
-  generated from either V or N.
+  generated from either V or N. At this stage, the CYK table would
+  look as follows:
+</p>
+
+<p>
+  <table style="text-align: right; padding: 6px;">
+    <tr>
+      <td  style="background-color: #ecf0f1; border: 1px solid #7fb3d5;">
+	<sup>(1,4)</sup>
+      </td>
+    </tr>
+    <tr>
+      <td  style="background-color: #ecf0f1; border: 1px solid #7fb3d5;">
+	<sup>(1,3)</sup>
+      </td>
+      <td  style="background-color: #ecf0f1; border: 1px solid #7fb3d5;">
+	<sup>(2,4)</sup>
+      </td>
+    </tr>
+    <tr>
+      <td  style="background-color: #ecf0f1; border: 1px solid #7fb3d5;">
+	<sup>(1,2)</sup>
+      </td>
+      <td  style="background-color: #ecf0f1; border: 1px solid #7fb3d5;">
+	<sup>(2,3)</sup>
+      </td>
+      <td  style="background-color: #ecf0f1; border: 1px solid #7fb3d5;">
+	<sup>(3,4)</sup>
+      </td>
+    </tr>
+    <tr>
+      <td  style="background-color: #ecf0f1; border: 1px solid #7fb3d5; width: 120px;">
+	N  &ensp; <sup>(1,1)</sup><br>
+	<center><i>Robots</i>
+      </td>
+      <td  style="background-color: #ecf0f1; border: 1px solid #7fb3d5; width: 120px;">
+	V,N  <sup>(2,2)</sup><br>
+	<center><i>fish</i>
+      </td>
+      <td  style="background-color: #ecf0f1; border: 1px solid #7fb3d5; width: 120px;">
+	V,N  <sup>(3,3)</sup><br>
+	<center><i>fish</i>
+      </td>
+      <td  style="background-color: #ecf0f1; border: 1px solid #7fb3d5; width: 120px;">
+	ADV  &nbsp;&ensp; <sup>(4,4)</sup><br>
+	<center><i>today</i>
+      </td>
+    </tr>
+  </table>
 </p>
 
 <p>
