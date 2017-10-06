@@ -971,18 +971,18 @@ after trying on your own)</h1>
 
 <p>
   Pseudocode for the CYK algorithm is as follows:
-<pre>
-    1:  T = n x n array of empty lists
-    2:  for i in 1,...,n:
-    3:     T[i,i] = [word[i]]
-    4:  for len = 0,...,n-1:
-    5:     while rule can be applied:
-    6:        if x &xrarr; T[i,i+len] for some x:
-    7:           add x in T[i,i+len]
-    8:        if x &xrarr; T[i,i+k] T[i+k+1,i+len] for some k,x:
-    9:           add x in T[i,i+len]
-</pre>
 </p>
+
+<pre class="sh_java code-highlight"><code>1:  T = n x n array of empty lists
+2:  for i in 1,...,n:
+3:     T[i,i] = [word[i]]
+4:  for len = 0,...,n-1:
+5:     while rule can be applied:
+6:        if x &xrarr; T[i,i+len] for some x:
+7:           add x in T[i,i+len]
+8:        if x &xrarr; T[i,i+k] T[i+k+1,i+len] for some k,x:
+9:           add x in T[i,i+len]
+</code></pre>
 
 <p>
   The variable <code>len</code> refers to the length of the
@@ -995,11 +995,12 @@ after trying on your own)</h1>
 <p>
   The <code>if</code> statements on lines 6 and 8 check whether there
   exists a rule where the symbol(s) on the right side are found in the
-  specific cells given in the pseudodode (<code>T[i,i+len]</code> or
-  <code>T[i,i+k]</code> and <code>T[i+k+1,i+len]</code>). If this is
-  the case, then the symbol <code>x</code> on the left side of the
-  rule is added into cell <code>T[i,i+len]</code>. This means that the
-  sub-sentence (i,i+len) can be generated from symbol <code>x</code>.
+  specific cells given in the pseudodode (<code>T[i,i+len]</code> on
+  line 6, or <code>T[i,i+k]</code> and <code>T[i+k+1,i+len]</code> on
+  line 8). If this is the case, then the symbol <code>x</code> on the
+  left side of the rule is added into
+  cell <code>T[i,i+len]</code>. This means that the sub-sentence
+  (i,i+len) can be generated from symbol <code>x</code>.
 </p>
 
 <h3 class="material-heading">
@@ -1085,43 +1086,43 @@ after trying on your own)</h1>
   <table style="text-align: center; padding: 6px;">
     <tr>
       <td  style="background-color: #ecf0f1; border: 1px solid #7fb3d5;">
-      </td>
+      &nbsp;</td>
     </tr>
     <tr>
       <td  style="background-color: #ecf0f1; border: 1px solid #7fb3d5;">
-      </td>
+      &nbsp;</td>
       <td  style="background-color: #ecf0f1; border: 1px solid #7fb3d5;">
-      </td>
+      &nbps;</td>
     </tr>
     <tr>
       <td  style="background-color: #ecf0f1; border: 1px solid #7fb3d5;">
-      </td>
+      &nbps;</td>
       <td  style="background-color: #ecf0f1; border: 1px solid #7fb3d5;">
-      </td>
+      &nbps;</td>
       <td  style="background-color: #ecf0f1; border: 1px solid #7fb3d5;">
-      </td>
+      &nbps;</td>
     </tr>
     <tr>
       <td  style="background-color: #ecf0f1; border: 1px solid #7fb3d5;">
-      </td>
+      &nbps;</td>
       <td  style="background-color: #ecf0f1; border: 1px solid #7fb3d5;">
-      </td>
+      &nbps;</td>
       <td  style="background-color: #ecf0f1; border: 1px solid #7fb3d5;">
-      </td>
+      &nbps;</td>
       <td  style="background-color: #ecf0f1; border: 1px solid #7fb3d5;">
-      </td>
+      &nbps;</td>
     </tr>
     <tr>
       <td  style="background-color: #ecf0f1; border: 1px solid #7fb3d5;">
-      </td>
+      &nbps;</td>
       <td  style="background-color: #ecf0f1; border: 1px solid #7fb3d5;">
-      </td>
+      &nbps;</td>
       <td  style="background-color: #ecf0f1; border: 1px solid #7fb3d5;">
-      </td>
+	&nbps;</td>
       <td  style="background-color: #ecf0f1; border: 1px solid #7fb3d5;">
-      </td>
+      &nbps;</td>
       <td  style="background-color: #ecf0f1; border: 1px solid #7fb3d5;">
-      </td>
+      &nbps;</td>
     </tr>
     <tr>
       <td  style="background-color: #ecf0f1; border: 1px solid #7fb3d5;">
@@ -1187,8 +1188,13 @@ after trying on your own)</h1>
     <li>
       Construct all the parse trees from the CYK table by keeping
       track of which nodes we used to obtain each entry in the
-      table.
+      table. Which of them is most likely to be the correct one?
   </ol>
+</p>
+
+<p>
+  <i>Hint:</i> You'll probably want to start numbering the cells
+  using the numbering scheme explained above.
 </p>
 
 
