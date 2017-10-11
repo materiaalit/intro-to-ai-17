@@ -1,8 +1,8 @@
 ---
-  title: Part 6
-  exercise_page: true
-  quiz_page: false
-  published: true
+title: Part 6
+exercise_page: true
+quiz_page: false
+published: true
 ---
 
 
@@ -27,9 +27,9 @@
 <p>
   In this task, you will get to play
   with <a href="https://shop.lego.com/en-US/LEGO-MINDSTORMS-NXT-2-0-8547">Lego
-  Mindstorms NXT 2.0</a> robots. We will provide you with a pre-built robot,
+    Mindstorms NXT 2.0</a> robots. We will provide you with a pre-built robot,
   so unfortunately, no building is involved. The robot is a simple
-  "car" with three wheels, a light sensor, and an ultrasound sensor.
+  "car" with three wheels, a light sensor, and an ultrasonic sensor.
 </p>
 
 <p>
@@ -42,7 +42,7 @@
 
 <p>
   The light sensor is in the front of the robot and points directly
-  toward the floor. The ultrasound sensor is attached to the left side
+  toward the floor. The ultrasonic sensor is attached to the left side
   of the robot, approximately 10cm behind the front of the robot, and
   it points directly to the left. See the drawing below to get
   a better idea (maybe).
@@ -67,7 +67,7 @@
     <li><a href="https://lejos.sourceforge.io/nxt/nxj/tutorial/index.htm">leJOS NXJ Tutorial</a>
   </ul>
 </p>  
-  
+
 <p>
   <i>Task</i>: Make the robot follow a path marked by white tape
   on the floor. In the beginning, the robot will be placed on the path
@@ -128,7 +128,7 @@ public class HelloWorld {
 <p>
   <i>Task:</i> "Park" the robot. The robot will be placed on a "street"
   that continues straight ahead, and where there are no obstacles.
-  Drive ahead and use the ultrasound sensor to detect whether there
+  Drive ahead and use the ultrasonic sensor to detect whether there
   are obstacles to the left of the robot. Find an minimum
   40 &times; 40 cm parking spot, and drive the robot into it.
 </p>
@@ -225,7 +225,7 @@ under Materials.
 </p>
   
 
-<% partial 'partials/hint', locals: { name: 'Learning objectives of Part 5' } do %>
+<% partial 'partials/hint', locals: { name: 'Learning objectives of Part 6' } do %>
 
 <table class="table">
   <tr>
@@ -252,16 +252,96 @@ under Materials.
 <% end %>
 
 <% partial 'partials/material_sub_heading' do %>
-  Digital signal representations
+On the Mindstorms Robots
 <% end %>
 
 <p>
-  Digital image and audio signals represent recordings of natural
-  signals in numerical form. For images, the values represent 
-  pixel intensities stored in a two-dimensional array. A third
-  dimension can be used to store different bands for, e.g.,
-  red, green, and blue (RGB). We can also think of the values
-  are functions of the x and y coordinates, F(x,y).
+  We'll approach robotics in a very practical way, which is the only
+  way to become familiar with the unique nature of robotics AI.
+  The robots used on this course are Lego Mindstorms robots. They
+  may be toys, but make no mistake, they can also teach us many
+  things about operating in the real world with limited sensor
+  capabilities.
+</p>  
+
+<p>
+  The system has a graphical programming environment but we'll use a
+  more flexible Java-based <code>leJOS</code> environment that
+  has a well-documented API for controlling the robot.
 </p>
 
+<% partial 'partials/material_sub_heading' do %>
+  Movement: Controlling the wheels
+<% end %>
 
+<p>
+  The kits that we'll provide you at the workshops (see Exercises 6.1
+  and 6.2 above) have two motors, which you can control through the
+  <code>NXTRegulatedMotor</code> class. The system automatically
+  constructs two (actually three) instances of this
+  class, <code>Motor.A</code> and <code>Motor.B</code>. They allow
+  low-level control of the two wheels in the robot through
+  methods such as <code>forward</code>, <code>backward</code>, and
+  <code>stop</code>.
+</p>
+
+<p>
+  Especially useful for Exercise 6.2 is also the
+  higher-level <code>DifferentialPilot</code> class. The constructor
+  takes as arguments the wheel diameter (in cm), the axis span
+  (in cm), and the two motor objects. The following arguments work
+  with our kits.
+</p>
+<% partial 'partials/code_highlight' do %>
+static DifferentialPilot pilot = new DifferentialPilot(5.6, 17.5f, Motor.A, Motor.B);
+<% end %>
+
+<p>
+  The <code>pilot</code> object can be used to drive the robot
+  forward or backward a given distance (in cm) by calling
+  <code>pilot.travel(distance)</code>.
+</p>
+
+<% partial 'partials/material_sub_heading' do %>
+  Sensing
+<% end %>
+
+<p>
+  The Mindstorms packages include touch, sound, light, and ultrasonic
+  sensors. We need only the last two of these.
+</p>
+
+<p>
+  A light sensor object is constructed by calling the constructor
+  with the sensor port to which the sensor is connected as an argument.
+  The object returns the lightness value sensed by the sensor
+  with the method <code>readValue</code>.
+</p>
+
+<% partial 'partials/code_highlight' do %>
+LightSensor light = new LightSensor(SensorPort.S2);
+int l = light.readValue();
+<% end %>
+
+<p>
+  Note that the lightness value depends on the lighting conditions, and
+  in practice it is best to "calibrate" it manually by simply
+  printing out values from the sensor on the robot display. It is 
+  okay to hard-code a threshold that detects light vs dark objects
+  in your code.
+</p>
+
+<p>
+  An ultrasonic sensor can be constructed similarly. Remember to check
+  the correct sensor port by following the cable connecting the sensor
+  to the main brick.
+</p>
+
+<% partial 'partials/code_highlight' do %>
+UltraSonicSensor sonic = new UltraSonicSensor(SensorPort.S3);
+int d = sonic.getDistance()  // 0-255 (cm)
+<% end %>
+
+<p>
+  If no echo is caught, the reading wll be 255.
+</p>
