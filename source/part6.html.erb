@@ -58,6 +58,15 @@
   the workshop. You'll have to finalize and debug your solution at the
   workshop.
 </p>
+
+<p>
+  The lecture slides (coming soon) contain some basic instructions
+  about leJOS programming. Here is some more material about the API:
+  <ul>
+    <li><a href="http://www.lejos.org/nxt/nxj/api/">leJOS API reference</a>
+    <li><a href="https://lejos.sourceforge.io/nxt/nxj/tutorial/index.htm">leJOS NXJ Tutorial</a>
+  </ul>
+</p>  
   
 <p>
   <i>Task</i>: Make the robot follow a path marked by white tape
@@ -128,11 +137,11 @@ public class HelloWorld {
   <i>Hint:</i> The <code>DifferentialPilot</code> class will probably
   be useful. It can be instructed to drive ahead a given distance
   by <code>travel(distance)</code>. You can also set the robot moving
-  by calling <code>travel(distance, true)</code>, in which case
-  the <code>true</code> argument makes the command flow return to the
-  next line of your code immediately, instead of waiting that the
-  robot has first travelled <code>distance</code> cm. You can then
-  query whether the robot is still moving by
+  by calling <code>travel(distance, true)</code>, in which case the
+  command flow return to the next line of your code immediately,
+  instead of waiting that the robot has first
+  travelled <code>distance</code> cm. You can then query whether the
+  robot is still moving by
   <code>isMoving()</code>.
 </p> 
 
