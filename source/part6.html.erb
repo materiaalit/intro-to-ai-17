@@ -9,11 +9,6 @@
 <% partial 'partials/exercise', locals: { name: 'Robotics 1 (2p)' } do %>
 
 <p>
-  Detailed instructions for this exercise are coming soon.
-</p>
-
-<p>
-  In the meantime, you should register to the Robotics Workshop.
   This week's exercises will be done partly on your own (just as
   usual) and partly at the workshops. You will get the points only
   by attending a workshop.
@@ -29,15 +24,116 @@
   </ul>
 </p>
 
+<p>
+  In this task, you will get to play
+  with <a href="https://shop.lego.com/en-US/LEGO-MINDSTORMS-NXT-2-0-8547">Lego
+  Mindstorms NXT 2.0</a> robots. We will provide you with a pre-built robot,
+  so unfortunately, no building is involved. The robot is a simple
+  "car" with three wheels, a light sensor, and an ultrasound sensor.
+</p>
+
+<p>
+  Two of the wheels, the left and the right one, are connected to 
+  independent motors (<code>Motor.A</code> and <code>Motor.B</code>),
+  and you can instruct them to rotate either forward or backward.
+  To turn right, for example, you can rotate the left wheel forward and
+  keep the right wheel still.
+</p>
+
+<p>
+  The light sensor is in the front of the robot and points directly
+  toward the floor. The ultrasound sensor is attached to the left side
+  of the robot, approximately 10cm behind the front of the robot, and
+  it points directly to the left. See the drawing below to get
+  a better idea (maybe).
+</p>
+
+<img src="/img/drawings/legorobo.png" width=75%><br><br>
+
+<p>
+  <i>Note:</i> You need not install the leJOS environment on your own
+  computer. We will provide laptops with all the required tools to
+  write Java code, compile, and connect to the robot. You will just
+  have to code "blind" without being able to compile and test before
+  the workshop. You'll have to finalize and debug your solution at the
+  workshop.
+</p>
+  
+<p>
+  <i>Task</i>: Make the robot follow a path marked by white tape
+  on the floor. In the beginning, the robot will be placed on the path
+  and it should move ahead, following the path. (You don't have to
+  care what happens when the path ends.) You will be able to detect
+  the path by using the readings from the light sensor.
+</p>
+
+<p>
+  Use the following template to write a sketch of your solution. You
+  should store your solution on a USB stick (or put it online) so that
+  you can access it from the laptop at the workshop.
+</p>
+
+<% partial 'partials/code_highlight' do %>
+package org.lejos.example;
+
+import lejos.nxt.*;
+import lejos.robotics.navigation.DifferentialPilot;
+
+/**
+ * Write your code in main()
+ */
+public class HelloWorld {
+
+    static DifferentialPilot pilot = new DifferentialPilot(5.6, 17.5f, Motor.A, Motor.B);
+    static UltrasonicSensor ultra = new UltrasonicSensor(SensorPort.S2);
+    static LightSensor light = new LightSensor(SensorPort.S1);
+
+    public static void main(String[] args) {
+        System.out.println("I'll be back!");
+        Button.waitForAnyPress();
+    }
+}
+<% end %>
+
+<p>
+  <i>Hint:</i> Try to solve the task using as simple program logic as
+  possible. In particular, it is not necessary that you maintain a
+  detailed model of the environment (the path) and the position of the
+  robot with respect to it. A useful strategy is to try to follow the
+  right (or left) edge of the path, where the light readings change
+  from high (path) to low (floor). You'll be able to estimate the
+  actual values by printing out the readings on the robot screen
+  at the workshop.
+</p>
+
 <% end %>
 
 <% partial 'partials/exercise', locals: { name: 'Robotics 2 (2p)' } do %>
 
 <p>
-  We'll add detailed instructions for the second robotics task
-  here soon. Please find the registration link to the Robotics 
-  Workshops in Exercise 1 above.
+  Please use the registration link to the Robotics Workshops in
+  Exercise 1 above.
 </p>
+
+<p>
+  <i>Task:</i> "Park" the robot. The robot will be placed on a "street"
+  that continues straight ahead, and where there are no obstacles.
+  Drive ahead and use the ultrasound sensor to detect whether there
+  are obstacles to the left of the robot. Find an minimum
+  40 &times; 40 cm parking spot, and drive the robot into it.
+</p>
+
+<p>
+  <i>Hint:</i> The <code>DifferentialPilot</code> class will probably
+  be useful. It can be instructed to drive ahead a given distance
+  by <code>travel(distance)</code>. You can also set the robot moving
+  by calling <code>travel(distance, true)</code>, in which case
+  the <code>true</code> argument makes the command flow return to the
+  next line of your code immediately, instead of waiting that the
+  robot has first travelled <code>distance</code> cm. You can then
+  query whether the robot is still moving by
+  <code>isMoving()</code>.
+</p> 
 
 <% end %>
 
