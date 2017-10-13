@@ -52,16 +52,17 @@
       need k&ndash;1 probabilities per variable, and the total number
       is N(k&ndash;1) = 4(k&ndash;1).<br><br>
     <li>
-      The more edges there are in the network, the more parameters we
-      need to specify all the conditional distributions. Thus, we need
-      to calculate how many parameters there are in the "full"
-      network. A full network has one node with no parents, one node
-      with one parent, one node with two parents, etc.<br><br>
+      The more edges there are in the network, the more parameters are
+      required in order to specify all the conditional
+      distributions. Thus, we need to calculate how many parameters
+      there are in the "full" network. A full network has one node
+      with no parents, one node with one parent, one node with two
+      parents, etc.<br><br>
 
       For a node with m parents, the number of possible parent
       configurations is k<sup>m</sup> (since we assumed that the
       number of values that each parent can take is k). To specify
-      the conditional distribution in each parent configuration, 
+      the conditional distribution for all parent configurations, 
       we thus need k<sup>m</sup>(k&ndash;1) probability parameters.<br><br>
 
       Summing up the numbers over the N=4 nodes, we thus get k&ndash;1
@@ -715,6 +716,14 @@ perceptron(data): 
       Try other pairs of number than 3 vs 5. Which numbers are easiest to
       classify and which are the hardest?
   </ol>
+<% end %>
+
+<% partial 'partials/solution', locals: { name: 'Example solution' } do %>
+
+<p>
+  An example solution is <a href="https://materiaalit.github.io/intro-to-ai-17/files/Perceptron-solution.zip">here</a>.
+</p>
+
 <% end %>
 
 <% partial 'partials/exercise', locals: { name: 'Nearest Neighbor (programming) (1p)' } do %>
