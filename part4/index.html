@@ -148,6 +148,61 @@
   </div>
 </div>
 
+<div class="solution" data-target='collapse'>
+  <div class="solution__header">
+    <a data-toggle="collapse" class="solution__toggle">
+      <i class="fa fa-magic solution__icon"></i>
+      <h1 class="solution__heading">Example solution</h1>
+
+      <i class="fa fa-caret-down solution__arrow"></i>
+    </a>
+  </div>
+
+  <div class="collapse">
+    <div class="solution__body">
+      
+<p>
+  <ol>
+    <li>
+      The number of combinations is k<sup>N</sup> = k<sup>4</sup>.
+      Since the probabilities of the elementary events must sum to
+      one, it is enough to give k<sup>4</sup>&ndash;1 probability 
+      values to define the model this way.<br><br>
+    <li>
+      In an empty network, we only need to specify the distributions
+      of each variable. Since each variable has k possible values, we
+      need k&ndash;1 probabilities per variable, and the total number
+      is N(k&ndash;1) = 4(k&ndash;1).<br><br>
+    <li>
+      The more edges there are in the network, the more parameters we
+      need to specify all the conditional distributions. Thus, we need
+      to calculate how many parameters there are in the "full"
+      network. A full network has one node with no parents, one node
+      with one parent, one node with two parents, etc.<br><br>
+
+      For a node with m parents, the number of possible parent
+      configurations is k<sup>m</sup> (since we assumed that the
+      number of values that each parent can take is k). To specify
+      the conditional distribution in each parent configuration, 
+      we thus need k<sup>m</sup>(k&ndash;1) probability parameters.<br><br>
+
+      Summing up the numbers over the N=4 nodes, we thus get k&ndash;1
+      + k(k&ndash;1) + k<sup>2</sup>(k&ndash;1) +
+      k<sup>3</sup>(k&ndash;1).
+      <br><br>
+
+    <li>
+      For general N, the above formula becomes<br><br>
+      (1 + k + k<sup>2</sup> + ... + k<sup>N&ndash;1</sup>)(k&ndash;1)
+      = k<sup>N</sup>&ndash;1,
+      <br><br>
+      where we used the formula for the sum of a geometric series.
+  </ol>
+
+    </div>
+  </div>
+</div>
+
 <div class="exercise">
   <div class="exercise__header">
     <a data-toggle="collapse" class="exercise__toggle">
