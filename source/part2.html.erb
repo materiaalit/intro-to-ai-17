@@ -925,7 +925,7 @@ under Materials.
 
       P("sum is 10" | "fair die") &times; P("fair die") + P("sum is 10" | "loaded die") 
       &times; P("loaded die") <br>
-      = 4/36 &times; 1/2 + 11/100 &times 1/2 = 199/1800 &asymp; 0.111.<br><br>
+      = 3/36 &times; 1/2 + 11/100 &times 1/2 = 29/300 &asymp; 0.0966.<br><br>
 
       In case you have difficulty following these calculations, please
       take a look at the additional material on Bayes rule above.
@@ -935,25 +935,25 @@ under Materials.
 
       Substituting these values into the Bayes rule we get
       <br><br>
-      P("loaded die" | "sum is 10") = 11/100 &times 1/2 / (199/1800) = 99/199 &asymp; 0.497.
+      P("loaded die" | "sum is 10") = 11/100 &times 1/2 / (29/300) = 33/58 &asymp; 0.5689.
       <br><br>
 
       When calculating the conditional probability P("fair die" | "sum
       is 10") by the Bayes rule, we'll end up with the very same
-      denominator, whose value we already calculated to be 199/1800,
+      denominator, whose value we already calculated to be 29/300,
       and thus we get:
       <br><br>
-      P("fair die" | "sum is 10") = 4/36 &times; 1/2 / (199/1800) = 
-      100/199.<br><br>
+      P("fair die" | "sum is 10") = 3/36 &times; 1/2 / (29/300) = 
+      25/58.<br><br>
 
       The sum of the probabilities of the loaded and the fair die is
-      99/100 + 100/199 = 1  as it should!<br><br>
+      33/58 + 25/58 = 1  as it should!<br><br>
      
       <i>Note:</i> The end result of the above calculation is that
       observing that the sum is 10 has almost no effect on our belief about
       which die was chosen: before the observation, our prior probability
       for the loaded die was 0.5, and after the observation, our posterior
-      probability is 0.497. You can think about what outcome would have
+      probability is 0.5689. You can think about what outcome would have
       changed our belief the most.<br><br>
 
     <li>
