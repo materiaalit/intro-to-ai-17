@@ -152,6 +152,42 @@
   </div>
 </div>
 
+<div class="solution" data-target='collapse'>
+  <div class="solution__header">
+    <a data-toggle="collapse" class="solution__toggle">
+      <i class="fa fa-magic solution__icon"></i>
+      <h1 class="solution__heading">Example solution</h1>
+
+      <i class="fa fa-caret-down solution__arrow"></i>
+    </a>
+  </div>
+
+  <div class="collapse">
+    <div class="solution__body">
+      
+<p>
+  With the default settings, MLP achieves to modest error rate of
+  47.06&nbsp;%. Increasing the number of training steps
+  (<code>trainingTime</code>) from 500 to 5000 only makes things
+  worse: 48.53&nbsp;%.
+</p>
+
+<p>
+  If you set the number of hidden layers to be one
+  (setting <code>hiddenLayers = 1</code>), the error rate becomes
+  45.59&nbsp;%, and with two hidden layers (which was apparently
+  the default setting) you get again 48.53&nbsp;%.
+  Things start to improve only when you add one more hidden 
+  layer (<code>hiddenLayers = 3</code>), and you get 30.88&nbsp;%
+  error, and finally, with four hidden layers, the error becomes
+  as low as 5.88&nbsp;%.
+</p>
+
+
+    </div>
+  </div>
+</div>
+
 <div class="exercise">
   <div class="exercise__header">
     <a data-toggle="collapse" class="exercise__toggle">
@@ -182,6 +218,46 @@
   <i>Hint:</i> For item 3, open <b>GUI Chooser</b> in Weka, 
   click "Visualization" in the top menu, and choose
   "BoundaryVisualizer".
+</p>
+
+
+    </div>
+  </div>
+</div>
+
+<div class="solution" data-target='collapse'>
+  <div class="solution__header">
+    <a data-toggle="collapse" class="solution__toggle">
+      <i class="fa fa-magic solution__icon"></i>
+      <h1 class="solution__heading">Example solution</h1>
+
+      <i class="fa fa-caret-down solution__arrow"></i>
+    </a>
+  </div>
+
+  <div class="collapse">
+    <div class="solution__body">
+      
+<p>
+  <ol>
+    <li>
+      The NN classifier works really well, and we an get 100&nbsp;%
+      accuracy straight off the bat. Intuitively, the NN classifier
+      seems like a good idea for this data where the training data
+      is relatively dense and nearby instances have the same
+      class value.<br><br>
+    <li>
+      With default settings, the decision tree classifier
+      <code>Trees/J48</code> yields error rate 11.77&nbsp;%.
+    <li>
+      Looking at the decision boundaries, the NN classifier appears
+      to work because the distances between instances in different
+      classes is big enough. The decision tree classifier produces
+      decision boundaries that are composed of axis-aligned lines.
+      This doesn't sound like a good idea for the spirals data.
+      In this light, the classification accuracy (11.77&nbsp;%) is
+      actually not bad.
+  </ol>
 </p>
 
 
@@ -1352,11 +1428,11 @@ after trying on your own)</h1>
   would mean). Furthermore, the first parse tree includes the subtree
   "$500M in January", which is also an odd expression since $500M
   in January should be pretty much the same as $500M in February
-  (expect perhaps if you consider inflation-adjustment).
+  (except perhaps if you consider inflation-adjustment).
 </p>
 
 <p>
-  <img src="../img/exercises/ex5/deepmind_parsetrees-16f40139.png" width=90%><br><br>
+  <img src="../img/exercises/ex5/deepmind_parsetrees-16f40139.png" width=100%><br><br>
 </p>
 
     </div>
