@@ -13,9 +13,6 @@
 
     <link rel="stylesheet" type="text/css" href="//cdnjs.cloudflare.com/ajax/libs/cookieconsent2/3.0.1/cookieconsent.min.css" />
 
-    <link rel="stylesheet" href="//2017-ohjelmointi.github.io/cdn/code-states-visualizer.css" />
-    <link rel="stylesheet" href="https://materiaalit.github.io/typonator-cdn/app.css" />
-
     <% if build? %>
       <%= partial 'partials/analytics' %>
     <% end %>
@@ -71,14 +68,5 @@
     <script src='//cdnjs.cloudflare.com/ajax/libs/diff_match_patch/20121119/diff_match_patch.js'></script>
 
     <script>window.cookieconsent.initialise({"palette":{"popup":{"background":"#000"},"button":{"background":"#f1d600"}}});</script>
-
-    <script src='//2017-ohjelmointi.github.io/cdn/code-states-visualizer.js'></script>
-    <script src='https://materiaalit.github.io/typonator-cdn/app.js'></script>
-    <script>
-      document.addEventListener("DOMContentLoaded", function() {
-        window.initCodeStatesVisualizer();
-        window.initTyponator();
-      });
-    </script>
   </body>
 </html>
