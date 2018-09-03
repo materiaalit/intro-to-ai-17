@@ -297,64 +297,6 @@ AI" (GOFAI) and modern AI approaches
 
 <% end %>
 
-<!--
-<% partial 'partials/solution', locals: { name: 'Example solution' } do %>
-
-<p>
-  Most of the articles tend to be quite technical and focused
-  on a narrow sub-problem.
-</p>
-
-<p>
-  The technical background required often includes maths such as
-  formal logic and probability calculus, and computer science
-  topics such as algorithms and data structures.
-</p>
-
-<p>
-  To take a concrete example, we can take a look at the article
-  <a href="https://www.aaai.org/ocs/index.php/AAAI/AAAI17/paper/viewFile/15001/14466">Polynomial Optimization Methods for Matrix Factorization</a>
-  by P.-W. Wang, C.-L. Li, and J.Z. Kolter, which appeared in the
-  AAAI-17 conference.
-</p>
-
-<p>
-  <ol>
-    <li>
-      The article presents new algorithms for factorizing matrices 
-      (representing big matrices as products of smaller matrices)
-      that are based on certain optimization techniques. Matrix 
-      factorization can be used in various machine learning scenarios.
-      For example, many state-of-the-art recommender systems that
-      predict user ratings of items such as movies or music include
-      matrix factorization as a key component. Improving matrix
-      factorization algorithms will thus eventually lead to better
-      movie and music recommendations.
-    <li>
-      The article is clearly relevant to the course topics
-      (machine learning and recommendation systems in particular).
-    <li>
-      Based on this article alone, AI research would appear to
-      differ only slightly from mathematics research. The emphasis
-      on practical solutions and empirical evaluation is a feature 
-      characteristic to AI and ML research.
-    <li>
-      The paper uses advanced multivariate calculus tools. From an
-      algorithmic point of view, there is actually nothing intricate
-      (basically a few loops), and the maths background is the area
-      where further studies would be required to get the details.
-    <li>
-      The article doesn't mention consciousness or any other
-      "philosophical" issues at all. The problem is clearly 
-      constrained as that of minimizing a function. The progress
-      in AI that this paper makes is quantitative, not 
-      qualitative.
-  </ol>
-</p>
-
-<% end %>
--->
-
 <% partial 'partials/hint', locals: { name: 'How do I return my solutions?' } do %>
 
 <p>
@@ -525,26 +467,6 @@ AI" (GOFAI) and modern AI approaches
 
 <% end %>
 
-<% partial 'partials/solution', locals: { name: 'Example solution' } do %>
-
-<p>
-  Here's the traversal order in the format <code>node: [node list]</code>:
-<pre>
-      BFS            DFS
-      a: [b]         a: [b]
-      b: [c,f]       b: [f,c]
-      c: [f,e,i]     f: [g,d,c]
-      f: [e,i,d,g]   g: [h,d,c]
-      e: [i,d,g]     h = goal
-      i: [d,g]
-      d: [g]
-      g: [h]
-      h = goal
-</pre>         
-</p>
-
-<% end %>
-
 <p>
   As we discussed above while drinking red wine, search algorithms don't
   necessarily feel like being very cool AI methods. However, as the
@@ -599,60 +521,6 @@ state:  ---    |     |          state:  |     |    --- 
 
 <p>A bonus exercise: Try to see the symmetry in the state diagram,
   and generalize to <i>n > 3</i> discs.
-</p>
-
-<% end %>
-
-<% partial 'partials/solution', locals: { name: 'Example solution' } do %>
-
-<p>
-  <ol>
-    <li>
-      Here's the state diagram (from <a href="https://en.wikipedia.org/wiki/Tower_of_Hanoi">Wikipedia: Towers of Hanoi</a>):<br><br>
-      <img src="/img/diagrams/880px-Tower_of_Hanoi-3.svg.png" width=62%><br><br>
-      The encoding is such that the first letter in a three-letter
-      sequenceencodes the position of the smallest disk
-      (<code>a</code> = left, <code>b</code> = middle,
-      <code>c</code> = right), the second letter encodes the
-      position of the middle disk, and the third letter encodes the
-      position of the largest disk. Thus, there is a transition from the
-      starting state <code>aaa</code> to states <code>baa</code> and
-      <code>caa</code>, where the smallest disk is move to the middle
-      or the right-most peg respectively.
-    <li>
-      BFS visits the states in the following order:
-      <code>aaa [start], baa, caa, bca, cba, aca, cca, aba, bba,
-	ccb, bbc, acb, bcb, abc, cbc, abb, bab, acc, cac,
-	bbb, cbb, aab, cab, bcc, ccc [goal]</code>.
-      Minor differences are possible due to different ordering of
-      the neighbors of each node.
-    <li>
-      DFS visits the states in the following order:
-      <code>aaa [start], caa, cba, bba, bbc, cbc, cac, bac, bcc, ccc
-	[goal]</code>.
-      Here the order in which the neighbors are considered can have a
-      significant effect on the result. In the worst case, all other
-      nodes are visited before expanding the goal node.
-    <li>
-      <i>a)</i> The path produced by BFS is the one with the least
-      possible transitions, seven. The path produced by DFS, on the
-      other hand, is the same as the sequence of states visited by
-      DFS, which is ten transitions in length.
-      <i>b)</i> BFS visited 25 states altogether while DFS only visited
-      11 states. So BFS visits much more states but produces a shorter
-      path.
-    <li>
-      The number of states visited by BFS varies only slightly, and
-      the path that it produces is always the same (since the shortest
-      path is unique). However, DFS can either go straight to the
-      goal by visiting only the states that are on the shortest path,
-      or it can visit almost all states in the state space, and
-      produce the maximally long path from the start to the goal.
-  </ol>
-</p>
-
-<p>
-  On the bonus exercise, see the Wikipedia page mentioned above.
 </p>
 
 <% end %>
@@ -725,14 +593,6 @@ state:  ---    |     |          state:  |     |    --- 
 -> 1220426(Uintikeskus) -> 1173416(Pyöräilystadion) -> 1173423(Koskelantie)
 -> 1250425(Kimmontie) -> 1250427(Käpylänaukio) ->1250429(Metsolantie)[START]
 </pre>
-</p>
-
-<% end %>
-
-<% partial 'partials/solution', locals: { name: 'Example solution' } do %>
-
-<p>
-  You can download a working solution <a href="https://materiaalit.github.io/intro-to-ai-17/files/TravelPlanner.java">here</a>.
 </p>
 
 <% end %>
