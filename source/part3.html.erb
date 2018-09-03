@@ -431,74 +431,6 @@ R =  ------------------------------------ = ---------------------------
 
 <% end %>
 
-<% partial 'partials/solution', locals: { name: 'Example solution' } do %>
-
-<p>
-  <ol>
-    <li>
-      Dividing the occurrence counts by the total number of words
-      in each class gives
-      <pre>
-        word     spam      ham
- ----------- -------- --------
- million     0.001629 0.000320
- dollars     0.000303 0.000388
- adclick     0.000532 0.000001
- conferences 0.000001 0.000039</pre>
-      where we used the lower bound 0.000001 in case of zero counts.<br><br>
-
-    <li>
-      First of all, we can use <code>P(Word &ne; 'million')
-      = 1 - P(Word = 'million')</code>. The probability on the right
-      needs to be computed by the same technique as we've applied
-      to obtain the annoying denominator in Bayes rule calculations,
-      i.e., dividing it into the two possible ways to get the word
-      'million':
-      <br><br>
-      <pre>
-   P(Word = 'million') 
-   = P(spam) P(Word = 'million' | spam) 
-   + P(ham) P(Word = 'million' | ham)
-   &asymp; 0.5 &times; 0.001629 + 0.5 &times; 0.000320 &asymp; 0.000974</pre>
-      Thus, we get <code>P(Word &ne; 'million') &asymp; 1-0.000974
-	= 0.999346</code>.<br><br>
-    <li>
-      <pre>
-   P(spam | 'million') = P(spam) P('million' | spam) / P('million')
-   &asymp; 0.5 &times; 0.001629 / 0.000974 &asymp; 0.836
-</pre>
-      This is a straightforward application of the Bayes rule where
-      the annoying denominator was known from the previous item.
-      If you are still uncertain about this, please review the
-      material on Bayes rule and the references given in Section 3.1
-      of Part 2.<br><br>
-    <li>
-      In this case, it is most convenient to use the trick for
-      avoiding the computation of the annoying denominator (see above).
-      Hence, we'll calculate the ratio of posterior probabilities<br><br>
-      <pre>
-    P(spam | 'million', 'dollars', 'adclick', 'conferences')
-R = --------------------------------------------------------
-     P(ham | 'million', 'dollars', 'adclick', 'conferences')
-
-    P(spam) P('million'|spam) P('dollars'|spam) P('adclick'|spam) P('conferences'|spam)
-  = -----------------------------------------------------------------------------------
-      P(ham) P('million'|ham) P('dollars'|ham) P('adclick'|ham) P('conferences'|ham)
-
-    0.5 &times; 0.001629 &times; 0.000303 &times; 0.000532 &times; 0.000001
-  = ----------------------------------------------- &asymp; 54.23
-    0.5 &times; 0.000320 &times; 0.000388 &times; 0.000001 &times; 0.000039</pre>
-
-      Note that 54.23 is clearly not the required <i>probability</i>. To get
-      the probability from the ratio R, we use the formula
-      Prob = R/(1+R):<br><br>
-      <pre>
-P(spam | 'million', 'dollars', 'adclick', 'conferences') &asymp; 54.23 / (1+54.23) &asymp; 0.982</pre>
-  </ol>
-</p>
-
-<% end %>
-
 <% partial 'partials/material_sub_sub_heading' do %>
   Implementation details
 <% end %>
@@ -688,15 +620,6 @@ P(spam | 'million', 'dollars', 'adclick', 'conferences') &asymp; 54.23 / (1+54.2
 </p>
 
 <% end %>
-
-<% partial 'partials/solution', locals: { name: 'Example solution' } do %>
-
-<p>
-  An example solution is <a href="https://materiaalit.github.io/intro-to-ai-17/files/SpamHam-solution.zip">here</a> (zip archive).
-</p>
-
-<% end %>
-
 
 <p>
   Here is some additional material on naive Bayes spam filtering that you

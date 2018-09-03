@@ -41,28 +41,6 @@
 
 <% end %>
 
-<% partial 'partials/solution', locals: { name: 'Example solution' } do %>
-
-<p>
-  With the default settings, MLP achieves to modest error rate of
-  47.06&nbsp;%. Increasing the number of training steps
-  (<code>trainingTime</code>) from 500 to 5000 only makes things
-  worse: 48.53&nbsp;%.
-</p>
-
-<p>
-  If you set the number of hidden layers to be one
-  (setting <code>hiddenLayers = 1</code>), the error rate becomes
-  45.59&nbsp;%, and with two hidden layers (which was apparently
-  the default setting) you get again 48.53&nbsp;%.
-  Things start to improve only when you add one more hidden 
-  layer (<code>hiddenLayers = 3</code>), and you get 30.88&nbsp;%
-  error, and finally, with four hidden layers, the error becomes
-  as low as 5.88&nbsp;%.
-</p>
-
-<% end %>
-
 <% partial 'partials/exercise', locals: { name: 'Machine Learning with Weka: more classifiers (1p)' } do %>
 
 <p>
@@ -82,32 +60,6 @@
   <i>Hint:</i> For item 3, open <b>GUI Chooser</b> in Weka, 
   click "Visualization" in the top menu, and choose
   "BoundaryVisualizer".
-</p>
-
-<% end %>
-
-<% partial 'partials/solution', locals: { name: 'Example solution' } do %>
-
-<p>
-  <ol>
-    <li>
-      The NN classifier works really well, and we an get 100&nbsp;%
-      accuracy straight off the bat. Intuitively, the NN classifier
-      seems like a good idea for this data where the training data
-      is relatively dense and nearby instances have the same
-      class value.<br><br>
-    <li>
-      With default settings, the decision tree classifier
-      <code>Trees/J48</code> yields error rate 11.77&nbsp;%.<br><br>
-    <li>
-      Looking at the decision boundaries, the NN classifier appears
-      to work because the distances between instances in different
-      classes is big enough. The decision tree classifier produces
-      decision boundaries that are composed of axis-aligned lines.
-      This doesn't sound like a good idea for the spirals data.
-      In this light, the classification accuracy (11.77&nbsp;%) is
-      actually not bad.
-  </ol>
 </p>
 
 <% end %>
@@ -1047,144 +999,6 @@ after trying on your own)' } do %>
 
 <% end %>
 
-<% partial 'partials/solution', locals: { name: 'Example solution' } do %>
-
-<p>
-  The CYK table is as follows:
-</p>
-
-<p>
-  <table style="text-align: center; padding: 6px;">
-    <tr>
-      <td  style="background-color: #ecf0f1; border: 1px solid #7fb3d5;">
-      S</td>
-    </tr>
-    <tr>
-      <td  style="background-color: #ecf0f1; border: 1px solid #7fb3d5;">
-      &nbsp;</td>
-      <td  style="background-color: #ecf0f1; border: 1px solid #7fb3d5;">
-      VP<sup>3</sup></td>
-    </tr>
-    <tr>
-      <td  style="background-color: #ecf0f1; border: 1px solid #7fb3d5;">
-      S</td>
-      <td  style="background-color: #ecf0f1; border: 1px solid #7fb3d5;">
-      </td>
-      <td  style="background-color: #ecf0f1; border: 1px solid #7fb3d5;">
-      NP<sup>2</sup></td>
-    </tr>
-    <tr>
-      <td  style="background-color: #ecf0f1; border: 1px solid #7fb3d5;">
-      &nbsp;</td>
-      <td  style="background-color: #ecf0f1; border: 1px solid #7fb3d5;">
-      VP<sup>2</sup></td>
-      <td  style="background-color: #ecf0f1; border: 1px solid #7fb3d5;">
-      </td>
-      <td  style="background-color: #ecf0f1; border: 1px solid #7fb3d5;">
-      PP</td>
-    </tr>
-    <tr>
-      <td  style="background-color: #ecf0f1; border: 1px solid #7fb3d5;">
-      S</td>
-      <td  style="background-color: #ecf0f1; border: 1px solid #7fb3d5;">
-      </td>
-      <td  style="background-color: #ecf0f1; border: 1px solid #7fb3d5;">
-      NP</td>
-      <td  style="background-color: #ecf0f1; border: 1px solid #7fb3d5;">
-      </td>
-      <td  style="background-color: #ecf0f1; border: 1px solid #7fb3d5;">
-      NP</td>
-    </tr>
-    <tr>
-      <td  style="background-color: #ecf0f1; border: 1px solid #7fb3d5;">
-	S
-      </td>
-      <td  style="background-color: #ecf0f1; border: 1px solid #7fb3d5;">
-	VP
-      </td>
-      <td  style="background-color: #ecf0f1; border: 1px solid #7fb3d5;">
-      </td>
-      <td  style="background-color: #ecf0f1; border: 1px solid #7fb3d5;">
-	PP
-      </td>
-      <td  style="background-color: #ecf0f1; border: 1px solid #7fb3d5;">
-      </td>
-      <td  style="background-color: #ecf0f1; border: 1px solid #7fb3d5;">
-	PP
-      </td>
-    </tr>
-    <tr>
-      <td  style="background-color: #ecf0f1; border: 1px solid #7fb3d5; width: 120px;">
-	N,NP<br>
-	<i>Google</i>
-      </td>
-      <td  style="background-color: #ecf0f1; border: 1px solid #7fb3d5; width: 120px;">
-	V,VP<br>
-	<i>bought</i>
-      </td>
-      <td  style="background-color: #ecf0f1; border: 1px solid #7fb3d5; width: 120px;">
-	N,NP<br>
-	<i>DeepMind</i>
-      </td>
-      <td  style="background-color: #ecf0f1; border: 1px solid #7fb3d5; width: 120px;">
-	P<br>
-	<i>for</i>
-      </td>
-      <td  style="background-color: #ecf0f1; border: 1px solid #7fb3d5; width: 120px;">
-	N,NP<br>
-	<i>$500M</i>
-      </td>
-      <td  style="background-color: #ecf0f1; border: 1px solid #7fb3d5; width: 120px;">
-	P<br>
-	<i>in</i>
-      </td>
-      <td  style="background-color: #ecf0f1; border: 1px solid #7fb3d5; width: 120px;">
-	N,NP<br>
-	<i>January</i>
-      </td>
-    </tr>
-  </table>
-</p>
-
-<p>
-  The notation VP<sup>3</sup> indicated that the symbol VP can be
-  obtained in three different ways from the entries in the other
-  cells. This also indicates that when building the parse trees, we
-  obtain multiple different trees depending on which instance of VP we
-  choose to expand. The three different ways to obtain the VP entry in
-  (2,7) are: <i>(i)</i> from (2,5) (VP) and (6,7) (PP) using the rule
-  VP &xrarr; VP PP; <i>(ii)</i> from (2,3) (VP) and (4,7) (PP) using
-  the rule VP &xrarr; VP PP; <i>(iii)</i> from (2,2) (V) and (3,7) (NP)
-  using the rule VP &xrarr; V NP.
-</p>
-
-<p>
-  Likewise, the symbol VP in cell (2,5) and the symbol NP in cell
-  (3,7) can be obtained in two different ways.
-</p>
-
-<p>
-  The number of distinct parse trees that can be formed based on the
-  CYK table is five, see below. The most sensible of them is the
-  bottom one: in it, the subject is Google, and what they did is to
-  buy something (DeepMind) for some amount of money ($500M) at some
-  time (in January), i.e., both "for $500M" and "in January" are
-  additional specifiers that are attached to the buying.  On the other
-  hand, the first (top-left) parse tree, for instance, would be
-  interpreted so that the object of buying is "DeepMind for $500M in
-  January", which doesn't really constitute a meaningful expression
-  (think for example what "This is DeepMind for $500M in January."
-  would mean). Furthermore, the first parse tree includes the subtree
-  "$500M in January", which is also an odd expression since $500M
-  in January should be pretty much the same as $500M in February
-  (except perhaps if you consider inflation-adjustment).
-</p>
-
-<p>
-  <img src="/img/exercises/ex5/deepmind_parsetrees.png" width=100%><br><br>
-</p>
-<% end %>
-
 <% partial 'partials/material_sub_heading' do %>
   Applications of NLP
 <% end %>
@@ -1254,11 +1068,3 @@ after trying on your own)' } do %>
 
 <% end %>
 
-<% partial 'partials/solution', locals: { name: 'Example solution' } do %>
-
-<p>
-  An example solution is <a href="https://materiaalit.github.io/intro-to-ai-17/files/part5-NLP-solution.zip">here</a>.
-</p>
-  
-
-<% end %>
